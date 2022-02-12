@@ -8,7 +8,7 @@ body {
 }
 
 body {
-  background-image: url("../public/images/bgShapes.svg");
+  background-image: url("https://rocketwizard.netlify.app/images/bgShapes.svg");
   background-size: cover;
 }
 
