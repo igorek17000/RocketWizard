@@ -3,6 +3,8 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import Link from "next/link";
 
+import TypeAnimation from "react-type-animation";
+
 export default function Home() {
   const [cards] = useState([
     {
@@ -36,7 +38,13 @@ export default function Home() {
         <section className={styles.top}>
           <div className={styles.left}>
             <h1>
-              Make Money While <span>Sleeping</span>
+              Make Money While{" "}
+              <TypeAnimation
+                cursor={false}
+                sequence={["Sleeping", 1500, "Eating", 1590]}
+                repeat={Infinity}
+                wrapper="span"
+              />
             </h1>
             <p>By traders, for everyone</p>
           </div>
