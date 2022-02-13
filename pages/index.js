@@ -41,7 +41,20 @@ export default function Home() {
               Make Money While{" "}
               <TypeAnimation
                 cursor={false}
-                sequence={["Sleeping", 1500, "Eating", 1590]}
+                sequence={[
+                  "Sleeping",
+                  1500,
+                  "Eating",
+                  1500,
+                  "Gaming",
+                  1500,
+                  "Training",
+                  1500,
+                  "Watching TV",
+                  1500,
+                  "Walking",
+                  1500,
+                ]}
                 repeat={Infinity}
                 wrapper="span"
               />
@@ -50,7 +63,7 @@ export default function Home() {
           </div>
           <div className={styles.right}>
             <img src="/images/home/exchanges.svg" alt="Exchanges icon" />
-            <Link href="/signup">
+            <Link href="/register">
               <button>Start Now</button>
             </Link>
           </div>

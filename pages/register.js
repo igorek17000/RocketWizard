@@ -5,7 +5,7 @@ import styles from "../styles/Login.module.scss";
 
 import Checkbox from "react-custom-checkbox";
 
-function Login() {
+function Register() {
   const [rememberMe, setRememberMe] = useState(false);
 
   return (
@@ -38,6 +38,14 @@ function Login() {
             id="password"
           />
         </div>
+        <div className={styles.inputContainer}>
+          <label htmlFor="confirmPassword">Confirm password</label>
+          <input
+            placeholder="**************"
+            type="password"
+            id="confirmPassword"
+          />
+        </div>
         <div className={styles.bottom}>
           <Checkbox
             checked={rememberMe}
@@ -59,13 +67,13 @@ function Login() {
             size={20}
             label="Remember me"
           />
-          <Link href="/forgot-password">Forgot password?</Link>
+          <Link href="/login">Already registered?</Link>
         </div>
         <button>Register</button>
         <p>
-          Not registered yet?{" "}
+          Already have an account?{" "}
           <span>
-            <Link href="/register">Create an account</Link>
+            <Link href="/login">Login</Link>
           </span>
         </p>
       </main>
@@ -73,4 +81,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

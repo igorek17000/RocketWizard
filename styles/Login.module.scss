@@ -128,6 +128,10 @@
       a {
         color: #731bde;
         font-weight: 500;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
@@ -138,6 +142,10 @@
       span {
         a {
           color: #731bde;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }

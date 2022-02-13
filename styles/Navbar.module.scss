@@ -4,6 +4,7 @@
   width: 100%;
   place-content: space-between;
   padding: 1rem 2rem;
+  z-index: 10;
 
   button {
     background-color: #731bde;
@@ -31,6 +32,7 @@
   }
 
   .mobileMenuContainer {
+    z-index: 10;
     position: fixed;
     width: 90%;
     height: 100%;

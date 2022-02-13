@@ -43,7 +43,7 @@ function Navbar() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [blacklist] = useState(["/login", "/signup"]);
+  const [blacklist] = useState(["/login", "/register"]);
 
   const [links] = useState([
     {

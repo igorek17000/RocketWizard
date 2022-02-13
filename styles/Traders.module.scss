@@ -1,0 +1,48 @@
+.traders {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .traderCards {
+    margin-top: 5rem;
+    width: 80%;
+    display: -ms-grid;
+    display: grid;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    place-items: center;
+    -ms-grid-columns: (minmax(17em, 1fr)) [auto-fit];
+    grid-template-columns: repeat(auto-fit, minmax(17em, 1fr));
+    -ms-grid-rows: 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .traders .traderCards {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .traders {
+    padding: 2rem;
+    .traderCards {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .traders {
+    padding: 1rem;
+
+    .traderCards {
+      -ms-grid-columns: (minmax(12em, 1fr)) [auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+    }
+  }
+}

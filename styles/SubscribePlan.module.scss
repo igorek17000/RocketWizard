@@ -1,0 +1,100 @@
+.subscribePlan {
+  background-color: white;
+  border: 1px solid #a29f9f;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  padding-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .top,
+  .details,
+  .bottom {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .top {
+    .price {
+      display: flex;
+      align-items: center;
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .dollarSign {
+        transform: translateY(-20%);
+        font-size: 2rem;
+        font-weight: 500;
+      }
+    }
+
+    h3 {
+      color: #afadad;
+      font-weight: normal;
+      font-size: 1.4rem;
+      margin: 1rem 0;
+    }
+
+    h5 {
+      padding: 0.3rem 1.5rem;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 1rem;
+    }
+  }
+
+  .details {
+    p {
+      margin-top: 3rem;
+      font-size: 1rem;
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .bottom {
+    margin-top: 3rem;
+    p {
+      color: #3d3d3d;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      background-color: white;
+      border-radius: 1.5rem;
+      padding: 0.5rem 1rem;
+      color: black;
+      font-weight: 500;
+      font-size: 1.1rem;
+      border: 2px solid #731bde;
+      cursor: pointer;
+      transition: 0.25s ease-in-out;
+
+      &:hover {
+        background-color: #731bde;
+        color: white;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .subscribePlan {
+    .details {
+      p {
+        margin-top: 1.5rem;
+      }
+    }
+  }
+}
