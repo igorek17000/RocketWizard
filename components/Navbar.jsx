@@ -43,6 +43,8 @@ function Navbar() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const [blacklist] = useState(["/login", "/signup"]);
+
   const [links] = useState([
     {
       name: "Home",
@@ -66,6 +68,8 @@ function Navbar() {
     open: { opacity: 1, x: 0 },
     closed: { opacity: 0, x: "100%" },
   };
+
+  if (blacklist.includes(router.pathname)) return null;
 
   return (
     <nav className={styles.nav}>
