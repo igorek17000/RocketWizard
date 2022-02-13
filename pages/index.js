@@ -3,7 +3,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import Link from "next/link";
 
-import TypeAnimation from "react-type-animation";
+import { Typewriter } from "react-simple-typewriter";
 
 export default function Home() {
   const [cards] = useState([
@@ -38,26 +38,24 @@ export default function Home() {
         <section className={styles.top}>
           <div className={styles.left}>
             <h1>
-              Make Money While{" "}
-              <TypeAnimation
-                cursor={false}
-                sequence={[
-                  "Sleeping",
-                  1500,
-                  "Eating",
-                  1500,
-                  "Gaming",
-                  1500,
-                  "Training",
-                  1500,
-                  "Watching TV",
-                  1500,
-                  "Walking",
-                  1500,
-                ]}
-                repeat={Infinity}
-                wrapper="span"
-              />
+              Make Money <br />
+              While{" "}
+              <span style={{ color: "red", fontWeight: "bold" }}>
+                {/* Style will be inherited from the parent element */}
+                <Typewriter
+                  words={[
+                    "Sleeping",
+                    "Eating",
+                    "Gaming",
+                    "Training",
+                    "Watching TV",
+                    "Walking",
+                  ]}
+                  loop={0}
+                  cursor
+                  cursorStyle=""
+                />
+              </span>
             </h1>
             <p>By traders, for everyone</p>
           </div>

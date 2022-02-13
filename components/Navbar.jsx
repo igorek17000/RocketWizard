@@ -55,8 +55,8 @@ function Navbar() {
       link: "/traders",
     },
     {
-      name: "Settings",
-      link: "/settings",
+      name: "Dashboard",
+      link: "/dashboard",
     },
     {
       name: "Support",
@@ -79,21 +79,23 @@ function Navbar() {
         </Link>
 
         <ul className={styles.links}>
-          {links.map((link, i) => (
-            <li key={i}>
-              <Link href={link.link}>
-                <a
-                  className={`${
-                    router.pathname === link.link
-                      ? styles.activeLink
-                      : undefined
-                  }`}
-                >
-                  {link.name}
-                </a>
-              </Link>
-            </li>
-          ))}
+          {links.map((link, i) => {
+            let isActive = router.pathname.includes(link.link);
+
+            if (link.link === "/") {
+              isActive = router.pathname === link.link;
+            }
+
+            return (
+              <li key={i}>
+                <Link href={link.link}>
+                  <a className={`${isActive ? styles.activeLink : undefined}`}>
+                    {link.name}
+                  </a>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </section>
       <section className={styles.right}>
