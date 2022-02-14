@@ -45,7 +45,7 @@ function Subscribe() {
   return (
     <main className={styles.subscribe}>
       <Head>
-        <title>Rocket Wizard</title>
+        <title>{traders[index || 0].name} | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

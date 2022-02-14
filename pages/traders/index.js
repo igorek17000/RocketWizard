@@ -39,7 +39,7 @@ function Traders() {
   return (
     <main className={styles.traders}>
       <Head>
-        <title>Rocket Wizard</title>
+        <title>Traders | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

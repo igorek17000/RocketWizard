@@ -14,7 +14,7 @@ function Login() {
   return (
     <div className={styles.loginContainer}>
       <Head>
-        <title>Rocket Wizard</title>
+        <title>Login | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -48,7 +48,7 @@ function Contact() {
   return (
     <main className={styles.contact}>
       <Head>
-        <title>Rocket Wizard</title>
+        <title>Contact Us | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

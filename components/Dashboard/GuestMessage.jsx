@@ -1,10 +1,16 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../../styles/GuestMessage.module.scss";
+import Head from "next/head";
 
 function GuestMessage() {
   return (
     <main className={styles.guestMessage}>
+      <Head>
+        <title>Dashboard | Rocket Wizard</title>
+        <meta name="description" content="Make money while sleeping" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <section className={styles.card}>
         <h1>Hello there!</h1>
         <p>

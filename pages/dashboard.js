@@ -72,7 +72,7 @@ function Dashboard() {
   return (
     <main className={styles.dashboard}>
       <Head>
-        <title>Rocket Wizard</title>
+        <title>Dashboard | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
