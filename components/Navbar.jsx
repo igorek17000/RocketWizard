@@ -178,17 +178,10 @@ function Navbar() {
         ) : (
           <div className={styles.buttons}>
             <Link href="/login">
-              <button className={styles.loginBtn} onClick={() => close(true)}>
-                LOGIN
-              </button>
+              <button className={styles.loginBtn}>LOGIN</button>
             </Link>
             <Link href="/register">
-              <button
-                className={styles.registerBtn}
-                onClick={() => close(true)}
-              >
-                REGISTER
-              </button>
+              <button className={styles.registerBtn}>REGISTER</button>
             </Link>
           </div>
         )}

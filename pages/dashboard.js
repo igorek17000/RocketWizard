@@ -2,6 +2,8 @@ import Head from "next/head";
 import React, { useState } from "react";
 import styles from "../styles/Dashboard.module.scss";
 
+import { useSession, signIn, signOut } from "next-auth/react";
+
 import {
   BalanceCard,
   Deal,
@@ -9,6 +11,7 @@ import {
   StatisticsCard,
   Subscription,
 } from "../components/Dashboard";
+import GuestMessage from "../components/Dashboard/GuestMessage";
 
 function Dashboard() {
   const [deals] = useState([
@@ -61,6 +64,10 @@ function Dashboard() {
       return "Good Evening!";
     }
   };
+
+  const { data: session } = useSession();
+
+  if (!session) return <GuestMessage />;
 
   return (
     <main className={styles.dashboard}>
