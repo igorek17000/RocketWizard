@@ -50,6 +50,18 @@ function Dashboard() {
     },
   ]);
 
+  const getGreeting = () => {
+    const hours = new Date().getHours();
+
+    if (hours > 4 && hours < 12) {
+      return "Good Morning!";
+    } else if (hours > 12 && hours < 19) {
+      return "Good Afternoon!";
+    } else {
+      return "Good Evening!";
+    }
+  };
+
   return (
     <main className={styles.dashboard}>
       <Head>
@@ -60,7 +72,7 @@ function Dashboard() {
       <section className={styles.card}>
         <section className={styles.left}>
           <section className={styles.data}>
-            <h1>Hello, everyone!</h1>
+            <h1>{getGreeting()}</h1>
             <div className={styles.body}>
               <div className={styles.balanceRoiCards}>
                 <BalanceCard />

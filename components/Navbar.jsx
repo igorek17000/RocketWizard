@@ -59,8 +59,8 @@ function Navbar() {
       link: "/dashboard",
     },
     {
-      name: "Support",
-      link: "/support",
+      name: "Contact Us",
+      link: "/contact",
     },
   ]);
 

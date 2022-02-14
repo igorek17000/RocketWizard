@@ -43,3 +43,88 @@
     }
   }
 }
+
+@media only screen and (max-width: 1200px) {
+  .deal {
+    width: 32%;
+
+    .top {
+      padding: 0.7rem 1.2rem;
+      height: 50%;
+
+      h3 {
+        font-size: 0.95rem;
+      }
+    }
+
+    img {
+      width: 100%;
+    }
+
+    .bottom {
+      padding: 0.7rem 1.2rem;
+      height: 50%;
+
+      p {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .deal {
+    width: 32%;
+
+    .top {
+      padding: 0.5rem 1rem;
+
+      h3 {
+        font-size: 0.8rem;
+      }
+    }
+
+    .bottom {
+      padding: 0.5rem 1rem;
+
+      p {
+        font-size: 0.6rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .deal {
+    margin-top: 1rem;
+    width: 70%;
+
+    .top {
+      padding: 0.7rem 1.2rem;
+      height: 50%;
+
+      h3 {
+        font-size: 0.95rem;
+      }
+    }
+
+    img {
+      width: 100%;
+    }
+
+    .bottom {
+      padding: 0.7rem 1.2rem;
+      height: 50%;
+
+      p {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .deal {
+    width: 100%;
+  }
+}

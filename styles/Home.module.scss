@@ -375,6 +375,20 @@
   }
 }
 
+@media only screen and (max-width: 550px) {
+  .container {
+    .main {
+      .top {
+        .left {
+          h1 {
+            font-size: 3rem;
+          }
+        }
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 450px) {
   .container {
     .main {
@@ -389,7 +403,7 @@
       .top {
         .left {
           h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
           }
 
           p {

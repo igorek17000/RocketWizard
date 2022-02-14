@@ -1,0 +1,90 @@
+.roiCard {
+  width: 45%;
+  background-color: white;
+  border: 1px solid rgba(188, 188, 188, 0.62);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 1rem;
+
+  .header {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    place-content: space-between;
+    border-bottom: 1px solid #efefef;
+    width: 100%;
+
+    h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+  }
+
+  .body {
+    height: 7rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    place-content: space-between;
+
+    .values {
+      text-align: left;
+
+      h2 {
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: #f0b207;
+      }
+    }
+
+    .graph {
+      width: 30%;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .roiCard {
+    width: 49%;
+
+    .header {
+      flex-direction: column;
+      place-content: space-evenly;
+
+      h4 {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .roiCard {
+    margin-top: 1rem;
+    width: 100%;
+
+    .header {
+      flex-direction: row;
+      place-content: space-between;
+
+      h4 {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .roiCard {
+    .header {
+      flex-direction: column;
+      place-content: space-evenly;
+
+      h4 {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
