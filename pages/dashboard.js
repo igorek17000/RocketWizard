@@ -35,7 +35,7 @@ function Dashboard() {
   const [subscriptions] = useState([
     {
       id: 2,
-      end: new Date(2022, 1, 15),
+      end: new Date(2022, 2, 15),
       price: 120,
     },
     {
@@ -45,7 +45,7 @@ function Dashboard() {
     },
     {
       id: 0,
-      end: new Date(2022, 1, 21),
+      end: new Date(2022, 2, 17),
       price: 79,
     },
   ]);
