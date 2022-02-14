@@ -55,7 +55,7 @@ function Dashboard() {
 
     if (hours > 4 && hours < 12) {
       return "Good Morning!";
-    } else if (hours > 12 && hours < 19) {
+    } else if (hours > 12 && hours < 18) {
       return "Good Afternoon!";
     } else {
       return "Good Evening!";

@@ -64,6 +64,56 @@
         cursor: pointer;
       }
 
+      .user {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        .details {
+          display: flex;
+          align-items: center;
+
+          h3 {
+            font-size: 1.1rem;
+            opacity: 0.8;
+          }
+
+          img {
+            margin-left: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+          }
+        }
+
+        .logout {
+          margin-top: 1rem;
+          color: white;
+          background-color: #731bde;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+          border-radius: 0.5rem;
+          padding: 0.5rem;
+          display: flex;
+          align-items: center;
+          transition: 0.25s ease-in-out;
+          cursor: pointer;
+
+          &:hover {
+            background-color: darken(#731bde, 5%);
+          }
+
+          p {
+            margin-left: 0.5rem;
+          }
+        }
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+
       button {
         margin-top: 1rem;
         width: 10rem;
@@ -134,6 +184,55 @@
       width: 1.3rem;
     }
 
+    .user {
+      display: none;
+      align-items: center;
+      position: relative;
+
+      h3 {
+        font-size: 1.1rem;
+        opacity: 0.8;
+      }
+
+      img {
+        margin-left: 1rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        border: 2px solid black;
+        cursor: pointer;
+      }
+
+      .dropdown {
+        opacity: 0;
+        display: none;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        transform: translateY(120%);
+        align-items: center;
+        cursor: pointer;
+        transition: 0.25s ease-in-out;
+
+        &:hover {
+          background-color: darken(white, 5%);
+        }
+
+        svg {
+          opacity: 0.8;
+        }
+
+        p {
+          margin-left: 0.5rem;
+          opacity: 0.8;
+        }
+      }
+    }
+
     .buttons {
       display: none;
 
@@ -169,7 +268,8 @@
         display: none;
       }
 
-      .buttons {
+      .buttons,
+      .user {
         display: flex;
       }
     }

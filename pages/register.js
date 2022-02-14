@@ -2,11 +2,14 @@ import Link from "next/link";
 import Head from "next/head";
 import React, { useState } from "react";
 import styles from "../styles/Login.module.scss";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 import Checkbox from "react-custom-checkbox";
 
 function Register() {
   const [rememberMe, setRememberMe] = useState(false);
+
+  const { data: session } = useSession();
 
   return (
     <div className={styles.loginContainer}>
@@ -17,7 +20,7 @@ function Register() {
       </Head>
       <main className={styles.login}>
         <img src="/images/logo.svg" alt="Logo" />
-        <button className={styles.googleBtn}>
+        <button className={styles.googleBtn} onClick={() => signIn("google")}>
           <img src="/images/login/google.svg" alt="Icon of google" />
           Sign in with Google
         </button>
