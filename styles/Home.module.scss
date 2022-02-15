@@ -30,6 +30,7 @@
       display: flex;
       align-items: center;
       place-content: space-between;
+      user-select: none;
 
       .left {
         width: 50%;

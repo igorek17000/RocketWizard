@@ -36,7 +36,14 @@ export function MobileMenu({ links, close }) {
         <div className={styles.user}>
           <div className={styles.details}>
             <h3>{session.user.name}</h3>
-            <img src={session.user.image} alt="Profile icon" />
+            <img
+              src={
+                session.user.image
+                  ? session.user.image
+                  : "/images/navbar/nopfp.svg"
+              }
+              alt="Profile icon"
+            />
           </div>
           <motion.div
             className={styles.logout}
@@ -158,7 +165,11 @@ function Navbar() {
           <div className={styles.user} ref={ref}>
             <h3>{session.user.name}</h3>
             <motion.img
-              src={session.user.image}
+              src={
+                session.user.image
+                  ? session.user.image
+                  : "/images/navbar/nopfp.svg"
+              }
               alt="Profile icon"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

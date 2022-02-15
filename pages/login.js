@@ -9,7 +9,19 @@ import Checkbox from "react-custom-checkbox";
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
 
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+
   const { data: session } = useSession();
+
+  const loginUser = () => {
+    signIn("credentials", {
+      email: email,
+      password: password,
+    });
+  };
+
+  console.log("Session: ", session);
 
   return (
     <div className={styles.loginContainer}>
@@ -31,7 +43,12 @@ function Login() {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="email">Email</label>
-          <input placeholder="mail@website.com" type="email" id="email" />
+          <input
+            placeholder="mail@website.com"
+            type="email"
+            id="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="password">Password</label>
@@ -39,6 +56,7 @@ function Login() {
             placeholder="Min. 8 characters"
             type="password"
             id="password"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className={styles.bottom}>
@@ -64,7 +82,7 @@ function Login() {
           />
           <Link href="/forgot-password">Forgot password?</Link>
         </div>
-        <button>Register</button>
+        <button onClick={loginUser}>Login</button>
         <p>
           Not registered yet?{" "}
           <span>
