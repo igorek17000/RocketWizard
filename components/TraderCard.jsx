@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import styles from "../styles/TraderCard.module.scss";
 
+import { BsShieldFillCheck } from "react-icons/bs";
+
 import ProgressBar from "./ProgressBar";
 
 function TraderCard({ trader, i }) {
@@ -16,11 +18,7 @@ function TraderCard({ trader, i }) {
             src={`/images/traders/pfps/${trader.pfp}`}
             alt="Trader pfp"
           />
-          <img
-            className={styles.shield}
-            src="/images/traders/shield.svg"
-            alt="Shield icon"
-          />
+          <BsShieldFillCheck className={styles.shield} />
         </div>
         <h3>{trader.name}</h3>
       </section>

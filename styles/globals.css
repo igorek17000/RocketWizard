@@ -12,6 +12,7 @@
   --secondary-button-text: #731bde;
   --card-bg: white;
   --border: #dadada;
+  --shield: #e1e1e1;
 }
 [data-theme="dark"] {
   --bg-shapes: url("https://rocketwizard.netlify.app/images/bgShapesDark.svg");
@@ -25,6 +26,7 @@
   --secondary-button-text: #2c0658;
   --card-bg: #dddddd;
   --border: #ffffff;
+  --shield: #731bde;
 }
 
 html,
