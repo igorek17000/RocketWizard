@@ -66,7 +66,7 @@ export default function Home() {
           <div className={styles.right}>
             <img
               src={`/images/home/${
-                theme === "light" ? "exchanges_light.png" : "exchanges_dark.png"
+                theme === "dark" ? "exchanges_dark.png" : "exchanges_light.png"
               }`}
               alt="Exchanges icon"
             />

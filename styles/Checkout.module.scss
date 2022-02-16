@@ -1,0 +1,388 @@
+.checkout {
+  padding: 0 5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #393e46;
+
+  .card {
+    margin-top: 3rem;
+    background-color: var(--card-bg);
+    border: 1px solid #dadada;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    width: 100%;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .header {
+      width: 100%;
+      text-align: left;
+      background-color: #dfc6ff;
+      padding: 2rem;
+      border-radius: 1rem 1rem 0 0;
+      h1 {
+        color: #4e3883;
+      }
+    }
+
+    .body {
+      width: 80%;
+      padding: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .returnMsg {
+        width: 100%;
+        background-color: #dfc6ff;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+
+        p {
+          color: #4e3883;
+          font-weight: 300;
+          font-size: 1rem;
+
+          span {
+            font-weight: 500;
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .content {
+        display: flex;
+        align-items: flex-start;
+        place-content: space-between;
+
+        h2 {
+          color: #4e3883;
+          font-weight: bold;
+          font-size: 1.1rem;
+          margin-bottom: 1rem;
+        }
+
+        .shippingAndContact {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          width: 30%;
+
+          .inputContainer {
+            margin: 1rem 0;
+
+            label {
+              font-weight: 500;
+              font-size: 1rem;
+              opacity: 0.7;
+
+              span {
+                color: #ad175b;
+              }
+            }
+
+            input,
+            .select {
+              width: 100%;
+              border: 1px solid;
+              border-color: var(--border);
+              font-size: 1rem;
+              padding: 0.5rem;
+              border-radius: 0.3rem;
+              margin-top: 0.3rem;
+              background: #f0f0f0;
+              color: black;
+            }
+
+            .select {
+              padding: 0;
+            }
+
+            .zipInput {
+              display: flex;
+              align-items: center;
+              width: 100%;
+              place-content: space-between;
+
+              input {
+                width: 40%;
+              }
+
+              p {
+                width: 55%;
+                font-size: 0.8rem;
+                font-weight: 500;
+                margin-top: 0;
+              }
+            }
+
+            p {
+              margin-top: 0.5rem;
+              opacity: 0.7;
+              font-size: 0.9rem;
+            }
+          }
+
+          .shipping {
+            width: 100%;
+            p {
+              span {
+                color: #ad175b;
+              }
+            }
+          }
+
+          .contact {
+            margin-top: 1rem;
+            width: 100%;
+          }
+        }
+      }
+
+      .additional {
+        width: 30%;
+        p {
+          opacity: 0.7;
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+        }
+
+        label {
+          font-size: 0.95rem;
+          font-weight: 500;
+        }
+
+        .discount {
+          display: flex;
+          align-items: center;
+          border: 1px solid;
+          border-color: var(--border);
+          border-radius: 0.3rem;
+          width: 60%;
+          height: 3rem;
+          padding-left: 0.5rem;
+          background-color: #f0f0f0;
+
+          svg {
+            color: #707070;
+            width: 2rem;
+            height: 2rem;
+          }
+
+          input {
+            color: black;
+            border: none;
+            font-size: 1.1rem;
+            outline: none;
+            padding: 0 0.5rem;
+            height: 100%;
+            width: 100%;
+            font-weight: 600;
+            background-color: transparent;
+          }
+
+          button {
+            border-radius: 0 0.3rem 0.3rem 0;
+            color: white;
+            background-color: #731bde;
+            font-size: 0.8rem;
+            height: 100%;
+            padding: 0 0.5rem;
+            border: none;
+            font-weight: 600;
+          }
+        }
+      }
+
+      .orderAndPayment {
+        width: 30%;
+        .order {
+          display: flex;
+          align-items: flex-start;
+          text-align: left;
+          flex-direction: column;
+          width: 100%;
+
+          .list {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 1rem;
+
+            .item {
+              display: flex;
+              align-items: center;
+              place-content: space-between;
+              width: 100%;
+              border-bottom: 1px solid;
+              border-color: var(--border);
+              padding: 0.5rem 0;
+
+              h3 {
+                font-size: 1.05rem;
+                font-weight: 500;
+              }
+
+              h4 {
+                font-size: 0.95rem;
+                font-weight: 500;
+              }
+
+              p {
+                font-size: 1.05rem;
+                font-weight: normal;
+              }
+
+              .total {
+                font-weight: bold;
+                font-size: 1.05rem;
+              }
+
+              &:nth-last-child(1) {
+                border-bottom: none;
+              }
+            }
+          }
+        }
+
+        .payment {
+          width: 100%;
+          display: flex;
+          align-items: flex-start;
+          flex-direction: column;
+
+          .cardMethod {
+            width: 100%;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border-radius: 0.3rem;
+            border: 1px solid;
+            border-color: var(--border);
+
+            .header {
+              width: 100%;
+              background-color: transparent;
+              padding: 0;
+              margin-bottom: 0.5rem;
+
+              h3 {
+                font-weight: 500;
+                font-size: 1.15rem;
+              }
+            }
+
+            .inputContainer {
+              width: 100%;
+              border: 1px solid black;
+              display: flex;
+              align-items: center;
+              padding: 0.3rem 0.5rem;
+              background-color: white;
+              height: 3rem;
+
+              input {
+                color: black;
+                border: none;
+                font-size: 1.1rem;
+                outline: none;
+                padding: 0 0.5rem;
+                height: 100%;
+                width: 100%;
+                font-weight: 600;
+                background-color: transparent;
+              }
+
+              .cardNum {
+                width: 60%;
+              }
+
+              .smallInputs {
+                width: 40%;
+                display: flex;
+                align-items: center;
+
+                input {
+                  width: 3rem;
+                }
+
+                .cvc {
+                  width: 5rem;
+                }
+              }
+
+              p {
+              }
+            }
+          }
+
+          .cryptoMethod {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 0.3rem;
+            margin: 1rem 0;
+            border: 1px solid;
+            border-color: var(--border);
+
+            .header {
+              width: 100%;
+              background-color: transparent;
+              padding: 0;
+              padding: 1rem;
+
+              h3 {
+                font-weight: 500;
+                font-size: 1.15rem;
+              }
+            }
+
+            .body {
+              background-color: white;
+              width: 100%;
+              padding: 0.4rem 1rem;
+
+              p {
+                color: black;
+                font-size: 0.9rem;
+                font-weight: 500;
+                opacity: 0.8;
+              }
+            }
+          }
+
+          p {
+            font-size: 0.9rem;
+            margin: 1rem 0;
+
+            span {
+              text-decoration: underline;
+            }
+          }
+
+          button {
+            width: 100%;
+            background-color: #731bde;
+            box-shadow: 10px 12px 24px hsla(341, 100%, 54%, 0.15);
+            border-radius: 0.4rem;
+            padding: 0.6rem 0;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.25s ease-in-out;
+
+            &:hover {
+              background-color: darken(#731bde, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

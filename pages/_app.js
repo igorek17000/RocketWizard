@@ -9,7 +9,7 @@ import { Scrollbar } from "react-scrollbars-custom";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <ThemeProvider>
+    <ThemeProvider enableSystem={false}>
       <SessionProvider session={session}>
         <Scrollbar style={{ width: "100vw", height: "100vh" }}>
           <Navbar />

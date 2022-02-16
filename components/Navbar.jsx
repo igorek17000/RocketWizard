@@ -10,9 +10,11 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
-import { RiMoonLine, RiSunLine } from "react-icons/ri";
 
 import { useDetectClickOutside } from "react-detect-click-outside";
+
+import Toggle from "react-toggle";
+import "react-toggle/style.css";
 
 import { useTheme } from "next-themes";
 
@@ -132,7 +134,7 @@ function Navbar() {
         <Link href="/">
           <img
             src={`/images/${
-              theme === "light" ? "logo_light.png" : "logo_dark.png"
+              theme === "dark" ? "logo_dark.png" : "logo_light.png"
             }`}
             alt="Logo"
           />
@@ -155,16 +157,14 @@ function Navbar() {
               </li>
             );
           })}
-          <li>
-            {theme === "light" ? (
-              <RiMoonLine onClick={() => setTheme("dark")} />
-            ) : (
-              <RiSunLine onClick={() => setTheme("light")} />
-            )}
-          </li>
         </ul>
       </section>
       <section className={styles.right} ref={ref}>
+        <Toggle
+          id="dark-mode-toggle"
+          defaultChecked={theme === "dark"}
+          onChange={(val) => setTheme(val.target.checked ? "dark" : "light")}
+        />
         <AiOutlineMenu
           className={styles.menu}
           onClick={() => setMobileMenuOpen(true)}

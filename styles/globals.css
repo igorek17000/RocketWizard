@@ -39,6 +39,7 @@ body {
 body {
   background-image: var(--bg-shapes);
   background-size: cover;
+  transition: all 0.4s linear;
 }
 
 a {

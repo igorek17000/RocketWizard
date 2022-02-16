@@ -71,7 +71,7 @@ function Register() {
       <main className={styles.login}>
         <img
           src={`/images/${
-            theme === "light" ? "logo_light.png" : "logo_dark.png"
+            theme === "dark" ? "logo_dark.png" : "logo_light.png"
           }`}
           alt="Logo"
         />

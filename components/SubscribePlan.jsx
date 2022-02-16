@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import styles from "../styles/SubscribePlan.module.scss";
 
 function SubscribePlan({ id, trader }) {
@@ -67,7 +68,9 @@ function SubscribePlan({ id, trader }) {
 
       <section className={styles.bottom}>
         <p>24/7 Live Support Chat</p>
-        <button>GET STARTED</button>
+        <Link href={`/checkout?pId=${id}&q=1`}>
+          <button>GET STARTED</button>
+        </Link>
       </section>
     </main>
   );
