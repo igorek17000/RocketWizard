@@ -79,10 +79,10 @@ function TraderCard({ trader, i }) {
           />
         </div>
         <div className={styles.buttons}>
-          <Link href={`/traders/trader?i=${i}`}>
+          <Link href={`/traders/${trader.id}`}>
             <button className={styles.viewMoreBtn}>View more</button>
           </Link>
-          <Link href={`/traders/subscribe?i=${i}`}>
+          <Link href={`/traders/subscribe/${trader.id}`}>
             <button>Subscribe</button>
           </Link>
         </div>

@@ -1,10 +1,14 @@
 import Head from "next/head";
-import React, { useState } from "react";
-import styles from "../../styles/Traders.module.scss";
+import React, { useState, useEffect } from "react";
+import styles from "../../../styles/Subscribe.module.scss";
 
-import TraderCard from "../../components/TraderCard";
+import { useRouter } from "next/router";
 
-function Traders() {
+import SubscribePlan from "../../../components/SubscribePlan";
+
+function Subscribe() {
+  const router = useRouter();
+
   const [traders] = useState([
     {
       id: "david",
@@ -48,20 +52,29 @@ function Traders() {
     },
   ]);
 
+  const [trader, setTrader] = useState(traders[0]);
+
+  useEffect(() => {
+    const id = router.query.trader;
+    if (id) {
+      setTrader(traders.find((trader) => trader.id === id) || traders[0]);
+    }
+  }, [router]);
+
   return (
-    <main className={styles.traders}>
+    <main className={styles.subscribe}>
       <Head>
-        <title>Traders | Rocket Wizard</title>
+        <title>{trader.name} | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={styles.traderCards}>
-        {traders.map((trader, i) => (
-          <TraderCard key={i} trader={trader} i={i} />
+      <section className={styles.subscribePlans}>
+        {[0, 1, 2].map((val) => (
+          <SubscribePlan id={val} key={val} trader={trader} />
         ))}
       </section>
     </main>
   );
 }
 
-export default Traders;
+export default Subscribe;

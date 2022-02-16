@@ -212,23 +212,59 @@
         background-color: white;
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         border-radius: 0.5rem;
-        padding: 0.5rem;
         transform: translateY(120%);
         align-items: center;
+        flex-direction: column;
         cursor: pointer;
-        transition: 0.25s ease-in-out;
 
-        &:hover {
-          background-color: darken(white, 5%);
+        .header {
+          display: flex;
+          align-items: center;
+          transition: 0.25s ease-in-out;
+          width: 100%;
+          padding: 0.5rem 1rem;
+          position: relative;
+          background-color: darken(white, 2%);
+          border-radius: 0.5rem 0.5rem 0 0;
+
+          img {
+            width: 1.3rem;
+            height: 1.3rem;
+            position: absolute;
+            border: none;
+            opacity: 0.6;
+            right: 0.5rem;
+            top: 0.5rem;
+            padding: 0.2rem;
+          }
+
+          p {
+            margin-right: 2rem;
+            opacity: 0.7;
+          }
         }
 
-        svg {
-          opacity: 0.8;
-        }
+        .logoutBtn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: 0.25s ease-in-out;
+          padding: 0.5rem 1rem;
+          width: 100%;
+          border-top: 1px solid rgba(0, 0, 0, 0.1);
 
-        p {
-          margin-left: 0.5rem;
-          opacity: 0.8;
+          svg {
+            opacity: 0.8;
+          }
+
+          p {
+            margin-left: 0.5rem;
+            opacity: 0.8;
+          }
+
+          &:hover {
+            background-color: darken(white, 5%);
+          }
         }
       }
     }

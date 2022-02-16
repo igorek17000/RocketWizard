@@ -47,7 +47,10 @@ export function MobileMenu({ links, close }) {
           </div>
           <motion.div
             className={styles.logout}
-            onClick={() => signOut("google")}
+            onClick={() => {
+              signOut("google");
+              signOut("credentials");
+            }}
           >
             <FiLogOut />
             <p>Logout</p>
@@ -81,10 +84,13 @@ function Navbar() {
 
   const ref = useDetectClickOutside({
     onTriggered: () => {
-      if (dropdownOpen) setDropdownOpen(false);
+      setDropdownOpen(false);
+
       return;
     },
   });
+
+  console.log(dropdownOpen);
 
   const [blacklist] = useState(["/login", "/register"]);
 
@@ -146,7 +152,7 @@ function Navbar() {
           })}
         </ul>
       </section>
-      <section className={styles.right}>
+      <section className={styles.right} ref={ref}>
         <img
           className={styles.menu}
           src="/images/navbar/menu.svg"
@@ -162,7 +168,7 @@ function Navbar() {
           <MobileMenu close={() => setMobileMenuOpen(false)} links={links} />
         </motion.div>
         {session ? (
-          <div className={styles.user} ref={ref}>
+          <div className={styles.user}>
             <h3>{session.user.name}</h3>
             <motion.img
               src={
@@ -173,17 +179,33 @@ function Navbar() {
               alt="Profile icon"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setDropdownOpen(true)}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
             />
             <motion.div
               className={styles.dropdown}
               animate={dropdownOpen ? "open" : "closed"}
               transition={{ duration: 0.3, type: "tween" }}
               variants={dropdownVariants}
-              onClick={() => signOut("google")}
             >
-              <FiLogOut />
-              <p>Logout</p>
+              <div className={styles.header}>
+                <p>{session.user.name}</p>
+                <img
+                  className={styles.closeDropdown}
+                  src="/images/navbar/close.svg"
+                  alt="Icon for closing"
+                  onClick={() => setDropdownOpen(false)}
+                />
+              </div>
+              <div
+                className={styles.logoutBtn}
+                onClick={() => {
+                  signOut("google");
+                  signOut("credentials");
+                }}
+              >
+                <FiLogOut />
+                <p>Logout</p>
+              </div>
             </motion.div>
           </div>
         ) : (
