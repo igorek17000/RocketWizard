@@ -5,7 +5,11 @@ import Link from "next/link";
 
 import { Typewriter } from "react-simple-typewriter";
 
+import { useTheme } from "next-themes";
+
 export default function Home() {
+  const { theme } = useTheme();
+
   const [cards] = useState([
     {
       img: "shield.svg",
@@ -60,7 +64,12 @@ export default function Home() {
             <p>By traders, for everyone</p>
           </div>
           <div className={styles.right}>
-            <img src="/images/home/exchanges.svg" alt="Exchanges icon" />
+            <img
+              src={`/images/home/${
+                theme === "light" ? "exchanges_light.png" : "exchanges_dark.png"
+              }`}
+              alt="Exchanges icon"
+            />
             <Link href="/register">
               <button>Start Now</button>
             </Link>

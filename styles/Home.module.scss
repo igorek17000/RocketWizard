@@ -35,18 +35,18 @@
       .left {
         width: 50%;
         h1 {
-          color: #2b2b2b;
+          color: var(--text-primary);
           font-size: 5rem;
           font-weight: bold;
 
           span {
-            color: #731bde;
+            color: var(--text-secondary);
           }
         }
 
         p {
           font-size: 1.5rem;
-          color: #808080;
+          color: var(--text-primary);
         }
       }
 
@@ -58,10 +58,7 @@
 
         img {
           width: 70%;
-        }
-
-        button {
-          margin-top: -6rem;
+          margin-bottom: 1.5rem;
         }
       }
     }
@@ -146,12 +143,6 @@
             font-size: 4.5rem;
           }
         }
-
-        .right {
-          button {
-            margin-top: -5rem;
-          }
-        }
       }
     }
   }
@@ -168,12 +159,6 @@
 
           p {
             margin-top: 1rem;
-          }
-        }
-
-        .right {
-          button {
-            margin-top: -2rem;
           }
         }
       }
@@ -199,10 +184,6 @@
         .right {
           img {
             width: 80%;
-          }
-
-          button {
-            margin-top: 0rem;
           }
         }
       }
@@ -242,10 +223,6 @@
           width: 100%;
           img {
             width: 50%;
-          }
-
-          button {
-            margin-top: -5rem;
           }
         }
       }
@@ -310,10 +287,6 @@
           width: 100%;
           img {
             width: 65%;
-          }
-
-          button {
-            margin-top: -3rem;
           }
         }
       }
@@ -462,12 +435,6 @@
 
           p {
             font-size: 0.9rem;
-          }
-        }
-
-        .right {
-          button {
-            margin-top: -1.5rem;
           }
         }
       }

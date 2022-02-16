@@ -1,9 +1,11 @@
 .traderCard {
-  background-color: white;
-  border: 1px solid #a29f9f;
+  background-color: var(--card-bg);
+  border: 1px solid;
+  border-color: var(--border);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   width: 100%;
   border-radius: 2rem;
+  color: black;
 
   button {
     background-color: #731bde;
@@ -24,7 +26,6 @@
   .viewMoreBtn {
     background-color: rgba(115, 27, 222, 0.22);
     color: #731bde;
-
     &:hover {
       background-color: rgba(115, 27, 222, 0.4);
     }
@@ -35,7 +36,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    border-bottom: 1px solid #a29f9f;
+    border-bottom: 1px solid;
+    border-color: var(--border);
     width: 100%;
 
     .pfpShield {

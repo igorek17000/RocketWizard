@@ -5,6 +5,8 @@ import styles from "../styles/Contact.module.scss";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 
+import { useTheme } from "next-themes";
+
 function Contact() {
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -12,6 +14,8 @@ function Contact() {
   const [message, setMessage] = useState(null);
   const [country, setCountry] = useState(null);
   const options = useMemo(() => countryList().getData(), []);
+
+  const { theme, setTheme } = useTheme();
 
   const changeCountry = (value) => {
     setCountry(value);
@@ -53,7 +57,7 @@ function Contact() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className={styles.card}>
-        <img src="/images/logo.svg" alt="Logo" />
+        <img src="/images/logo_light.png" alt="Logo" />
         <div className={styles.nameEmail}>
           <div className={styles.inputContainer}>
             <label htmlFor="name">Your name*</label>

@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import styles from "../../styles/Subscription.module.scss";
 
 function Subscription({ subscription }) {
-  const [subNames] = useState(["Basic", "Advanced", "Professional"]);
+  const [subs] = useState([
+    { name: "Basic", color: "#39E694" },
+    { name: "Advanced", color: "#BA62EB" },
+    { name: "Professional", color: "#731BDE" },
+  ]);
   const [remainingDays, setRemainingDays] = useState(null);
 
   useEffect(() => {
@@ -15,15 +19,24 @@ function Subscription({ subscription }) {
   }, []);
 
   return (
-    <main className={styles.subscription}>
+    <main
+      className={styles.subscription}
+      style={{ border: `3px solid ${subs[subscription.id].color}` }}
+    >
       <section className={styles.left}>
         <div className={styles.info}>
-          <h4>{subNames[subscription.id]}</h4>
+          <h4>{subs[subscription.id].name}</h4>
           <p>
             {remainingDays} day{remainingDays > 1 && "s"} remaining
           </p>
         </div>
-        <button>Renew subscription</button>
+        <button
+          style={{
+            backgroundColor: subs[subscription.id].color,
+          }}
+        >
+          Renew subscription
+        </button>
       </section>
       <section className={styles.right}>
         <h3>

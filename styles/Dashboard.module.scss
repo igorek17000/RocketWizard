@@ -6,14 +6,16 @@
 
   .card {
     margin-top: 3rem;
-    background-color: white;
-    border: 1px solid #dadada;
+    background-color: var(--card-bg);
+    border: 1px solid;
+    border-color: var(--border);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     width: 80%;
     height: fit-content;
     border-radius: 1rem;
     display: flex;
     align-items: center;
+    color: black;
 
     .left {
       height: 100%;
@@ -21,13 +23,15 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-      border-right: 1px solid #dadada;
+      border-right: 1px solid;
+      border-color: var(--border);
 
       .data {
         width: 100%;
         padding: 1rem 2rem;
         height: 70%;
-        border-bottom: 1px solid #dadada;
+        border-bottom: 1px solid;
+        border-color: var(--border);
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -148,7 +152,8 @@
       }
 
       .right {
-        border-top: 1px solid #dadada;
+        border-top: 1px solid;
+        border-color: var(--border);
         width: 100%;
         height: fit-content;
 

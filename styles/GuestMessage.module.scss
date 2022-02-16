@@ -6,7 +6,7 @@
 
   .card {
     margin-top: 3rem;
-    background-color: white;
+    background-color: var(--card-bg);
     border: 1px solid #dadada;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     width: 50%;
@@ -17,6 +17,7 @@
     flex-direction: column;
     text-align: center;
     padding: 2rem;
+    color: black;
 
     h1 {
       font-size: 3rem;

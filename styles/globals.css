@@ -1,5 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
+:root {
+  --bg-shapes: url("https://rocketwizard.netlify.app/images/bgShapesLight.svg");
+  --background: white;
+  --text-primary: black;
+  --text-secondary: #731bde;
+  --accent: #731bde;
+  --main-button: #731bde;
+  --secondary-button: #e0cdf8;
+  --main-button-text: white;
+  --secondary-button-text: #731bde;
+  --card-bg: white;
+  --border: #dadada;
+}
+[data-theme="dark"] {
+  --bg-shapes: url("https://rocketwizard.netlify.app/images/bgShapesDark.svg");
+  --background: #231f20;
+  --text-primary: white;
+  --text-secondary: #a089ba;
+  --accent: #731bde;
+  --main-button: #ffffff;
+  --secondary-button: #afafaf;
+  --main-button-text: #731bde;
+  --secondary-button-text: #2c0658;
+  --card-bg: #dddddd;
+  --border: #ffffff;
+}
+
 html,
 body {
   padding: 0;
@@ -8,7 +35,7 @@ body {
 }
 
 body {
-  background-image: url("https://rocketwizard.netlify.app/images/bgShapes.svg");
+  background-image: var(--bg-shapes);
   background-size: cover;
 }
 

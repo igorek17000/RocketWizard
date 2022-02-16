@@ -9,20 +9,19 @@ import { motion } from "framer-motion";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 import { FiLogOut } from "react-icons/fi";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { RiMoonLine, RiSunLine } from "react-icons/ri";
 
 import { useDetectClickOutside } from "react-detect-click-outside";
+
+import { useTheme } from "next-themes";
 
 export function MobileMenu({ links, close }) {
   const { data: session, status } = useSession();
 
   return (
     <div className={styles.mobileMenu}>
-      <img
-        className={styles.close}
-        src="/images/navbar/close.svg"
-        alt="Icon for closing"
-        onClick={() => close(true)}
-      />
+      <AiOutlineClose className={styles.close} onClick={() => close(true)} />
       <ul>
         {links.map((link, i) => (
           <li key={i}>
@@ -82,6 +81,8 @@ function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const { theme, setTheme } = useTheme();
+
   const ref = useDetectClickOutside({
     onTriggered: () => {
       setDropdownOpen(false);
@@ -129,9 +130,13 @@ function Navbar() {
     <nav className={styles.nav}>
       <section className={styles.left}>
         <Link href="/">
-          <img src="/images/logo.svg" alt="Logo" />
+          <img
+            src={`/images/${
+              theme === "light" ? "logo_light.png" : "logo_dark.png"
+            }`}
+            alt="Logo"
+          />
         </Link>
-
         <ul className={styles.links}>
           {links.map((link, i) => {
             let isActive = router.pathname.includes(link.link);
@@ -150,13 +155,18 @@ function Navbar() {
               </li>
             );
           })}
+          <li>
+            {theme === "light" ? (
+              <RiMoonLine onClick={() => setTheme("dark")} />
+            ) : (
+              <RiSunLine onClick={() => setTheme("light")} />
+            )}
+          </li>
         </ul>
       </section>
       <section className={styles.right} ref={ref}>
-        <img
+        <AiOutlineMenu
           className={styles.menu}
-          src="/images/navbar/menu.svg"
-          alt="Mobile Menu Icon"
           onClick={() => setMobileMenuOpen(true)}
         />
         <motion.div
@@ -189,10 +199,8 @@ function Navbar() {
             >
               <div className={styles.header}>
                 <p>{session.user.name}</p>
-                <img
+                <AiOutlineClose
                   className={styles.closeDropdown}
-                  src="/images/navbar/close.svg"
-                  alt="Icon for closing"
                   onClick={() => setDropdownOpen(false)}
                 />
               </div>
@@ -211,10 +219,22 @@ function Navbar() {
         ) : (
           <div className={styles.buttons}>
             <Link href="/login">
-              <button className={styles.loginBtn}>LOGIN</button>
+              <motion.button
+                className={styles.loginBtn}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                LOGIN
+              </motion.button>
             </Link>
             <Link href="/register">
-              <button className={styles.registerBtn}>REGISTER</button>
+              <motion.button
+                className={styles.registerBtn}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                REGISTER
+              </motion.button>
             </Link>
           </div>
         )}

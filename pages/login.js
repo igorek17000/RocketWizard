@@ -6,22 +6,54 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 import Checkbox from "react-custom-checkbox";
 
+import Alert from "../components/Alert";
+
+import { useTheme } from "next-themes";
+
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
+  const [emailError, setEmailError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
+
+  const { theme, setTheme } = useTheme();
+
   const { data: session } = useSession();
 
-  const loginUser = () => {
-    signIn("credentials", {
-      email: email,
-      password: password,
-    });
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
   };
 
-  console.log("Session: ", session);
+  const checkCredentials = () => {
+    if (!(email && password)) {
+      setPasswordError("All field are required.");
+      return;
+    }
+
+    let emailValid = validateEmail(email);
+    let passwordValid = password.length >= 8;
+
+    setEmailError(!emailValid ? "Invalid email address." : null);
+    setPasswordError(!passwordValid ? "Password is too short." : null);
+
+    return emailValid && passwordValid;
+  };
+
+  const loginUser = () => {
+    if (checkCredentials()) {
+      signIn("credentials", {
+        email: email,
+        password: password,
+      });
+    }
+  };
 
   return (
     <div className={styles.loginContainer}>
@@ -31,7 +63,12 @@ function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.login}>
-        <img src="/images/logo.svg" alt="Logo" />
+        <img
+          src={`/images/${
+            theme === "light" ? "logo_light.png" : "logo_dark.png"
+          }`}
+          alt="Logo"
+        />
         <button className={styles.googleBtn} onClick={() => signIn("google")}>
           <img src="/images/login/google.svg" alt="Icon of google" />
           Sign in with Google
@@ -50,6 +87,7 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
+        {emailError && <Alert error={true} text={emailError} />}
         <div className={styles.inputContainer}>
           <label htmlFor="password">Password</label>
           <input
@@ -59,6 +97,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        {passwordError && <Alert error={true} text={passwordError} />}
         <div className={styles.bottom}>
           <Checkbox
             checked={rememberMe}

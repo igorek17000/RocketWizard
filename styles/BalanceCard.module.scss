@@ -1,7 +1,8 @@
 .balanceCard {
   width: 45%;
-  background-color: white;
-  border: 1px solid rgba(188, 188, 188, 0.62);
+  background-color: var(--background-color);
+  border: 1px solid;
+  border-color: var(--border);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 1rem;
 
@@ -10,7 +11,8 @@
     display: flex;
     align-items: center;
     place-content: space-between;
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid;
+    border-color: var(--border);
     width: 100%;
 
     h4 {
