@@ -30,6 +30,10 @@ function Checkout() {
       padding: "0.4rem 0.5rem",
       fontSize: "1rem",
     }),
+    option: (provided, state) => ({
+      ...provided,
+      color: "black",
+    }),
     menuList: (base) => ({
       ...base,
 

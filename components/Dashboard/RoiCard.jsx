@@ -18,6 +18,10 @@ const customStyles = {
     border: "1px solid black",
     borderRadius: 5,
   }),
+  option: (provided, state) => ({
+    ...provided,
+    color: "black",
+  }),
   menuList: (base) => ({
     ...base,
 
