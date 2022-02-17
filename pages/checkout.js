@@ -232,8 +232,8 @@ function Checkout() {
                   </div>
                   <div className={styles.body}>
                     <p>
-                      You can pay with crypto if you don't have a debit or a
-                      credit card
+                      {"You can pay with crypto if you don't have a debit or a
+                      credit card"}
                     </p>
                   </div>
                 </div>
