@@ -5,6 +5,8 @@ import styles from "../styles/Contact.module.scss";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 
+import SubmissionSent from "../components/SubmissionSent";
+
 import { useTheme } from "next-themes";
 
 function Contact() {
@@ -13,6 +15,10 @@ function Contact() {
   const [company, setCompany] = useState(null);
   const [message, setMessage] = useState(null);
   const [country, setCountry] = useState(null);
+
+  const [submitted, setSubmitted] = useState(false);
+  const [fail, setFail] = useState(false);
+
   const options = useMemo(() => countryList().getData(), []);
 
   const { theme, setTheme } = useTheme();
@@ -49,8 +55,32 @@ function Contact() {
     }),
   };
 
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const checkValues = () => {
+    return name && email && validateEmail(email) && country && message;
+  };
+
+  const submit = () => {
+    setFail(!checkValues());
+    setSubmitted(true);
+  };
+
   return (
     <main className={styles.contact}>
+      {submitted && (
+        <SubmissionSent
+          open={submitted}
+          handleClose={() => setSubmitted(false)}
+          error={fail}
+        />
+      )}
       <Head>
         <title>Contact Us | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
@@ -110,7 +140,7 @@ function Contact() {
             />
           </div>
         </div>
-        <button>SUBMIT</button>
+        <button onClick={submit}>SUBMIT</button>
       </section>
     </main>
   );

@@ -1,0 +1,86 @@
+.box {
+  position: absolute;
+  width: 25rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--card-bg);
+  padding-top: 4rem;
+  overflow: hidden;
+
+  .content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 60%;
+    text-align: center;
+
+    img {
+      width: 5rem;
+    }
+
+    h3 {
+      margin-top: 2rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 3rem;
+      box-shadow: 10px 12px 24px hsla(341, 100%, 54%, 0.15);
+      border-radius: 0.3rem;
+      padding: 0.5rem 3rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1.2rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s ease-in-out;
+
+      &:hover {
+        background-color: darken(#731bde, 10%);
+      }
+    }
+  }
+
+  .waves {
+    margin-top: 1rem;
+    width: 150%;
+    margin-bottom: -5rem;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .box {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .box {
+    .content {
+      width: 100%;
+      padding: 1rem;
+      img {
+        width: 4rem;
+      }
+
+      button {
+        width: 100%;
+        font-size: 1rem;
+      }
+    }
+
+    .waves {
+      margin-bottom: -3rem;
+    }
+  }
+}

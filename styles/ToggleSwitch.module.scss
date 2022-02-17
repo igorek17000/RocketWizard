@@ -1,0 +1,74 @@
+.toggleContainer {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .toggleSwitch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    .switch {
+      position: absolute;
+      cursor: pointer;
+      background-color: #731bde;
+      border-radius: 25px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transition: background-color 0.2s ease;
+      border: 1px solid;
+      border-color: var(--border);
+
+      &::before {
+        position: absolute;
+        content: "";
+        left: 5px;
+        top: 50%;
+        width: 21px;
+        height: 21px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+        transform: translateY(-50%);
+      }
+
+      &:after {
+        position: absolute;
+        content: "";
+        right: 20%;
+        top: 50%;
+        width: 15px;
+        height: 11px;
+        background: url("../public/images/navbar/dots.svg");
+        background-size: cover;
+        transform: translateY(-50%);
+      }
+    }
+
+    input[type="checkbox"]:checked + .switch::before {
+      transform: translate(30px, -50%);
+      background: url("../public/images/navbar/moon.svg");
+      background-size: cover;
+    }
+
+    input[type="checkbox"]:checked + .switch::after {
+      background: url("../public/images/navbar/stars.svg");
+      background-size: cover;
+      left: 20%;
+      width: 15px;
+      height: 19.5px;
+    }
+  }
+}

@@ -13,7 +13,7 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
 import { useDetectClickOutside } from "react-detect-click-outside";
 
-import Toggle from "react-toggle";
+import ToggleSwitch from "../components/ToggleSwitch";
 import "react-toggle/style.css";
 
 import { useTheme } from "next-themes";
@@ -71,6 +71,7 @@ export function MobileMenu({ links, close }) {
           </Link>
         </div>
       )}
+      <ToggleSwitch />
     </div>
   );
 }
@@ -160,11 +161,10 @@ function Navbar() {
         </ul>
       </section>
       <section className={styles.right} ref={ref}>
-        <Toggle
-          id="dark-mode-toggle"
-          defaultChecked={theme === "dark"}
-          onChange={(val) => setTheme(val.target.checked ? "dark" : "light")}
-        />
+        <div className={styles.toggle}>
+          <ToggleSwitch />
+        </div>
+
         <AiOutlineMenu
           className={styles.menu}
           onClick={() => setMobileMenuOpen(true)}

@@ -7,6 +7,7 @@
 
   .card {
     margin-top: 3rem;
+    margin-bottom: 2rem;
     background-color: var(--card-bg);
     border: 1px solid #dadada;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -67,140 +68,147 @@
           margin-bottom: 1rem;
         }
 
-        .shippingAndContact {
+        .shippingContactAdditional {
+          width: 65%;
           display: flex;
-          align-items: center;
-          flex-direction: column;
-          width: 30%;
+          align-items: flex-start;
+          place-content: space-between;
 
-          .inputContainer {
-            margin: 1rem 0;
+          .shippingAndContact {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            width: 48%;
 
-            label {
-              font-weight: 500;
-              font-size: 1rem;
-              opacity: 0.7;
+            .inputContainer {
+              margin: 1rem 0;
 
-              span {
-                color: #ad175b;
+              label {
+                font-weight: 500;
+                font-size: 1rem;
+                opacity: 0.7;
+
+                span {
+                  color: #ad175b;
+                }
               }
-            }
 
-            input,
-            .select {
-              width: 100%;
-              border: 1px solid;
-              border-color: var(--border);
-              font-size: 1rem;
-              padding: 0.5rem;
-              border-radius: 0.3rem;
-              margin-top: 0.3rem;
-              background: #f0f0f0;
-              color: black;
-            }
+              input,
+              .select {
+                width: 100%;
+                border: 1px solid;
+                border-color: var(--border);
+                font-size: 1rem;
+                padding: 0.5rem;
+                border-radius: 0.3rem;
+                margin-top: 0.3rem;
+                background: #f0f0f0;
+                color: black;
+              }
 
-            .select {
-              padding: 0;
-            }
+              .select {
+                padding: 0;
+              }
 
-            .zipInput {
-              display: flex;
-              align-items: center;
-              width: 100%;
-              place-content: space-between;
+              .zipInput {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                place-content: space-between;
 
-              input {
-                width: 40%;
+                input {
+                  width: 40%;
+                }
+
+                p {
+                  width: 55%;
+                  font-size: 0.8rem;
+                  font-weight: 500;
+                  margin-top: 0;
+                }
               }
 
               p {
-                width: 55%;
-                font-size: 0.8rem;
-                font-weight: 500;
-                margin-top: 0;
+                margin-top: 0.5rem;
+                opacity: 0.7;
+                font-size: 0.9rem;
               }
             }
 
+            .shipping {
+              width: 100%;
+              p {
+                span {
+                  color: #ad175b;
+                }
+              }
+            }
+
+            .contact {
+              margin-top: 1rem;
+              width: 100%;
+            }
+          }
+
+          .additional {
+            width: 48%;
             p {
-              margin-top: 0.5rem;
               opacity: 0.7;
               font-size: 0.9rem;
+              margin-bottom: 1rem;
             }
-          }
 
-          .shipping {
-            width: 100%;
-            p {
-              span {
-                color: #ad175b;
+            label {
+              font-size: 0.95rem;
+              font-weight: 500;
+            }
+
+            .discount {
+              display: flex;
+              align-items: center;
+              border: 1px solid;
+              border-color: var(--border);
+              border-radius: 0.3rem;
+              width: 60%;
+              height: 3rem;
+              padding-left: 0.5rem;
+              background-color: #f0f0f0;
+
+              svg {
+                color: #707070;
+                width: 2rem;
+                height: 2rem;
+              }
+
+              input {
+                color: black;
+                border: none;
+                font-size: 1.1rem;
+                outline: none;
+                padding: 0 0.5rem;
+                height: 100%;
+                width: 100%;
+                font-weight: 600;
+                background-color: transparent;
+              }
+
+              button {
+                border-radius: 0 0.3rem 0.3rem 0;
+                color: white;
+                background-color: #731bde;
+                font-size: 0.8rem;
+                height: 100%;
+                padding: 0 0.5rem;
+                border: none;
+                font-weight: 600;
               }
             }
-          }
-
-          .contact {
-            margin-top: 1rem;
-            width: 100%;
-          }
-        }
-      }
-
-      .additional {
-        width: 30%;
-        p {
-          opacity: 0.7;
-          font-size: 0.9rem;
-          margin-bottom: 1rem;
-        }
-
-        label {
-          font-size: 0.95rem;
-          font-weight: 500;
-        }
-
-        .discount {
-          display: flex;
-          align-items: center;
-          border: 1px solid;
-          border-color: var(--border);
-          border-radius: 0.3rem;
-          width: 60%;
-          height: 3rem;
-          padding-left: 0.5rem;
-          background-color: #f0f0f0;
-
-          svg {
-            color: #707070;
-            width: 2rem;
-            height: 2rem;
-          }
-
-          input {
-            color: black;
-            border: none;
-            font-size: 1.1rem;
-            outline: none;
-            padding: 0 0.5rem;
-            height: 100%;
-            width: 100%;
-            font-weight: 600;
-            background-color: transparent;
-          }
-
-          button {
-            border-radius: 0 0.3rem 0.3rem 0;
-            color: white;
-            background-color: #731bde;
-            font-size: 0.8rem;
-            height: 100%;
-            padding: 0 0.5rem;
-            border: none;
-            font-weight: 600;
           }
         }
       }
 
       .orderAndPayment {
-        width: 30%;
+        width: 35%;
         .order {
           display: flex;
           align-items: flex-start;
@@ -289,7 +297,7 @@
               input {
                 color: black;
                 border: none;
-                font-size: 1.1rem;
+                font-size: 0.9rem;
                 outline: none;
                 padding: 0 0.5rem;
                 height: 100%;
@@ -300,10 +308,12 @@
 
               .cardNum {
                 width: 60%;
+                border-right: 1px solid;
+                border-color: var(--border);
               }
 
               .smallInputs {
-                width: 40%;
+                width: 30%;
                 display: flex;
                 align-items: center;
 
@@ -312,7 +322,7 @@
                 }
 
                 .cvc {
-                  width: 5rem;
+                  width: 4rem;
                 }
               }
 
@@ -379,6 +389,219 @@
 
             &:hover {
               background-color: darken(#731bde, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1850px) {
+  .checkout {
+    .card {
+      .body {
+        .content {
+          .shippingContactAdditional {
+            width: 40%;
+            flex-direction: column;
+            place-content: space-evenly;
+
+            .shippingAndContact {
+              width: 100%;
+            }
+
+            .additional {
+              width: 100%;
+              margin-top: 1rem;
+            }
+          }
+
+          .orderAndPayment {
+            width: 40%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .checkout {
+    .card {
+      .body {
+        .content {
+          .shippingContactAdditional {
+            width: 45%;
+          }
+
+          .orderAndPayment {
+            width: 52%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .checkout {
+    .card {
+      .body {
+        .content {
+          .orderAndPayment {
+            .payment {
+              .cardMethod {
+                .inputContainer {
+                  flex-direction: column;
+                  height: fit-content;
+                  background-color: transparent;
+                  align-items: center;
+                  padding: 1rem;
+                  border: none;
+
+                  input {
+                    background-color: white;
+                    padding: 0.5rem;
+                    border: 1px solid;
+                    border-color: rgba(0, 0, 0, 0.4);
+                    border-radius: 0.2rem;
+                  }
+
+                  .cardNum {
+                    width: 100%;
+                  }
+
+                  .smallInputs {
+                    width: 100%;
+
+                    input {
+                      margin: 0 0.3rem;
+                    }
+
+                    .cvc {
+                      width: 6rem;
+                      margin-left: auto;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .checkout {
+    .card {
+      .body {
+        .content {
+          .shippingContactAdditional {
+            .additional {
+              .discount {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .checkout {
+    .card {
+      .body {
+        .content {
+          flex-direction: column;
+          align-items: center;
+          width: 70%;
+          .shippingContactAdditional {
+            width: 100%;
+          }
+
+          .orderAndPayment {
+            margin-top: 2rem;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  .checkout {
+    .card {
+      .body {
+        .content {
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .checkout {
+    padding: 0 1rem;
+    .card {
+      .body {
+        width: 90%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .checkout {
+    padding: 0 1rem;
+    .card {
+      .body {
+        .content {
+          .orderAndPayment {
+            .payment {
+              .cardMethod {
+                .inputContainer {
+                  padding: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .checkout {
+    padding: 0 1rem;
+    .card {
+      .body {
+        .content {
+          .orderAndPayment {
+            .payment {
+              .cardMethod {
+                .inputContainer {
+                  .smallInputs {
+                    input {
+                      margin-left: 0.2rem;
+                    }
+
+                    .cvc {
+                      width: 100%;
+                      margin-left: 0.5rem;
+                    }
+                  }
+                }
+              }
             }
           }
         }

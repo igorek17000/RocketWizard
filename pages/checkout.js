@@ -99,76 +99,80 @@ function Checkout() {
             </p>
           </div>
           <div className={styles.content}>
-            {/* SHIPPING AND CONTACT */}
+            {/* SHIPPING AND CONTACT AND ADDITIONAL */}
 
-            <section className={styles.shippingAndContact}>
-              {/* SHIPPING */}
+            <section className={styles.shippingContactAdditional}>
+              {/* SHIPPING AND CONTACT */}
 
-              <section className={styles.shipping}>
-                <h2>SHIPPING DETAILS</h2>
-                <p>
-                  <span>*</span>required fields
-                </p>
-                <div className={styles.inputContainer}>
-                  <label htmlFor="name">
-                    Full Name<span>*</span>
-                  </label>
-                  <input id="name" />
-                </div>
-                <div className={styles.inputContainer}>
-                  <label htmlFor="country">
-                    Country<span>*</span>
-                  </label>
-                  <Select
-                    className={styles.select}
-                    styles={customStyles}
-                    options={options}
-                    value={country}
-                    onChange={changeCountry}
-                  />
-                </div>
-                <div className={styles.inputContainer}>
-                  <label htmlFor="address">
-                    Street Address<span>*</span>
-                  </label>
-                  <input id="address" />
-                  <p>+ Add another address field (optional)</p>
-                </div>
-                <div className={styles.inputContainer}>
-                  <label htmlFor="zip">
-                    Postcode / ZIP<span>*</span>
-                  </label>
-                  <div className={styles.zipInput}>
-                    {" "}
-                    <input id="zip" />
-                    <p>Enter ZIP for City & State</p>
+              <section className={styles.shippingAndContact}>
+                {/* SHIPPING */}
+
+                <section className={styles.shipping}>
+                  <h2>SHIPPING DETAILS</h2>
+                  <p>
+                    <span>*</span>required fields
+                  </p>
+                  <div className={styles.inputContainer}>
+                    <label htmlFor="name">
+                      Full Name<span>*</span>
+                    </label>
+                    <input id="name" />
                   </div>
+                  <div className={styles.inputContainer}>
+                    <label htmlFor="country">
+                      Country<span>*</span>
+                    </label>
+                    <Select
+                      className={styles.select}
+                      styles={customStyles}
+                      options={options}
+                      value={country}
+                      onChange={changeCountry}
+                    />
+                  </div>
+                  <div className={styles.inputContainer}>
+                    <label htmlFor="address">
+                      Street Address<span>*</span>
+                    </label>
+                    <input id="address" />
+                    <p>+ Add another address field (optional)</p>
+                  </div>
+                  <div className={styles.inputContainer}>
+                    <label htmlFor="zip">
+                      Postcode / ZIP<span>*</span>
+                    </label>
+                    <div className={styles.zipInput}>
+                      {" "}
+                      <input id="zip" />
+                      <p>Enter ZIP for City & State</p>
+                    </div>
+                  </div>
+                </section>
+                {/* CONTACT */}
+
+                <section className={styles.contact}>
+                  <h2>CONTACT INFORMATION</h2>
+                  <div className={styles.inputContainer}>
+                    <label htmlFor="email">
+                      Email<span>*</span>
+                    </label>
+                    <input id="email" />
+                  </div>
+                </section>
+              </section>
+
+              {/* ADDITIONAL */}
+
+              <section className={styles.additional}>
+                <h2>ADDITIONAL OPTIONS</h2>
+                <p>+ Apply a coupon code</p>
+                <label>Discount</label>
+                <div className={styles.discount}>
+                  <BsTagFill />
+                  <input placeholder="CODE" />
+                  <button>Apply</button>
                 </div>
               </section>
-              {/* CONTACT */}
-
-              <section className={styles.contact}>
-                <h2>CONTACT INFORMATION</h2>
-                <div className={styles.inputContainer}>
-                  <label htmlFor="email">
-                    Email<span>*</span>
-                  </label>
-                  <input id="email" />
-                </div>
-              </section>
-            </section>
-
-            {/* ADDITIONAL */}
-
-            <section className={styles.additional}>
-              <h2>ADDITIONAL OPTIONS</h2>
-              <p>+ Apply a coupon code</p>
-              <label>Discount</label>
-              <div className={styles.discount}>
-                <BsTagFill />
-                <input placeholder="CODE" />
-                <button>Apply</button>
-              </div>
             </section>
 
             {/* ORDER AND PAYMENT */}
