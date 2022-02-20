@@ -113,7 +113,7 @@ function TermsAndConditions() {
         </p>
 
         <p>
-          You hereby release and forever discharge the Company and our officers,
+          {`You hereby release and forever discharge the Company and our officers,
           employees, agents, successors, and assigns from, and hereby waive and
           relinquish, each and every past, present and future dispute, claim,
           controversy, demand, right, obligation, liability, action and cause of
@@ -124,13 +124,13 @@ function TermsAndConditions() {
           states: "a general release does not extend to claims which the
           creditor does not know or suspect to exist in his or her favor at the
           time of executing the release, which if known by him or her must have
-          materially affected his or her settlement with the debtor."
+          materially affected his or her settlement with the debtor."`}
         </p>
 
         <h2>Disclaimers</h2>
 
         <p>
-          The site is provided on an "as-is" and "as available" basis, and
+          {`The site is provided on an "as-is" and "as available" basis, and
           company and our suppliers expressly disclaim any and all warranties
           and conditions of any kind, whether express, implied, or statutory,
           including all warranties or conditions of merchantability, fitness for
@@ -141,7 +141,7 @@ function TermsAndConditions() {
           accurate, reliable, free of viruses or other harmful code, complete,
           legal, or safe.  If applicable law requires any warranties with
           respect to the site, all such warranties are limited in duration to
-          ninety (90) days from the date of first use.
+          ninety (90) days from the date of first use.`}
         </p>
 
         <p>
@@ -240,11 +240,11 @@ function TermsAndConditions() {
         </ul>
 
         <p>
-          Please note that, pursuant to 17 U.S.C. § 512(f), any
+          {`Please note that, pursuant to 17 U.S.C. § 512(f), any
           misrepresentation of material fact in a written notification
           automatically subjects the complaining party to liability for any
           damages, costs and attorney’s fees incurred by us in connection with
-          the written notification and allegation of copyright infringement.
+          the written notification and allegation of copyright infringement.`}
         </p>
 
         <h2>General</h2>
@@ -479,7 +479,8 @@ function TermsAndConditions() {
         </p>
 
         <p>
-          <strong>Entire Terms.</strong> These Terms constitute the entire
+          <strong>Entire Terms.</strong>{" "}
+          {`These Terms constitute the entire
           agreement between you and us regarding the use of the Site. Our
           failure to exercise or enforce any right or provision of these Terms
           shall not operate as a waiver of such right or provision. The section
@@ -497,7 +498,7 @@ function TermsAndConditions() {
           subcontract, delegation, or transfer in violation of the foregoing
           will be null and void.  Company may freely assign these Terms.  The
           terms and conditions set forth in these Terms shall be binding upon
-          assignees.
+          assignees.`}
         </p>
 
         <p>
