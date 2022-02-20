@@ -55,7 +55,7 @@ function Dashboard() {
     if (!session) return;
 
     const res = await fetch(
-      `https://rocketwizard.netlify.app/api/subscribe?email=${session.user.email}`
+      `http://localhost:3000/api/subscribe?email=${session.user.email}`
     );
 
     const subs = await res.json();

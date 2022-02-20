@@ -24,7 +24,7 @@ function Traders({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://rocketwizard.netlify.app/api/traders`);
+  const res = await fetch(`http://localhost:3000/api/traders`);
 
   const traders = await res.json();
 

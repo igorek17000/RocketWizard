@@ -57,7 +57,7 @@ function Settings() {
     if (!session) return;
 
     const res = await fetch(
-      `https://rocketwizard.netlify.app/api/apiKeys?email=${session.user.email}`
+      `http://localhost:3000/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();
