@@ -117,7 +117,7 @@ function Settings() {
                   ))}
                 </div>
               ) : (
-                <h1>You didn't add any API keys yet.</h1>
+                <h1>{"You didn't add any API keys yet."}</h1>
               )}
             </Scrollbar>
           </section>
