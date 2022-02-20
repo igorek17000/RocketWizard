@@ -384,7 +384,7 @@ function privacyPolicy() {
             By visiting this page on our website:{" "}
             <a
               href="https://rocketwizard.com/contact"
-              rel="external nofollow noopener noreferrrer"
+              rel="external nofollow noopener noreferrer"
               target="_blank"
             >
               https://rocketwizard.com/contact
