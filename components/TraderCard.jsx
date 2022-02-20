@@ -15,7 +15,7 @@ function TraderCard({ trader, i }) {
         <div className={styles.pfpShield}>
           <img
             className={styles.pfp}
-            src={`/images/traders/pfps/${trader.pfp}`}
+            src={`/images/traders/pfps/${trader.id}.svg`}
             alt="Trader pfp"
           />
           <BsShieldFillCheck className={styles.shield} />

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/RoiCard.module.scss";
 
 import Select from "react-select";
+
+import LineChart from "./LineChart";
 
 const options = [
   { value: "daily", label: "Daily" },
@@ -44,10 +46,33 @@ const customStyles = {
 
 function RoiCard() {
   const [timeframe, setTimeframe] = useState(options[0]);
+  const [percentageChange, setPercentageChange] = useState(0);
+
+  const [chartData] = useState([
+    600, 500, 595, 530, 585, 430, 620, 250, 490, 300, 800,
+  ]);
+
+  const getPercentageChange = () => {
+    let end = chartData[chartData.length - 1];
+    let start = chartData[0];
+
+    let change = (end / start) * 100;
+
+    console.log(change);
+
+    setPercentageChange(Math.round(change * 100) / 100);
+  };
 
   const changeTimeframe = (value) => {
     setTimeframe(value);
+    getPercentageChange();
   };
+
+  useEffect(() => {
+    getPercentageChange();
+  }, []);
+
+  console.log(process.env.HOST);
 
   return (
     <main className={styles.roiCard}>
@@ -63,10 +88,14 @@ function RoiCard() {
       </section>
       <section className={styles.body}>
         <div className={styles.values}>
-          <h2>+105%</h2>
+          <h2>
+            {" "}
+            {percentageChange > 0 && "+"}
+            {percentageChange}%
+          </h2>
         </div>
         <div className={styles.graph}>
-          <img src="/images/dashboard/roiGraph.svg" alt="Balance icon" />
+          <LineChart chartData={chartData} color="#f0b207" />
         </div>
       </section>
     </main>

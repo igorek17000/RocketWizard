@@ -68,7 +68,7 @@ function SubscribePlan({ id, trader }) {
 
       <section className={styles.bottom}>
         <p>24/7 Live Support Chat</p>
-        <Link href={`/checkout?pId=${id}&q=1`}>
+        <Link href={`/checkout?p=${id}&q=1&t=${trader.id}`}>
           <button>GET STARTED</button>
         </Link>
       </section>

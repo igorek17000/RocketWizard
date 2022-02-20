@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Dashboard.module.scss";
 
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -35,24 +35,6 @@ function Dashboard() {
     },
   ]);
 
-  const [subscriptions] = useState([
-    {
-      id: 2,
-      end: new Date(2022, 2, 15),
-      price: 120,
-    },
-    {
-      id: 1,
-      end: new Date(2022, 2, 2),
-      price: 89,
-    },
-    {
-      id: 0,
-      end: new Date(2022, 2, 17),
-      price: 79,
-    },
-  ]);
-
   const getGreeting = () => {
     const hours = new Date().getHours();
 
@@ -66,6 +48,28 @@ function Dashboard() {
   };
 
   const { data: session } = useSession();
+
+  const [subscriptions, setSubscriptions] = useState([]);
+
+  const getSubs = async () => {
+    if (!session) return;
+
+    const res = await fetch(
+      `https://rocketwizard.netlify.app/api/subscribe?email=${session.user.email}`
+    );
+
+    const subs = await res.json();
+
+    const plans = subs.map((sub) => sub.plan);
+
+    console.log("SUBS: ", subs);
+
+    setSubscriptions(plans);
+  };
+
+  useEffect(() => {
+    getSubs();
+  }, [session]);
 
   if (!session) return <GuestMessage />;
 

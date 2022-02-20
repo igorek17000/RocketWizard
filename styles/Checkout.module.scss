@@ -158,49 +158,61 @@
               margin-bottom: 1rem;
             }
 
-            label {
-              font-size: 0.95rem;
-              font-weight: 500;
-            }
-
-            .discount {
+            .codeAndError {
               display: flex;
-              align-items: center;
-              border: 1px solid;
-              border-color: var(--border);
-              border-radius: 0.3rem;
+              align-items: flex-start;
               width: 60%;
-              height: 3rem;
-              padding-left: 0.5rem;
-              background-color: #f0f0f0;
+              flex-direction: column;
 
-              svg {
-                color: #707070;
-                width: 2rem;
-                height: 2rem;
+              label {
+                font-size: 0.95rem;
+                font-weight: 500;
               }
 
-              input {
-                color: black;
-                border: none;
-                font-size: 1.1rem;
-                outline: none;
-                padding: 0 0.5rem;
-                height: 100%;
+              .discount {
+                display: flex;
+                align-items: center;
+                border: 1px solid;
+                border-color: var(--border);
+                border-radius: 0.3rem;
                 width: 100%;
-                font-weight: 600;
-                background-color: transparent;
-              }
+                height: 3rem;
+                padding-left: 0.5rem;
+                background-color: #f0f0f0;
 
-              button {
-                border-radius: 0 0.3rem 0.3rem 0;
-                color: white;
-                background-color: #731bde;
-                font-size: 0.8rem;
-                height: 100%;
-                padding: 0 0.5rem;
-                border: none;
-                font-weight: 600;
+                svg {
+                  color: #707070;
+                  width: 2rem;
+                  height: 2rem;
+                }
+
+                input {
+                  color: black;
+                  border: none;
+                  font-size: 1.1rem;
+                  outline: none;
+                  padding: 0 0.5rem;
+                  height: 100%;
+                  width: 100%;
+                  font-weight: 600;
+                  background-color: transparent;
+                }
+
+                button {
+                  cursor: pointer;
+                  border-radius: 0 0.3rem 0.3rem 0;
+                  color: white;
+                  background-color: #731bde;
+                  font-size: 0.8rem;
+                  height: 100%;
+                  padding: 0 0.5rem;
+                  border: none;
+                  font-weight: 600;
+                }
+
+                .remove {
+                  background-color: #e96d69;
+                }
               }
             }
           }
@@ -266,6 +278,7 @@
           flex-direction: column;
 
           .cardMethod {
+            transition: 0.3s ease-in-out;
             width: 100%;
             padding: 1rem;
             background-color: #f0f0f0;
@@ -278,11 +291,9 @@
               background-color: transparent;
               padding: 0;
               margin-bottom: 0.5rem;
-
-              h3 {
-                font-weight: 500;
-                font-size: 1.15rem;
-              }
+              display: flex;
+              align-items: center;
+              place-content: space-between;
             }
 
             .inputContainer {
@@ -332,6 +343,7 @@
           }
 
           .cryptoMethod {
+            transition: 0.3s ease-in-out;
             width: 100%;
             background-color: #f0f0f0;
             border-radius: 0.3rem;
@@ -344,11 +356,9 @@
               background-color: transparent;
               padding: 0;
               padding: 1rem;
-
-              h3 {
-                font-weight: 500;
-                font-size: 1.15rem;
-              }
+              display: flex;
+              align-items: center;
+              place-content: space-between;
             }
 
             .body {
@@ -501,7 +511,7 @@
         .content {
           .shippingContactAdditional {
             .additional {
-              .discount {
+              .codeAndError {
                 width: 100%;
               }
             }
@@ -568,8 +578,21 @@
           .orderAndPayment {
             .payment {
               .cardMethod {
+                .header {
+                  img {
+                    display: none;
+                  }
+                }
                 .inputContainer {
                   padding: 0;
+                }
+              }
+
+              .cryptoMethod {
+                .header {
+                  img {
+                    display: none;
+                  }
                 }
               }
             }

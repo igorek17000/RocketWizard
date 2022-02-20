@@ -7,7 +7,7 @@ import { ThemeProvider } from "next-themes";
 
 import { Scrollbar } from "react-scrollbars-custom";
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+function MyApp({ traders, Component, pageProps: { session, ...pageProps } }) {
   return (
     <ThemeProvider enableSystem={false}>
       <SessionProvider session={session}>

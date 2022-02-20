@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import styles from "../styles/Login.module.scss";
 import { useSession, signIn, signOut } from "next-auth/react";
 
+import { useRouter } from "next/router";
+
 import Checkbox from "react-custom-checkbox";
 
 import Alert from "../components/Alert";
@@ -11,6 +13,8 @@ import Alert from "../components/Alert";
 import { useTheme } from "next-themes";
 
 function Login() {
+  const router = useRouter();
+
   const [rememberMe, setRememberMe] = useState(false);
 
   const [email, setEmail] = useState(null);
@@ -46,14 +50,30 @@ function Login() {
     return emailValid && passwordValid;
   };
 
-  const loginUser = () => {
+  const loginUser = async () => {
     if (checkCredentials()) {
-      signIn("credentials", {
-        email: email,
-        password: password,
-      });
+      if (!session) {
+        try {
+          const result = await signIn("credentials", {
+            redirect: false,
+            name: email.substring(0, email.indexOf("@")),
+            email: email,
+            password: password,
+          });
+
+          if (!result.error) {
+            router.replace("/");
+          } else {
+            setPasswordError(result.error.replace("Error: ", ""));
+          }
+        } catch (error) {}
+      } else {
+        router.push("/");
+      }
     }
   };
+
+  if (!theme) return null;
 
   return (
     <div className={styles.loginContainer}>
@@ -65,7 +85,7 @@ function Login() {
       <main className={styles.login}>
         <img
           src={`/images/${
-            theme === "dark" ? "logo_dark.png" : "logo_light.png"
+            theme === "dark" ? "logo_dark.svg" : "logo_light.svg"
           }`}
           alt="Logo"
         />

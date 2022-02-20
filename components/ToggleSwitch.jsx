@@ -6,6 +6,8 @@ import { useTheme } from "next-themes";
 export default function ToggleSwitch() {
   const { theme, setTheme } = useTheme();
 
+  if (!theme) return null;
+
   return (
     <main className={styles.toggleContainer}>
       <p

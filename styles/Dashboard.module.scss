@@ -92,7 +92,6 @@
         display: flex;
         align-items: center;
         flex-direction: column;
-        place-content: space-between;
       }
     }
   }
@@ -118,24 +117,6 @@
 @media only screen and (max-width: 1200px) {
   .dashboard {
     .card {
-      .left {
-        .data {
-          h1 {
-            font-size: 2rem;
-          }
-
-          .body {
-            width: 90%;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  .dashboard {
-    .card {
       flex-direction: column;
 
       .left {
@@ -144,6 +125,10 @@
 
         .data {
           padding: 1rem;
+
+          h1 {
+            font-size: 2rem;
+          }
 
           .body {
             width: 100%;

@@ -1,0 +1,333 @@
+.settings {
+  padding: 0 5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #393e46;
+
+  .card {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    background-color: var(--card-bg);
+    border: 1px solid #dadada;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    width: 100%;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .header {
+      width: 100%;
+      text-align: left;
+      background-color: #dfc6ff;
+      padding: 2rem;
+      border-radius: 1rem 1rem 0 0;
+      h1 {
+        color: #4e3883;
+      }
+    }
+
+    .body {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      .addApi {
+        width: 100%;
+        background-color: var(--card-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+
+        .box {
+          background-color: white;
+          border: 1px solid #b3b3b3;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          text-align: center;
+          padding: 2rem;
+          border-radius: 0.5rem;
+          width: 25rem;
+
+          h3 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #4e3883;
+          }
+
+          p {
+            margin: 1rem 0;
+            line-height: 2.5rem;
+            color: #404040;
+          }
+
+          button {
+            background-color: #731bde;
+            box-shadow: 10px 12px 24px hsla(341, 100%, 54%, 0.15);
+            border-radius: 0.3rem;
+            padding: 0.5rem 3rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.25s ease-in-out;
+
+            &:hover {
+              background-color: darken(#731bde, 10%);
+            }
+          }
+        }
+      }
+
+      .apiList {
+        width: 100%;
+        background-color: #eaeaea;
+        padding: 1rem 2rem;
+        border-top: 1px solid #b3b3b3;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        border-radius: 0 0 1rem 1rem;
+
+        h1 {
+          text-align: center;
+          font-size: 3rem;
+          margin-top: 2rem;
+        }
+
+        h3 {
+          font-size: 1.7rem;
+          font-weight: 600;
+          color: #4e3883;
+          text-align: left;
+          margin-bottom: 0.5rem;
+          margin-left: 1rem;
+        }
+
+        .list {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          width: 100%;
+          padding: 0 1rem;
+
+          .api {
+            display: flex;
+            align-items: center;
+            place-content: space-between;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.3rem;
+            width: 100%;
+            margin: 0.3rem 0;
+
+            .values {
+              width: 40rem;
+              display: flex;
+              align-items: center;
+              place-content: space-between;
+
+              h4 {
+                font-size: 1.2rem;
+                font-weight: 600;
+              }
+            }
+
+            img {
+              height: 1.7rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .settings {
+    .card {
+      .body {
+        .apiList {
+          .list {
+            .api {
+              .values {
+                width: 30rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .settings {
+    .card {
+      .body {
+        .apiList {
+          h1 {
+            font-size: 2rem;
+          }
+
+          .list {
+            .api {
+              .values {
+                width: 60%;
+                h4 {
+                  font-size: 0.9rem;
+                }
+              }
+
+              img {
+                height: 1.4rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .settings {
+    .card {
+      .body {
+        .apiList {
+          padding: 0.5rem;
+          .list {
+            padding: 0 0.3rem;
+            .api {
+              .values {
+                width: 62%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .settings {
+    .card {
+      .body {
+        .apiList {
+          padding: 0.5rem;
+
+          h1 {
+            font-size: 1.5rem;
+          }
+
+          .list {
+            padding: 0 0.3rem;
+            .api {
+              flex-direction: column;
+              .values {
+                flex-direction: column;
+                width: 100%;
+
+                h4 {
+                  font-size: 1.2rem;
+                  margin-bottom: 1rem;
+                }
+              }
+
+              img {
+                height: 2rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .settings {
+    padding: 0 1rem;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .settings {
+    .card {
+      .body {
+        .addApi {
+          .box {
+            width: 100%;
+            padding: 2rem 3rem;
+
+            p {
+              font-size: 0.9rem;
+              line-height: 2rem;
+            }
+            button {
+              font-size: 0.9rem;
+            }
+          }
+        }
+        .apiList {
+          .list {
+            .api {
+              .values {
+                h4 {
+                  font-size: 1rem;
+                  margin-bottom: 1rem;
+                }
+              }
+
+              img {
+                height: 1.5rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .settings {
+    .card {
+      .body {
+        .addApi {
+          .box {
+            width: 100%;
+            padding: 1rem;
+          }
+        }
+        .apiList {
+          .list {
+            .api {
+              padding: 0.5rem;
+              .values {
+                h4 {
+                  font-size: 0.9rem;
+                  margin-bottom: 0.7rem;
+                }
+              }
+
+              img {
+                margin-top: 0.5rem;
+                height: 1.3rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

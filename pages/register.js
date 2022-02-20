@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import styles from "../styles/Login.module.scss";
 import { useSession, signIn, signOut } from "next-auth/react";
 
+import { useRouter } from "next/router";
+
 import Checkbox from "react-custom-checkbox";
 
 import Alert from "../components/Alert";
@@ -11,6 +13,8 @@ import Alert from "../components/Alert";
 import { useTheme } from "next-themes";
 
 function Register() {
+  const router = useRouter();
+
   const [rememberMe, setRememberMe] = useState(false);
 
   const [email, setEmail] = useState(null);
@@ -52,14 +56,53 @@ function Register() {
     return emailValid && passwordValid && confirmPasswordValid;
   };
 
-  const registerUser = () => {
-    if (checkCredentials()) {
-      signIn("credentials", {
-        email: email,
-        password: password,
-      });
+  const login = async () => {
+    if (!session) {
+      try {
+        const result = await signIn("credentials", {
+          redirect: false,
+          name: email.substring(0, email.indexOf("@")),
+          email: email,
+          password: password,
+        });
+
+        if (!result.error) {
+          router.replace("/");
+        }
+      } catch (error) {}
+    } else {
+      router.push("/");
     }
   };
+
+  const registerUser = async () => {
+    if (checkCredentials()) {
+      try {
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          body: JSON.stringify({
+            name: email.substring(0, email.indexOf("@")),
+            email: email,
+            password: password,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const json = await response.json();
+
+        if (!response.ok) {
+          setConfirmPasswordError(json.message);
+          throw new Error(json.message || "Something went wrong");
+        }
+
+        login();
+      } catch (error) {}
+    }
+  };
+
+  if (!theme) return null;
 
   return (
     <div className={styles.loginContainer}>
@@ -71,7 +114,7 @@ function Register() {
       <main className={styles.login}>
         <img
           src={`/images/${
-            theme === "dark" ? "logo_dark.png" : "logo_light.png"
+            theme === "dark" ? "logo_dark.svg" : "logo_light.svg"
           }`}
           alt="Logo"
         />

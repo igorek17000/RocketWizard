@@ -1,0 +1,93 @@
+.box {
+  position: absolute;
+  width: 25rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--card-bg);
+  overflow: hidden;
+  padding: 2rem;
+  border-radius: 0.7rem;
+  color: black;
+
+  .closeCorner {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #731bde;
+    width: 4rem;
+    height: 4rem;
+    cursor: pointer;
+    clip-path: polygon(0 0, 100% 0%, 100% 100%);
+
+    svg {
+      position: absolute;
+      right: 0.3rem;
+      top: 0.3rem;
+      width: 1.3rem;
+      height: 1.3rem;
+      color: white;
+    }
+  }
+
+  h3 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .inputContainer {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 0.5rem 0;
+
+    label {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    input,
+    .select {
+      width: 100%;
+      margin-top: 0.5rem;
+      border: 1px solid #949494;
+      border-radius: 0.25rem;
+      padding: 0.8rem;
+      background-color: #f7f7f7;
+      color: black;
+    }
+
+    .select {
+      padding: 0;
+    }
+  }
+
+  button {
+    margin-top: 1rem;
+    background-color: #731bde;
+    box-shadow: 10px 12px 24px hsla(341, 100%, 54%, 0.15);
+    border-radius: 0.3rem;
+    padding: 0.5rem 3rem;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.25s ease-in-out;
+
+    &:hover {
+      background-color: darken(#731bde, 10%);
+    }
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .box {
+    width: 90%;
+  }
+}

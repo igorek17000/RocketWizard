@@ -21,6 +21,8 @@ import { useTheme } from "next-themes";
 export function MobileMenu({ links, close }) {
   const { data: session, status } = useSession();
 
+  console.log("SESSION: ", session);
+
   return (
     <div className={styles.mobileMenu}>
       <AiOutlineClose className={styles.close} onClick={() => close(true)} />
@@ -94,8 +96,6 @@ function Navbar() {
     },
   });
 
-  console.log(dropdownOpen);
-
   const [blacklist] = useState(["/login", "/register"]);
 
   const [links] = useState([
@@ -110,6 +110,10 @@ function Navbar() {
     {
       name: "Dashboard",
       link: "/dashboard",
+    },
+    {
+      name: "Settings",
+      link: "/settings",
     },
     {
       name: "Contact Us",
@@ -127,7 +131,7 @@ function Navbar() {
     closed: { opacity: 0, display: "none" },
   };
 
-  if (blacklist.includes(router.pathname)) return null;
+  if (blacklist.includes(router.pathname) || !theme) return null;
 
   return (
     <nav className={styles.nav}>
@@ -135,7 +139,7 @@ function Navbar() {
         <Link href="/">
           <img
             src={`/images/${
-              theme === "dark" ? "logo_dark.png" : "logo_light.png"
+              theme === "dark" ? "logo_dark.svg" : "logo_light.svg"
             }`}
             alt="Logo"
           />

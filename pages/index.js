@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import Link from "next/link";
@@ -27,6 +27,8 @@ export default function Home() {
       text: "Zero efforts, avoid wasting time, energy and getting stressed with taking trades all day long",
     },
   ]);
+
+  if (!theme) return null;
 
   return (
     <div className={styles.container}>

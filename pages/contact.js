@@ -91,7 +91,7 @@ function Contact() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className={styles.card}>
-        <img src="/images/logo_light.png" alt="Logo" />
+        <img src="/images/logo_light.svg" alt="Logo" />
         <div className={styles.nameEmail}>
           <div className={styles.inputContainer}>
             <label htmlFor="name">Your name*</label>

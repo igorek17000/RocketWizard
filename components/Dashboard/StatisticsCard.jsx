@@ -3,6 +3,8 @@ import styles from "../../styles/StatisticsCard.module.scss";
 
 import Select from "react-select";
 
+import LineChart from "./LineChart";
+
 const options = [
   { value: "daily", label: "Daily", description: "Last day" },
   { value: "weekly", label: "Weekly", description: "Last 7 days" },
@@ -45,15 +47,11 @@ const customStyles = {
 function StatisticsCard() {
   const [timeframe, setTimeframe] = useState(options[1]);
 
-  const [timeframeTitles] = useState([
-    "Last day",
-    "Last 7 days",
-    "Last 30 days",
-  ]);
-
   const changeTimeframe = (value) => {
     setTimeframe(value);
   };
+
+  const [chartData] = useState([120, 150, 100, 180, 125, 140]);
 
   return (
     <main className={styles.statisticsCard}>
@@ -71,9 +69,11 @@ function StatisticsCard() {
         />
       </section>
       <section className={styles.body}>
-        <img
-          src="/images/dashboard/statisticsGraph.svg"
-          alt="Statistics icon"
+        <LineChart
+          chartData={chartData}
+          color="#731bde"
+          extra={20}
+          aspectRatio={null}
         />
         <button>SEE ALL</button>
       </section>
