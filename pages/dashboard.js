@@ -55,7 +55,7 @@ function Dashboard() {
     if (!session) return;
 
     const res = await fetch(
-      `http://localhost:3000/api/subscribe?email=${session.user.email}`
+      `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
     );
 
     const subs = await res.json();
