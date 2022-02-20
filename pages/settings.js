@@ -57,7 +57,7 @@ function Settings() {
     if (!session) return;
 
     const res = await fetch(
-      `https://rocketwizard.vercel.app/api/apiKeys?email=${session.user.email}`
+      `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();

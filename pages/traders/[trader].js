@@ -112,7 +112,7 @@ function Trader({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://rocketwizard.vercel.app/api/traders`);
+  const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
 
   const traders = await res.json();
 

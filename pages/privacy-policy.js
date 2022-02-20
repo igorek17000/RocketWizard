@@ -383,11 +383,11 @@ function privacyPolicy() {
           <li>
             By visiting this page on our website:{" "}
             <a
-              href="https://rocketwizard.com/contact"
+              href="https://rocket-wizard.com/contact"
               rel="external nofollow noopener noreferrer"
               target="_blank"
             >
-              https://rocketwizard.com/contact
+              https://rocket-wizard.com/contact
             </a>
           </li>
         </ul>
