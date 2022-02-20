@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
     db.collection("traders").updateOne(
       { id: traderId },
-      { $push: { subscribers: email } }
+      { $addToSet: { subscribers: email } }
     );
 
     return res.json({ success: true });
