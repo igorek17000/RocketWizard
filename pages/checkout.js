@@ -567,7 +567,14 @@ function Checkout() {
                   }}
                   borderColor="#731bde"
                   size={20}
-                  label="I have read and agree to the website terms and conditions"
+                  label={
+                    <p>
+                      I have read and agree to the website{" "}
+                      <Link href="/terms-and-conditions">
+                        terms and conditions
+                      </Link>
+                    </p>
+                  }
                 />
                 <p>
                   Your personal data will be used to process your order, support

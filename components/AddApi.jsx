@@ -3,6 +3,8 @@ import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
 import styles from "../styles/AddApi.module.scss";
 
+import Binance from "binance-api-node";
+
 import { useSession } from "next-auth/react";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -63,8 +65,33 @@ function AddApi({ open, handleClose, updateKeys }) {
     setExchange(value);
   };
 
+  const validateBinanceApi = async () => {
+    const client = Binance({
+      apiKey: api,
+      apiSecret: secret,
+    });
+
+    await new Promise((res) => res(false));
+  };
+
+  const validateApi = () => {
+    if (exchange.value === "binance") {
+      validateBinanceApi().then((validated) => {
+        return validated;
+      });
+    }
+  };
+
   const checkValues = () => {
-    return exchange && name && api && secret;
+    if (!(exchange && name && api && secret)) {
+      setError("All fields are required.");
+      return false;
+    } else if (!validateApi()) {
+      setError("Invalid API key.");
+      return false;
+    }
+    setError(null);
+    return true;
   };
 
   const handleAdd = async () => {
@@ -99,8 +126,6 @@ function AddApi({ open, handleClose, updateKeys }) {
         updateKeys();
         handleClose();
       } catch (error) {}
-    } else {
-      setError("All fields are required.");
     }
   };
 

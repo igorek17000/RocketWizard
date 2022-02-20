@@ -57,7 +57,7 @@ function Settings() {
     if (!session) return;
 
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+      `https://rocketwizard.vercel.app/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();
@@ -68,6 +68,12 @@ function Settings() {
   useEffect(() => {
     getApiKeys();
   }, []);
+
+  const shorten = (str, n) => {
+    let start = str.substr(0, n);
+    let end = str.substr(str.length - 3);
+    return start + (start === str ? "" : "..." + end);
+  };
 
   return (
     <main className={styles.settings}>
@@ -106,8 +112,8 @@ function Settings() {
                   {apiKeys.map((api, i) => (
                     <div className={styles.api} key={i}>
                       <div className={styles.values}>
-                        <h4>{api.name}</h4>
-                        <h4>{api.api}</h4>
+                        <h4>{shorten(api.name, 20)}</h4>
+                        <h4>{shorten(api.api, 20)}</h4>
                       </div>
                       <img
                         src={`/images/settings/exchanges/${api.exchange}.svg`}

@@ -15,8 +15,6 @@
     border-radius: 1rem;
     display: flex;
     align-items: center;
-    display: flex;
-    align-items: center;
     flex-direction: column;
 
     .header {
@@ -373,6 +371,10 @@
                 opacity: 0.8;
               }
             }
+          }
+
+          a {
+            text-decoration: underline;
           }
 
           p {
