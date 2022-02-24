@@ -352,11 +352,11 @@ function Checkout({ traders }) {
 
   return (
     <main className={styles.checkout}>
+      <Script src="https://unpkg.com/@nowpaymentsio/nowpayments-api-js/dist/nowpayments-api-js.min.js"></Script>
       <Head>
         <title>Checkout | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
-        <Script src="https://unpkg.com/@nowpaymentsio/nowpayments-api-js/dist/nowpayments-api-js.min.js"></Script>
       </Head>
       <ChooseApi
         open={choosingApi}
