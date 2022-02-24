@@ -9,44 +9,6 @@ import { Scrollbar } from "react-scrollbars-custom";
 
 import AddApi from "../components/AddApi";
 
-/*
-    {
-      exchange: "binance",
-      name: "ACHRAF25",
-      api: "AJHC35JJSD5EHJDKNN",
-    },
-    {
-      exchange: "okex",
-      name: "SPARKY47",
-      api: "AJHC35JJSD5EHJDKNN",
-    },
-    {
-      exchange: "ftx",
-      name: "DAVIDANDER124",
-      api: "AJHC35JJSD5EHJDKNN",
-    },
-    {
-      exchange: "binance",
-      name: "ALLANBERRY",
-      api: "AJHC35JJSD5EHJDKNN",
-    },
-    {
-      exchange: "okex",
-      name: "PETER145",
-      api: "AJHC35JJSD5EHJDKNN",
-    },
-    {
-      exchange: "okex",
-      name: "PETER145",
-      api: "AJHC35JJSD5EHJDKNN",
-    },
-    {
-      exchange: "okex",
-      name: "PETER145",
-      api: "AJHC35JJSD5EHJDKNN",
-    },
-*/
-
 function Settings() {
   const [openModal, setOpenModal] = useState(false);
   const [apiKeys, setApiKeys] = useState([]);

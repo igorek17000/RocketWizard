@@ -3,8 +3,6 @@ import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
 import styles from "../styles/AddApi.module.scss";
 
-import Binance from "binance-api-node";
-
 import { useSession } from "next-auth/react";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -16,7 +14,8 @@ import Alert from "./Alert";
 const options = [
   { value: "binance", label: "Binance" },
   { value: "okex", label: "Okex" },
-  { value: "ftx", label: "Ftx" },
+  { value: "huobi", label: "Huobi" },
+  { value: "kucoin", label: "Kucoin" },
 ];
 
 const customStyles = {
@@ -51,11 +50,21 @@ const customStyles = {
   }),
 };
 
-function AddApi({ open, handleClose, updateKeys }) {
-  const [exchange, setExchange] = useState(null);
+function AddApi({
+  open,
+  handleClose,
+  updateKeys = () => {},
+  forceExchange = null,
+  sendApiName,
+  tip = false,
+}) {
+  const [exchange, setExchange] = useState(
+    forceExchange ? { value: forceExchange } : null
+  );
   const [name, setName] = useState(null);
   const [api, setApi] = useState(null);
   const [secret, setSecret] = useState(null);
+  const [password, setPassword] = useState(null);
 
   const [error, setError] = useState(null);
 
@@ -65,25 +74,28 @@ function AddApi({ open, handleClose, updateKeys }) {
     setExchange(value);
   };
 
+  const capitalize = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   const validateBinanceApi = async () => {
     const client = Binance({
       apiKey: api,
       apiSecret: secret,
     });
 
-    await new Promise((res) => res(false));
+    return true;
   };
 
   const validateApi = () => {
-    if (exchange.value === "binance") {
-      validateBinanceApi().then((validated) => {
-        return validated;
-      });
-    }
+    return true;
   };
 
   const checkValues = () => {
     if (!(exchange && name && api && secret)) {
+      setError("All fields are required.");
+      return false;
+    } else if (exchange.value === "okex" && !password) {
       setError("All fields are required.");
       return false;
     } else if (!validateApi()) {
@@ -103,6 +115,10 @@ function AddApi({ open, handleClose, updateKeys }) {
         secret,
       };
 
+      if (exchange.value === "okex") {
+        key.apiPassword = password;
+      }
+
       try {
         const response = await fetch("/api/apiKeys", {
           method: "POST",
@@ -117,17 +133,40 @@ function AddApi({ open, handleClose, updateKeys }) {
 
         const json = await response.json();
 
-        console.log(json);
-
         if (!response.ok) {
-          setConfirmPasswordError(json.message);
+          setError(json.message);
           throw new Error(json.message || "Something went wrong");
         }
+
+        if (sendApiName) {
+          sendApiName(name);
+        }
+
         updateKeys();
         handleClose();
       } catch (error) {}
     }
   };
+
+  if (!session)
+    return (
+      <Modal
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={open}
+        onClose={handleClose}
+      >
+        <div className={styles.box}>
+          <div className={styles.closeCorner} onClick={handleClose}>
+            <AiOutlineClose />
+          </div>
+          <h3>You are not logged in.</h3>
+          <Link href="/login">
+            <button>Login</button>
+          </Link>
+        </div>
+      </Modal>
+    );
 
   return (
     <Modal
@@ -143,13 +182,19 @@ function AddApi({ open, handleClose, updateKeys }) {
         <h3>Add API</h3>
         <div className={styles.inputContainer}>
           <label>Exchange</label>
-          <Select
-            className={styles.select}
-            styles={customStyles}
-            options={options}
-            value={exchange}
-            onChange={changeExchange}
-          />
+          {forceExchange ? (
+            <div className={styles.forceExchange}>
+              <p>{capitalize(forceExchange)}</p>
+            </div>
+          ) : (
+            <Select
+              className={styles.select}
+              styles={customStyles}
+              options={options}
+              value={exchange}
+              onChange={changeExchange}
+            />
+          )}
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="name">Name of the profile</label>
@@ -158,6 +203,11 @@ function AddApi({ open, handleClose, updateKeys }) {
             autoComplete="off"
             onChange={(e) => setName(e.target.value)}
           />
+          {tip && (
+            <p className={styles.tip}>
+              Tip: Keep the trader's name in mind while naming your API
+            </p>
+          )}
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="api">API</label>
@@ -175,6 +225,16 @@ function AddApi({ open, handleClose, updateKeys }) {
             onChange={(e) => setSecret(e.target.value)}
           />
         </div>
+        {exchange && exchange.value === "okex" && (
+          <div className={styles.inputContainer}>
+            <label htmlFor="secret">API Password</label>
+            <input
+              id="secret"
+              autoComplete="off"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        )}
         {error && <Alert text={error} error={true} />}
         <button onClick={handleAdd}>Add</button>
       </div>

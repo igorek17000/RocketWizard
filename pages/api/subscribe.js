@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
   if (req.method === "POST") {
-    const { email, traderId, plan, quantity } = req.body;
+    const { email, traderId, plan, quantity, apiName } = req.body;
 
     const user = await db.collection("users").findOne({ email });
 
@@ -13,15 +13,13 @@ export default async function handler(req, res) {
 
     const found = subs.find((sub) => sub.traderId === traderId);
 
-    console.log(found);
-
     if (found) {
       // Already subbed
-      console.log("USER IS ALREADY SUBBED");
+
       subs[subs.indexOf(found)].plan = plan;
     } else {
       // Never subbed
-      console.log("USER WAS NEVER SUBBED");
+
       subs.push({
         traderId,
         plan,
@@ -29,22 +27,34 @@ export default async function handler(req, res) {
       });
     }
 
+    const api = user.apiKeys.find((x) => x.name === apiName);
+
+    let apiKeys = user.apiKeys;
+
+    apiKeys[apiKeys.indexOf(api)].taken = true;
+
     db.collection("users").updateOne(
       { email },
-      { $set: { subscriptions: subs } }
+      { $set: { subscriptions: subs, apiKeys: apiKeys } }
     );
+
+    const subscriber = {
+      email,
+      tier: plan.id,
+      apiKey: api.api,
+      secret: api.secret,
+      apiPassword: api.apiPassword,
+    };
 
     db.collection("traders").updateOne(
       { id: traderId },
-      { $addToSet: { subscribers: email } }
+      { $addToSet: { subscribers: subscriber } }
     );
 
     return res.json({ success: true });
   } else if (req.method === "GET") {
     const { email } = req.query;
     const user = await db.collection("users").findOne({ email });
-
-    console.log(user);
 
     return res.json(user.subscriptions || []);
   } else {

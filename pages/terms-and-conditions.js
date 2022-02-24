@@ -1,9 +1,15 @@
 import React from "react";
+import Head from "next/head";
 import styles from "../styles/TermsAndConditions.module.scss";
 
 function TermsAndConditions() {
   return (
     <main className={styles.termsAndConditions}>
+      <Head>
+        <title>Terms and Conditions | Rocket Wizard</title>
+        <meta name="description" content="Make money while sleeping" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <section className={styles.card}>
         <h2>Website Terms and Conditions</h2>
 

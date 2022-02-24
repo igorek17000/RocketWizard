@@ -33,6 +33,7 @@ function Trader({ traders }) {
             alt="Trader pfp"
           />
           <h3>{trader.name}</h3>
+          <p>{trader.username}</p>
         </section>
 
         {/* Body Section */}
@@ -64,7 +65,7 @@ function Trader({ traders }) {
               </div>
             </div>
             <div className={styles.box}>
-              <h3>Monthly ROI</h3>
+              <h3>Last Month ROI</h3>
               <div className={styles.monthlyRoi}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

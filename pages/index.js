@@ -3,11 +3,15 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import Link from "next/link";
 
+import { getSession } from "next-auth/react";
+
+import FaqCard from "../components/FaqCard";
+
 import { Typewriter } from "react-simple-typewriter";
 
 import { useTheme } from "next-themes";
 
-export default function Home() {
+export default function Home({ likeData }) {
   const { theme } = useTheme();
 
   const [cards] = useState([
@@ -97,6 +101,31 @@ export default function Home() {
           </Link>
         </section>
       </main>
+      <FaqCard card={false} likeData={likeData} />
     </div>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+  if (session) {
+    const res = await fetch(
+      `https://rocket-wizard.vercel.app/api/faq-likes?email=${session.user.email}`
+    );
+
+    const likeData = await res.json();
+
+    return { props: { likeData } };
+  } else {
+    return {
+      props: {
+        likeData: {
+          likes: 0,
+          dislikes: 0,
+          userLiked: false,
+          userDisliked: false,
+        },
+      },
+    };
+  }
 }

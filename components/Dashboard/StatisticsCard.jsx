@@ -44,14 +44,22 @@ const customStyles = {
   }),
 };
 
-function StatisticsCard() {
+function StatisticsCard({ balance }) {
   const [timeframe, setTimeframe] = useState(options[1]);
+
+  const [chartData, setChartData] = useState(balance.daily);
 
   const changeTimeframe = (value) => {
     setTimeframe(value);
-  };
 
-  const [chartData] = useState([120, 150, 100, 180, 125, 140]);
+    if (value.value === "daily") {
+      setChartData(balance.daily);
+    } else if (value.value === "weekly") {
+      setChartData(balance.weekly);
+    } else {
+      setChartData(balance.monthly);
+    }
+  };
 
   return (
     <main className={styles.statisticsCard}>

@@ -21,13 +21,14 @@ function TraderCard({ trader, i }) {
           <BsShieldFillCheck className={styles.shield} />
         </div>
         <h3>{trader.name}</h3>
+        <p>{trader.username}</p>
       </section>
 
       {/* Body Section */}
 
       <section className={styles.body}>
         <div className={styles.roi}>
-          <h3>Monthly ROI</h3>
+          <h3>Last Month ROI</h3>
           <div className={styles.monthlyRoi}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

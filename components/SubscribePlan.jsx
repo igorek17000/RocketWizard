@@ -3,9 +3,23 @@ import Link from "next/link";
 import styles from "../styles/SubscribePlan.module.scss";
 
 function SubscribePlan({ id, trader }) {
+  const centRound = (val) => Math.round((val - 0.01) * 100) / 100;
+
+  const [priceMultipliers] = useState([1, 1.6, 1.75]);
+
+  const getPrice = () => {
+    let price = trader.basePrice;
+
+    if (id !== 0) {
+      price =
+        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+    }
+
+    return centRound(price).toLocaleString("en-US");
+  };
+
   const [plans] = useState([
     {
-      price: 129.99,
       name: "BASIC",
       walletFrom: 0,
       walletTo: 2500,
@@ -13,7 +27,6 @@ function SubscribePlan({ id, trader }) {
       planColor: "#00fd96",
     },
     {
-      price: 220.99,
       name: "ADVANCED",
       walletFrom: 2500,
       walletTo: 10000,
@@ -21,7 +34,6 @@ function SubscribePlan({ id, trader }) {
       planColor: "#BA62EB",
     },
     {
-      price: 330.99,
       name: "PRO",
       walletFrom: 10000,
       walletTo: 25000,
@@ -39,7 +51,7 @@ function SubscribePlan({ id, trader }) {
       <section className={styles.top}>
         <div className={styles.price}>
           <h1 className={styles.dollarSign}>$</h1>
-          <h1>{plan.price.toLocaleString("en-US")}</h1>
+          <h1>{getPrice()}</h1>
         </div>
         <h3>Monthly package</h3>
         <h5 style={{ backgroundColor: plan.planColor }}>{plan.name}</h5>
@@ -52,10 +64,7 @@ function SubscribePlan({ id, trader }) {
           <span>Access to</span> {trader.name} Services
         </p>
         <p>
-          <span>For wallets</span> between{" "}
-          {plan.walletFrom.toLocaleString("en-US") +
-            "-" +
-            plan.walletTo.toLocaleString("en-US")}
+          <span>For wallets</span> up to {plan.walletTo.toLocaleString("en-US")}
           $
         </p>
         <p>

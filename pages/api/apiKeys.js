@@ -6,13 +6,24 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { email, key } = req.body;
 
-    db.collection("users").updateOne({ email }, { $push: { apiKeys: key } });
+    const user = await db.collection("users").findOne({ email });
+
+    if (user.apiKeys) {
+      if (user.apiKeys.find((x) => x.name === key.name)) {
+        return res
+          .status(400)
+          .json({ message: `API called "${key.name}" already exists.` });
+      }
+    }
+
+    await db
+      .collection("users")
+      .updateOne({ email }, { $push: { apiKeys: key } });
+
     return res.json({ success: true });
   } else if (req.method === "GET") {
     const { email } = req.query;
     const user = await db.collection("users").findOne({ email });
-
-    console.log(user);
 
     return res.json(user.apiKeys || []);
   } else {

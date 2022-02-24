@@ -44,13 +44,11 @@ const customStyles = {
   }),
 };
 
-function BalanceCard() {
+function BalanceCard({ balance }) {
   const [timeframe, setTimeframe] = useState(options[0]);
   const [percentageChange, setPercentageChange] = useState(0);
 
-  const [chartData] = useState([
-    600, 500, 595, 530, 585, 430, 620, 250, 490, 300, 800,
-  ]);
+  const [chartData, setChartData] = useState(balance.daily);
 
   const getPercentageChange = () => {
     let end = chartData[chartData.length - 1];
@@ -58,19 +56,24 @@ function BalanceCard() {
 
     let change = (end / start - 1) * 100;
 
-    console.log(change);
-
     setPercentageChange(Math.round(change * 100) / 100);
   };
 
   const changeTimeframe = (value) => {
     setTimeframe(value);
-    getPercentageChange();
+
+    if (value.value === "daily") {
+      setChartData(balance.daily);
+    } else if (value.value === "weekly") {
+      setChartData(balance.weekly);
+    } else {
+      setChartData(balance.monthly);
+    }
   };
 
   useEffect(() => {
     getPercentageChange();
-  }, []);
+  }, [chartData]);
 
   return (
     <main className={styles.balanceCard}>
@@ -86,14 +89,17 @@ function BalanceCard() {
       </section>
       <section className={styles.body}>
         <div className={styles.values}>
-          <h2>$1,534</h2>
-          <p>
+          <h2>$4,321</h2>
+          <p style={{ color: percentageChange > 0 ? "#39c491" : "#e96d69" }}>
             {percentageChange > 0 && "+"}
             {percentageChange}%
           </p>
         </div>
         <div className={styles.graph}>
-          <LineChart chartData={chartData} color="#39c491" />
+          <LineChart
+            chartData={chartData}
+            color={percentageChange > 0 ? "#39c491" : "#e96d69"}
+          />
         </div>
       </section>
     </main>

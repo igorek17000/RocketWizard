@@ -42,18 +42,17 @@
   .inputContainer {
     width: 100%;
     display: flex;
-    align-items: s;
+    align-items: flex-start;
     flex-direction: column;
     margin: 0.5rem 0;
+    margin-bottom: 3rem;
 
     label {
       font-size: 1rem;
       font-weight: 600;
     }
 
-    input,
-    .select,
-    .forceExchange {
+    .select {
       width: 100%;
       margin-top: 0.5rem;
       border: 1px solid #949494;
@@ -66,13 +65,20 @@
     .select {
       padding: 0;
     }
+  }
 
-    .tip {
-      font-size: 0.8rem;
-      font-weight: 500;
-      opacity: 0.6;
-      text-align: left;
-      margin-top: 0.2rem;
+  p {
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.7;
+
+    span {
+      color: #731bde;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 

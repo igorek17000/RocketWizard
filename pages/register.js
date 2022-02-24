@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Login.module.scss";
 import { useSession, signIn, signOut } from "next-auth/react";
 
@@ -16,6 +16,7 @@ function Register() {
   const router = useRouter();
 
   const [rememberMe, setRememberMe] = useState(false);
+  const [readTerms, setReadTerms] = useState(false);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -41,6 +42,11 @@ function Register() {
     if (!(email && password && confirmPassword)) {
       setConfirmPasswordError("All field are required.");
       return;
+    } else if (!readTerms) {
+      setConfirmPasswordError(
+        "Please agree to terms and conditions before placing the order."
+      );
+      return;
     }
 
     let emailValid = validateEmail(email);
@@ -54,25 +60,6 @@ function Register() {
     );
 
     return emailValid && passwordValid && confirmPasswordValid;
-  };
-
-  const login = async () => {
-    if (!session) {
-      try {
-        const result = await signIn("credentials", {
-          redirect: false,
-          name: email.substring(0, email.indexOf("@")),
-          email: email,
-          password: password,
-        });
-
-        if (!result.error) {
-          router.replace("/");
-        }
-      } catch (error) {}
-    } else {
-      router.push("/");
-    }
   };
 
   const registerUser = async () => {
@@ -97,14 +84,18 @@ function Register() {
           throw new Error(json.message || "Something went wrong");
         }
 
-        login();
+        router.replace("/account-created");
       } catch (error) {}
     }
   };
 
-  if (!theme) return null;
+  const [logoSrc, setLogoSrc] = useState("logo_light.svg");
 
-  return (
+  useEffect(() => {
+    setLogoSrc(theme === "dark" ? "logo_dark.svg" : "logo_light.svg");
+  }, [theme]);
+
+  return theme ? (
     <div className={styles.loginContainer}>
       <Head>
         <title>Register | Rocket Wizard</title>
@@ -112,13 +103,13 @@ function Register() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.login}>
-        <img
-          src={`/images/${
-            theme === "dark" ? "logo_dark.svg" : "logo_light.svg"
-          }`}
-          alt="Logo"
-        />
-        <button className={styles.googleBtn} onClick={() => signIn("google")}>
+        <img src={`/images/${logoSrc}`} alt="Logo" />
+        <button
+          className={styles.googleBtn}
+          onClick={() =>
+            signIn("google", { callbackUrl: "/complete-registration" })
+          }
+        >
           <img src="/images/login/google.svg" alt="Icon of google" />
           Sign in with Google
         </button>
@@ -175,6 +166,12 @@ function Register() {
                 }}
               />
             }
+            labelStyle={{
+              marginLeft: 15,
+              fontSize: "1rem",
+              fontWeight: 500,
+              textAlign: "left",
+            }}
             borderColor="#731bde"
             style={{ overflow: "hidden" }}
             size={20}
@@ -182,6 +179,36 @@ function Register() {
           />
           <Link href="/login">Already registered?</Link>
         </div>
+        <Checkbox
+          checked={readTerms}
+          onChange={(val) => setReadTerms(val)}
+          icon={
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                backgroundColor: "#731bde",
+                alignSelf: "stretch",
+                margin: "2px",
+                borderRadius: "3px",
+              }}
+            />
+          }
+          labelStyle={{
+            marginLeft: 15,
+            fontSize: "0.7rem",
+            fontWeight: 600,
+            textAlign: "left",
+          }}
+          borderColor="#731bde"
+          size={20}
+          label={
+            <p>
+              I have read and agree to the website{" "}
+              <Link href="/terms-and-conditions">terms and conditions</Link>
+            </p>
+          }
+        />
         <button onClick={registerUser}>Register</button>
         <p>
           Already have an account?{" "}
@@ -191,7 +218,7 @@ function Register() {
         </p>
       </main>
     </div>
-  );
+  ) : null;
 }
 
 export default Register;

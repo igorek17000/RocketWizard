@@ -1,0 +1,70 @@
+.accCreated {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--card-bg);
+  color: black;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 4rem;
+  text-align: center;
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  img {
+    margin: 1.5rem 0;
+    width: 18rem;
+  }
+
+  .celebration {
+    margin: 2rem 0;
+    width: 26rem;
+  }
+
+  h2 {
+    color: #731bde;
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+
+  button {
+    background-color: #731bde;
+    box-shadow: 10px 12px 24px hsla(341, 100%, 54%, 0.15);
+    border-radius: 1rem;
+    padding: 0.3rem 3rem;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.25s ease-in-out;
+
+    &:hover {
+      background-color: darken(#731bde, 10%);
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .accCreated {
+    padding: 2rem;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    img {
+      width: 80%;
+    }
+
+    .celebration {
+      width: 100%;
+    }
+  }
+}

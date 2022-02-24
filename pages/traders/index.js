@@ -5,8 +5,6 @@ import styles from "../../styles/Traders.module.scss";
 import TraderCard from "../../components/TraderCard";
 
 function Traders({ traders }) {
-  console.log(traders);
-
   return (
     <main className={styles.traders}>
       <Head>

@@ -15,6 +15,12 @@ import { useRouter } from "next/router";
 
 import Alert from "../components/Alert";
 
+import ChooseApi from "../components/ChooseApi";
+
+import NowPaymentsApi from "@nowpaymentsio/nowpayments-api-js";
+
+const npApi = new NowPaymentsApi({ apiKey: "D5ZCBE3-Y8QMJVN-JYNQ87D-CSD2M5G" }); // your api key
+
 const customStyles = {
   control: () => ({
     // none of react-select's styles are passed to <Control />
@@ -47,12 +53,62 @@ const customStyles = {
   }),
 };
 
-function Checkout() {
+const customStylesCrypto = {
+  control: () => ({
+    // none of react-select's styles are passed to <Control />
+    width: "100%",
+    display: "flex",
+    padding: "0.1rem",
+    fontSize: "0.9rem",
+    backgroundColor: "white",
+    borderRadius: 5,
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: "black",
+  }),
+  menuList: (base) => ({
+    ...base,
+
+    "::-webkit-scrollbar": {
+      width: "8px",
+      height: "0px",
+    },
+    "::-webkit-scrollbar-track": {
+      background: "#f1f1f1",
+    },
+    "::-webkit-scrollbar-thumb": {
+      background: "#888",
+      borderRadius: 10,
+    },
+    "::-webkit-scrollbar-thumb:hover": {
+      background: "#555",
+    },
+  }),
+};
+
+const cryptoOptions = [
+  {
+    value: "btc",
+    label: "BTC",
+  },
+  {
+    value: "eth",
+    label: "ETH",
+  },
+  {
+    value: "usdt",
+    label: "USDT",
+  },
+];
+
+function Checkout({ traders }) {
   const [readTerms, setReadTerms] = useState(false);
 
-  const [paymentMethod, setPaymentMethod] = useState(0);
-
   const [country, setCountry] = useState(null);
+  const [crypto, setCrypto] = useState(null);
+
+  const [choosingApi, setChoosingApi] = useState(false);
 
   const [name, setName] = useState(null);
   const [streetAddress, setStreetAddress] = useState(null);
@@ -61,11 +117,6 @@ function Checkout() {
   const [email, setEmail] = useState(null);
   const [discountCode, setDiscountCode] = useState(null);
   const [discount, setDiscount] = useState(0);
-
-  const [cardNum, setCardNum] = useState(null);
-  const [mm, setMm] = useState(null);
-  const [yy, setYy] = useState(null);
-  const [cvc, setCvc] = useState(null);
 
   const [secondAddressActivated, setSecondAddressActivated] = useState(false);
 
@@ -77,6 +128,10 @@ function Checkout() {
 
   const router = useRouter();
 
+  const changeCrypto = (value) => {
+    setCrypto(value);
+  };
+
   const changeCountry = (value) => {
     setCountry(value);
   };
@@ -84,21 +139,19 @@ function Checkout() {
   const [plans] = useState([
     {
       id: 0,
-      price: 129.99,
       name: "Basic",
     },
     {
       id: 1,
-      price: 220.99,
       name: "Advanced",
     },
     {
       id: 2,
-      price: 330.99,
       name: "Professional",
     },
   ]);
 
+  const [id, setId] = useState(0);
   const [plan, setPlan] = useState(plans[0]);
   const [traderId, setTraderId] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -111,11 +164,43 @@ function Checkout() {
     const traderId = router.query.t;
 
     if (id && quantity && traderId) {
+      setId(id);
       setPlan(plans[id] || plans[0]);
       setQuantity(parseInt(quantity) || 1);
       setTraderId(traderId);
     }
   }, [router]);
+
+  const centRound = (val) => Math.round((val - 0.01) * 100) / 100;
+
+  const [priceMultipliers] = useState([1, 1.6, 1.75]);
+
+  const [fullPrice, setFullPrice] = useState(0);
+  const [planPrice, setPlanPrice] = useState(0);
+
+  const getPrice = async () => {
+    if (!traders) return 0;
+
+    const trader = await traders.find((trader) => trader.id == traderId);
+
+    let price = trader ? trader.basePrice : 0;
+
+    if (parseInt(id) !== 0) {
+      price =
+        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+    }
+
+    const planPriceTemp = Math.max(
+      centRound(price * quantity),
+      0
+    ).toLocaleString("en-US");
+
+    setPlanPrice(planPriceTemp);
+
+    const fullPriceTemp = Math.max(planPriceTemp + shipping - discount, 0);
+
+    setFullPrice(fullPriceTemp);
+  };
 
   const [mainError, setMainError] = useState(null);
   const [codeError, setCodeError] = useState(null);
@@ -130,18 +215,35 @@ function Checkout() {
       );
   };
 
-  const checkPayment = () => {
-    if (paymentMethod === 0) {
-      if (!(cardNum && mm && yy && cvc)) {
-        return false;
-      }
-    } else {
+  const checkPayment = async () => {
+    if (!crypto || fullPrice == null) {
+      return false;
     }
+
+    const config = {
+      price_amount: centRound(fullPrice),
+      price_currency: "usd",
+      pay_currency: crypto.value,
+      order_description: `${plan.name} x ${quantity}`,
+      order_id: `${plan.name}-${traderId}-${quantity}`,
+      success_url: "https://rocket-wizard.vercel.app/checkout/success",
+      cancel_url: "https://rocket-wizard.vercel.app/checkout/fail",
+    };
+
+    const payment = await npApi.createPayment(config);
+
+    console.log("PAYMENT: ", payment);
+
+    const invoice = await npApi.createInvoice(config);
+
+    router.replace(invoice.invoice_url);
+
+    console.log("INVOICE: ", invoice);
 
     return true;
   };
 
-  const checkValues = () => {
+  const checkValues = (apiName) => {
     setSuccess(null);
 
     if (!(name && streetAddress && zip && email && country)) {
@@ -161,47 +263,43 @@ function Checkout() {
     }
 
     setMainError(null);
+    setChoosingApi(true);
     setSuccess("Congratulations! Your order is complete!");
     return true;
   };
 
-  const purchase = async () => {
+  const purchase = async (apiName) => {
     if (!session) return;
 
-    if (checkValues()) {
-      try {
-        const endDate = new Date();
-        endDate.setMonth(endDate.getMonth() + 1);
+    try {
+      const endDate = new Date();
+      endDate.setMonth(endDate.getMonth() + 1);
 
-        const planObj = {
-          ...plan,
-          end: endDate,
-        };
+      const planObj = {
+        ...plan,
+        end: endDate,
+      };
 
-        const response = await fetch("/api/subscribe", {
-          method: "POST",
-          body: JSON.stringify({
-            email: session.user.email,
-            traderId,
-            quantity,
-            plan: planObj,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        body: JSON.stringify({
+          email: session.user.email,
+          traderId,
+          quantity,
+          plan: planObj,
+          apiName,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        const json = await response.json();
+      const json = await response.json();
 
-        console.log("JSON: ", json);
-
-        if (!response.ok) {
-          throw new Error(json.message || "Something went wrong");
-        }
-      } catch (error) {
-        console.log(error);
+      if (!response.ok) {
+        throw new Error(json.message || "Something went wrong");
       }
-    }
+    } catch (error) {}
   };
 
   const applyDiscountCode = async () => {
@@ -233,9 +331,7 @@ function Checkout() {
           `Your code was entered successfully and you saved ${json.discount}%!`
         );
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const removeDiscountCode = () => {
@@ -245,13 +341,13 @@ function Checkout() {
     setCodeSuccess(null);
   };
 
-  const [fullPrice, setFullPrice] = useState(
-    plan.price * quantity + shipping - discount
-  );
+  useEffect(() => {
+    getPrice();
+  }, [discount, quantity, id, plan]);
 
   useEffect(() => {
-    setFullPrice(plan.price * quantity + shipping - discount);
-  }, [plan.price, quantity, shipping, discount]);
+    getPrice();
+  }, []);
 
   return (
     <main className={styles.checkout}>
@@ -259,7 +355,14 @@ function Checkout() {
         <title>Checkout | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
+        <script src="https://unpkg.com/@nowpaymentsio/nowpayments-api-js/dist/nowpayments-api-js.min.js"></script>
       </Head>
+      <ChooseApi
+        open={choosingApi}
+        handleClose={() => setChoosingApi(false)}
+        traderId={traderId}
+        sendApiName={(apiName) => purchase(apiName)}
+      />
       <section className={styles.card}>
         <div className={styles.header}>
           <h1>Checkout</h1>
@@ -422,7 +525,7 @@ function Checkout() {
                     <h4>
                       {plan.name} x {quantity}
                     </h4>
-                    <p>${plan.price}</p>
+                    <p>${planPrice}</p>
                   </div>
                   <div className={styles.item}>
                     <h4>SHIPPING</h4>
@@ -447,93 +550,16 @@ function Checkout() {
 
               <section className={styles.payment}>
                 <h2>PAYMENT METHOD</h2>
-                <div
-                  className={styles.cardMethod}
-                  style={
-                    paymentMethod === 0 ? { borderColor: "#731bde" } : undefined
-                  }
-                >
+
+                <div className={styles.cryptoMethod}>
                   <div className={styles.header}>
-                    <Checkbox
-                      checked={paymentMethod === 0}
-                      onChange={(val) => setPaymentMethod(val ? 0 : 1)}
-                      icon={
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: 1,
-                            backgroundColor: "#731bde",
-                            alignSelf: "stretch",
-                            margin: "2px",
-                            borderRadius: "50%",
-                          }}
-                        />
-                      }
-                      labelStyle={{
-                        marginLeft: 15,
-                        fontWeight: 500,
-                        fontSize: "1.15rem",
-                      }}
-                      borderColor="#731bde"
-                      size={15}
-                      label="Debit Credit Card"
-                    />
-                    <img src="/images/checkout/cards.svg" alt="Cards" />
-                  </div>
-                  <div className={styles.inputContainer}>
-                    <input
-                      className={styles.cardNum}
-                      placeholder="Card number"
-                      onChange={(e) => setCardNum(e.target.value)}
-                    />
-                    <div className={styles.smallInputs}>
-                      <input
-                        placeholder="MM"
-                        onChange={(e) => setMm(e.target.value)}
-                      />
-                      <p>/</p>
-                      <input
-                        placeholder="YY"
-                        onChange={(e) => setYy(e.target.value)}
-                      />
-                      <input
-                        className={styles.cvc}
-                        placeholder="CVC"
-                        onChange={(e) => setCvc(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className={styles.cryptoMethod}
-                  style={
-                    paymentMethod === 1 ? { borderColor: "#731bde" } : undefined
-                  }
-                >
-                  <div className={styles.header}>
-                    <Checkbox
-                      checked={paymentMethod === 1}
-                      onChange={(val) => setPaymentMethod(val ? 1 : 0)}
-                      icon={
-                        <div
-                          style={{
-                            display: "flex",
-                            flex: 1,
-                            backgroundColor: "#731bde",
-                            alignSelf: "stretch",
-                            margin: "2px",
-                            borderRadius: "50%",
-                          }}
-                        />
-                      }
-                      labelStyle={{
-                        marginLeft: 15,
-                        fontWeight: 500,
-                        fontSize: "1.15rem",
-                      }}
-                      borderColor="#731bde"
-                      size={15}
-                      label="Crypto"
+                    <Select
+                      className={styles.select}
+                      styles={customStylesCrypto}
+                      options={cryptoOptions}
+                      value={crypto}
+                      onChange={changeCrypto}
+                      placeholder="Crypto"
                     />
                     <img src="/images/checkout/coins.svg" alt="Crypto coins" />
                   </div>
@@ -585,7 +611,7 @@ function Checkout() {
                   </span>
                 </p>
                 {mainError && <Alert text={mainError} error={true} />}
-                <button onClick={purchase}>Place Order</button>
+                <button onClick={checkValues}>Place Order</button>
                 {success && <Alert text={success} bgColor="#9dffaab9" />}
               </section>
             </section>
@@ -594,6 +620,15 @@ function Checkout() {
       </section>
     </main>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
+
+  const traders = await res.json();
+
+  // Pass data to the page via props
+  return { props: { traders } };
 }
 
 export default Checkout;

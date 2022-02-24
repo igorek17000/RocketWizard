@@ -1,0 +1,316 @@
+.faqCard {
+  margin-top: 3rem;
+  background-color: var(--card-bg);
+  border: 1px solid;
+  border-color: var(--border);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  height: fit-content;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 3rem;
+  color: black;
+}
+
+.faqComponent {
+  margin-top: 3rem;
+  background-color: var(--card-bg);
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 3rem;
+  color: black;
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .articles {
+    margin-top: 2rem;
+    margin-right: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    p {
+      margin-right: auto;
+      font-size: 0.9rem;
+      span {
+        font-weight: 600;
+      }
+    }
+
+    .articleGrid {
+      margin-top: 0.5rem;
+      width: 60%;
+      display: -ms-grid;
+      display: grid;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      place-items: center;
+      -ms-grid-columns: (minmax(20em, 1fr)) [auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+      -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+      grid-column-gap: 1em;
+      grid-row-gap: 1em;
+
+      .article {
+        width: 100%;
+        padding: 2rem;
+        background-color: #efe2ff;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        cursor: pointer;
+        transition: 0.25s ease-in-out;
+        height: 12rem;
+
+        &:hover {
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+          background-color: darken(#efe2ff, 5%);
+        }
+
+        img {
+          height: 6rem;
+          margin-bottom: 1rem;
+        }
+
+        p {
+          font-weight: 600;
+          color: #434343;
+          font-size: 0.95rem;
+          margin-right: 0;
+        }
+      }
+
+      .cantFind {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 12rem;
+        place-content: space-between;
+
+        .top {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+
+          svg {
+            opacity: 0.5;
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+
+          h3 {
+            margin-top: 0.5rem;
+            text-align: center;
+          }
+        }
+
+        .body {
+          display: flex;
+          align-items: center;
+          place-content: space-between;
+          width: 100%;
+
+          .block {
+            justify-content: center;
+            width: 48%;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            background-color: #d3b1fc;
+            height: 7rem;
+            cursor: pointer;
+            transition: 0.25s ease-in-out;
+
+            &:hover {
+              box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+              background-color: darken(#d3b1fc, 5%);
+            }
+
+            svg {
+              height: 1.8rem;
+              width: 1.8rem;
+              margin-bottom: 0.5rem;
+            }
+
+            h4 {
+              font-size: 0.9rem;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .qAndLinks {
+    width: 70%;
+    margin-top: 4rem;
+    display: flex;
+    align-items: flex-start;
+    place-content: space-between;
+
+    .popularQuestions,
+    .links {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+
+      .title {
+        position: relative;
+        margin-bottom: 0.5rem;
+
+        svg {
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translate(-150%, -50%);
+          opacity: 0.5;
+        }
+
+        h3 {
+          font-weight: 600;
+          font-size: 1.2rem;
+        }
+      }
+
+      ul {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        list-style-type: none;
+
+        li {
+          margin-top: 1rem;
+          font-size: 1rem;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .find {
+    margin-top: 5rem;
+    width: 100%;
+    background-color: #efe2ff;
+    padding: 1.5rem 3rem;
+    display: flex;
+    align-items: center;
+    place-content: space-between;
+    h3 {
+      font-size: 1rem;
+    }
+
+    .likes {
+      display: flex;
+      align-items: center;
+      .like,
+      .dislike {
+        display: flex;
+        align-items: center;
+        user-select: none;
+
+        p {
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+
+        svg {
+          margin-left: 0.5rem;
+          width: 1.6rem;
+          height: 1.6rem;
+          cursor: pointer;
+        }
+      }
+
+      .dislike {
+        margin-left: 2rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .faqComponent {
+    .qAndLinks {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+
+      .links {
+        margin-top: 2rem;
+      }
+
+      .links,
+      .popularQuestions {
+        .title {
+          display: flex;
+          align-items: center;
+          svg {
+            margin-right: 0.5rem;
+            position: relative;
+            transform: translate(0%, 0%);
+          }
+
+          h3 {
+            text-align: center;
+          }
+        }
+
+        align-items: center;
+        ul {
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .faqComponent {
+    .find {
+      flex-direction: column;
+
+      h3 {
+        text-align: center;
+      }
+
+      .likes {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .faqComponent {
+    padding: 1rem;
+
+    h1 {
+      font-size: 1.7rem;
+      text-align: center;
+    }
+
+    .articles {
+      .articleGrid {
+        width: 100%;
+        -ms-grid-columns: (minmax(12em, 1fr)) [auto-fit];
+        grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+      }
+    }
+  }
+}

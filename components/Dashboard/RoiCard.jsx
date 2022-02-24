@@ -44,13 +44,11 @@ const customStyles = {
   }),
 };
 
-function RoiCard() {
+function RoiCard({ balance }) {
   const [timeframe, setTimeframe] = useState(options[0]);
   const [percentageChange, setPercentageChange] = useState(0);
 
-  const [chartData] = useState([
-    600, 500, 595, 530, 585, 430, 620, 250, 490, 300, 800,
-  ]);
+  const [chartData, setChartData] = useState(balance.daily);
 
   const getPercentageChange = () => {
     let end = chartData[chartData.length - 1];
@@ -58,21 +56,24 @@ function RoiCard() {
 
     let change = (end / start) * 100;
 
-    console.log(change);
-
     setPercentageChange(Math.round(change * 100) / 100);
   };
 
   const changeTimeframe = (value) => {
     setTimeframe(value);
-    getPercentageChange();
+
+    if (value.value === "daily") {
+      setChartData(balance.daily);
+    } else if (value.value === "weekly") {
+      setChartData(balance.weekly);
+    } else {
+      setChartData(balance.monthly);
+    }
   };
 
   useEffect(() => {
     getPercentageChange();
-  }, []);
-
-  console.log(process.env.HOST);
+  }, [chartData]);
 
   return (
     <main className={styles.roiCard}>
@@ -88,11 +89,7 @@ function RoiCard() {
       </section>
       <section className={styles.body}>
         <div className={styles.values}>
-          <h2>
-            {" "}
-            {percentageChange > 0 && "+"}
-            {percentageChange}%
-          </h2>
+          <h2> {percentageChange}%</h2>
         </div>
         <div className={styles.graph}>
           <LineChart chartData={chartData} color="#f0b207" />

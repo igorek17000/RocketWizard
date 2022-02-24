@@ -73,6 +73,7 @@ export default function App({
         fill: false,
         cubicInterpolationMode: "monotone",
         tension: 0.4,
+        pointRadius: 0,
       },
     ],
   };

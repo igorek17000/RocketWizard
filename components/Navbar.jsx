@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Navbar.module.scss";
 
 import { useRouter } from "next/router";
@@ -20,8 +20,6 @@ import { useTheme } from "next-themes";
 
 export function MobileMenu({ links, close }) {
   const { data: session, status } = useSession();
-
-  console.log("SESSION: ", session);
 
   return (
     <div className={styles.mobileMenu}>
@@ -86,6 +84,8 @@ function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const [render, setRender] = useState(false);
+
   const { theme, setTheme } = useTheme();
 
   const ref = useDetectClickOutside({
@@ -96,7 +96,12 @@ function Navbar() {
     },
   });
 
-  const [blacklist] = useState(["/login", "/register"]);
+  const [blacklist] = useState([
+    "/login",
+    "/register",
+    "/complete-registration",
+    "/account-created",
+  ]);
 
   const [links] = useState([
     {
@@ -119,6 +124,10 @@ function Navbar() {
       name: "Contact Us",
       link: "/contact",
     },
+    {
+      name: "FAQ",
+      link: "/faq",
+    },
   ]);
 
   const mobileMenuVariants = {
@@ -131,18 +140,30 @@ function Navbar() {
     closed: { opacity: 0, display: "none" },
   };
 
-  if (blacklist.includes(router.pathname) || !theme) return null;
+  const [logoSrc, setLogoSrc] = useState("logo_light.svg");
+  const [pfpSrc, setPfpSrc] = useState(
+    session && session.user.image
+      ? session.user.image
+      : "/images/navbar/nopfp.svg"
+  );
 
-  return (
+  useEffect(() => {
+    setLogoSrc(theme === "dark" ? "logo_dark.svg" : "logo_light.svg");
+  }, [theme]);
+
+  useEffect(() => {
+    if (session) {
+      setPfpSrc(
+        session.user.image ? session.user.image : "/images/navbar/nopfp.svg"
+      );
+    }
+  }, [session]);
+
+  return !blacklist.includes(router.pathname) && theme ? (
     <nav className={styles.nav}>
       <section className={styles.left}>
         <Link href="/">
-          <img
-            src={`/images/${
-              theme === "dark" ? "logo_dark.svg" : "logo_light.svg"
-            }`}
-            alt="Logo"
-          />
+          <img src={`/images/${logoSrc}`} alt="Logo" />
         </Link>
         <ul className={styles.links}>
           {links.map((link, i) => {
@@ -185,11 +206,7 @@ function Navbar() {
           <div className={styles.user}>
             <h3>{session.user.name}</h3>
             <motion.img
-              src={
-                session.user.image
-                  ? session.user.image
-                  : "/images/navbar/nopfp.svg"
-              }
+              src={pfpSrc}
               alt="Profile icon"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -244,7 +261,7 @@ function Navbar() {
         )}
       </section>
     </nav>
-  );
+  ) : null;
 }
 
 export default Navbar;

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="366" height="92" viewBox="0 0 366 92">
+  <ellipse id="Ellipse_1" data-name="Ellipse 1" cx="27.5" cy="27" rx="27.5" ry="27" transform="translate(9)" fill="#731bde"/>
+  <ellipse id="Ellipse_205" data-name="Ellipse 205" cx="27.5" cy="27" rx="27.5" ry="27" transform="translate(156)" fill="#731bde"/>
+  <ellipse id="Ellipse_206" data-name="Ellipse 206" cx="27.5" cy="27" rx="27.5" ry="27" transform="translate(302)" fill="#731bde"/>
+  <path id="ic_done_24px" d="M12.2,22.26l-6.6-6.6-2.2,2.2,8.8,8.8L31.063,7.8l-2.2-2.2Z" transform="translate(19.6 10.4)" fill="#fff"/>
+  <path id="ic_done_24px-2" data-name="ic_done_24px" d="M12.2,22.26l-6.6-6.6-2.2,2.2,8.8,8.8L31.063,7.8l-2.2-2.2Z" transform="translate(166.6 10.4)" fill="#fff"/>
+  <path id="ic_done_24px-3" data-name="ic_done_24px" d="M12.2,22.26l-6.6-6.6-2.2,2.2,8.8,8.8L31.063,7.8l-2.2-2.2Z" transform="translate(312.6 10.4)" fill="#fff"/>
+  <text id="Password" transform="translate(0 88)" fill="#051d0d" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Password</tspan></text>
+  <text id="Email" transform="translate(163 88)" fill="#051d0d" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Email</tspan></text>
+  <line id="Line_2" data-name="Line 2" x2="67.655" transform="translate(220.046 28.435)" fill="none" stroke="#731bde" stroke-linecap="round" stroke-width="4"/>
+  <path id="Path_6" data-name="Path 6" d="M0,0H67.655" transform="translate(75.071 28.435)" fill="none" stroke="#731bde" stroke-linecap="round" stroke-width="4"/>
+  <text id="Completed" transform="translate(288 87)" fill="#051d0d" font-size="16" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Completed</tspan></text>
+</svg>

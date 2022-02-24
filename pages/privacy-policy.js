@@ -1,9 +1,15 @@
 import React from "react";
+import Head from "next/head";
 import styles from "../styles/PrivacyPolicy.module.scss";
 
 function privacyPolicy() {
   return (
     <main className={styles.privacyPolicy}>
+      <Head>
+        <title>Privacy Policy | Rocket Wizard</title>
+        <meta name="description" content="Make money while sleeping" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <section className={styles.card}>
         <h1>Privacy Policy</h1>
         <p>Last updated: February 20, 2022</p>
