@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import Script from "next/script";
 import styles from "../styles/Checkout.module.scss";
 
 import { useSession } from "next-auth/react";
@@ -355,7 +356,7 @@ function Checkout({ traders }) {
         <title>Checkout | Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
-        <script src="https://unpkg.com/@nowpaymentsio/nowpayments-api-js/dist/nowpayments-api-js.min.js"></script>
+        <Script src="https://unpkg.com/@nowpaymentsio/nowpayments-api-js/dist/nowpayments-api-js.min.js"></Script>
       </Head>
       <ChooseApi
         open={choosingApi}
