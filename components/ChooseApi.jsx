@@ -187,7 +187,9 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
             </div>
             <h3>Choose API</h3>
             <div className={styles.inputContainer}>
-              <label>Your {capitalize(exchange)} API's</label>
+              <label>
+                Your {capitalize(exchange)} {"API's"}
+              </label>
               <Select
                 className={styles.select}
                 styles={customStyles}

@@ -205,7 +205,7 @@ function AddApi({
           />
           {tip && (
             <p className={styles.tip}>
-              Tip: Keep the trader's name in mind while naming your API
+              {"Tip: Keep the trader's name in mind while naming your API"}
             </p>
           )}
         </div>

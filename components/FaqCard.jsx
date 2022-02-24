@@ -29,7 +29,7 @@ function CantFind() {
     <div className={styles.cantFind}>
       <div className={styles.top}>
         <AiOutlineQuestionCircle />
-        <h3>Can't find an answer?</h3>
+        <h3>{"Can't find an answer?"}</h3>
       </div>
       <div className={styles.body}>
         <div className={styles.block}>
