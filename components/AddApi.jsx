@@ -3,6 +3,8 @@ import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
 import styles from "../styles/AddApi.module.scss";
 
+import RiskyTrading from "../components/RiskyTrading";
+
 import { useSession } from "next-auth/react";
 
 import { AiOutlineClose } from "react-icons/ai";
@@ -16,6 +18,7 @@ const options = [
   { value: "okex", label: "Okex" },
   { value: "huobi", label: "Huobi" },
   { value: "kucoin", label: "Kucoin" },
+  { value: "ftx", label: "Ftx" },
 ];
 
 const customStyles = {
@@ -57,6 +60,7 @@ function AddApi({
   forceExchange = null,
   sendApiName,
   tip = false,
+  risky = false,
 }) {
   const [exchange, setExchange] = useState(
     forceExchange ? { value: forceExchange } : null
@@ -65,8 +69,11 @@ function AddApi({
   const [api, setApi] = useState(null);
   const [secret, setSecret] = useState(null);
   const [password, setPassword] = useState(null);
+  const [multiplier, setMultiplier] = useState(1);
 
   const [error, setError] = useState(null);
+
+  const [passwordExchanges] = useState(["okex", "kucoin"]);
 
   const { data: session, status } = useSession();
 
@@ -78,15 +85,6 @@ function AddApi({
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const validateBinanceApi = async () => {
-    const client = Binance({
-      apiKey: api,
-      apiSecret: secret,
-    });
-
-    return true;
-  };
-
   const validateApi = () => {
     return true;
   };
@@ -95,7 +93,7 @@ function AddApi({
     if (!(exchange && name && api && secret)) {
       setError("All fields are required.");
       return false;
-    } else if (exchange.value === "okex" && !password) {
+    } else if (passwordExchanges.includes(exchange.value) && !password) {
       setError("All fields are required.");
       return false;
     } else if (!validateApi()) {
@@ -113,9 +111,10 @@ function AddApi({
         exchange: exchange.value,
         api,
         secret,
+        multiplier,
       };
 
-      if (exchange.value === "okex") {
+      if (passwordExchanges.includes(exchange.value)) {
         key.apiPassword = password;
       }
 
@@ -225,7 +224,7 @@ function AddApi({
             onChange={(e) => setSecret(e.target.value)}
           />
         </div>
-        {exchange && exchange.value === "okex" && (
+        {exchange && passwordExchanges.includes(exchange.value) && (
           <div className={styles.inputContainer}>
             <label htmlFor="secret">API Password</label>
             <input
@@ -234,6 +233,9 @@ function AddApi({
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+        )}
+        {risky && (
+          <RiskyTrading sendSelected={(selected) => setMultiplier(selected)} />
         )}
         {error && <Alert text={error} error={true} />}
         <button onClick={handleAdd}>Add</button>

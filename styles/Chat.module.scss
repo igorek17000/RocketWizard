@@ -1,0 +1,125 @@
+.chat {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  background-color: var(--card-bg);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  width: 20rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: black;
+
+  .header {
+    padding: 0.5rem 1rem;
+    width: 100%;
+    border-radius: 0.5rem 0.5rem 0 0;
+    text-align: center;
+    background-color: #c598fb;
+    color: black;
+    position: relative;
+
+    svg {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      padding: 0.5rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.5rem;
+      transition: 0.25s ease-in-out;
+
+      &:hover {
+        background-color: darken(#c598fb, 5%);
+      }
+    }
+  }
+
+  .messages {
+    padding: 0.5rem 0.3rem 0 0.3rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .message {
+      margin-left: auto;
+      width: fit-content;
+      max-width: 60%;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-end;
+
+      p {
+        background-color: #731bde;
+        padding: 0.5rem 0.3rem;
+        color: white;
+        font-size: 0.9rem;
+        border-radius: 0.5rem 0.5rem 0 0.5rem;
+      }
+
+      img {
+        margin-left: 0.5rem;
+        margin-right: 0.15rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+      }
+    }
+
+    .serverSender {
+      margin-left: 0;
+      margin-right: auto;
+      flex-direction: row-reverse;
+
+      img {
+        margin-left: 0;
+        margin-right: 0.5rem;
+      }
+
+      p {
+        border-radius: 0.5rem 0.5rem 0.5rem 0;
+        background-color: #e0cdf8;
+        color: #731bde;
+      }
+    }
+  }
+
+  .sender {
+    width: 100%;
+    border-top: 1px solid;
+    border-color: rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 100%;
+      border: 1px solid;
+      border-color: var(--border);
+      font-size: 1rem;
+      padding: 0.3rem;
+      border-radius: 0.3rem;
+      background: #f0f0f0;
+      color: black;
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .chat {
+    width: 90%;
+    right: auto;
+    transform: translateX(-100%);
+  }
+}

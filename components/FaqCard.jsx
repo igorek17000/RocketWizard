@@ -17,14 +17,16 @@ import {
 
 function Article({ article }) {
   return (
-    <div className={styles.article}>
-      <img src={`/images/faq/articles/${article.img}`} alt="Article" />
-      <p>{article.title}</p>
-    </div>
+    <Link href={article.href}>
+      <div className={styles.article}>
+        <img src={`/images/faq/articles/${article.img}`} alt="Article" />
+        <p>{article.title}</p>
+      </div>
+    </Link>
   );
 }
 
-function CantFind() {
+function CantFind({ openChat }) {
   return (
     <div className={styles.cantFind}>
       <div className={styles.top}>
@@ -32,11 +34,13 @@ function CantFind() {
         <h3>{"Can't find an answer?"}</h3>
       </div>
       <div className={styles.body}>
-        <div className={styles.block}>
-          <AiOutlineMail />
-          <h4>Email us</h4>
-        </div>
-        <div className={styles.block}>
+        <Link href="mailto:support@rocketwizard.io">
+          <div className={styles.block}>
+            <AiOutlineMail />
+            <h4>Email us</h4>
+          </div>
+        </Link>
+        <div className={styles.block} onClick={openChat}>
           <BsFillChatRightFill />
           <h4>Chat</h4>
         </div>
@@ -45,7 +49,35 @@ function CantFind() {
   );
 }
 
-function FaqCard({ card = true, likeData }) {
+/* 
+    {
+      img: "general.svg",
+      title: "General",
+      href: "/faq/general",
+    },
+    {
+      img: "order.svg",
+      title: "Order issues",
+      href: "/faq/order",
+    },
+    {
+      img: "products.svg",
+      title: "Products & Services",
+      href: "/faq/products",
+    },
+    {
+      img: "payment.svg",
+      title: "Payments",
+      href: "/faq/payment",
+    },
+    {
+      img: "tech.svg",
+      title: "Technical issues",
+      href: "/faq/tech",
+    },
+*/
+
+function FaqCard({ card = true, likeData, articleCount, openChat = () => {} }) {
   const [liked, setLiked] = useState(likeData.userLiked || false);
   const [disliked, setDisliked] = useState(likeData.userDisliked || false);
 
@@ -56,24 +88,14 @@ function FaqCard({ card = true, likeData }) {
 
   const [articles] = useState([
     {
-      img: "general.svg",
-      title: "General",
-    },
-    {
-      img: "order.svg",
-      title: "Order issues",
-    },
-    {
       img: "products.svg",
       title: "Products & Services",
+      href: "/faq/products",
     },
     {
       img: "payment.svg",
       title: "Payments",
-    },
-    {
-      img: "tech.svg",
-      title: "Technical issues",
+      href: "/faq/payment",
     },
   ]);
 
@@ -153,13 +175,13 @@ function FaqCard({ card = true, likeData }) {
       <h1>Frequently Asked Questions</h1>
       <div className={styles.articles}>
         <p>
-          There are <span>89 articles</span> in our platform.
+          There are <span>{articleCount || 0} articles</span> in our platform.
         </p>
         <div className={styles.articleGrid}>
           {articles.map((article, i) => (
             <Article article={article} key={i} />
           ))}
-          <CantFind />
+          <CantFind openChat={openChat} />
         </div>
       </div>
       <div className={styles.qAndLinks}>
@@ -183,9 +205,6 @@ function FaqCard({ card = true, likeData }) {
           <ul>
             <li>
               <Link href="/contact">Contact form</Link>
-            </li>
-            <li>
-              <Link href="/reviews">Reviews</Link>
             </li>
             <li>
               <Link href="/orders">Your orders</Link>

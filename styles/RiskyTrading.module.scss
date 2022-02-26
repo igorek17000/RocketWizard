@@ -1,0 +1,59 @@
+.risky {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  background-color: rgb(235, 137, 137);
+  border: 2px solid red;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: white;
+  margin-top: 1rem;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0.2rem;
+  }
+
+  h4 {
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+    font-weight: 500;
+  }
+
+  p {
+    font-weight: normal;
+    font-size: 0.8rem;
+  }
+
+  .buttons {
+    margin-top: 0.5rem;
+    width: 100%;
+    display: -ms-grid;
+    display: grid;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    place-items: center;
+    -ms-grid-columns: (minmax(3em, 1fr)) [auto-fit];
+    grid-template-columns: repeat(auto-fit, minmax(3em, 1fr));
+    -ms-grid-rows: 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+
+    button {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+      border: 1px solid red;
+      background-color: darken(rgb(235, 137, 137), 5%);
+
+      &:hover {
+        background-color: red;
+      }
+    }
+  }
+}

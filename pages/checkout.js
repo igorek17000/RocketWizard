@@ -216,19 +216,24 @@ function Checkout({ traders }) {
       );
   };
 
-  const checkPayment = async () => {
-    if (!crypto || fullPrice == null) {
-      return false;
-    }
+  const getOrderID = async (apiName) => {
+    return `${traderId} ${plan.name} ${quantity} ${session.user.email} ${apiName}`;
+  };
+
+  const pay = async (apiName) => {
+    const orderId = await getOrderID(apiName);
+
+    console.log("!!!ORDER ID: ", orderId);
 
     const config = {
       price_amount: centRound(fullPrice),
       price_currency: "usd",
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
-      order_id: `${plan.name}-${traderId}-${quantity}`,
+      order_id: orderId,
       success_url: "https://rocket-wizard.vercel.app/checkout/success",
       cancel_url: "https://rocket-wizard.vercel.app/checkout/fail",
+      ipn_callback_url: "https://rocket-wizard.vercel.app/api/payment",
     };
 
     const payment = await npApi.createPayment(config);
@@ -237,7 +242,7 @@ function Checkout({ traders }) {
 
     const invoice = await npApi.createInvoice(config);
 
-    router.replace(invoice.invoice_url);
+    // router.replace(invoice.invoice_url);
 
     console.log("INVOICE: ", invoice);
 
@@ -258,14 +263,13 @@ function Checkout({ traders }) {
         "Please agree to terms and conditions before placing the order."
       );
       return false;
-    } else if (!checkPayment()) {
+    } else if (!crypto || fullPrice == null) {
       setMainError("Payment info is required.");
       return false;
     }
 
     setMainError(null);
     setChoosingApi(true);
-    setSuccess("Congratulations! Your order is complete!");
     return true;
   };
 
@@ -362,7 +366,7 @@ function Checkout({ traders }) {
         open={choosingApi}
         handleClose={() => setChoosingApi(false)}
         traderId={traderId}
-        sendApiName={(apiName) => purchase(apiName)}
+        sendApiName={(apiName) => pay(apiName)}
       />
       <section className={styles.card}>
         <div className={styles.header}>

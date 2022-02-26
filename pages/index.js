@@ -11,7 +11,7 @@ import { Typewriter } from "react-simple-typewriter";
 
 import { useTheme } from "next-themes";
 
-export default function Home({ likeData }) {
+export default function Home({ likeData, articleCount }) {
   const { theme } = useTheme();
 
   const [cards] = useState([
@@ -101,30 +101,43 @@ export default function Home({ likeData }) {
           </Link>
         </section>
       </main>
-      <FaqCard card={false} likeData={likeData} />
+      <FaqCard card={false} articleCount={articleCount} likeData={likeData} />
     </div>
   );
 }
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
+
+  const articlesRes = await fetch(
+    "https://rocket-wizard.vercel.app/faqData.json"
+  );
+
+  const articleData = await articlesRes.json();
+
+  let articleCount = articleData
+    .map((article) => article.rows.length)
+    .reduce((a, b) => a + b);
+
   if (session) {
-    const res = await fetch(
+    const likeRes = await fetch(
       `https://rocket-wizard.vercel.app/api/faq-likes?email=${session.user.email}`
     );
 
-    const likeData = await res.json();
+    const likeData = await likeRes.json();
 
-    return { props: { likeData } };
+    return { props: { likeData, articleCount } };
   } else {
+    const likeRes = await fetch(
+      `https://rocket-wizard.vercel.app/api/faq-likes`
+    );
+
+    const likeData = await likeRes.json();
+
     return {
       props: {
-        likeData: {
-          likes: 0,
-          dislikes: 0,
-          userLiked: false,
-          userDisliked: false,
-        },
+        likeData,
+        articleCount,
       },
     };
   }

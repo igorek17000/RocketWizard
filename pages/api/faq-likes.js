@@ -8,14 +8,25 @@ export default async function handler(req, res) {
 
     const data = await db.collection("faq").findOne({ id: "likes" });
 
-    const user = await db.collection("users").findOne({ email });
+    let user, likeData;
 
-    const likeData = {
-      likes: data.likes,
-      dislikes: data.dislikes,
-      userLiked: user.faqLiked || false,
-      userDisliked: user.faqDisliked || false,
-    };
+    if (email) {
+      user = await db.collection("users").findOne({ email });
+
+      likeData = {
+        likes: data.likes,
+        dislikes: data.dislikes,
+        userLiked: user.faqLiked || false,
+        userDisliked: user.faqDisliked || false,
+      };
+    } else {
+      likeData = {
+        likes: data.likes,
+        dislikes: data.dislikes,
+        userLiked: false,
+        userDisliked: false,
+      };
+    }
 
     return res.json(likeData);
   } else if (req.method === "POST") {

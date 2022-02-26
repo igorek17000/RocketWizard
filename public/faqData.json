@@ -1,0 +1,43 @@
+[
+  {
+    "id": "payment",
+    "title": "Payment",
+    "rows": [
+      {
+        "title": "What type of crypto currencies do you accept?",
+        "content": "Currently we accept Bitcoin (BTC), LiteCoin (LTC), DogeCoin (DOGE) and USDT. We are going to add more coins in the near future."
+      },
+      {
+        "title": "Can i pay with credit card or PayPal?",
+        "content": "Payments with credit card and PayPal will be possible in the near future."
+      },
+      {
+        "title": "What is NOWPayments?",
+        "content": "NOWPayments is a crypto payment gateaway, more info at NOWPayments.com"
+      }
+    ]
+  },
+  {
+    "id": "order",
+    "title": "Order Issues",
+    "rows": []
+  },
+  {
+    "id": "products",
+    "title": "Product and services",
+    "rows": [
+      {
+        "title": "Can i purchase a subscription to access all traders at once?",
+        "content": "Bundle subscriptions are not available."
+      },
+      {
+        "title": "Why do traders have different pricings from one another?",
+        "content": "Pricings are directly managed by the trader, We do not control them."
+      },
+      {
+        "title": "Does cheaper mean less effective?",
+        "content": "No, the prices are not based on the skill level of the trader."
+      }
+    ]
+  }
+]

@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
 
 import Select from "react-select";
+import RiskyTrading from "./RiskyTrading";
 
 const customStyles = {
   control: () => ({
@@ -54,6 +55,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
   const [addingApi, setAddingApi] = useState(false);
   const [loading, setLoading] = useState(true);
   const [exchange, setExchange] = useState(null);
+  const [multiplier, setMultiplier] = useState(1);
 
   const changeApi = (value) => {
     setApi(value);
@@ -71,6 +73,29 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
   const handleChoose = async () => {
     if (api) {
       sendApiName(api.value);
+
+      try {
+        console.log("MULTIPLIER: ", multiplier);
+
+        const response = await fetch("/api/api-add-risk", {
+          method: "POST",
+          body: JSON.stringify({
+            email: session.user.email,
+            apiName: api.value,
+            multiplier,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const json = await response.json();
+
+        if (!response.ok) {
+          setError(json.message);
+          throw new Error(json.message || "Something went wrong");
+        }
+      } catch (error) {}
     }
     handleClose();
   };
@@ -162,6 +187,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
           forceExchange={exchange}
           sendApiName={(name) => sendApiName(name)}
           tip={true}
+          risky={true}
         />
       )}
 
@@ -201,6 +227,9 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
             <p>
               Or <span onClick={addApi}>Create a new one</span>
             </p>
+            <RiskyTrading
+              sendSelected={(selected) => setMultiplier(selected)}
+            />
             {error && <Alert text={error} error={true} />}
             <button onClick={handleChoose}>Continue</button>
           </div>
