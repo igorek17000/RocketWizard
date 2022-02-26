@@ -20,6 +20,7 @@
     "binance": "^2.0.27",
     "binance-api-node": "^0.11.31",
     "chart.js": "^3.7.1",
+    "crypto": "^1.0.1",
     "cursor-position": "^1.0.1",
     "framer-motion": "^6.2.6",
     "lighten-darken-color": "^1.0.0",

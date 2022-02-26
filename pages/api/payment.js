@@ -1,4 +1,5 @@
 import { connectToDatabase } from "../../lib/mongodb";
+const crypto = require("crypto");
 
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -17,8 +18,11 @@ export default async function handler(req, res) {
     console.log("PAYMENT STATUS: ", payment.payment_status);
     console.log("--------------------");
 
-    const hmac = crypto.createHmac("sha512", notificationsKey);
-    hmac.update(JSON.stringify(params, Object.keys(params).sort()));
+    const hmac = crypto.createHmac(
+      "sha512",
+      "e3UcYwrucI9N79fb/NG1FQpvxuBOmGWT"
+    );
+    hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
 
     console.log("HEADER: ", req.header);
