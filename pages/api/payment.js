@@ -92,6 +92,8 @@ export default async function handler(req, res) {
         multiplier: api.multiplier,
       };
 
+      console.log("SUBSCRIBER: ", subscriber, ", TRADER ID: ", traderId);
+
       db.collection("traders").updateOne(
         { id: traderId },
         { $addToSet: { subscribers: subscriber } }
