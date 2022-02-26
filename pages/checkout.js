@@ -98,8 +98,8 @@ const cryptoOptions = [
     label: "ETH",
   },
   {
-    value: "usdt",
-    label: "USDT",
+    value: "USDTTRC20",
+    label: "USDTTRC20",
   },
 ];
 
