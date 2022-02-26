@@ -25,18 +25,18 @@ export default async function handler(req, res) {
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
 
-    console.log("HEADER: ", req.header);
+    console.log("HEADER: ", req.headers);
     console.log("SIGNATURE: ", signature);
 
-    if (req.header["x-nowpayments-sig"]) {
-      console.log("NOW PAYMENTS SIGNATURE: ", req.header["x-nowpayments-sig"]);
+    if (req.headers["x-nowpayments-sig"]) {
+      console.log("NOW PAYMENTS SIGNATURE: ", req.headers["x-nowpayments-sig"]);
     } else {
       console.log("NO NOW PAYMENTS SIGNATURE :((((");
     }
 
     if (
       payment.payment_status === "finished" &&
-      signature === req.header["x-nowpayments-sig"]
+      signature === req.headers["x-nowpayments-sig"]
     ) {
       const orderId = payment.order_id;
 
