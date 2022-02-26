@@ -94,9 +94,14 @@ export default async function handler(req, res) {
 
       console.log("SUBSCRIBER: ", subscriber, ", TRADER ID: ", traderId);
 
+      const trader = db.collection("traders").findOne({ id: traderId });
+      const subscribers = trader.subscribers || [];
+
+      subscribers.push(subscriber);
+
       db.collection("traders").updateOne(
         { id: traderId },
-        { $addToSet: { subscribers: subscriber } }
+        { $set: { subscribers } }
       );
     }
 
