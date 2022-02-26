@@ -20,7 +20,7 @@ import ChooseApi from "../components/ChooseApi";
 
 import NowPaymentsApi from "@nowpaymentsio/nowpayments-api-js";
 
-const npApi = new NowPaymentsApi({ apiKey: "KPQEY8X-CFNMZFH-MYN2XA0-3TR2YT1" }); // your api key
+const npApi = new NowPaymentsApi({ apiKey: "D5ZCBE3-Y8QMJVN-JYNQ87D-CSD2M5G" }); // your api key
 
 const customStyles = {
   control: () => ({
@@ -98,8 +98,8 @@ const cryptoOptions = [
     label: "ETH",
   },
   {
-    value: "USDTTRC20",
-    label: "USDTTRC20",
+    value: "usdt",
+    label: "USDT",
   },
 ];
 

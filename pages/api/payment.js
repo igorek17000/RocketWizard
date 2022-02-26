@@ -17,7 +17,23 @@ export default async function handler(req, res) {
     console.log("PAYMENT STATUS: ", payment.payment_status);
     console.log("--------------------");
 
-    if (payment.payment_status === "finished") {
+    const hmac = crypto.createHmac("sha512", notificationsKey);
+    hmac.update(JSON.stringify(params, Object.keys(params).sort()));
+    const signature = hmac.digest("hex");
+
+    console.log("HEADER: ", req.header);
+    console.log("SIGNATURE: ", signature);
+
+    if (req.header["x-nowpayments-sig"]) {
+      console.log("NOW PAYMENTS SIGNATURE: ", req.header["x-nowpayments-sig"]);
+    } else {
+      console.log("NO NOW PAYMENTS SIGNATURE :((((");
+    }
+
+    if (
+      payment.payment_status === "finished" &&
+      signature === req.header["x-nowpayments-sig"]
+    ) {
       const orderId = payment.order_id;
 
       const [traderId, planName, quantity, email, apiName] = orderId.split(" ");
