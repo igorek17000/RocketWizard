@@ -236,15 +236,9 @@ function Checkout({ traders }) {
       ipn_callback_url: "https://rocket-wizard.vercel.app/api/payment",
     };
 
-    const payment = await npApi.createPayment(config);
-
-    console.log("PAYMENT: ", payment);
-
     const invoice = await npApi.createInvoice(config);
 
     router.replace(invoice.invoice_url);
-
-    console.log("INVOICE: ", invoice);
 
     return true;
   };
