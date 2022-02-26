@@ -242,7 +242,7 @@ function Checkout({ traders }) {
 
     const invoice = await npApi.createInvoice(config);
 
-    // router.replace(invoice.invoice_url);
+    router.replace(invoice.invoice_url);
 
     console.log("INVOICE: ", invoice);
 
