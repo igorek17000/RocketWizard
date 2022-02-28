@@ -75,7 +75,6 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
       sendApiName(api.value);
 
       try {
-        console.log("MULTIPLIER: ", multiplier);
 
         const response = await fetch("/api/api-add-risk", {
           method: "POST",
@@ -102,7 +101,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
 
   const getExchange = async () => {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/get-exchange?traderId=${traderId}`
+      `http://localhost:3000/api/get-exchange?traderId=${traderId}`
     );
 
     const json = await res.json();
@@ -112,7 +111,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
 
   const getAPIs = async () => {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+      `http://localhost:3000/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();

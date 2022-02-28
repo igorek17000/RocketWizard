@@ -18,6 +18,15 @@ import {
 } from "../components/Dashboard";
 import GuestMessage from "../components/Dashboard/GuestMessage";
 
+/*
+DEAL:     {
+      name: "Subscription 40% Off",
+      description:
+        "Get your subscription with 40% discount! Hurry up time is running out!",
+      bgColor: "#FCDF90",
+    },
+*/
+
 const customStyles = {
   control: () => ({
     // none of react-select's styles are passed to <Control />
@@ -49,22 +58,36 @@ const customStyles = {
   }),
 };
 
-function Dashboard({ subscriptions, balance }) {
+function Dashboard({ subscriptions }) {
   const [api, setApi] = useState(null);
   const [options, setOptions] = useState([]);
+
+  const [balance, setBalance] = useState({
+    daily: [],
+    weekly: [],
+    monthly: [],
+  });
 
   const [loading, setLoading] = useState(true);
 
   const { data: session, status } = useSession();
 
-  const changeApi = (value) => {
+  const changeApi = async (value) => {
     setApi(value);
+
+    const res = await fetch(
+      `http://localhost:3000/api/balance?email=${session.user.email}&apiName=${value.value}`
+    );
+
+    const balance = await res.json();
+
+    setBalance(balance);
   };
 
   const getAPIs = async () => {
     if (session) {
       const res = await fetch(
-        `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+        `http://localhost:3000/api/apiKeys?email=${session.user.email}`
       );
 
       const keys = await res.json();
@@ -83,33 +106,14 @@ function Dashboard({ subscriptions, balance }) {
   };
 
   useEffect(() => {
-    options.length !== 0 && setLoading(false);
+    options && setLoading(false);
   }, [options]);
 
   useEffect(() => {
     getAPIs();
   }, [session]);
 
-  const [deals] = useState([
-    {
-      name: "Subscription 40% Off",
-      description:
-        "Get your subscription with 40% discount! Hurry up time is running out!",
-      bgColor: "#C091F9",
-    },
-    {
-      name: "Subscription 40% Off",
-      description:
-        "Get your subscription with 40% discount! Hurry up time is running out!",
-      bgColor: "#A1FFCD",
-    },
-    {
-      name: "Subscription 40% Off",
-      description:
-        "Get your subscription with 40% discount! Hurry up time is running out!",
-      bgColor: "#FCDF90",
-    },
-  ]);
+  const [deals] = useState([]);
 
   const getGreeting = () => {
     const hours = new Date().getHours();
@@ -207,21 +211,17 @@ function Dashboard({ subscriptions, balance }) {
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
   if (session) {
-    const subRes = await fetch(
-      `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
-    );
-    const balanceRes = await fetch(
-      `https://rocket-wizard.vercel.app/api/balance?email=${session.user.email}`
+    const res = await fetch(
+      `http://localhost:3000/api/subscribe?email=${session.user.email}`
     );
 
-    const subs = await subRes.json();
-    const balance = await balanceRes.json();
+    const subs = await res.json();
 
     const plans = subs.map((sub) => sub.plan);
 
-    return { props: { subscriptions: plans, balance: balance } };
+    return { props: { subscriptions: plans } };
   } else {
-    return { props: { subscriptions: [], balance: {} } };
+    return { props: { subscriptions: [] } };
   }
 }
 

@@ -122,7 +122,7 @@
 
           .block {
             justify-content: center;
-            width: 48%;
+            width: 100%;
             padding: 0.5rem;
             display: flex;
             align-items: center;
@@ -239,6 +239,21 @@
 
       .dislike {
         margin-left: 2rem;
+      }
+    }
+  }
+
+  .footer {
+    margin-top: 2rem;
+
+    p {
+      font-weight: lighter;
+      padding: 0.5rem;
+
+      span {
+        margin-left: 1rem;
+        background-color: #efe2ff;
+        padding: 0.5rem;
       }
     }
   }

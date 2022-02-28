@@ -6,7 +6,7 @@ import { BsShieldFillCheck } from "react-icons/bs";
 
 import ProgressBar from "./ProgressBar";
 
-function TraderCard({ trader, i }) {
+function TraderCard({ trader }) {
   return (
     <main className={styles.traderCard}>
       {/* Header Section */}

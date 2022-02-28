@@ -223,17 +223,15 @@ function Checkout({ traders }) {
   const pay = async (apiName) => {
     const orderId = await getOrderID(apiName);
 
-    console.log("!!!ORDER ID: ", orderId);
-
     const config = {
       price_amount: centRound(fullPrice),
       price_currency: "usd",
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "https://rocket-wizard.vercel.app/checkout/success",
-      cancel_url: "https://rocket-wizard.vercel.app/checkout/fail",
-      ipn_callback_url: "https://rocket-wizard.vercel.app/api/payment",
+      success_url: "http://localhost:3000/?orderSuccess=true",
+      cancel_url: "http://localhost:3000/checkout/fail",
+      ipn_callback_url: "http://localhost:3000/api/payment",
     };
 
     const invoice = await npApi.createInvoice(config);
@@ -265,40 +263,6 @@ function Checkout({ traders }) {
     setMainError(null);
     setChoosingApi(true);
     return true;
-  };
-
-  const purchase = async (apiName) => {
-    if (!session) return;
-
-    try {
-      const endDate = new Date();
-      endDate.setMonth(endDate.getMonth() + 1);
-
-      const planObj = {
-        ...plan,
-        end: endDate,
-      };
-
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        body: JSON.stringify({
-          email: session.user.email,
-          traderId,
-          quantity,
-          plan: planObj,
-          apiName,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        throw new Error(json.message || "Something went wrong");
-      }
-    } catch (error) {}
   };
 
   const applyDiscountCode = async () => {
@@ -622,7 +586,7 @@ function Checkout({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
+  const res = await fetch(`http://localhost:3000/api/traders`);
 
   const traders = await res.json();
 

@@ -7,11 +7,18 @@ import { ThemeProvider } from "next-themes";
 
 import { Scrollbar } from "react-scrollbars-custom";
 
-function MyApp({ traders, Component, pageProps: { session, ...pageProps } }) {
+import dynamic from "next/dynamic";
+
+const ChatWithNoSSR = dynamic(() => import("../components/Chat"), {
+  ssr: false,
+});
+
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <ThemeProvider enableSystem={false}>
       <SessionProvider session={session}>
         <Scrollbar style={{ width: "100vw", height: "100vh" }}>
+          <ChatWithNoSSR />
           <Navbar />
           <Component {...pageProps} />
         </Scrollbar>

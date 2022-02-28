@@ -136,7 +136,7 @@ export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
   if (session) {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/auth/has-password?email=${session.user.email}`
+      `http://localhost:3000/api/auth/has-password?email=${session.user.email}`
     );
 
     const hasPassword = await res.json();

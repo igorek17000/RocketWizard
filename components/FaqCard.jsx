@@ -26,7 +26,7 @@ function Article({ article }) {
   );
 }
 
-function CantFind({ openChat }) {
+function CantFind() {
   return (
     <div className={styles.cantFind}>
       <div className={styles.top}>
@@ -40,10 +40,6 @@ function CantFind({ openChat }) {
             <h4>Email us</h4>
           </div>
         </Link>
-        <div className={styles.block} onClick={openChat}>
-          <BsFillChatRightFill />
-          <h4>Chat</h4>
-        </div>
       </div>
     </div>
   );
@@ -77,7 +73,7 @@ function CantFind({ openChat }) {
     },
 */
 
-function FaqCard({ card = true, likeData, articleCount, openChat = () => {} }) {
+function FaqCard({ card = true, likeData, articleCount }) {
   const [liked, setLiked] = useState(likeData.userLiked || false);
   const [disliked, setDisliked] = useState(likeData.userDisliked || false);
 
@@ -181,7 +177,7 @@ function FaqCard({ card = true, likeData, articleCount, openChat = () => {} }) {
           {articles.map((article, i) => (
             <Article article={article} key={i} />
           ))}
-          <CantFind openChat={openChat} />
+          <CantFind />
         </div>
       </div>
       <div className={styles.qAndLinks}>
@@ -205,9 +201,6 @@ function FaqCard({ card = true, likeData, articleCount, openChat = () => {} }) {
           <ul>
             <li>
               <Link href="/contact">Contact form</Link>
-            </li>
-            <li>
-              <Link href="/orders">Your orders</Link>
             </li>
           </ul>
         </div>
@@ -233,6 +226,11 @@ function FaqCard({ card = true, likeData, articleCount, openChat = () => {} }) {
           </div>
         </div>
       </div>
+      <footer className={styles.footer}>
+        <p>
+          Rocket Wizard <span>2022</span>
+        </p>
+      </footer>
     </section>
   );
 }

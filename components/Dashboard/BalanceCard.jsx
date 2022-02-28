@@ -75,6 +75,10 @@ function BalanceCard({ balance }) {
     getPercentageChange();
   }, [chartData]);
 
+  useEffect(() => {
+    setChartData(balance.daily);
+  }, [balance]);
+
   return (
     <main className={styles.balanceCard}>
       <section className={styles.header}>
@@ -87,21 +91,27 @@ function BalanceCard({ balance }) {
           defaultValue={timeframe}
         />
       </section>
-      <section className={styles.body}>
-        <div className={styles.values}>
-          <h2>$4,321</h2>
-          <p style={{ color: percentageChange > 0 ? "#39c491" : "#e96d69" }}>
-            {percentageChange > 0 && "+"}
-            {percentageChange}%
-          </p>
-        </div>
-        <div className={styles.graph}>
-          <LineChart
-            chartData={chartData}
-            color={percentageChange > 0 ? "#39c491" : "#e96d69"}
-          />
-        </div>
-      </section>
+      {chartData && chartData.length >= 5 ? (
+        <section className={styles.body}>
+          <div className={styles.values}>
+            <h2>${Math.round(chartData[chartData.length - 1] * 100) / 100}</h2>
+            <p style={{ color: percentageChange >= 0 ? "#39c491" : "#e96d69" }}>
+              {percentageChange >= 0 && "+"}
+              {percentageChange}%
+            </p>
+          </div>
+          <div className={styles.graph}>
+            <LineChart
+              chartData={chartData}
+              color={percentageChange >= 0 ? "#39c491" : "#e96d69"}
+            />
+          </div>
+        </section>
+      ) : (
+        <section className={styles.body}>
+          <h3 className={styles.noData}>Not enough data</h3>
+        </section>
+      )}
     </main>
   );
 }

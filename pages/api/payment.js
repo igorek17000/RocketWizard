@@ -10,13 +10,7 @@ export default async function handler(req, res) {
   const plans = ["basic", "advanced", "professional"];
 
   if (req.method === "POST") {
-    console.log("PAYMENT REQUESTED!!!");
-    console.log("--------------------");
-
     const payment = req.body;
-
-    console.log("PAYMENT STATUS: ", payment.payment_status);
-    console.log("--------------------");
 
     const hmac = crypto.createHmac(
       "sha512",
@@ -25,14 +19,7 @@ export default async function handler(req, res) {
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
 
-    console.log("HEADER: ", req.headers);
     console.log("SIGNATURE: ", signature);
-
-    if (req.headers["x-nowpayments-sig"]) {
-      console.log("NOW PAYMENTS SIGNATURE: ", req.headers["x-nowpayments-sig"]);
-    } else {
-      console.log("NO NOW PAYMENTS SIGNATURE :((((");
-    }
 
     if (
       payment.payment_status === "finished" &&
@@ -91,8 +78,6 @@ export default async function handler(req, res) {
         apiPassword: api.apiPassword,
         multiplier: api.multiplier,
       };
-
-      console.log("SUBSCRIBER: ", subscriber, ", TRADER ID: ", traderId);
 
       const trader = db.collection("traders").findOne({ id: traderId });
       const subscribers = trader.subscribers || [];

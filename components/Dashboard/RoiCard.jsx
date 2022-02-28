@@ -75,6 +75,10 @@ function RoiCard({ balance }) {
     getPercentageChange();
   }, [chartData]);
 
+  useEffect(() => {
+    setChartData(balance.daily);
+  }, [balance]);
+
   return (
     <main className={styles.roiCard}>
       <section className={styles.header}>
@@ -87,14 +91,20 @@ function RoiCard({ balance }) {
           defaultValue={timeframe}
         />
       </section>
-      <section className={styles.body}>
-        <div className={styles.values}>
-          <h2> {percentageChange}%</h2>
-        </div>
-        <div className={styles.graph}>
-          <LineChart chartData={chartData} color="#f0b207" />
-        </div>
-      </section>
+      {chartData && chartData.length >= 5 ? (
+        <section className={styles.body}>
+          <div className={styles.values}>
+            <h2> {percentageChange}%</h2>
+          </div>
+          <div className={styles.graph}>
+            <LineChart chartData={chartData} color="#f0b207" />
+          </div>
+        </section>
+      ) : (
+        <section className={styles.body}>
+          <h3 className={styles.noData}>Not enough data</h3>
+        </section>
+      )}
     </main>
   );
 }

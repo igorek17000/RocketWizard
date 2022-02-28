@@ -10,9 +10,15 @@ import FaqCard from "../components/FaqCard";
 import { Typewriter } from "react-simple-typewriter";
 
 import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
+import OrderSuccess from "../components/OrderSuccess";
 
 export default function Home({ likeData, articleCount }) {
   const { theme } = useTheme();
+
+  const router = useRouter();
+
+  const { orderSuccess } = router.query;
 
   const [cards] = useState([
     {
@@ -36,6 +42,12 @@ export default function Home({ likeData, articleCount }) {
 
   return (
     <div className={styles.container}>
+      {orderSuccess && (
+        <OrderSuccess
+          open={orderSuccess}
+          handleClose={() => router.replace("/")}
+        />
+      )}
       <Head>
         <title>Rocket Wizard</title>
         <meta name="description" content="Make money while sleeping" />
@@ -109,9 +121,7 @@ export default function Home({ likeData, articleCount }) {
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
 
-  const articlesRes = await fetch(
-    "https://rocket-wizard.vercel.app/faqData.json"
-  );
+  const articlesRes = await fetch("http://localhost:3000/faqData.json");
 
   const articleData = await articlesRes.json();
 
@@ -121,16 +131,14 @@ export async function getServerSideProps({ req }) {
 
   if (session) {
     const likeRes = await fetch(
-      `https://rocket-wizard.vercel.app/api/faq-likes?email=${session.user.email}`
+      `http://localhost:3000/api/faq-likes?email=${session.user.email}`
     );
 
     const likeData = await likeRes.json();
 
     return { props: { likeData, articleCount } };
   } else {
-    const likeRes = await fetch(
-      `https://rocket-wizard.vercel.app/api/faq-likes`
-    );
+    const likeRes = await fetch(`http://localhost:3000/api/faq-likes`);
 
     const likeData = await likeRes.json();
 

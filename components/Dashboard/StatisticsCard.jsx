@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/StatisticsCard.module.scss";
 
 import Select from "react-select";
@@ -61,6 +61,10 @@ function StatisticsCard({ balance }) {
     }
   };
 
+  useEffect(() => {
+    setChartData(balance.daily);
+  }, [balance]);
+
   return (
     <main className={styles.statisticsCard}>
       <section className={styles.header}>
@@ -76,15 +80,21 @@ function StatisticsCard({ balance }) {
           defaultValue={timeframe}
         />
       </section>
-      <section className={styles.body}>
-        <LineChart
-          chartData={chartData}
-          color="#731bde"
-          extra={20}
-          aspectRatio={null}
-        />
-        <button>SEE ALL</button>
-      </section>
+      {chartData && chartData.length >= 5 ? (
+        <section className={styles.body}>
+          <LineChart
+            chartData={chartData}
+            color="#731bde"
+            extra={20}
+            aspectRatio={null}
+          />
+          <button>SEE ALL</button>
+        </section>
+      ) : (
+        <section className={styles.body}>
+          <h3 className={styles.noData}>Not enough data</h3>
+        </section>
+      )}
     </main>
   );
 }

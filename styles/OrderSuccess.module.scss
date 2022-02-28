@@ -1,0 +1,119 @@
+.box {
+  position: absolute;
+  width: 26rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--card-bg);
+  padding-top: 4rem;
+  overflow: hidden;
+  border-radius: 1rem;
+
+  img {
+    width: 19rem;
+    z-index: 2;
+  }
+
+  .cutout {
+    z-index: 1;
+    width: 100%;
+    height: 42%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(100% 0, 100% 100%, 50% 65%, 0 100%, 0 0);
+    background: rgb(188, 142, 243);
+    background: linear-gradient(90deg, #9c5bea 0%, rgba(115, 27, 222, 1) 100%);
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem;
+    padding-bottom: 3rem;
+
+    img {
+      width: 3rem;
+    }
+
+    h3 {
+      color: black;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    h5 {
+      margin: 1rem 0;
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: #731bde;
+    }
+
+    button {
+      margin-top: 2rem;
+      box-shadow: 10px 12px 24px hsla(341, 100%, 54%, 0.15);
+      border-radius: 0.3rem;
+      padding: 0.4rem 5rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1.2rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s ease-in-out;
+      background-color: #731bde;
+
+      &:hover {
+        background-color: darken(#731bde, 10%);
+      }
+    }
+  }
+
+  .waves {
+    margin-top: 1rem;
+    width: 150%;
+    margin-bottom: -5rem;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .box {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .box {
+    .content {
+      width: 100%;
+      padding: 1rem;
+
+      h3 {
+        font-size: 1.5rem;
+      }
+
+      h5 {
+        font-size: 1.1rem;
+      }
+
+      img {
+        width: 2.5rem;
+      }
+
+      button {
+        padding: 0.5rem 0;
+        width: 100%;
+        font-size: 1rem;
+      }
+    }
+
+    .waves {
+      margin-bottom: -3rem;
+    }
+  }
+}
