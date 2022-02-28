@@ -1,34 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Rocket Wizard
 
-## Getting Started
+Rocket Wizard is a SaaS website where you can subscribe to any of our talented traders,
+and they will to the trading for you! All you need to do choose a trader that you like,
+and then wait.
 
-First, run the development server:
+![Logo](https://i.imgur.com/A92cq6U.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Authors
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [@Brkic365](https://www.github.com/Brkic365)
+- [@MarinJursic](https://www.github.com/MarinJursic)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## FAQ
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+#### Can i purchase a subscription to access all traders with one purchase?
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Bundle subscriptions are not available, every subscription sells individually.
 
-## Learn More
+#### Why do traders have different pricings from one another?
 
-To learn more about Next.js, take a look at the following resources:
+Pricings are directly managed by the trader, We do not control them.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Does cheaper mean less effective?
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+No, the prices are not based on the skill level of the trader.
 
-## Deploy on Vercel
+## Screenshots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![App Screenshot](https://i.imgur.com/ZTTkcVs.png)
