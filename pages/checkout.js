@@ -238,6 +238,16 @@ function Checkout({ traders }) {
 
     router.replace(invoice.invoice_url);
 
+    setName(null);
+    setStreetAddress(null);
+    setSecondStreetAddress(null);
+    setZip(null);
+    setEmail(null);
+    setDiscountCode(null);
+    setDiscount(0);
+    setCountry(null);
+    setCrypto(null);
+
     return true;
   };
 

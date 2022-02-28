@@ -95,17 +95,7 @@ function FaqCard({ card = true, likeData, articleCount }) {
     },
   ]);
 
-  const [questions] = useState([
-    {
-      question: "Example question 1",
-    },
-    {
-      question: "Example question 2",
-    },
-    {
-      question: "Example question 3",
-    },
-  ]);
+  const [questions] = useState([]);
 
   const like = async (likedProp) => {
     const bodyLikeData = {

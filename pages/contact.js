@@ -71,8 +71,35 @@ function Contact() {
     return name && email && validateEmail(email) && country && message;
   };
 
-  const submit = () => {
-    setFail(!checkValues());
+  const submit = async () => {
+    const success = checkValues();
+
+    if (success) {
+      let data = {
+        name,
+        email,
+        country: country.label,
+        message,
+      };
+
+      fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((res) => {
+        if (res.status === 200) {
+          setName(null);
+          setEmail(null);
+          setCountry(null);
+          setMessage(null);
+        }
+      });
+    }
+
+    setFail(!success);
     setSubmitted(true);
   };
 
