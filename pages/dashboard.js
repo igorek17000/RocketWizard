@@ -76,7 +76,7 @@ function Dashboard({ subscriptions }) {
     setApi(value);
 
     const res = await fetch(
-      `http://localhost:3000/api/balance?email=${session.user.email}&apiName=${value.value}`
+      `https://rocket-wizard.vercel.app/api/balance?email=${session.user.email}&apiName=${value.value}`
     );
 
     const balance = await res.json();
@@ -87,7 +87,7 @@ function Dashboard({ subscriptions }) {
   const getAPIs = async () => {
     if (session) {
       const res = await fetch(
-        `http://localhost:3000/api/apiKeys?email=${session.user.email}`
+        `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
       );
 
       const keys = await res.json();
@@ -212,7 +212,7 @@ export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
   if (session) {
     const res = await fetch(
-      `http://localhost:3000/api/subscribe?email=${session.user.email}`
+      `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
     );
 
     const subs = await res.json();
