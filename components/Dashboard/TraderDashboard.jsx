@@ -20,12 +20,27 @@ const getGreeting = () => {
 function TraderDashboard({ traderID }) {
   const [data, setData] = useState(null);
   const [subCount, setSubCount] = useState(0);
+  const [monthlyEarnings, setMonthlyEarnings] = useState(0);
+  const [allEarnings, setAllEarnings] = useState(0);
+
+  const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
   const getDiff = (dateParam) => {
     const now = new Date();
     const date = new Date(dateParam);
 
     return Math.floor(Math.abs(now - date) / 36e5);
+  };
+
+  const getPrice = (trader, id) => {
+    let price = trader.basePrice;
+
+    if (id !== 0) {
+      price =
+        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+    }
+
+    return price;
   };
 
   const getData = async () => {
@@ -49,6 +64,8 @@ function TraderDashboard({ traderID }) {
       for await (const subscriber of subscribers) {
         const diff = getDiff(subscriber.startDate);
 
+        setAllEarnings(allEarnings + getPrice(trader, subscriber.tier));
+
         if (diff < 24) {
           const index = Math.round(24 - diff);
           tempData.daily[index - 1] = tempData.daily[index - 1] + 1;
@@ -60,6 +77,10 @@ function TraderDashboard({ traderID }) {
         if (diff < 24 * 30) {
           const index = 30 - Math.round(diff / 24);
           tempData.monthly[index - 1] = tempData.monthly[index - 1] + 1;
+
+          setMonthlyEarnings(
+            monthlyEarnings + getPrice(trader, subscriber.tier)
+          );
         }
       }
     }
@@ -91,6 +112,16 @@ function TraderDashboard({ traderID }) {
           <div className={styles.card}>
             <p>Total subscribers</p>
             <h2>{subCount}</h2>
+          </div>
+        </div>
+        <div className={styles.cards}>
+          <div className={styles.card}>
+            <p>Monthly earnings</p>
+            <h2 className={styles.price}>{monthlyEarnings / 2}$</h2>
+          </div>
+          <div className={styles.card}>
+            <p>Total earnings</p>
+            <h2 className={styles.price}>{allEarnings / 2}$</h2>
           </div>
         </div>
         <StatisticsCard balance={data} forceExtra={subCount < 20 ? 5 : 20} />

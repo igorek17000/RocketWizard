@@ -4,7 +4,13 @@ import styles from "../styles/SubscribePlan.module.scss";
 import { useSession } from "next-auth/react";
 
 function SubscribePlan({ id, trader }) {
-  const centRound = (val) => Math.round((val - 0.01) * 100) / 100;
+  const centRound = (val) => {
+    if (val % 10 > 6) {
+      return Math.ceil(val / 10) * 10 - 0.01;
+    } else {
+      return Math.floor(val / 10) * 10 + 5.99;
+    }
+  };
 
   const { data: session } = useSession();
 
