@@ -17,6 +17,7 @@ import {
   Subscription,
 } from "../components/Dashboard";
 import GuestMessage from "../components/Dashboard/GuestMessage";
+import TraderDashboard from "../components/Dashboard/TraderDashboard";
 
 /*
 DEAL:     {
@@ -58,7 +59,7 @@ const customStyles = {
   }),
 };
 
-function Dashboard({ subscriptions }) {
+function Dashboard({ subscriptions, traderID }) {
   const [api, setApi] = useState(null);
   const [options, setOptions] = useState([]);
 
@@ -146,63 +147,69 @@ function Dashboard({ subscriptions }) {
           />
         </section>
       ) : (
-        <section className={styles.card}>
-          <section className={styles.left}>
-            <section className={styles.data}>
-              <div className={styles.top}>
-                <h1>{getGreeting()}</h1>
-                {api && (
-                  <Select
-                    className={styles.select}
-                    styles={customStyles}
-                    options={options}
-                    value={api}
-                    onChange={changeApi}
-                  />
-                )}
-              </div>
+        <>
+          {traderID ? (
+            <TraderDashboard traderID={traderID} />
+          ) : (
+            <section className={styles.card}>
+              <section className={styles.left}>
+                <section className={styles.data}>
+                  <div className={styles.top}>
+                    <h1>{getGreeting()}</h1>
+                    {api && (
+                      <Select
+                        className={styles.select}
+                        styles={customStyles}
+                        options={options}
+                        value={api}
+                        onChange={changeApi}
+                      />
+                    )}
+                  </div>
 
-              {api ? (
-                <div className={styles.body}>
-                  <div className={styles.balanceRoiCards}>
-                    <BalanceCard balance={balance} />
-                    <RoiCard balance={balance} />
+                  {api ? (
+                    <div className={styles.body}>
+                      <div className={styles.balanceRoiCards}>
+                        <BalanceCard balance={balance} />
+                        <RoiCard balance={balance} />
+                      </div>
+                      <StatisticsCard balance={balance} />
+                    </div>
+                  ) : (
+                    <div className={styles.body}>
+                      <div className={styles.noApi}>
+                        <h3>Connect an API to access the dashboard data</h3>
+                        <Select
+                          className={styles.select}
+                          styles={customStyles}
+                          options={options}
+                          value={api}
+                          onChange={changeApi}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </section>
+                <section className={styles.deals}>
+                  <h2>My deals</h2>
+                  <div className={styles.dealList}>
+                    {deals.map((deal, i) => (
+                      <Deal deal={deal} key={i} />
+                    ))}
                   </div>
-                  <StatisticsCard balance={balance} />
+                </section>
+              </section>
+              <section className={styles.right}>
+                <h2>My Subscriptions</h2>
+                <div className={styles.subscriptionList}>
+                  {subscriptions.map((subscription, i) => (
+                    <Subscription subscription={subscription} key={i} />
+                  ))}
                 </div>
-              ) : (
-                <div className={styles.body}>
-                  <div className={styles.noApi}>
-                    <h3>Connect an API to access the dashboard data</h3>
-                    <Select
-                      className={styles.select}
-                      styles={customStyles}
-                      options={options}
-                      value={api}
-                      onChange={changeApi}
-                    />
-                  </div>
-                </div>
-              )}
+              </section>
             </section>
-            <section className={styles.deals}>
-              <h2>My deals</h2>
-              <div className={styles.dealList}>
-                {deals.map((deal, i) => (
-                  <Deal deal={deal} key={i} />
-                ))}
-              </div>
-            </section>
-          </section>
-          <section className={styles.right}>
-            <h2>My Subscriptions</h2>
-            <div className={styles.subscriptionList}>
-              {subscriptions.map((subscription, i) => (
-                <Subscription subscription={subscription} key={i} />
-              ))}
-            </div>
-          </section>
-        </section>
+          )}
+        </>
       )}
     </main>
   );
@@ -215,13 +222,19 @@ export async function getServerSideProps({ req }) {
       `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
     );
 
+    const isTraderRes = await fetch(
+      `https://rocket-wizard.vercel.app/api/isTrader?email=${session.user.email}`
+    );
+
     const subs = await res.json();
+
+    const traderID = await isTraderRes.json();
 
     const plans = subs.map((sub) => sub.plan);
 
-    return { props: { subscriptions: plans } };
+    return { props: { subscriptions: plans, traderID: traderID.traderID } };
   } else {
-    return { props: { subscriptions: [] } };
+    return { props: { subscriptions: [], isTrader: false } };
   }
 }
 

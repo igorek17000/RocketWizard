@@ -18,7 +18,6 @@ const options = [
   { value: "okex", label: "Okex" },
   { value: "huobi", label: "Huobi" },
   { value: "kucoin", label: "Kucoin" },
-  { value: "ftx", label: "Ftx" },
 ];
 
 const customStyles = {

@@ -4,17 +4,66 @@ import styles from "../../styles/Trader.module.scss";
 
 import { useRouter } from "next/router";
 
-function Trader({ traders }) {
+import { getSession } from "next-auth/react";
+import { checkTargetForNewValues } from "framer-motion";
+
+function Trader({ traders, traderID }) {
   const router = useRouter();
 
   const [trader, setTrader] = useState(traders[0]);
 
+  const [winrate, setWinrate] = useState(null);
+  const [monthlyRoi, setMonthlyRoi] = useState(null);
+  const [yearlyRoi, setYearlyRoi] = useState(null);
+  const [desc, setDesc] = useState(null);
+
   useEffect(() => {
     const id = router.query.trader;
     if (id) {
-      setTrader(traders.find((trader) => trader.id === id) || traders[0]);
+      let traderTemp = traders.find((trader) => trader.id === id);
+      setTrader(traderTemp || traders[0]);
+      setWinrate(traderTemp.winrate || 0);
+      setMonthlyRoi(traderTemp.monthlyRoi || 0);
+      setYearlyRoi(traderTemp.yearlyRoi || 0);
+      setDesc(traderTemp.description || "");
     }
   }, [router]);
+
+  function isNumeric(value) {
+    return /^-?\d+$/.test(value);
+  }
+
+  const checkValues = () => {
+    return (
+      winrate &&
+      monthlyRoi &&
+      yearlyRoi &&
+      desc &&
+      isNumeric(winrate) &&
+      isNumeric(monthlyRoi) &&
+      isNumeric(yearlyRoi)
+    );
+  };
+
+  const submit = async () => {
+    if (checkValues()) {
+      const response = await fetch("/api/update-trader", {
+        method: "POST",
+        body: JSON.stringify({
+          traderID,
+          winrate: parseInt(winrate),
+          monthlyRoi: parseInt(monthlyRoi),
+          yearlyRoi: parseInt(yearlyRoi),
+          description: desc,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      router.replace("/traders");
+    }
+  };
 
   return (
     <main className={styles.trader}>
@@ -41,7 +90,15 @@ function Trader({ traders }) {
         <section className={styles.body}>
           <div className={styles.description}>
             <h4>Description</h4>
-            <p>{trader.description}</p>
+            {traderID === trader.id ? (
+              <textarea
+                className={styles.descInput}
+                placeholder={trader.description}
+                onChange={(e) => setDesc(e.target.value)}
+              />
+            ) : (
+              <p>{trader.description}</p>
+            )}
           </div>
           <div className={styles.details}>
             <div className={styles.box}>
@@ -61,7 +118,17 @@ function Trader({ traders }) {
                     fill="#731bde"
                   />
                 </svg>
-                <h4>{trader.winrate}%</h4>
+                <h4>
+                  {traderID === trader.id ? (
+                    <input
+                      placeholder={trader.winrate}
+                      onChange={(e) => setWinrate(e.target.value)}
+                    />
+                  ) : (
+                    trader.winrate
+                  )}
+                  %
+                </h4>
               </div>
             </div>
             <div className={styles.box}>
@@ -81,7 +148,17 @@ function Trader({ traders }) {
                     fill="#1bde8e"
                   />
                 </svg>
-                <h4>{trader.monthlyRoi}%</h4>
+                <h4>
+                  {traderID === trader.id ? (
+                    <input
+                      placeholder={trader.monthlyRoi}
+                      onChange={(e) => setMonthlyRoi(e.target.value)}
+                    />
+                  ) : (
+                    trader.monthlyRoi
+                  )}
+                  %
+                </h4>
               </div>
             </div>
             <div className={styles.box}>
@@ -102,23 +179,44 @@ function Trader({ traders }) {
                   />
                 </svg>
 
-                <h4>{trader.yearlyRoi}%</h4>
+                <h4>
+                  {traderID === trader.id ? (
+                    <input
+                      placeholder={trader.yearlyRoi}
+                      onChange={(e) => setYearlyRoi(e.target.value)}
+                    />
+                  ) : (
+                    trader.yearlyRoi
+                  )}
+                  %
+                </h4>
               </div>
             </div>
           </div>
+          <button onClick={submit}>UPDATE</button>
         </section>
       </section>
     </main>
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
   const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
 
   const traders = await res.json();
 
-  // Pass data to the page via props
-  return { props: { traders } };
+  const session = await getSession({ req });
+  if (session) {
+    const isTraderRes = await fetch(
+      `https://rocket-wizard.vercel.app/api/isTrader?email=${session.user.email}`
+    );
+
+    const traderID = await isTraderRes.json();
+
+    return { props: { traders, traderID: traderID.traderID } };
+  } else {
+    return { props: { traders, traderID: null } };
+  }
 }
 
 export default Trader;

@@ -6,7 +6,15 @@ import { BsShieldFillCheck } from "react-icons/bs";
 
 import ProgressBar from "./ProgressBar";
 
-function TraderCard({ trader }) {
+function TraderCard({ trader, isTrader }) {
+  const getFollowers = () => {
+    const subscribers = trader.subscribers || [];
+
+    const n = subscribers.length;
+
+    return `${n} follower${n !== 1 ? "s" : ""}`;
+  };
+
   return (
     <main className={styles.traderCard}>
       {/* Header Section */}
@@ -21,12 +29,20 @@ function TraderCard({ trader }) {
           <BsShieldFillCheck className={styles.shield} />
         </div>
         <h3>{trader.name}</h3>
+        <h4>{getFollowers()}</h4>
         <p>{trader.username}</p>
       </section>
 
       {/* Body Section */}
 
       <section className={styles.body}>
+        <div className={styles.exchange}>
+          <h3>Exchange</h3>
+          <img
+            src={`/images/settings/exchanges/${trader.exchange}.svg`}
+            alt="Exchange"
+          />
+        </div>
         <div className={styles.roi}>
           <h3>Last Month ROI</h3>
           <div className={styles.monthlyRoi}>
@@ -77,14 +93,20 @@ function TraderCard({ trader }) {
             fillColor="#731BDE"
           />
         </div>
-        <div className={styles.buttons}>
+        {isTrader ? (
           <Link href={`/traders/${trader.id}`}>
-            <button className={styles.viewMoreBtn}>View more</button>
+            <button className={styles.editBtn}>Edit profile details</button>
           </Link>
-          <Link href={`/traders/subscribe/${trader.id}`}>
-            <button>Subscribe</button>
-          </Link>
-        </div>
+        ) : (
+          <div className={styles.buttons}>
+            <Link href={`/traders/${trader.id}`}>
+              <button className={styles.viewMoreBtn}>View more</button>
+            </Link>
+            <Link href={`/traders/subscribe/${trader.id}`}>
+              <button>Subscribe</button>
+            </Link>
+          </div>
+        )}
       </section>
     </main>
   );

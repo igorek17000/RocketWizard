@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 
       const subs = user.subscriptions || [];
 
-      const found = subs.find((sub) => sub.traderId === traderId);
+      const found = await subs.find((sub) => sub.traderId === traderId);
 
       if (found) {
         // Already subbed
@@ -61,14 +61,16 @@ export default async function handler(req, res) {
         });
       }
 
-      const api = user.apiKeys.find((x) => x.name === apiName);
+      const api = await user.apiKeys.find((x) => x.name === apiName);
 
       apiKeys[apiKeys.indexOf(api)].taken = true;
 
-      db.collection("users").updateOne(
-        { email },
-        { $set: { subscriptions: subs, apiKeys: apiKeys } }
-      );
+      await db
+        .collection("users")
+        .updateOne(
+          { email },
+          { $set: { subscriptions: subs, apiKeys: apiKeys } }
+        );
 
       const subscriber = {
         email,
@@ -77,20 +79,22 @@ export default async function handler(req, res) {
         secret: api.secret,
         apiPassword: api.apiPassword,
         multiplier: api.multiplier,
+        startDate: new Date(),
       };
 
-      const trader = db.collection("traders").findOne({ id: traderId });
+      const trader = await db.collection("traders").findOne({ id: traderId });
       const subscribers = trader.subscribers || [];
 
       subscribers.push(subscriber);
 
-      db.collection("traders").updateOne(
-        { id: traderId },
-        { $set: { subscribers } }
-      );
+      await db
+        .collection("traders")
+        .updateOne({ id: traderId }, { $set: { subscribers } });
+
+      return res.json({ success: true });
     }
 
-    return res.json({ success: true });
+    return res.json({ success: false });
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
   }

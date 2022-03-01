@@ -20,7 +20,24 @@
   {
     "id": "order",
     "title": "Order Issues",
-    "rows": []
+    "rows": [
+      {
+        "title": "How soon can I expect my subscription to activate?",
+        "content": "Your subscription should activate in a matter of few minutes."
+      },
+      {
+        "title": "How can I return my order?",
+        "content": "If you want to return your order, you can contact us at support@rocketwizard.io"
+      },
+      {
+        "title": "How will I know if my order has been received?",
+        "content": "You should be able to see all your active subscriptions in the dashboard page."
+      },
+      {
+        "title": "How do I contact customer service?",
+        "content": "You can contact customer service through our chat, contact form or through our email at support@rocketwizard.io."
+      }
+    ]
   },
   {
     "id": "products",

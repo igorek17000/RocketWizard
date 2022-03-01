@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../styles/SubscribePlan.module.scss";
+import { useSession } from "next-auth/react";
 
 function SubscribePlan({ id, trader }) {
   const centRound = (val) => Math.round((val - 0.01) * 100) / 100;
+
+  const { data: session } = useSession();
 
   const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
@@ -77,7 +80,9 @@ function SubscribePlan({ id, trader }) {
 
       <section className={styles.bottom}>
         <p>24/7 Live Support Chat</p>
-        <Link href={`/checkout?p=${id}&q=1&t=${trader.id}`}>
+        <Link
+          href={session ? `/checkout?p=${id}&q=1&t=${trader.id}` : "/login"}
+        >
           <button>GET STARTED</button>
         </Link>
       </section>

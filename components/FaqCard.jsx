@@ -52,11 +52,6 @@ function CantFind() {
       href: "/faq/general",
     },
     {
-      img: "order.svg",
-      title: "Order issues",
-      href: "/faq/order",
-    },
-    {
       img: "products.svg",
       title: "Products & Services",
       href: "/faq/products",
@@ -83,6 +78,11 @@ function FaqCard({ card = true, likeData, articleCount }) {
   const { data: session } = useSession();
 
   const [articles] = useState([
+    {
+      img: "order.svg",
+      title: "Order issues",
+      href: "/faq/order",
+    },
     {
       img: "products.svg",
       title: "Products & Services",
@@ -157,6 +157,11 @@ function FaqCard({ card = true, likeData, articleCount }) {
   return (
     <section
       className={`${styles.faqComponent} ${card ? styles.faqCard : null}`}
+      style={
+        !card
+          ? { backgroundColor: "transparent", color: "var(--text-primary)" }
+          : undefined
+      }
     >
       <h1>Frequently Asked Questions</h1>
       <div className={styles.articles}>

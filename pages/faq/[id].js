@@ -20,8 +20,11 @@ function FaqArticle({ dataArray }) {
 
   const [data, setData] = useState(dataArray[0]);
 
+  console.log(dataArray);
+
   useEffect(() => {
     const id = router.query.id;
+
     if (id && dataArray) {
       setData(dataArray.find((x) => x.id === id) || dataArray[0]);
     }

@@ -4,7 +4,11 @@ import styles from "../../styles/Traders.module.scss";
 
 import TraderCard from "../../components/TraderCard";
 
-function Traders({ traders }) {
+import { getSession } from "next-auth/react";
+
+function Traders({ traders, traderID }) {
+  console.log(traderID);
+
   return (
     <main className={styles.traders}>
       <Head>
@@ -14,20 +18,35 @@ function Traders({ traders }) {
       </Head>
       <section className={styles.traderCards}>
         {traders.map((trader, i) => (
-          <TraderCard key={i} trader={trader} i={i} />
+          <TraderCard
+            key={i}
+            trader={trader}
+            i={i}
+            isTrader={traderID === trader.id}
+          />
         ))}
       </section>
     </main>
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
   const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
 
   const traders = await res.json();
 
-  // Pass data to the page via props
-  return { props: { traders } };
+  const session = await getSession({ req });
+  if (session) {
+    const isTraderRes = await fetch(
+      `https://rocket-wizard.vercel.app/api/isTrader?email=${session.user.email}`
+    );
+
+    const traderID = await isTraderRes.json();
+
+    return { props: { traders, traderID: traderID.traderID } };
+  } else {
+    return { props: { traders, traderID: null } };
+  }
 }
 
 export default Traders;

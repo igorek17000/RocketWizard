@@ -23,7 +23,8 @@
     }
   }
 
-  .viewMoreBtn {
+  .viewMoreBtn,
+  .editBtn {
     background-color: rgba(115, 27, 222, 0.22);
     color: #731bde;
     &:hover {
@@ -77,6 +78,13 @@
       font-weight: 500;
     }
 
+    h4 {
+      font-size: 1rem;
+      margin: 0.3rem 0;
+      font-weight: 500;
+      color: #731bde;
+    }
+
     p {
       font-size: 0.8rem;
       font-weight: 500;
@@ -93,7 +101,8 @@
     margin-bottom: 1rem;
     width: 100%;
 
-    .roi {
+    .roi,
+    .exchange {
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -104,6 +113,11 @@
         margin-right: auto;
         font-weight: 500;
         font-size: 1.2rem;
+      }
+
+      img {
+        margin-top: 0.5rem;
+        height: 1.7rem;
       }
 
       .monthlyRoi,
@@ -165,6 +179,11 @@
       button {
         width: 45%;
       }
+    }
+
+    .editBtn {
+      margin-top: 0.5rem;
+      width: 100%;
     }
   }
 }
