@@ -51,15 +51,15 @@ function TraderDashboard({ traderID }) {
       console.log(tempData.daily[24]);
 
       if (diff < 24) {
-        const index = 24 - diff;
+        const index = Math.round(24 - diff);
         tempData.daily[index - 1] = tempData.daily[index - 1] + 1;
       }
       if (diff < 24 * 7) {
-        const index = 14 - diff / 12;
+        const index = 14 - Math.round(diff / 12);
         tempData.weekly[index - 1] = tempData.weekly[index - 1] + 1;
       }
       if (diff < 24 * 30) {
-        const index = 30 - diff / 24;
+        const index = 30 - Math.round(diff / 24);
         tempData.monthly[index - 1] = tempData.monthly[index - 1] + 1;
       }
     }
