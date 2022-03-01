@@ -93,7 +93,7 @@ function TraderDashboard({ traderID }) {
             <h2>{subCount}</h2>
           </div>
         </div>
-        <StatisticsCard balance={data} />
+        <StatisticsCard balance={data} forceExtra={10} />
       </div>
     </section>
   );

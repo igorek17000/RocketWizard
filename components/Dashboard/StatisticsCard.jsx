@@ -44,7 +44,7 @@ const customStyles = {
   }),
 };
 
-function StatisticsCard({ balance }) {
+function StatisticsCard({ balance, forceExtra = 150 }) {
   const [timeframe, setTimeframe] = useState(options[1]);
 
   const [chartData, setChartData] = useState(balance.daily);
@@ -87,6 +87,7 @@ function StatisticsCard({ balance }) {
             color="#731bde"
             extra={20}
             aspectRatio={null}
+            extra={forceExtra}
           />
           <button>SEE ALL</button>
         </section>
