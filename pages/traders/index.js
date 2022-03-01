@@ -7,8 +7,6 @@ import TraderCard from "../../components/TraderCard";
 import { getSession } from "next-auth/react";
 
 function Traders({ traders, traderID }) {
-  console.log(traderID);
-
   return (
     <main className={styles.traders}>
       <Head>

@@ -10,7 +10,7 @@ function TraderCard({ trader, isTrader }) {
   const getFollowers = () => {
     const subscribers = trader.subscribers || [];
 
-    const n = subscribers.length;
+    const n = subscribers.length + trader.baseSubscribers;
 
     return `${n} follower${n !== 1 ? "s" : ""}`;
   };

@@ -45,22 +45,22 @@ function TraderDashboard({ traderID }) {
       monthly: new Array(30).fill(0),
     };
 
-    for await (const subscriber of subscribers) {
-      const diff = getDiff(subscriber.startDate);
+    if (subscribers) {
+      for await (const subscriber of subscribers) {
+        const diff = getDiff(subscriber.startDate);
 
-      console.log(tempData.daily[24]);
-
-      if (diff < 24) {
-        const index = Math.round(24 - diff);
-        tempData.daily[index - 1] = tempData.daily[index - 1] + 1;
-      }
-      if (diff < 24 * 7) {
-        const index = 14 - Math.round(diff / 12);
-        tempData.weekly[index - 1] = tempData.weekly[index - 1] + 1;
-      }
-      if (diff < 24 * 30) {
-        const index = 30 - Math.round(diff / 24);
-        tempData.monthly[index - 1] = tempData.monthly[index - 1] + 1;
+        if (diff < 24) {
+          const index = Math.round(24 - diff);
+          tempData.daily[index - 1] = tempData.daily[index - 1] + 1;
+        }
+        if (diff < 24 * 7) {
+          const index = 14 - Math.round(diff / 12);
+          tempData.weekly[index - 1] = tempData.weekly[index - 1] + 1;
+        }
+        if (diff < 24 * 30) {
+          const index = 30 - Math.round(diff / 24);
+          tempData.monthly[index - 1] = tempData.monthly[index - 1] + 1;
+        }
       }
     }
 
@@ -72,8 +72,6 @@ function TraderDashboard({ traderID }) {
   useEffect(() => {
     getData();
   }, []);
-
-  console.log(data);
 
   return !data ? (
     <section className={styles.traderDashboard}>
