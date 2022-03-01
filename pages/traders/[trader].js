@@ -193,7 +193,7 @@ function Trader({ traders, traderID }) {
               </div>
             </div>
           </div>
-          <button onClick={submit}>UPDATE</button>
+          {traderID === trader.id && <button onClick={submit}>UPDATE</button>}
         </section>
       </section>
     </main>
