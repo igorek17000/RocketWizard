@@ -5,7 +5,7 @@
     "rows": [
       {
         "title": "What type of crypto currencies do you accept?",
-        "content": "Currently we accept Bitcoin (BTC), LiteCoin (LTC), DogeCoin (DOGE) and USDT. We are going to add more coins in the near future."
+        "content": "Currently we accept Bitcoin (BTC), Ethereum (ETH) and Tether (USDTTRC20). We are going to add more coins in the near future."
       },
       {
         "title": "Can i pay with credit card or PayPal?",
