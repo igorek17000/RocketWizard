@@ -37,7 +37,7 @@ function TraderDashboard({ traderID }) {
 
     const subscribers = trader.subscribers;
 
-    setSubCount(subscribers.length);
+    setSubCount(subscribers.length || 0);
 
     const tempData = {
       daily: new Array(24).fill(0),
