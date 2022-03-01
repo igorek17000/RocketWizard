@@ -7,12 +7,12 @@ import { BsShieldFillCheck } from "react-icons/bs";
 import ProgressBar from "./ProgressBar";
 
 function TraderCard({ trader, isTrader }) {
-  const getFollowers = () => {
+  const getSubscribers = () => {
     const subscribers = trader.subscribers || [];
 
     const n = subscribers.length + trader.baseSubscribers;
 
-    return `${n} follower${n !== 1 ? "s" : ""}`;
+    return `${n} subscriber${n !== 1 ? "s" : ""}`;
   };
 
   return (
@@ -29,7 +29,7 @@ function TraderCard({ trader, isTrader }) {
           <BsShieldFillCheck className={styles.shield} />
         </div>
         <h3>{trader.name}</h3>
-        <h4>{getFollowers()}</h4>
+        <h4>{getSubscribers()}</h4>
         <p>{trader.username}</p>
       </section>
 
