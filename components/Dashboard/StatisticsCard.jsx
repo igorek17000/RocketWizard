@@ -44,7 +44,7 @@ const customStyles = {
   }),
 };
 
-function StatisticsCard({ balance, forceExtra = 150 }) {
+function StatisticsCard({ balance, forceExtra = 20 }) {
   const [timeframe, setTimeframe] = useState(options[1]);
 
   const [chartData, setChartData] = useState(balance.daily);
@@ -85,9 +85,8 @@ function StatisticsCard({ balance, forceExtra = 150 }) {
           <LineChart
             chartData={chartData}
             color="#731bde"
-            extra={20}
-            aspectRatio={null}
             extra={forceExtra}
+            aspectRatio={null}
           />
           <button>SEE ALL</button>
         </section>
