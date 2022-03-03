@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     console.log("PAYMENT: ", payment);
 
     if (
-      payment.payment_status === "finished" &&
+      payment.payment_status === "confirmed" &&
       signature === req.headers["x-nowpayments-sig"]
     ) {
       const orderId = payment.order_id;
