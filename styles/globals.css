@@ -29,10 +29,6 @@
   --shield: #731bde;
 }
 
-.powered-by {
-  display: none !important;
-}
-
 html,
 body {
   padding: 0;

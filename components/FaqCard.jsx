@@ -93,6 +93,11 @@ function FaqCard({ card = true, likeData, articleCount }) {
       title: "Payments",
       href: "/faq/payment",
     },
+    {
+      img: "tech.svg",
+      title: "Security",
+      href: "/faq/security",
+    },
   ]);
 
   const [questions] = useState([]);

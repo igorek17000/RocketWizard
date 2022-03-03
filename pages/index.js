@@ -28,13 +28,13 @@ export default function Home({ likeData, articleCount }) {
     },
     {
       img: "roi.svg",
-      title: "50% Average ROI",
-      text: "Get 50% and above on your initial investment monthly",
+      title: "120% Average ROI",
+      text: "Get 120% and above on your initial investment monthly",
     },
     {
       img: "automatic.svg",
       title: "Fully automatic",
-      text: "Zero efforts, avoid wasting time, energy and getting stressed with taking trades all day long",
+      text: "Zero efforts, avoid wasting time, energy and getting stressed with looking at charts all day long",
     },
   ]);
 
@@ -68,7 +68,7 @@ export default function Home({ likeData, articleCount }) {
                   words={[
                     "Sleeping",
                     "Eating",
-                    "Gaming",
+                    "Gaming all day",
                     "Training",
                     "Watching TV",
                     "Walking",

@@ -5,7 +5,7 @@
     "rows": [
       {
         "title": "What type of crypto currencies do you accept?",
-        "content": "Currently we accept Bitcoin (BTC), Ethereum (ETH) and Tether (USDTTRC20). We are going to add more coins in the near future."
+        "content": "Currently we accept Bitcoin (BTC), Ethereum (ETH), Tether (USDTTRC20), Litecoin (LTC), Dogecoin (DOGE) and Monero (XMR). We are going to add more coins in the near future."
       },
       {
         "title": "Can i pay with credit card or PayPal?",
@@ -13,7 +13,7 @@
       },
       {
         "title": "What is NOWPayments?",
-        "content": "NOWPayments is a crypto payment gateaway, more info at NOWPayments.com"
+        "content": "NOWPayments is a crypto payment gateaway, more info at NOWPayments.io"
       }
     ]
   },
@@ -54,6 +54,20 @@
       {
         "title": "Does cheaper mean less effective?",
         "content": "No, the prices are not based on the skill level of the trader."
+      }
+    ]
+  },
+  {
+    "id": "security",
+    "title": "Security",
+    "rows": [
+      {
+        "title": "Do you have access to withdraw my funds?",
+        "content": "No, it goes against our policy. To further increase the security level we suggest to carefully select permissions when creating the API key on your exchange. We do not need withdrawal permissions in order to offer our service."
+      },
+      {
+        "title": "How do you manage risk?",
+        "content": "Each trader has a maximum size per position of 6% (Total portfolio value). You can choose to activate a multiplier to increase profits, but always manage your risk carefully."
       }
     ]
   }

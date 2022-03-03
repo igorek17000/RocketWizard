@@ -3,6 +3,8 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Settings.module.scss";
 
+import { IoTrashOutline } from "react-icons/io5";
+
 import { useSession } from "next-auth/react";
 
 import { Scrollbar } from "react-scrollbars-custom";
@@ -24,17 +26,49 @@ function Settings() {
 
     const keys = await res.json();
 
-    setApiKeys(keys);
+    console.log("KEYS: ", keys);
+
+    setApiKeys(keys ? keys : []);
   };
 
   useEffect(() => {
     getApiKeys();
-  }, []);
+  }, [session]);
 
   const shorten = (str, n) => {
     let start = str.substr(0, n);
     let end = str.substr(str.length - 3);
     return start + (start === str ? "" : "..." + end);
+  };
+
+  const deleteApi = async (apiName) => {
+    if (apiName && session) {
+      try {
+        console.log("DELETING: ", apiName);
+
+        const response = await fetch("/api/delete-api", {
+          method: "POST",
+          body: JSON.stringify({
+            email: session.user.email,
+            apiName: apiName,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const json = await response.json();
+
+        if (!response.ok) {
+          setError(json.message);
+          throw new Error(json.message || "Something went wrong");
+        }
+      } catch (error) {
+        return;
+      }
+
+      getApiKeys();
+    }
   };
 
   return (
@@ -73,6 +107,10 @@ function Settings() {
                 <div className={styles.list}>
                   {apiKeys.map((api, i) => (
                     <div className={styles.api} key={i}>
+                      <IoTrashOutline
+                        className={styles.trash}
+                        onClick={() => deleteApi(api.name)}
+                      />
                       <div className={styles.values}>
                         <h4>{shorten(api.name, 20)}</h4>
                         <h4>{shorten(api.api, 20)}</h4>
@@ -81,6 +119,13 @@ function Settings() {
                         src={`/images/settings/exchanges/${api.exchange}.svg`}
                         alt="Exchange"
                       />
+                      <div
+                        className={styles.delBtn}
+                        onClick={() => deleteApi(api.name)}
+                      >
+                        <IoTrashOutline />
+                        <p>DELETE</p>
+                      </div>
                     </div>
                   ))}
                 </div>

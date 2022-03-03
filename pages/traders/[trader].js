@@ -213,7 +213,7 @@ export async function getServerSideProps({ req }) {
 
     const traderID = await isTraderRes.json();
 
-    return { props: { traders, traderID: traderID.traderID } };
+    return { props: { traders, traderID: traderID.traderId || null } };
   } else {
     return { props: { traders, traderID: null } };
   }

@@ -16,7 +16,7 @@ function TermsAndConditions() {
         <p>Version 1.0</p>
 
         <p>
-          The Rocket Wizard website located at https://rocketwizard.com/ is a
+          The Rocket Wizard website located at https://rocketwizard.io/ is a
           copyrighted work belonging to Rocket Wizard. Certain features of the
           Site may be subject to additional guidelines, terms, or rules, which
           will be posted on the Site in connection with such features.
@@ -521,7 +521,7 @@ function TermsAndConditions() {
 
         <h2>Contact Information</h2>
 
-        <p>Email: rocketwizard@info.com</p>
+        <p>Email: support@rocketwizard.io</p>
       </section>
     </main>
   );

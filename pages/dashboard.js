@@ -18,6 +18,7 @@ import {
 } from "../components/Dashboard";
 import GuestMessage from "../components/Dashboard/GuestMessage";
 import TraderDashboard from "../components/Dashboard/TraderDashboard";
+import Renew from "../components/Renew";
 
 /*
 DEAL:     {
@@ -59,9 +60,12 @@ const customStyles = {
   }),
 };
 
-function Dashboard({ subscriptions, traderID }) {
+function Dashboard({ subscriptions, traderID, traders }) {
   const [api, setApi] = useState(null);
   const [options, setOptions] = useState([]);
+
+  const [renewOpen, setRenewOpen] = useState(false);
+  const [subscription, setSubscription] = useState(null);
 
   const [balance, setBalance] = useState({
     daily: [],
@@ -137,6 +141,16 @@ function Dashboard({ subscriptions, traderID }) {
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {subscription && (
+        <Renew
+          open={renewOpen}
+          handleClose={() => setRenewOpen(false)}
+          traders={traders}
+          id={subscription.plan.id}
+          traderId={subscription.traderId}
+        />
+      )}
+
       {loading ? (
         <section className={`${styles.card} ${styles.loadingCard}`}>
           <Oval
@@ -203,7 +217,14 @@ function Dashboard({ subscriptions, traderID }) {
                 <h2>My Subscriptions</h2>
                 <div className={styles.subscriptionList}>
                   {subscriptions.map((subscription, i) => (
-                    <Subscription subscription={subscription} key={i} />
+                    <Subscription
+                      subscription={subscription}
+                      key={i}
+                      openRenew={(sub) => {
+                        setRenewOpen(true);
+                        setSubscription(sub);
+                      }}
+                    />
                   ))}
                 </div>
               </section>
@@ -217,6 +238,13 @@ function Dashboard({ subscriptions, traderID }) {
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
+
+  const resTraders = await fetch(
+    `https://rocket-wizard.vercel.app/api/traders`
+  );
+
+  const traders = await resTraders.json();
+
   if (session) {
     const res = await fetch(
       `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
@@ -230,11 +258,15 @@ export async function getServerSideProps({ req }) {
 
     const traderID = await isTraderRes.json();
 
-    const plans = subs.map((sub) => sub.plan);
-
-    return { props: { subscriptions: plans, traderID: traderID.traderID } };
+    return {
+      props: {
+        subscriptions: subs,
+        traderID: traderID.traderId || null,
+        traders,
+      },
+    };
   } else {
-    return { props: { subscriptions: [], isTrader: false } };
+    return { props: { subscriptions: [], isTrader: false, traders } };
   }
 }
 

@@ -128,8 +128,25 @@
             border-radius: 0.3rem;
             width: 100%;
             margin: 0.3rem 0;
+            position: relative;
+
+            .trash {
+              position: absolute;
+              top: 50%;
+              left: 1rem;
+              transform: translateY(-50%);
+              width: 1.5rem;
+              height: 1.5rem;
+              color: #e96d69;
+              cursor: pointer;
+            }
+
+            .delBtn {
+              display: none;
+            }
 
             .values {
+              margin-left: 2rem;
               width: 40rem;
               display: flex;
               align-items: center;
@@ -233,13 +250,49 @@
             padding: 0 0.3rem;
             .api {
               flex-direction: column;
+
+              .trash {
+                display: none;
+              }
+
               .values {
+                margin-left: 0;
                 flex-direction: column;
                 width: 100%;
 
                 h4 {
                   font-size: 1.2rem;
                   margin-bottom: 1rem;
+                }
+              }
+
+              .delBtn {
+                display: flex;
+                align-items: center;
+                border: 1px solid #e96d69;
+                border-radius: 0.5rem;
+                margin-top: 1rem;
+                cursor: pointer;
+                color: #e96d69;
+                transition: 0.2s ease-in-out;
+                padding: 0.3rem 1rem;
+
+                svg {
+                  color: #e96d69;
+                }
+
+                p {
+                  margin-left: 0.5rem;
+                  font-size: 0.85rem;
+                }
+
+                &:hover {
+                  color: white;
+                  background-color: #e96d69;
+
+                  svg {
+                    color: white;
+                  }
                 }
               }
 

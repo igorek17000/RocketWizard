@@ -47,7 +47,7 @@ const customStyles = {
 function StatisticsCard({ balance, forceExtra = 20 }) {
   const [timeframe, setTimeframe] = useState(options[1]);
 
-  const [chartData, setChartData] = useState(balance.daily);
+  const [chartData, setChartData] = useState(balance.weekly);
 
   const changeTimeframe = (value) => {
     setTimeframe(value);
@@ -62,7 +62,7 @@ function StatisticsCard({ balance, forceExtra = 20 }) {
   };
 
   useEffect(() => {
-    setChartData(balance.daily);
+    setChartData(balance.weekly);
   }, [balance]);
 
   return (

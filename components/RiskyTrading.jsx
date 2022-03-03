@@ -16,9 +16,9 @@ function RiskyTrading({ sendSelected }) {
     <main className={styles.risky}>
       <h3>Risky Trading</h3>
       <p>
-        Currently, the trader will have access to only {walletPercentage}% of
-        your wallet. By enabling Risky Trading, that percentage gets multiplied
-        by the amount specified below.
+        The trader currently has access to use 6% of your wallet per position.
+        By enabling The Multiplier, that percentage gets multiplied by the
+        amount specified.
       </p>
       <div className={styles.buttons}>
         {multipliers.map((multiplier, i) => (

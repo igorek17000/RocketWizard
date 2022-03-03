@@ -85,6 +85,12 @@ function AddApi({
   };
 
   const validateApi = () => {
+    switch (exchange.value) {
+      case "binance":
+        break;
+      default:
+        break;
+    }
     return true;
   };
 

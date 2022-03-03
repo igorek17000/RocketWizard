@@ -37,7 +37,6 @@ function TraderCard({ trader, isTrader }) {
 
       <section className={styles.body}>
         <div className={styles.exchange}>
-          <h3>Exchange</h3>
           <img
             src={`/images/settings/exchanges/${trader.exchange}.svg`}
             alt="Exchange"
