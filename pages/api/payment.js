@@ -20,7 +20,8 @@ export default async function handler(req, res) {
     const signature = hmac.digest("hex");
 
     console.log("SIGNATURE: ", signature);
-    console.log("HEADER: ", req.headers["x-nowpayments-sig"]);
+    console.log("HEADER SIGNATURE: ", req.headers["x-nowpayments-sig"]);
+    console.log("PAYMENT: ", payment);
 
     if (
       payment.payment_status === "finished" &&
