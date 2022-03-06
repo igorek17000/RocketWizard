@@ -186,7 +186,7 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
 
     const fullPriceTemp = Math.max(planPriceTemp + shipping - discount, 0);
 
-    setFullPrice(fullPriceTemp);
+    setFullPrice(Math.floor(fullPriceTemp) + 0.99);
   };
 
   const [mainError, setMainError] = useState(null);
