@@ -2,10 +2,19 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 5rem;
+
+  .disclaimer {
+    z-index: 10;
+    width: 25rem;
+    position: fixed;
+    bottom: 0;
+    left: 1rem;
+  }
 
   .traderCards {
     margin-top: 5rem;
-    width: 90%;
+    width: 80%;
     display: -ms-grid;
     display: grid;
     -webkit-box-align: center;
@@ -36,6 +45,14 @@
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .traders {
+    .disclaimer {
+      width: 15rem;
+    }
+  }
+}
+
 @media only screen and (max-width: 400px) {
   .traders {
     padding: 1rem;
@@ -43,6 +60,14 @@
     .traderCards {
       -ms-grid-columns: (minmax(12em, 1fr)) [auto-fit];
       grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+    }
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .traders {
+    .disclaimer {
+      width: 11rem;
     }
   }
 }

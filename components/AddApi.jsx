@@ -15,8 +15,8 @@ import Alert from "./Alert";
 
 const options = [
   { value: "binance", label: "Binance" },
-  { value: "okex", label: "Okex" },
-  { value: "huobi", label: "Huobi" },
+  { value: "okex", label: "Okx" },
+  // { value: "huobi", label: "Huobi" },
   { value: "kucoin", label: "Kucoin" },
 ];
 
@@ -60,6 +60,7 @@ function AddApi({
   sendApiName,
   tip = false,
   risky = false,
+  tier,
 }) {
   const [exchange, setExchange] = useState(
     forceExchange ? { value: forceExchange } : null
@@ -84,33 +85,80 @@ function AddApi({
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const validateApi = () => {
-    switch (exchange.value) {
-      case "binance":
-        break;
-      default:
-        break;
+  const validateApi = async (apiKey) => {
+    const res = await fetch("/api/validate-api", {
+      method: "POST",
+      body: JSON.stringify({
+        apiKey,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const valid = await res.json();
+
+    if (!valid.valid) {
+      return false;
     }
+
     return true;
   };
 
-  const checkValues = () => {
+  const checkValues = async () => {
+    const tierAmounts = [3000, 11000, 27500];
+
     if (!(exchange && name && api && secret)) {
       setError("All fields are required.");
       return false;
     } else if (passwordExchanges.includes(exchange.value) && !password) {
       setError("All fields are required.");
       return false;
-    } else if (!validateApi()) {
+    }
+
+    const apiKey = {
+      name,
+      api,
+      secret,
+      apiPassword: password || null,
+      exchange: exchange.value,
+    };
+
+    const isValid = await validateApi(apiKey);
+
+    if (!isValid) {
       setError("Invalid API key.");
       return false;
     }
+
+    const balanceResponse = await fetch("/api/get-balance", {
+      method: "POST",
+      body: JSON.stringify({
+        apiKey,
+        exists: false,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const balance = await balanceResponse.json();
+
+    if (parseFloat(balance.balance) > tierAmounts[tier]) {
+      setError(
+        "Wallet balance is too high for this tier. Please select a higher tier or change your wallet balance."
+      );
+      return false;
+    }
+
     setError(null);
     return true;
   };
 
   const handleAdd = async () => {
-    if (checkValues()) {
+    const check = await checkValues();
+
+    if (check) {
       const key = {
         name,
         exchange: exchange.value,

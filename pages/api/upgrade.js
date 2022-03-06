@@ -4,6 +4,8 @@ const crypto = require("crypto");
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
+  const planNames = ["Basic", "Advanced", "Professional"];
+
   if (req.method === "POST") {
     const payment = req.body;
 
@@ -34,15 +36,38 @@ export default async function handler(req, res) {
         return res.status(404).json({ message: "Cannot find subscription" });
       }
 
-      const endDate = new Date(found.plan.end);
+      const plan = found.plan;
 
-      endDate.setMonth(endDate.getMonth() + 1);
+      plan.id = plan.id + 1;
+      plan.name = planNames[plan.id];
+      plan.price = req.body.price_amount;
 
-      subs[subs.indexOf(found)].plan.end = endDate;
+      const newSub = {
+        traderId,
+        plan,
+        quantity: found.quantity,
+        disabled: false,
+      };
+
+      subs[subs.indexOf(found)] = newSub;
 
       await db
         .collection("users")
         .updateOne({ email }, { $set: { subscriptions: subs } });
+
+      const trader = await db.collection("traders").findOne({ id: traderId });
+
+      const subbers = trader.subscribers || [];
+
+      const foundSub = await subbers.find((sub) => sub.email === email);
+
+      const newSubber = foundSub;
+
+      newSubber.tier = found.plan.id + 1;
+
+      await db
+        .collection("traders")
+        .updateOne({ id: traderId }, { $set: { subscribers: subbers } });
 
       return res.json({ success: true });
     }

@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const user = await db.collection("users").findOne({ email });
 
     const apiKeys = user.apiKeys;
-    const api = user.apiKeys.find((x) => x.name === apiName);
+    const api = await user.apiKeys.find((x) => x.name === apiName);
     const index = apiKeys.indexOf(api);
 
     apiKeys[index].multiplier = multiplier;

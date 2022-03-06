@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../../styles/Alert.module.scss";
+import styles from "../styles/Alert.module.scss";
 
 import { RiErrorWarningLine } from "react-icons/ri";
 
@@ -28,6 +28,7 @@ export default function Alert({
   bgColor = "#fff",
   includeIcon = true,
   error = false,
+  center = false,
 }) {
   const [backgroundColor, setBackgroundColor] = useState(bgColor);
   const [borderColor, setBorderColor] = useState(shadeColor(bgColor, -10));
@@ -52,7 +53,15 @@ export default function Alert({
       {includeIcon && (
         <RiErrorWarningLine color={error ? borderColor : textColor} />
       )}
-      <p style={{ color: textColor }}>{text}</p>
+      <p
+        style={{
+          color: textColor,
+          textAlign: center ? "center" : "left",
+          width: center ? "100%" : "fit-content",
+        }}
+      >
+        {text}
+      </p>
     </div>
   );
 }

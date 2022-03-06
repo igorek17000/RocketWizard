@@ -13,6 +13,10 @@ export default async function handler(req, res) {
         return res
           .status(400)
           .json({ message: `API called "${key.name}" already exists.` });
+      } else if (user.apiKeys.find((x) => x.api === key.api)) {
+        return res
+          .status(400)
+          .json({ message: `You cannot add the same API key multiple times.` });
       }
     }
 

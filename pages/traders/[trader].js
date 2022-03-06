@@ -1,11 +1,11 @@
 import Head from "next/head";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/Trader.module.scss";
 
 import { useRouter } from "next/router";
 
 import { getSession } from "next-auth/react";
-import { checkTargetForNewValues } from "framer-motion";
 
 function Trader({ traders, traderID }) {
   const router = useRouter();
@@ -193,7 +193,13 @@ function Trader({ traders, traderID }) {
               </div>
             </div>
           </div>
-          {traderID === trader.id && <button onClick={submit}>UPDATE</button>}
+          {traderID === trader.id ? (
+            <button onClick={submit}>UPDATE</button>
+          ) : (
+            <Link href={`http://localhost:3000/traders/subscribe/${trader.id}`}>
+              <button>SUBSCRIBE</button>
+            </Link>
+          )}
         </section>
       </section>
     </main>
@@ -201,19 +207,19 @@ function Trader({ traders, traderID }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
+  const res = await fetch(`http://localhost:3000/api/traders`);
 
   const traders = await res.json();
 
   const session = await getSession({ req });
   if (session) {
     const isTraderRes = await fetch(
-      `https://rocket-wizard.vercel.app/api/isTrader?email=${session.user.email}`
+      `http://localhost:3000/api/isTrader?email=${session.user.email}`
     );
 
     const traderID = await isTraderRes.json();
 
-    return { props: { traders, traderID: traderID.traderId || null } };
+    return { props: { traders, traderID: traderID.traderID || null } };
   } else {
     return { props: { traders, traderID: null } };
   }

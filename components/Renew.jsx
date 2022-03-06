@@ -153,7 +153,7 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
   const [shipping] = useState(0);
 
   const centRound = (val) => {
-    if (val % 10 > 6) {
+    if (val % 10 > 6 || val % 10 === 0) {
       return Math.ceil(val / 10) * 10 - 0.01;
     } else {
       return Math.floor(val / 10) * 10 + 5.99;
@@ -192,7 +192,6 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
   const [mainError, setMainError] = useState(null);
   const [codeError, setCodeError] = useState(null);
   const [codeSuccess, setCodeSuccess] = useState(null);
-  const [success, setSuccess] = useState(null);
 
   const getOrderID = async () => {
     return `${traderId} ${session.user.email}`;
@@ -207,9 +206,9 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "https://rocket-wizard.vercel.app/?orderSuccess=true",
-      cancel_url: "https://rocket-wizard.vercel.app/checkout/fail",
-      ipn_callback_url: "https://rocket-wizard.vercel.app/api/renew",
+      success_url: "http://localhost:3000/?orderSuccess=true",
+      cancel_url: "http://localhost:3000/checkout/fail",
+      ipn_callback_url: "http://localhost:3000/api/renew",
     };
 
     const invoice = await npApi.createInvoice(config);
@@ -223,13 +222,7 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
     return true;
   };
 
-  useEffect(() => {
-    success && pay();
-  }, [success]);
-
   const checkValues = () => {
-    setSuccess(null);
-
     if (!readTerms) {
       setMainError(
         "Please agree to terms and conditions before placing the order."
@@ -239,9 +232,8 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
       setMainError("Payment info is required.");
       return false;
     }
-
-    setSuccess(true);
     setMainError(null);
+    pay();
     return true;
   };
 
@@ -447,7 +439,6 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
                 </p>
                 {mainError && <Alert text={mainError} error={true} />}
                 <button onClick={checkValues}>Renew</button>
-                {success && <Alert text={success} bgColor="#9dffaab9" />}
               </section>
             </section>
           </div>

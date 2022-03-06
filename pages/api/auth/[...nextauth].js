@@ -70,6 +70,7 @@ const options = {
           name: user.name,
           email: user.email,
           image: user.image,
+          start: new Date(),
         });
       } else {
         if (user.image) {

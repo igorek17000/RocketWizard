@@ -48,7 +48,7 @@ const customStyles = {
   }),
 };
 
-function ChooseApi({ open, handleClose, traderId, sendApiName }) {
+function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
   const [options, setOptions] = useState([]);
 
   const [api, setApi] = useState(null);
@@ -71,7 +71,30 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
   const { data: session, status } = useSession();
 
   const handleChoose = async () => {
+    const tierAmounts = [3000, 11000, 27500];
+
     if (api) {
+      const balanceResponse = await fetch("/api/get-balance", {
+        method: "POST",
+        body: JSON.stringify({
+          email: session.user.email,
+          apiName: api.value,
+          exists: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const balance = await balanceResponse.json();
+
+      if (parseFloat(balance.balance) > tierAmounts[tier]) {
+        setError(
+          "Wallet balance is too high for this tier. Please select a higher tier or change your wallet balance."
+        );
+        return;
+      }
+
       sendApiName(api.value);
 
       try {
@@ -94,13 +117,14 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
           throw new Error(json.message || "Something went wrong");
         }
       } catch (error) {}
+
+      handleClose();
     }
-    handleClose();
   };
 
   const getExchange = async () => {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/get-exchange?traderId=${traderId}`
+      `http://localhost:3000/api/get-exchange?traderId=${traderId}`
     );
 
     const json = await res.json();
@@ -110,7 +134,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
 
   const getAPIs = async () => {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+      `http://localhost:3000/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();
@@ -186,6 +210,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName }) {
           sendApiName={(name) => sendApiName(name)}
           tip={true}
           risky={true}
+          tier={tier}
         />
       )}
 

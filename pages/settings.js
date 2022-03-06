@@ -5,15 +5,125 @@ import styles from "../styles/Settings.module.scss";
 
 import { IoTrashOutline } from "react-icons/io5";
 
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 
 import { Scrollbar } from "react-scrollbars-custom";
 
 import AddApi from "../components/AddApi";
 
-function Settings() {
+import Select from "react-select";
+
+const customStyles = {
+  control: () => ({
+    // none of react-select's styles are passed to <Control />
+    width: "100%",
+    display: "flex",
+    padding: "0.4rem 0.5rem",
+    fontSize: "1rem",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: "black",
+  }),
+  menuList: (base) => ({
+    ...base,
+    height: "8rem",
+    "::-webkit-scrollbar": {
+      width: "3px",
+      height: "0px",
+    },
+    "::-webkit-scrollbar-track": {
+      background: "#f1f1f1",
+    },
+    "::-webkit-scrollbar-thumb": {
+      background: "#888",
+      borderRadius: 10,
+    },
+    "::-webkit-scrollbar-thumb:hover": {
+      background: "#555",
+    },
+  }),
+};
+
+function ActivatedApi({ sub, apiKeys, changed }) {
+  const apiOptions = apiKeys
+    .filter(
+      (key) =>
+        key.exchange === sub.api.exchange &&
+        (!key.taken || sub.api.name === key.name)
+    )
+    .map((key) => {
+      return { value: key.name, label: key.name };
+    });
+
+  console.log(apiOptions);
+
+  const { data: session, status } = useSession();
+
+  const [apiValue, setApiValue] = useState({
+    value: sub.api.name,
+    label: sub.api.name,
+  });
+
+  const changeValue = async (val) => {
+    console.log("VALUE: ", val);
+
+    if (val.value && session) {
+      try {
+        const response = await fetch("/api/update-subbed-api", {
+          method: "POST",
+          body: JSON.stringify({
+            email: session.user.email,
+            newApiName: val.value,
+            oldApiName: sub.api.name,
+            traderId: sub.traderId,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const json = await response.json();
+
+        if (!response.ok) {
+          setError(json.message);
+          throw new Error(json.message || "Something went wrong");
+        }
+      } catch (error) {
+        return;
+      }
+
+      setApiValue(val);
+      changed();
+    }
+  };
+
+  return (
+    <div className={styles.api}>
+      <div className={styles.values}>
+        <h4>{sub.traderId}</h4>
+      </div>
+      <img
+        src={`/images/settings/exchanges/${sub.api.exchange}.svg`}
+        alt="Exchange"
+      />
+      <Select
+        className={styles.select}
+        styles={customStyles}
+        defaultValue={apiValue}
+        options={apiOptions}
+        value={apiValue}
+        onChange={changeValue}
+      />
+    </div>
+  );
+}
+
+function Settings({ subscriptions }) {
   const [openModal, setOpenModal] = useState(false);
   const [apiKeys, setApiKeys] = useState([]);
+
+  const [activeLink, setActiveLink] = useState("list");
 
   const { data: session, status } = useSession();
 
@@ -21,7 +131,7 @@ function Settings() {
     if (!session) return;
 
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+      `http://localhost:3000/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();
@@ -101,36 +211,81 @@ function Settings() {
             </div>
           </section>
           <section className={styles.apiList}>
-            <h3>API list</h3>
+            <div className={styles.titles}>
+              <h3
+                style={{ opacity: activeLink === "list" ? 1 : 0.3 }}
+                onClick={() => setActiveLink("list")}
+              >
+                API list
+              </h3>
+              <h3
+                style={{ opacity: activeLink === "activated" ? 1 : 0.3 }}
+                onClick={() => setActiveLink("activated")}
+              >
+                Activated
+              </h3>
+            </div>
             <Scrollbar style={{ height: "22.2rem" }}>
-              {apiKeys.length > 0 ? (
-                <div className={styles.list}>
-                  {apiKeys.map((api, i) => (
-                    <div className={styles.api} key={i}>
-                      <IoTrashOutline
-                        className={styles.trash}
-                        onClick={() => deleteApi(api.name)}
-                      />
-                      <div className={styles.values}>
-                        <h4>{shorten(api.name, 20)}</h4>
-                        <h4>{shorten(api.api, 20)}</h4>
-                      </div>
-                      <img
-                        src={`/images/settings/exchanges/${api.exchange}.svg`}
-                        alt="Exchange"
-                      />
-                      <div
-                        className={styles.delBtn}
-                        onClick={() => deleteApi(api.name)}
-                      >
-                        <IoTrashOutline />
-                        <p>DELETE</p>
-                      </div>
+              {activeLink === "list" ? (
+                <>
+                  {apiKeys.length > 0 ? (
+                    <div className={styles.list}>
+                      {apiKeys.map((api, i) => (
+                        <div
+                          className={styles.api}
+                          key={i}
+                          style={
+                            api.taken
+                              ? {
+                                  border: "2px solid #39c491",
+                                  boxShadow: "0 0 3px #39c49152",
+                                }
+                              : undefined
+                          }
+                        >
+                          <IoTrashOutline
+                            className={styles.trash}
+                            onClick={() => deleteApi(api.name)}
+                          />
+                          <div className={styles.values}>
+                            <h4>{shorten(api.name, 20)}</h4>
+                            <h4>{shorten(api.api, 20)}</h4>
+                          </div>
+                          <img
+                            src={`/images/settings/exchanges/${api.exchange}.svg`}
+                            alt="Exchange"
+                          />
+                          <div
+                            className={styles.delBtn}
+                            onClick={() => deleteApi(api.name)}
+                          >
+                            <IoTrashOutline />
+                            <p>DELETE</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  ) : (
+                    <h1>{"You didn't add any API keys yet."}</h1>
+                  )}
+                </>
               ) : (
-                <h1>{"You didn't add any API keys yet."}</h1>
+                <>
+                  {subscriptions && subscriptions.length > 0 ? (
+                    <div className={styles.list}>
+                      {subscriptions.map((sub, i) => (
+                        <ActivatedApi
+                          sub={sub}
+                          apiKeys={apiKeys}
+                          key={i}
+                          changed={getApiKeys}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <h1>{"You don't have any subscriptions yet."}</h1>
+                  )}
+                </>
               )}
             </Scrollbar>
           </section>
@@ -138,6 +293,25 @@ function Settings() {
       </section>
     </main>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+
+  if (session) {
+    const res = await fetch(
+      `http://localhost:3000/api/subscribe?email=${session.user.email}`
+    );
+    const subs = await res.json();
+
+    return {
+      props: {
+        subscriptions: subs,
+      },
+    };
+  } else {
+    return { props: { subscriptions: [] } };
+  }
 }
 
 export default Settings;

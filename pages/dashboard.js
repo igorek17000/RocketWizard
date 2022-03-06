@@ -19,6 +19,7 @@ import {
 import GuestMessage from "../components/Dashboard/GuestMessage";
 import TraderDashboard from "../components/Dashboard/TraderDashboard";
 import Renew from "../components/Renew";
+import Upgrade from "../components/Upgrade";
 
 /*
 DEAL:     {
@@ -65,6 +66,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
   const [options, setOptions] = useState([]);
 
   const [renewOpen, setRenewOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [subscription, setSubscription] = useState(null);
 
   const [balance, setBalance] = useState({
@@ -81,7 +83,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
     setApi(value);
 
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/balance?email=${session.user.email}&apiName=${value.value}`
+      `http://localhost:3000/api/balance?email=${session.user.email}&apiName=${value.value}`
     );
 
     const balance = await res.json();
@@ -92,7 +94,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
   const getAPIs = async () => {
     if (session) {
       const res = await fetch(
-        `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+        `http://localhost:3000/api/apiKeys?email=${session.user.email}`
       );
 
       const keys = await res.json();
@@ -147,6 +149,15 @@ function Dashboard({ subscriptions, traderID, traders }) {
           handleClose={() => setRenewOpen(false)}
           traders={traders}
           id={subscription.plan.id}
+          traderId={subscription.traderId}
+        />
+      )}
+      {subscription && (
+        <Upgrade
+          open={upgradeOpen}
+          handleClose={() => setUpgradeOpen(false)}
+          traders={traders}
+          id={subscription.plan.id + 1}
           traderId={subscription.traderId}
         />
       )}
@@ -224,6 +235,10 @@ function Dashboard({ subscriptions, traderID, traders }) {
                         setRenewOpen(true);
                         setSubscription(sub);
                       }}
+                      openUpgrade={(sub) => {
+                        setUpgradeOpen(true);
+                        setSubscription(sub);
+                      }}
                     />
                   ))}
                 </div>
@@ -239,19 +254,17 @@ function Dashboard({ subscriptions, traderID, traders }) {
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
 
-  const resTraders = await fetch(
-    `https://rocket-wizard.vercel.app/api/traders`
-  );
+  const resTraders = await fetch(`http://localhost:3000/api/traders`);
 
   const traders = await resTraders.json();
 
   if (session) {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
+      `http://localhost:3000/api/subscribe?email=${session.user.email}`
     );
 
     const isTraderRes = await fetch(
-      `https://rocket-wizard.vercel.app/api/isTrader?email=${session.user.email}`
+      `http://localhost:3000/api/isTrader?email=${session.user.email}`
     );
 
     const subs = await res.json();
