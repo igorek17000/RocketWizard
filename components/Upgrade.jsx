@@ -219,7 +219,7 @@ function Upgrade({
 
     const fullPriceTemp = Math.max(tillEndPrice + shipping - discount, 0);
 
-    setFullPrice(centRound(fullPriceTemp));
+    setFullPrice(fullPriceTemp);
   };
 
   const [mainError, setMainError] = useState(null);
