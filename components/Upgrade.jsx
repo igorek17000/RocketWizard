@@ -217,9 +217,10 @@ function Upgrade({
 
     setPlanPrice(centRound(tillEndPrice));
 
-    const fullPriceTemp = Math.max(tillEndPrice + shipping - discount, 0);
+    const fullPriceTemp =
+      Math.floor(Math.max(tillEndPrice + shipping - discount, 0)) + 0.99;
 
-    setFullPrice(Math.floor(fullPriceTemp) + 0.99);
+    setFullPrice(fullPriceTemp);
   };
 
   const [mainError, setMainError] = useState(null);
