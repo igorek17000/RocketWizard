@@ -247,9 +247,9 @@ function Checkout({ traders }) {
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "http://localhost:3000/?orderSuccess=true",
-      cancel_url: "http://localhost:3000/checkout/fail",
-      ipn_callback_url: "http://localhost:3000/api/payment",
+      success_url: "https://rocket-wizard.vercel.app/?orderSuccess=true",
+      cancel_url: "https://rocket-wizard.vercel.app/checkout/fail",
+      ipn_callback_url: "https://rocket-wizard.vercel.app/api/payment",
     };
 
     const invoice = await npApi.createInvoice(config);
@@ -616,7 +616,7 @@ function Checkout({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`http://localhost:3000/api/traders`);
+  const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
 
   const traders = await res.json();
 

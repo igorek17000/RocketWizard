@@ -131,7 +131,7 @@ function Settings({ subscriptions }) {
     if (!session) return;
 
     const res = await fetch(
-      `http://localhost:3000/api/apiKeys?email=${session.user.email}`
+      `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();
@@ -300,7 +300,7 @@ export async function getServerSideProps({ req }) {
 
   if (session) {
     const res = await fetch(
-      `http://localhost:3000/api/subscribe?email=${session.user.email}`
+      `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
     );
     const subs = await res.json();
 

@@ -196,7 +196,9 @@ function Trader({ traders, traderID }) {
           {traderID === trader.id ? (
             <button onClick={submit}>UPDATE</button>
           ) : (
-            <Link href={`http://localhost:3000/traders/subscribe/${trader.id}`}>
+            <Link
+              href={`https://rocket-wizard.vercel.app/traders/subscribe/${trader.id}`}
+            >
               <button>SUBSCRIBE</button>
             </Link>
           )}
@@ -207,14 +209,14 @@ function Trader({ traders, traderID }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`http://localhost:3000/api/traders`);
+  const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
 
   const traders = await res.json();
 
   const session = await getSession({ req });
   if (session) {
     const isTraderRes = await fetch(
-      `http://localhost:3000/api/isTrader?email=${session.user.email}`
+      `https://rocket-wizard.vercel.app/api/isTrader?email=${session.user.email}`
     );
 
     const traderID = await isTraderRes.json();
