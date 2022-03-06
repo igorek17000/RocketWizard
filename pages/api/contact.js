@@ -27,7 +27,7 @@ export default function (req, res) {
       ${req.body.email + ", " + req.body.country}</p>`,
   };
 
-  await transporter.sendMail(mailData);
+  transporter.sendMail(mailData);
 
   res.status(200);
 }
