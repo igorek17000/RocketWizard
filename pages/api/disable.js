@@ -1,5 +1,36 @@
 import { connectToDatabase } from "../../lib/mongodb";
 
+let nodemailer = require("nodemailer");
+require("dotenv").config();
+
+const sendMail = async (email) => {
+  const transporter = nodemailer.createTransport({
+    port: 465,
+    host: "smtp.gmail.com",
+    auth: {
+      user: "rocketwizardcontact@gmail.com",
+      pass: process.env.password,
+    },
+    from: "rocketwizardcontact@gmail.com",
+    secure: true,
+  });
+
+  const message =
+    "Your wallet amount is too high for your subscription. Please upgrade your Rocket Wizard subscription or reduce your wallet balance to continue trading with us.";
+
+  const mailData = {
+    from: "rocketwizardcontact@gmail.com",
+    to: email,
+    subject: `Rocket Wizard Warning`,
+    text: message,
+    html: `<div>${message}</p>`,
+  };
+
+  await transporter.sendMail(mailData);
+
+  return;
+};
+
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
@@ -26,10 +57,12 @@ export default async function handler(req, res) {
 
     subs[subs.indexOf(found)] = newSub;
 
+    await sendMail(email);
+
     await db
       .collection("users")
       .updateOne({ email }, { $set: { subscriptions: subs } });
 
-    return res.json({ success: true });
+    res.status(200);
   }
 }
