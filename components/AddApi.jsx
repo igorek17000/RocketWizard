@@ -123,6 +123,9 @@ function AddApi({
     } else if (passwordExchanges.includes(exchange.value) && !password) {
       setError("All fields are required.");
       return false;
+    } else if (name.includes(" ")) {
+      setError("Name cannot contain spaces.");
+      return false;
     }
 
     const apiKey = {

@@ -113,9 +113,9 @@ const cryptoOptions = [
   },
 ];
 
-function Checkout({ traders, NPapi }) {
-  const npApi = new NowPaymentsApi({ apiKey: NPapi });
+const npApi = new NowPaymentsApi({ apiKey: process.env.NPapi });
 
+function Checkout({ traders, NPapi }) {
   const [readTerms, setReadTerms] = useState(false);
 
   const [country, setCountry] = useState(null);
