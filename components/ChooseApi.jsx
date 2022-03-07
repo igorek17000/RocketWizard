@@ -71,7 +71,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
   const { data: session, status } = useSession();
 
   const handleChoose = async () => {
-    const tierAmounts = [30, 11000, 27500];
+    const tierAmounts = [3000, 11000, 27500];
 
     if (api) {
       const balanceResponse = await fetch("/api/get-balance", {

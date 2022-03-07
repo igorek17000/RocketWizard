@@ -113,7 +113,7 @@ function AddApi({
   };
 
   const checkValues = async () => {
-    const tierAmounts = [30, 11000, 27500];
+    const tierAmounts = [3000, 11000, 27500];
 
     setLoading(true);
 
