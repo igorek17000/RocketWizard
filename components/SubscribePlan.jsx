@@ -27,6 +27,13 @@ function SubscribePlan({ id, trader }) {
     return centRound(price).toLocaleString("en-US");
   };
 
+  const [comingSoon] = useState({
+    binance: ["ADVANCED", "PRO"],
+    kucoin: ["PRO"],
+    okex: ["PRO"],
+    huobi: ["BASIC", "ADVANCED", "PRO"],
+  });
+
   const [plans] = useState([
     {
       name: "BASIC",
@@ -54,7 +61,12 @@ function SubscribePlan({ id, trader }) {
   const [plan] = useState(plans[id]);
 
   return (
-    <main className={styles.subscribePlan}>
+    <main
+      className={styles.subscribePlan}
+      style={{
+        opacity: comingSoon[trader.exchange].includes(plan.name) ? 0.6 : 1,
+      }}
+    >
       {/* Top section */}
 
       <section className={styles.top}>
@@ -86,11 +98,15 @@ function SubscribePlan({ id, trader }) {
 
       <section className={styles.bottom}>
         <p>24/7 Live Support Chat</p>
-        <Link
-          href={session ? `/checkout?p=${id}&q=1&t=${trader.id}` : "/login"}
-        >
-          <button>GET STARTED</button>
-        </Link>
+        {comingSoon[trader.exchange].includes(plan.name) ? (
+          <h3 className={styles.comingSoon}>COMING SOON</h3>
+        ) : (
+          <Link
+            href={session ? `/checkout?p=${id}&q=1&t=${trader.id}` : "/login"}
+          >
+            <button>GET STARTED</button>
+          </Link>
+        )}
       </section>
     </main>
   );

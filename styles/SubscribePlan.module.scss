@@ -70,7 +70,8 @@
       font-size: 1rem;
     }
 
-    button {
+    button,
+    .comingSoon {
       margin-top: 1rem;
       background-color: transparent;
       border-radius: 1.5rem;
@@ -86,6 +87,12 @@
         background-color: #731bde;
         color: white;
       }
+    }
+
+    .comingSoon {
+      cursor: default;
+      background-color: #731bde;
+      color: white;
     }
   }
 }

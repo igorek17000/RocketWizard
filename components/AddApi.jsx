@@ -106,7 +106,7 @@ function AddApi({
   };
 
   const checkValues = async () => {
-    const tierAmounts = [3000, 11000, 27500];
+    const tierAmounts = [30, 11000, 27500];
 
     if (!(exchange && name && api && secret)) {
       setError("All fields are required.");
