@@ -113,9 +113,7 @@ const cryptoOptions = [
   },
 ];
 
-const npApi = new NowPaymentsApi({ apiKey: process.env.NPapi });
-
-function Checkout({ traders, NPapi }) {
+function Checkout({ traders, npApi }) {
   const [readTerms, setReadTerms] = useState(false);
 
   const [country, setCountry] = useState(null);
@@ -620,8 +618,10 @@ export async function getServerSideProps() {
 
   const traders = await res.json();
 
+  const npApi = new NowPaymentsApi({ apiKey: process.env.NPapi });
+
   // Pass data to the page via props
-  return { props: { traders, NPapi: process.env.NPapi } };
+  return { props: { traders, npApi } };
 }
 
 export default Checkout;
