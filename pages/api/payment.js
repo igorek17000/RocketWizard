@@ -1,9 +1,19 @@
 import { connectToDatabase } from "../../lib/mongodb";
 const crypto = require("crypto");
 
+const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+function dateDiffInDays(a, b) {
+  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+}
+
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
@@ -12,16 +22,9 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const payment = req.body;
 
-    const hmac = crypto.createHmac(
-      "sha512",
-      "e3UcYwrucI9N79fb/NG1FQpvxuBOmGWT"
-    );
+    const hmac = crypto.createHmac("sha512", process.env.NPnotificationsKey);
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
-
-    console.log("SIGNATURE: ", signature);
-    console.log("HEADER SIGNATURE: ", req.headers["x-nowpayments-sig"]);
-    console.log("PAYMENT: ", payment);
 
     if (
       payment.payment_status === "confirmed" &&
@@ -65,6 +68,12 @@ export default async function handler(req, res) {
 
       const api = await user.apiKeys.find((x) => x.name === apiName);
 
+      let userNew = false;
+
+      if (dateDiffInDays(new Date(), new Date(user.start)) <= 60) {
+        userNew = true;
+      }
+
       apiKeys[apiKeys.indexOf(api)].taken = true;
 
       await db
@@ -83,6 +92,10 @@ export default async function handler(req, res) {
         multiplier: api.multiplier,
         startDate: new Date(),
       };
+
+      if (api.exchange === "binance") {
+        subscriber.new = userNew;
+      }
 
       const trader = await db.collection("traders").findOne({ id: traderId });
       const subscribers = trader.subscribers || [];

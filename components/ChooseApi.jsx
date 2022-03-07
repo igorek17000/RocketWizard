@@ -124,7 +124,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
 
   const getExchange = async () => {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/get-exchange?traderId=${traderId}`
+      `https://rocketwizard.io/api/get-exchange?traderId=${traderId}`
     );
 
     const json = await res.json();
@@ -134,7 +134,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
 
   const getAPIs = async () => {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+      `https://rocketwizard.io/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();

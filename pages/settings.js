@@ -13,6 +13,8 @@ import AddApi from "../components/AddApi";
 
 import Select from "react-select";
 
+import ConfirmDelete from "../components/ConfirmDelete";
+
 const customStyles = {
   control: () => ({
     // none of react-select's styles are passed to <Control />
@@ -56,8 +58,6 @@ function ActivatedApi({ sub, apiKeys, changed }) {
       return { value: key.name, label: key.name };
     });
 
-  console.log(apiOptions);
-
   const { data: session, status } = useSession();
 
   const [apiValue, setApiValue] = useState({
@@ -66,8 +66,6 @@ function ActivatedApi({ sub, apiKeys, changed }) {
   });
 
   const changeValue = async (val) => {
-    console.log("VALUE: ", val);
-
     if (val.value && session) {
       try {
         const response = await fetch("/api/update-subbed-api", {
@@ -123,6 +121,8 @@ function Settings({ subscriptions }) {
   const [openModal, setOpenModal] = useState(false);
   const [apiKeys, setApiKeys] = useState([]);
 
+  const [deleting, setDeleting] = useState(null);
+
   const [activeLink, setActiveLink] = useState("list");
 
   const { data: session, status } = useSession();
@@ -131,12 +131,10 @@ function Settings({ subscriptions }) {
     if (!session) return;
 
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+      `https://rocketwizard.io/api/apiKeys?email=${session.user.email}`
     );
 
     const keys = await res.json();
-
-    console.log("KEYS: ", keys);
 
     setApiKeys(keys ? keys : []);
   };
@@ -152,10 +150,9 @@ function Settings({ subscriptions }) {
   };
 
   const deleteApi = async (apiName) => {
+    setDeleting(null);
     if (apiName && session) {
       try {
-        console.log("DELETING: ", apiName);
-
         const response = await fetch("/api/delete-api", {
           method: "POST",
           body: JSON.stringify({
@@ -188,6 +185,15 @@ function Settings({ subscriptions }) {
           open={openModal}
           handleClose={() => setOpenModal(false)}
           updateKeys={getApiKeys}
+        />
+      )}
+      {deleting && (
+        <ConfirmDelete
+          apiName={deleting}
+          open={deleting !== null}
+          handleClose={(apiName) =>
+            apiName !== null ? deleteApi(apiName) : setDeleting(null)
+          }
         />
       )}
       <Head>
@@ -245,7 +251,7 @@ function Settings({ subscriptions }) {
                         >
                           <IoTrashOutline
                             className={styles.trash}
-                            onClick={() => deleteApi(api.name)}
+                            onClick={() => setDeleting(api.name)}
                           />
                           <div className={styles.values}>
                             <h4>{shorten(api.name, 20)}</h4>
@@ -257,7 +263,7 @@ function Settings({ subscriptions }) {
                           />
                           <div
                             className={styles.delBtn}
-                            onClick={() => deleteApi(api.name)}
+                            onClick={() => setDeleting(api.name)}
                           >
                             <IoTrashOutline />
                             <p>DELETE</p>
@@ -300,7 +306,7 @@ export async function getServerSideProps({ req }) {
 
   if (session) {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
+      `https://rocketwizard.io/api/subscribe?email=${session.user.email}`
     );
     const subs = await res.json();
 

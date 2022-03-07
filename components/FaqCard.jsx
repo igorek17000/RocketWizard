@@ -202,6 +202,15 @@ function FaqCard({ card = true, likeData, articleCount }) {
             <li>
               <Link href="/contact">Contact form</Link>
             </li>
+            <li>
+              <Link href="/feedback">Feedback</Link>
+            </li>
+            <li>
+              <Link href="/terms-and-conditions">Terms and Conditions</Link>
+            </li>
+            <li>
+              <Link href="/privacy-policy">Privacy Policy</Link>
+            </li>
           </ul>
         </div>
       </div>

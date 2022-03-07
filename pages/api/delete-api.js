@@ -6,8 +6,6 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { email, apiName } = req.body;
 
-    console.log("DELETING API: ", apiName);
-
     await db.collection("users").updateOne(
       { email },
       {

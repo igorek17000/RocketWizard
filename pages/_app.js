@@ -22,11 +22,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [loading, setLoading] = React.useState(false);
   useEffect(() => {
     const start = () => {
-      console.log("start");
       setLoading(true);
     };
     const end = () => {
-      console.log("findished");
       setLoading(false);
     };
     Router.events.on("routeChangeStart", start);

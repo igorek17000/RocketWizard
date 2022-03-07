@@ -20,8 +20,6 @@ import Alert from "../components/Alert";
 
 import NowPaymentsApi from "@nowpaymentsio/nowpayments-api-js";
 
-const npApi = new NowPaymentsApi({ apiKey: "D5ZCBE3-Y8QMJVN-JYNQ87D-CSD2M5G" }); // your api key
-
 const customStyles = {
   control: () => ({
     // none of react-select's styles are passed to <Control />
@@ -115,7 +113,17 @@ const cryptoOptions = [
   },
 ];
 
-function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
+function Renew({
+  traders,
+  open,
+  handleClose,
+  id = 0,
+  quantity = 1,
+  traderId,
+  npApi,
+}) {
+  const npApi = new NowPaymentsApi({ apiKey: npApi });
+
   const [readTerms, setReadTerms] = useState(false);
 
   const [crypto, setCrypto] = useState(null);
@@ -206,9 +214,9 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "https://rocket-wizard.vercel.app/?orderSuccess=true",
-      cancel_url: "https://rocket-wizard.vercel.app/checkout/fail",
-      ipn_callback_url: "https://rocket-wizard.vercel.app/api/renew",
+      success_url: "https://rocketwizard.io/?orderSuccess=true",
+      cancel_url: "https://rocketwizard.io/checkout/fail",
+      ipn_callback_url: "https://rocketwizard.io/api/renew",
     };
 
     const invoice = await npApi.createInvoice(config);
@@ -446,6 +454,11 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
       </section>
     </Modal>
   );
+}
+
+export async function getStaticProps() {
+  // Pass data to the page via props
+  return { props: { npApi: process.env.NPapi } };
 }
 
 export default Renew;

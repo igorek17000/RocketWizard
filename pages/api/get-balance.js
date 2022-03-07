@@ -18,8 +18,6 @@ async function getBinance(apiKey) {
 
   const balances = await binance.futuresBalance();
 
-  console.log("BALANCES: ", balances);
-
   const balance = parseFloat(
     await balances.find((x) => x.asset === "USDT").balance
   );
@@ -61,9 +59,7 @@ async function getKucoin(apiKey) {
     .then((r) => {
       balance = r.data.availableBalance;
     })
-    .catch((e) => {
-      console.log("KUCOIN ERROR: ", e);
-    });
+    .catch((e) => {});
 
   return balance;
 }
@@ -86,16 +82,10 @@ async function getHuobi(apiKey) {
     .then(() => {
       hbsdk
         .getAccountBalance()
-        .then((data) => {
-          console.log("HUOBI BALANCE: ", data.list);
-        })
-        .catch((e) => {
-          console.log("HUOBI ERROR: ", e);
-        });
+        .then((data) => {})
+        .catch((e) => {});
     })
-    .catch((e) => {
-      console.log("HUOBI ERROR: ", e);
-    });
+    .catch((e) => {});
 
   return balance;
 }
@@ -126,20 +116,13 @@ export default async function handler(req, res) {
 
       const user = await db.collection("users").findOne({ email });
 
-      console.log(apiName);
-
       const apiKey = await user.apiKeys.find((x) => x.name === apiName);
-
-      console.log(apiKey);
 
       let balance = await getBalance(apiKey);
 
       res.json({ balance });
     } else {
       const { apiKey } = req.body;
-
-      console.log(apiKey);
-
       let balance = await getBalance(apiKey);
 
       res.json({ balance });

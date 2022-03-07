@@ -21,7 +21,7 @@ export default function Chat() {
       var s1 = document.createElement("script"),
         s0 = document.getElementsByTagName("script")[0];
       s1.async = true;
-      s1.src = "https://embed.tawk.to/621bf831a34c245641289a3c/1fsuk30gn";
+      s1.src = "https://embed.tawk.to/62262c0d1ffac05b1d7d631a/1ftiho5lv";
       s1.charset = "UTF-8";
       s1.setAttribute("crossorigin", "*");
       s0.parentNode.insertBefore(s1, s0);

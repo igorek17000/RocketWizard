@@ -9,8 +9,6 @@ import { getSession } from "next-auth/react";
 import Alert from "../../components/Alert";
 
 function Traders({ traders, traderID }) {
-  console.log(traderID);
-
   return (
     <main className={styles.traders}>
       <Head>
@@ -41,14 +39,14 @@ function Traders({ traders, traderID }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
+  const res = await fetch(`https://rocketwizard.io/api/traders`);
 
   const traders = await res.json();
 
   const session = await getSession({ req });
   if (session) {
     const isTraderRes = await fetch(
-      `https://rocket-wizard.vercel.app/api/isTrader?email=${session.user.email}`
+      `https://rocketwizard.io/api/isTrader?email=${session.user.email}`
     );
 
     const traderID = await isTraderRes.json();

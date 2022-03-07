@@ -20,8 +20,6 @@ import ChooseApi from "../components/ChooseApi";
 
 import NowPaymentsApi from "@nowpaymentsio/nowpayments-api-js";
 
-const npApi = new NowPaymentsApi({ apiKey: "D5ZCBE3-Y8QMJVN-JYNQ87D-CSD2M5G" }); // your api key
-
 const customStyles = {
   control: () => ({
     // none of react-select's styles are passed to <Control />
@@ -115,7 +113,9 @@ const cryptoOptions = [
   },
 ];
 
-function Checkout({ traders }) {
+function Checkout({ traders, npApi }) {
+  const npApi = new NowPaymentsApi({ apiKey: npApi });
+
   const [readTerms, setReadTerms] = useState(false);
 
   const [country, setCountry] = useState(null);
@@ -247,9 +247,9 @@ function Checkout({ traders }) {
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "https://rocket-wizard.vercel.app/?orderSuccess=true",
-      cancel_url: "https://rocket-wizard.vercel.app/checkout/fail",
-      ipn_callback_url: "https://rocket-wizard.vercel.app/api/payment",
+      success_url: "https://rocketwizard.io/?orderSuccess=true",
+      cancel_url: "https://rocketwizard.io/checkout/fail",
+      ipn_callback_url: "https://rocketwizard.io/api/payment",
     };
 
     const invoice = await npApi.createInvoice(config);
@@ -616,12 +616,12 @@ function Checkout({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://rocket-wizard.vercel.app/api/traders`);
+  const res = await fetch(`https://rocketwizard.io/api/traders`);
 
   const traders = await res.json();
 
   // Pass data to the page via props
-  return { props: { traders } };
+  return { props: { traders, npApi: process.env.NPapi } };
 }
 
 export default Checkout;

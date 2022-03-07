@@ -29,9 +29,6 @@ export default async function handler(req, res) {
         };
       })
     );
-
-    console.log(subscriptions);
-
     return res.json(subscriptions || []);
   } else {
     return res.status(400).json({ message: "Unsupported request method" });

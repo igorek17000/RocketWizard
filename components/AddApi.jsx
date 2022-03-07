@@ -3,6 +3,11 @@ import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
 import styles from "../styles/AddApi.module.scss";
 
+import { Scrollbar } from "react-scrollbars-custom";
+
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval } from "react-loader-spinner";
+
 import RiskyTrading from "../components/RiskyTrading";
 
 import { useSession } from "next-auth/react";
@@ -71,6 +76,8 @@ function AddApi({
   const [password, setPassword] = useState(null);
   const [multiplier, setMultiplier] = useState(1);
 
+  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState(null);
 
   const [passwordExchanges] = useState(["okex", "kucoin"]);
@@ -107,6 +114,8 @@ function AddApi({
 
   const checkValues = async () => {
     const tierAmounts = [30, 11000, 27500];
+
+    setLoading(true);
 
     if (!(exchange && name && api && secret)) {
       setError("All fields are required.");
@@ -157,6 +166,7 @@ function AddApi({
 
   const handleAdd = async () => {
     const check = await checkValues();
+    setLoading(false);
 
     if (check) {
       const key = {
@@ -232,66 +242,92 @@ function AddApi({
           <AiOutlineClose />
         </div>
         <h3>Add API</h3>
-        <div className={styles.inputContainer}>
-          <label>Exchange</label>
-          {forceExchange ? (
-            <div className={styles.forceExchange}>
-              <p>{capitalize(forceExchange)}</p>
+        <Scrollbar
+          style={{
+            height: "80vh",
+            width: "100%",
+            borderRadius: "0.7rem",
+          }}
+        >
+          <div className={styles.content}>
+            <div className={styles.inputContainer}>
+              <label>Exchange</label>
+              {forceExchange ? (
+                <div className={styles.forceExchange}>
+                  <p>{capitalize(forceExchange)}</p>
+                </div>
+              ) : (
+                <Select
+                  className={styles.select}
+                  styles={customStyles}
+                  options={options}
+                  value={exchange}
+                  onChange={changeExchange}
+                />
+              )}
             </div>
-          ) : (
-            <Select
-              className={styles.select}
-              styles={customStyles}
-              options={options}
-              value={exchange}
-              onChange={changeExchange}
-            />
-          )}
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="name">Name of the profile</label>
-          <input
-            id="name"
-            autoComplete="off"
-            onChange={(e) => setName(e.target.value)}
-          />
-          {tip && (
-            <p className={styles.tip}>
-              {"Tip: Keep the trader's name in mind while naming your API"}
-            </p>
-          )}
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="api">API</label>
-          <input
-            id="api"
-            autoComplete="off"
-            onChange={(e) => setApi(e.target.value)}
-          />
-        </div>
-        <div className={styles.inputContainer}>
-          <label htmlFor="secret">Secret</label>
-          <input
-            id="secret"
-            autoComplete="off"
-            onChange={(e) => setSecret(e.target.value)}
-          />
-        </div>
-        {exchange && passwordExchanges.includes(exchange.value) && (
-          <div className={styles.inputContainer}>
-            <label htmlFor="secret">API Password</label>
-            <input
-              id="secret"
-              autoComplete="off"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className={styles.inputContainer}>
+              <label htmlFor="name">Name of the profile</label>
+              <input
+                id="name"
+                autoComplete="off"
+                onChange={(e) => setName(e.target.value)}
+              />
+              {tip && (
+                <p className={styles.tip}>
+                  {"Tip: Keep the trader's name in mind while naming your API"}
+                </p>
+              )}
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="api">API</label>
+              <input
+                id="api"
+                autoComplete="off"
+                onChange={(e) => setApi(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="secret">Secret</label>
+              <input
+                id="secret"
+                type="password"
+                autoComplete="off"
+                onChange={(e) => setSecret(e.target.value)}
+              />
+            </div>
+            {exchange && passwordExchanges.includes(exchange.value) && (
+              <div className={styles.inputContainer}>
+                <label htmlFor="secret">API Password</label>
+                <input
+                  id="secret"
+                  type="password"
+                  autoComplete="off"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            )}
+            {risky && (
+              <RiskyTrading
+                sendSelected={(selected) => setMultiplier(selected)}
+              />
+            )}
+            {error && <Alert text={error} error={true} />}
+
+            <button onClick={loading ? () => {} : handleAdd}>
+              {loading ? (
+                <Oval
+                  color="#731bde"
+                  secondaryColor="white"
+                  height={25}
+                  width={25}
+                />
+              ) : (
+                "Add"
+              )}
+            </button>
           </div>
-        )}
-        {risky && (
-          <RiskyTrading sendSelected={(selected) => setMultiplier(selected)} />
-        )}
-        {error && <Alert text={error} error={true} />}
-        <button onClick={handleAdd}>Add</button>
+        </Scrollbar>
       </div>
     </Modal>
   );

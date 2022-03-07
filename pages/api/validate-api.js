@@ -11,18 +11,23 @@ const MARKET_WS = "wss://api.huobi.de.com/ws";
 const ACCOUNT_WS = "wss://api.huobi.de.com/ws/v2";
 
 async function validateBinance(apiKey) {
-  const binance = new Binance().options({
-    APIKEY: apiKey.api,
-    APISECRET: apiKey.secret,
+  const exchange = new ccxt.binance({
+    apiKey: apiKey.api,
+    secret: apiKey.secret,
   });
 
-  const acc = await binance.futuresAccount();
+  let valid = false;
 
-  if (acc.code === -2014) {
-    return false;
-  }
+  await exchange
+    .fetchBalance()
+    .then((balance) => {
+      valid = true;
+    })
+    .catch((err) => {
+      valid = false;
+    });
 
-  return true;
+  return valid;
 }
 
 async function validateOkex(apiKey) {
@@ -77,8 +82,6 @@ async function validateHuobi(apiKey) {
     },
   });
 
-  console.log("HUOBI: ", hbsdk);
-
   return false;
 }
 
@@ -102,8 +105,6 @@ export default async function handler(req, res) {
 
   if (req.method === "POST") {
     const { apiKey } = req.body;
-
-    console.log(apiKey);
 
     let valid = await validateApi(apiKey);
 

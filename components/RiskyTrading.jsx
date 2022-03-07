@@ -35,9 +35,7 @@ function RiskyTrading({ sendSelected }) {
           </button>
         ))}
       </div>
-      {selected && (
-        <h4>Trader will have access to: {walletPercentage * selected}%</h4>
-      )}
+      {selected && <h4>{walletPercentage * selected}% per position</h4>}
     </main>
   );
 }

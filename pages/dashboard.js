@@ -83,7 +83,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
     setApi(value);
 
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/balance?email=${session.user.email}&apiName=${value.value}`
+      `https://rocketwizard.io/api/balance?email=${session.user.email}&apiName=${value.value}`
     );
 
     const balance = await res.json();
@@ -94,7 +94,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
   const getAPIs = async () => {
     if (session) {
       const res = await fetch(
-        `https://rocket-wizard.vercel.app/api/apiKeys?email=${session.user.email}`
+        `https://rocketwizard.io/api/apiKeys?email=${session.user.email}`
       );
 
       const keys = await res.json();
@@ -254,19 +254,17 @@ function Dashboard({ subscriptions, traderID, traders }) {
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
 
-  const resTraders = await fetch(
-    `https://rocket-wizard.vercel.app/api/traders`
-  );
+  const resTraders = await fetch(`https://rocketwizard.io/api/traders`);
 
   const traders = await resTraders.json();
 
   if (session) {
     const res = await fetch(
-      `https://rocket-wizard.vercel.app/api/subscribe?email=${session.user.email}`
+      `https://rocketwizard.io/api/subscribe?email=${session.user.email}`
     );
 
     const isTraderRes = await fetch(
-      `https://rocket-wizard.vercel.app/api/isTrader?email=${session.user.email}`
+      `https://rocketwizard.io/api/isTrader?email=${session.user.email}`
     );
 
     const subs = await res.json();

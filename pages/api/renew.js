@@ -7,14 +7,9 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const payment = req.body;
 
-    const hmac = crypto.createHmac(
-      "sha512",
-      "e3UcYwrucI9N79fb/NG1FQpvxuBOmGWT"
-    );
+    const hmac = crypto.createHmac("sha512", process.env.NPnotificationsKey);
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
-
-    console.log("SIGNATURE: ", signature);
 
     if (
       payment.payment_status === "confirmed" &&

@@ -16,8 +16,6 @@ export default async function handler(req, res) {
 
     const apiKeys = user.apiKeys;
 
-    console.log(apiKeys);
-
     const newApi = await user.apiKeys.find((x) => x.name === newApiName);
     const oldApi = await user.apiKeys.find((x) => x.name === oldApiName);
 

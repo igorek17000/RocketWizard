@@ -23,6 +23,53 @@
     }
   }
 
+  .inputContainer {
+    width: 45%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    label {
+      font-weight: 500;
+      font-size: 1.05rem;
+      margin-bottom: 0.3rem;
+      text-align: left;
+      color: #8a8a8a;
+    }
+
+    input,
+    textarea {
+      background-color: transparent;
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 0.4rem;
+      font-size: 1rem;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      border: 1px solid #a0a0a0;
+      outline: none;
+      transition: 0.25s ease-in-out;
+      color: black;
+
+      &:focus {
+        border: 1px solid black;
+      }
+    }
+
+    .select {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      font-size: 1rem;
+      border: 1px solid #a0a0a0;
+      border-radius: 0.4rem;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+  }
+
+  .category {
+    width: 80%;
+  }
+
   .nameEmail,
   .companyCountry,
   .message {
@@ -31,49 +78,6 @@
     place-content: space-between;
     width: 80%;
     margin: 2rem 0;
-
-    .inputContainer {
-      width: 45%;
-      display: flex;
-      align-items: flex-start;
-      flex-direction: column;
-
-      label {
-        font-weight: 500;
-        font-size: 1.05rem;
-        margin-bottom: 0.3rem;
-        text-align: left;
-        color: #8a8a8a;
-      }
-
-      input,
-      textarea {
-        background-color: transparent;
-        width: 100%;
-        padding: 0.7rem 1rem;
-        border-radius: 0.4rem;
-        font-size: 1rem;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        border: 1px solid #a0a0a0;
-        outline: none;
-        transition: 0.25s ease-in-out;
-        color: black;
-
-        &:focus {
-          border: 1px solid black;
-        }
-      }
-
-      .select {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        font-size: 1rem;
-        border: 1px solid #a0a0a0;
-        border-radius: 0.4rem;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-      }
-    }
   }
 
   .message {
@@ -149,6 +153,10 @@
       padding: 1rem;
       img {
         width: 60%;
+      }
+
+      .category {
+        width: 100%;
       }
 
       .nameEmail,

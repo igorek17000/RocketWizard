@@ -121,8 +121,8 @@ function Navbar() {
       link: "/settings",
     },
     {
-      name: "Contact Us",
-      link: "/contact",
+      name: "Feedback",
+      link: "/feedback",
     },
     {
       name: "FAQ",
