@@ -83,7 +83,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
     setApi(value);
 
     const res = await fetch(
-      `http://localhost:3000/api/balance?email=${session.user.email}&apiName=${value.value}`
+      `https://www.rocketwizard.io/api/balance?email=${session.user.email}&apiName=${value.value}`
     );
 
     const balance = await res.json();
@@ -94,7 +94,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
   const getAPIs = async () => {
     if (session) {
       const res = await fetch(
-        `http://localhost:3000/api/apiKeys?email=${session.user.email}`
+        `https://www.rocketwizard.io/api/apiKeys?email=${session.user.email}`
       );
 
       const keys = await res.json();
@@ -254,17 +254,17 @@ function Dashboard({ subscriptions, traderID, traders }) {
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
 
-  const resTraders = await fetch(`http://localhost:3000/api/traders`);
+  const resTraders = await fetch(`https://www.rocketwizard.io/api/traders`);
 
   const traders = await resTraders.json();
 
   if (session) {
     const res = await fetch(
-      `http://localhost:3000/api/subscribe?email=${session.user.email}`
+      `https://www.rocketwizard.io/api/subscribe?email=${session.user.email}`
     );
 
     const isTraderRes = await fetch(
-      `http://localhost:3000/api/isTrader?email=${session.user.email}`
+      `https://www.rocketwizard.io/api/isTrader?email=${session.user.email}`
     );
 
     const subs = await res.json();
