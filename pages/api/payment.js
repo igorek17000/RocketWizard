@@ -26,6 +26,8 @@ export default async function handler(req, res) {
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
 
+    console.log("SIGNATURE: ", signature);
+
     if (
       payment.payment_status === "confirmed" &&
       signature === req.headers["x-nowpayments-sig"]
