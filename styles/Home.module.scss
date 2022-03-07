@@ -242,6 +242,17 @@
           width: 70%;
           h1 {
             font-size: 4rem;
+            margin-bottom: 7rem;
+            position: relative;
+
+            span {
+              width: 100%;
+              position: absolute;
+              left: 50%;
+              bottom: 0;
+              transform: translate(-50%, 100%);
+              display: block;
+            }
           }
         }
 
