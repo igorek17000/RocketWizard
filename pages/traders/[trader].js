@@ -196,9 +196,7 @@ function Trader({ traders, traderID }) {
           {traderID === trader.id ? (
             <button onClick={submit}>UPDATE</button>
           ) : (
-            <Link
-              href={`https://www.rocketwizard.io/traders/subscribe/${trader.id}`}
-            >
+            <Link href={`http://localhost:3000/traders/subscribe/${trader.id}`}>
               <button>SUBSCRIBE</button>
             </Link>
           )}
@@ -209,14 +207,14 @@ function Trader({ traders, traderID }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`http://localhost:3000/api/traders`);
 
   const traders = await res.json();
 
   const session = await getSession({ req });
   if (session) {
     const isTraderRes = await fetch(
-      `https://www.rocketwizard.io/api/isTrader?email=${session.user.email}`
+      `http://localhost:3000/api/isTrader?email=${session.user.email}`
     );
 
     const traderID = await isTraderRes.json();
