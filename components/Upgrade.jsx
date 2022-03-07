@@ -120,9 +120,9 @@ function Upgrade({
   id = 0,
   quantity = 1,
   traderId,
-  npApi,
+  NPapi,
 }) {
-  const npApi = new NowPaymentsApi({ apiKey: npApi });
+  const npApi = new NowPaymentsApi({ apiKey: NPapi });
 
   const [readTerms, setReadTerms] = useState(false);
 
@@ -486,7 +486,7 @@ function Upgrade({
 
 export async function getStaticProps() {
   // Pass data to the page via props
-  return { props: { npApi: process.env.NPapi } };
+  return { props: { NPapi: process.env.NPapi } };
 }
 
 export default Upgrade;
