@@ -214,12 +214,13 @@ function Upgrade({
 
     const days = daysInMonth();
 
-    const tillEndPrice = (reducedPrice / days) * (days - date);
+    const tillEndPrice = centRound((reducedPrice / days) * (days - date));
 
-    setPlanPrice(centRound(tillEndPrice));
+    setPlanPrice(tillEndPrice);
 
     const fullPriceTemp =
-      Math.floor(Math.max(tillEndPrice + shipping - discount, 0)) + 0.99;
+      Math.floor(Math.max(centRound(tillEndPrice + shipping - discount, 0)) +
+      0.99;
 
     setFullPrice(fullPriceTemp);
   };
