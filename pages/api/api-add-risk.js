@@ -13,7 +13,6 @@ export default async function handler(req, res) {
     const index = apiKeys.indexOf(api);
 
     apiKeys[index].multiplier = multiplier;
-    apiKeys[index].taken = true;
 
     await db.collection("users").updateOne({ email }, { $set: { apiKeys } });
 
