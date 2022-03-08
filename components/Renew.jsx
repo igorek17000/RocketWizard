@@ -208,7 +208,7 @@ function Renew({
     }`;
   };
 
-  const checkValues = () => {
+  const checkValues = async () => {
     if (!readTerms) {
       setMainError(
         "Please agree to terms and conditions before placing the order."
