@@ -238,7 +238,7 @@ function Upgrade({
     const orderId = await getOrderID();
 
     const config = {
-      price_amount: centRound(fullPrice),
+      price_amount: fullPrice,
       price_currency: "usd",
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,

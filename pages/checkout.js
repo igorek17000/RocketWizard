@@ -203,10 +203,17 @@ function Checkout({ traders, NPApi }) {
     const trader = await traders.find((trader) => trader.id == traderId);
 
     let price = trader ? trader.basePrice : 0;
+    let prevPrice = trader ? trader.basePrice : 0;
 
     if (parseInt(id) !== 0) {
       price =
         priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+    }
+
+    if (parseInt(id - 1) !== 0) {
+      prevPrice =
+        priceMultipliers[id - 1] *
+        (trader.basePrice * priceMultipliers[id - 2]);
     }
 
     const planPriceTemp = Math.max(
@@ -214,9 +221,20 @@ function Checkout({ traders, NPApi }) {
       0
     ).toLocaleString("en-US");
 
-    setPlanPrice(planPriceTemp);
+    const reducedPrice = planPriceTemp - prevPrice;
 
-    const fullPriceTemp = Math.max(planPriceTemp + shipping - discount, 0);
+    const today = new Date();
+
+    const date = today.getDate();
+
+    const days = daysInMonth();
+
+    const tillEndPrice = (reducedPrice / days) * (days - date);
+
+    setPlanPrice(centRound(tillEndPrice));
+
+    const fullPriceTemp =
+      Math.floor(Math.max(tillEndPrice + shipping - discount, 0)) + 0.99;
 
     setFullPrice(fullPriceTemp);
   };
@@ -244,7 +262,7 @@ function Checkout({ traders, NPApi }) {
     const orderId = await getOrderID(apiName);
 
     const config = {
-      price_amount: centRound(fullPrice),
+      price_amount: fullPrice,
       price_currency: "usd",
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
