@@ -188,10 +188,17 @@ function Upgrade({
     const trader = await traders.find((trader) => trader.id == traderId);
 
     let price = trader ? trader.basePrice : 0;
+    let prevPrice = trader ? trader.basePrice : 0;
 
     if (parseInt(id) !== 0) {
       price =
         priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+    }
+
+    if (parseInt(id - 1) !== 0) {
+      prevPrice =
+        priceMultipliers[id - 1] *
+        (trader.basePrice * priceMultipliers[id - 2]);
     }
 
     const planPriceTemp = Math.max(
@@ -199,13 +206,15 @@ function Upgrade({
       0
     ).toLocaleString("en-US");
 
+    const reducedPrice = planPriceTemp - prevPrice;
+
     const today = new Date();
 
     const date = today.getDate();
 
     const days = daysInMonth();
 
-    const tillEndPrice = (planPriceTemp / days) * (days - date);
+    const tillEndPrice = (reducedPrice / days) * (days - date);
 
     setPlanPrice(centRound(tillEndPrice));
 
@@ -220,16 +229,14 @@ function Upgrade({
   const [codeSuccess, setCodeSuccess] = useState(null);
 
   const getOrderID = async () => {
-    return `${traderId} ${session.user.email} ${
-      discountCode ? discountCode : "false"
-    }`;
+    return `${traderId} ${session.user.email}`;
   };
 
   const pay = async () => {
     const orderId = await getOrderID();
 
     const config = {
-      price_amount: fullPrice,
+      price_amount: centRound(fullPrice),
       price_currency: "usd",
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
