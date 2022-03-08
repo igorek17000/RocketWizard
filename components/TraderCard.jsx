@@ -16,7 +16,10 @@ function TraderCard({ trader, isTrader }) {
   };
 
   return (
-    <main className={styles.traderCard}>
+    <main
+      className={styles.traderCard}
+      style={{ opacity: trader.comingSoon && !isTrader ? 0.5 : 1 }}
+    >
       {/* Header Section */}
 
       <section className={styles.header}>
@@ -92,17 +95,21 @@ function TraderCard({ trader, isTrader }) {
             fillColor="#731BDE"
           />
         </div>
-        {isTrader ? (
-          <Link href={`/traders/${trader.id}`}>
-            <button className={styles.editBtn}>Edit profile details</button>
-          </Link>
+        {isTrader || trader.comingSoon ? (
+          isTrader ? (
+            <Link href={`/traders/${trader.id}`}>
+              <button className={styles.editBtn}>Edit profile details</button>
+            </Link>
+          ) : (
+            <button className={styles.editBtn}>COMING SOON</button>
+          )
         ) : (
           <div className={styles.buttons}>
             <Link href={`/traders/${trader.id}`}>
               <button className={styles.viewMoreBtn}>View more</button>
             </Link>
             <Link href={`/traders/subscribe/${trader.id}`}>
-              <button>Subscribe</button>
+              <button>SUBSCRIBE</button>
             </Link>
           </div>
         )}
