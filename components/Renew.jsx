@@ -208,7 +208,18 @@ function Renew({
     }`;
   };
 
-  const pay = async () => {
+  const checkValues = () => {
+    if (!readTerms) {
+      setMainError(
+        "Please agree to terms and conditions before placing the order."
+      );
+      return false;
+    } else if (!crypto || fullPrice == null) {
+      setMainError("Payment info is required.");
+      return false;
+    }
+    setMainError(null);
+
     const orderId = await getOrderID();
 
     const config = {
@@ -224,27 +235,12 @@ function Renew({
 
     const invoice = await npApi.createInvoice(config);
 
-    router.replace(invoice.invoice_url);
-
     setDiscountCode(null);
     setDiscount(0);
     setCrypto(null);
 
-    return true;
-  };
+    router.replace(invoice.invoice_url);
 
-  const checkValues = () => {
-    if (!readTerms) {
-      setMainError(
-        "Please agree to terms and conditions before placing the order."
-      );
-      return false;
-    } else if (!crypto || fullPrice == null) {
-      setMainError("Payment info is required.");
-      return false;
-    }
-    setMainError(null);
-    pay();
     return true;
   };
 
