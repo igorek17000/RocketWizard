@@ -190,18 +190,10 @@ function Renew({
       0
     ).toLocaleString("en-US");
 
-    const today = new Date();
-
-    const date = today.getDate();
-
-    const days = daysInMonth();
-
-    const tillEndPrice = (planPriceTemp / days) * (days - date);
-
-    setPlanPrice(centRound(tillEndPrice));
+    setPlanPrice(centRound(planPriceTemp));
 
     const fullPriceTemp =
-      Math.floor(Math.max(tillEndPrice + shipping - discount, 0)) + 0.99;
+      Math.floor(Math.max(planPriceTemp + shipping - discount, 0)) + 0.99;
 
     setFullPrice(fullPriceTemp);
   };
