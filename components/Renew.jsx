@@ -239,7 +239,7 @@ function Renew({
     setDiscount(0);
     setCrypto(null);
 
-    router.replace(invoice.invoice_url);
+    router.push(invoice.invoice_url);
 
     return true;
   };
