@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import styles from "../styles/TraderCard.module.scss";
 
+import { useSession } from "next-auth/react";
+
 import { BsShieldFillCheck } from "react-icons/bs";
 
 import ProgressBar from "./ProgressBar";
@@ -15,10 +17,20 @@ function TraderCard({ trader, isTrader }) {
     return `${n} subscriber${n !== 1 ? "s" : ""}`;
   };
 
+  const { data: session } = useSession();
+
+  const whitelist = session
+    ? ["brkic123antonio@gmail.com", "gio.mangia28@gmail.com"].includes(
+        session.user.email
+      )
+    : false;
+
   return (
     <main
       className={styles.traderCard}
-      style={{ opacity: trader.comingSoon && !isTrader ? 0.5 : 1 }}
+      style={{
+        opacity: (trader.comingSoon && !isTrader) || !whitelist ? 0.5 : 1,
+      }}
     >
       {/* Header Section */}
 
@@ -95,7 +107,7 @@ function TraderCard({ trader, isTrader }) {
             fillColor="#731BDE"
           />
         </div>
-        {isTrader || trader.comingSoon ? (
+        {isTrader || trader.comingSoon || !whitelist ? (
           isTrader ? (
             <Link href={`/traders/${trader.id}`}>
               <button className={styles.editBtn}>Edit profile details</button>
