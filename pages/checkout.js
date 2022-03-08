@@ -235,7 +235,9 @@ function Checkout({ traders, NPApi }) {
   };
 
   const getOrderID = async (apiName) => {
-    return `${traderId} ${plan.name} ${quantity} ${session.user.email} ${apiName}`;
+    return `${traderId} ${plan.name} ${quantity} ${
+      session.user.email
+    } ${apiName} ${discountCode ? discountCode : "false"}`;
   };
 
   const pay = async (apiName) => {

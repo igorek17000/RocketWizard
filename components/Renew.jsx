@@ -202,7 +202,7 @@ function Renew({
   const [codeSuccess, setCodeSuccess] = useState(null);
 
   const getOrderID = async () => {
-    return `${traderId} ${session.user.email}`;
+    return `${traderId} ${session.user.email} ${discountCode ? discountCode : "false"}`;
   };
 
   const pay = async () => {

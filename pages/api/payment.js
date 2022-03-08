@@ -34,7 +34,14 @@ export default async function handler(req, res) {
     ) {
       const orderId = payment.order_id;
 
-      const [traderId, planName, quantity, email, apiName] = orderId.split(" ");
+      const [traderId, planName, quantity, email, apiName, discountCode] =
+        orderId.split(" ");
+
+      if (discountCode !== "false") {
+        await db
+          .collection("discountCodes")
+          .updateOne({ code: discountCode }, { $inc: { uses: 1 } });
+      }
 
       const endDate = new Date();
       endDate.setMonth(endDate.getMonth() + 1);

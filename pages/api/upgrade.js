@@ -19,7 +19,13 @@ export default async function handler(req, res) {
     ) {
       const orderId = payment.order_id;
 
-      const [traderId, email] = orderId.split(" ");
+      const [traderId, email, discountCode] = orderId.split(" ");
+
+      if (discountCode !== "false") {
+        await db
+          .collection("discountCodes")
+          .updateOne({ code: discountCode }, { $inc: { uses: 1 } });
+      }
 
       const user = await db.collection("users").findOne({ email });
 
