@@ -12,7 +12,7 @@
     <radialGradient id="radial-gradient-7" cx="-0.673" cy="0.696" r="4.927" gradientTransform="translate(0.361) scale(0.278 1)" xlink:href="#radial-gradient"/>
     <radialGradient id="radial-gradient-8" cx="2.102" cy="1.385" r="1.388" gradientTransform="translate(-1.165) scale(3.329 1)" xlink:href="#radial-gradient"/>
   </defs>
-  <text id="BETA" transform="translate(508.3 64)" fill="#394d6d" font-size="61" font-family="Poppins-Bold, Poppins" font-weight="700" letter-spacing="0.002em"><tspan x="0" y="0">BETA</tspan></text>
+  <path id="Path_398" data-name="Path 398" d="M30.686-13.8c0,3.953-2.68,6.164-7.236,6.164H14v-12.6h9.246C27.805-20.234,30.686-17.822,30.686-13.8ZM29.547-33.3c0,3.819-2.546,5.829-6.968,5.829H14V-39.2h8.576C27-39.2,29.547-37.051,29.547-33.3ZM40.2-12.663a11.338,11.338,0,0,0-9.045-11.323c4.556-1.474,7.973-5.025,7.973-10.72,0-6.968-5.427-12.06-15.209-12.06H4.623V0H24.79C34.505,0,40.2-5.226,40.2-12.663Zm34.747-34.17H47.812V0H74.947V-7.638H57.192v-12.4H72.937V-27.47H57.192V-39.2H74.947ZM81.086-39.2H93.548V0h9.38V-39.2H115.39v-7.571h-34.3Zm73,39.2h9.916L147.189-46.833H136.268L119.451,0H129.3l3.082-8.911h18.626Zm-5.628-16.415H134.928L141.7-35.979Z" transform="translate(497.3 70)" fill="#394d6d"/>
   <g id="SVG_2_JPG" transform="translate(-168.3 -319)">
     <g id="Group_358" data-name="Group 358" opacity="0.6">
       <rect id="Rectangle_658" data-name="Rectangle 658" width="159" height="133" transform="translate(507 319)" fill="none"/>

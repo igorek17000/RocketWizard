@@ -188,17 +188,10 @@ function Upgrade({
     const trader = await traders.find((trader) => trader.id == traderId);
 
     let price = trader ? trader.basePrice : 0;
-    let prevPrice = trader ? trader.basePrice : 0;
 
     if (parseInt(id) !== 0) {
       price =
         priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
-    }
-
-    if (parseInt(id - 1) !== 0) {
-      prevPrice =
-        priceMultipliers[id - 1] *
-        (trader.basePrice * priceMultipliers[id - 2]);
     }
 
     const planPriceTemp = Math.max(
@@ -206,15 +199,13 @@ function Upgrade({
       0
     ).toLocaleString("en-US");
 
-    const reducedPrice = planPriceTemp - prevPrice;
-
     const today = new Date();
 
     const date = today.getDate();
 
     const days = daysInMonth();
 
-    const tillEndPrice = (reducedPrice / days) * (days - date);
+    const tillEndPrice = (planPriceTemp / days) * (days - date);
 
     setPlanPrice(centRound(tillEndPrice));
 
