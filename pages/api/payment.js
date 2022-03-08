@@ -26,6 +26,7 @@ export default async function handler(req, res) {
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
 
+    console.log("STATUS: ", payment.payment_status);
     console.log("SIGNATURE IS : ", signature);
 
     if (
@@ -36,6 +37,8 @@ export default async function handler(req, res) {
 
       const [traderId, planName, quantity, email, apiName, discountCode] =
         orderId.split(" ");
+
+      console.log(`${email} BOUGHT ${traderId}'s ${planName} PLAN!!`);
 
       if (discountCode !== "false") {
         await db
