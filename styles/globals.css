@@ -47,6 +47,15 @@ a {
   text-decoration: none;
 }
 
+.beta {
+  z-index: 100;
+  font-size: 4rem;
+  opacity: 0.1;
+  position: fixed;
+  left: 10px;
+  bottom: -1rem;
+}
+
 * {
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;

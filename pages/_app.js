@@ -62,6 +62,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <ChatWithNoSSR />
             <Navbar />
             <Component {...pageProps} />
+            <h1 className="beta">BETA</h1>
           </Scrollbar>
         )}
       </SessionProvider>
