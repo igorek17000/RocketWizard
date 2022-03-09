@@ -29,7 +29,7 @@ function SubscribePlan({ id, trader }) {
 
   const [comingSoon] = useState({
     binance: ["ADVANCED", "PRO"],
-    kucoin: ["PRO"],
+    kucoin: ["BASIC", "ADVANCED", "PRO"],
     okex: ["PRO"],
     huobi: ["BASIC", "ADVANCED", "PRO"],
   });
