@@ -241,9 +241,9 @@ function Upgrade({
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "https://www.rocketwizard.io/?orderSuccess=true",
-      cancel_url: "https://www.rocketwizard.io/checkout/fail",
-      ipn_callback_url: "https://www.rocketwizard.io/api/upgrade",
+      success_url: "http://localhost:3000/?orderSuccess=true",
+      cancel_url: "http://localhost:3000/checkout/fail",
+      ipn_callback_url: "http://localhost:3000/api/upgrade",
     };
 
     const invoice = await npApi.createInvoice(config);

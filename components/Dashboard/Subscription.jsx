@@ -38,6 +38,7 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
               {remainingDays} day{remainingDays > 1 && "s"} remaining
             </p>
           </div>
+          {/*
           {subscription.disabled && subscription.plan.id !== subs.length - 1 ? (
             <button
               style={{
@@ -48,15 +49,18 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
               Upgrade
             </button>
           ) : (
-            <button
-              style={{
-                backgroundColor: subs[subscription.plan.id].color,
-              }}
-              onClick={() => openRenew(subscription)}
-            >
-              Renew subscription
-            </button>
+
+                  <button
+                    style={{
+                      backgroundColor: subs[subscription.plan.id].color,
+                    }}
+                    onClick={() => openRenew(subscription)}
+                  >
+                    Renew subscription
+                  </button>
+
           )}
+          */}
         </section>
         <section className={styles.right}>
           <h3>

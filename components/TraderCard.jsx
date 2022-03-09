@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/TraderCard.module.scss";
 
@@ -9,6 +9,8 @@ import { BsShieldFillCheck } from "react-icons/bs";
 import ProgressBar from "./ProgressBar";
 
 function TraderCard({ trader, isTrader }) {
+  const [subscribed, setSubscribed] = useState(false);
+
   const getSubscribers = () => {
     const subscribers = trader.subscribers || [];
 
@@ -19,10 +21,21 @@ function TraderCard({ trader, isTrader }) {
 
   const { data: session } = useSession();
 
+  useEffect(() => {
+    trader.subscribers &&
+      trader.subscribers.forEach((subber) => {
+        if (session && subber.email === session.user.email) {
+          setSubscribed(true);
+        }
+      });
+  }, []);
+
   const whitelist = session
-    ? ["brkic123antonio@gmail.com", "gio.mangia28@gmail.com"].includes(
-        session.user.email
-      )
+    ? [
+        "brkic123antonio@gmail.com",
+        "gio.mangia28@gmail.com",
+        "davidmosbusiness@gmail.com",
+      ].includes(session.user.email)
     : false;
 
   return (
@@ -120,9 +133,13 @@ function TraderCard({ trader, isTrader }) {
             <Link href={`/traders/${trader.id}`}>
               <button className={styles.viewMoreBtn}>View more</button>
             </Link>
-            <Link href={`/traders/subscribe/${trader.id}`}>
-              <button>SUBSCRIBE</button>
-            </Link>
+            {subscribed ? (
+              <button>SUBSCRIBED</button>
+            ) : (
+              <Link href={`/traders/subscribe/${trader.id}`}>
+                <button>SUBSCRIBE</button>
+              </Link>
+            )}
           </div>
         )}
       </section>

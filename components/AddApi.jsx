@@ -3,6 +3,8 @@ import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
 import styles from "../styles/AddApi.module.scss";
 
+import Checkbox from "react-custom-checkbox";
+
 import { Scrollbar } from "react-scrollbars-custom";
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -75,6 +77,8 @@ function AddApi({
   const [secret, setSecret] = useState(null);
   const [password, setPassword] = useState(null);
   const [multiplier, setMultiplier] = useState(1);
+
+  const [limitedAcc, setLimitedAcc] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -178,6 +182,7 @@ function AddApi({
         api,
         secret,
         multiplier,
+        limited: limitedAcc,
       };
 
       if (passwordExchanges.includes(exchange.value)) {
@@ -310,11 +315,45 @@ function AddApi({
                 />
               </div>
             )}
+            {exchange.value === "binance" && (
+              <Checkbox
+                checked={limitedAcc}
+                onChange={(val) => setLimitedAcc(val)}
+                icon={
+                  <div
+                    style={{
+                      display: "flex",
+                      flex: 1,
+                      backgroundColor: "#731bde",
+                      alignSelf: "stretch",
+                      margin: "2px",
+                      borderRadius: "3px",
+                    }}
+                  />
+                }
+                labelStyle={{
+                  marginTop: "0.5rem",
+                  marginLeft: 15,
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  textAlign: "left",
+                }}
+                borderColor="#731bde"
+                size={20}
+                label={
+                  <p>
+                    My binance account is limited (60 Days Rule / Leverage
+                    limitation)
+                  </p>
+                }
+              />
+            )}
             {risky && (
               <RiskyTrading
                 sendSelected={(selected) => setMultiplier(selected)}
               />
             )}
+
             {error && <Alert text={error} error={true} />}
 
             <button onClick={loading ? () => {} : handleAdd}>

@@ -12,6 +12,8 @@ import Checkbox from "react-custom-checkbox";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 
+import PaymentDisclaimer from "../components/PaymentDisclaimer";
+
 import { useRouter } from "next/router";
 
 import Alert from "../components/Alert";
@@ -122,6 +124,7 @@ function Checkout({ traders, NPApi }) {
   const [crypto, setCrypto] = useState(null);
 
   const [choosingApi, setChoosingApi] = useState(false);
+  const [disclaimerOpen, setDisclaimerOpen] = useState(null);
 
   const [name, setName] = useState(null);
   const [streetAddress, setStreetAddress] = useState(null);
@@ -244,15 +247,17 @@ function Checkout({ traders, NPApi }) {
   const pay = async (apiName) => {
     const orderId = await getOrderID(apiName);
 
+    setDisclaimerOpen(null);
+
     const config = {
       price_amount: fullPrice,
       price_currency: "usd",
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "https://www.rocketwizard.io/?orderSuccess=true",
-      cancel_url: "https://www.rocketwizard.io/checkout/fail",
-      ipn_callback_url: "https://www.rocketwizard.io/api/payment",
+      success_url: "http://localhost:3000/?orderSuccess=true",
+      cancel_url: "http://localhost:3000/checkout/fail",
+      ipn_callback_url: "http://localhost:3000/api/payment",
     };
 
     const invoice = await npApi.createInvoice(config);
@@ -351,12 +356,19 @@ function Checkout({ traders, NPApi }) {
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <PaymentDisclaimer
+        open={disclaimerOpen !== null}
+        apiName={disclaimerOpen}
+        handleClose={(apiName) =>
+          apiName ? pay(apiName) : setDisclaimerOpen(null)
+        }
+      />
       <ChooseApi
         open={choosingApi}
         handleClose={() => setChoosingApi(false)}
         traderId={traderId}
         tier={id}
-        sendApiName={(apiName) => pay(apiName)}
+        sendApiName={(apiName) => setDisclaimerOpen(apiName)}
       />
       <section className={styles.card}>
         <div className={styles.header}>
@@ -619,7 +631,7 @@ function Checkout({ traders, NPApi }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`http://localhost:3000/api/traders`);
 
   const traders = await res.json();
 

@@ -45,7 +45,7 @@ function TraderDashboard({ traderID }) {
 
   const getData = async () => {
     const res = await fetch(
-      `https://www.rocketwizard.io/api/get-trader?id=${traderID}`
+      `http://localhost:3000/api/get-trader?id=${traderID}`
     );
 
     const trader = await res.json();

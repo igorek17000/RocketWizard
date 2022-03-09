@@ -80,12 +80,6 @@ export default async function handler(req, res) {
 
       const api = await user.apiKeys.find((x) => x.name === apiName);
 
-      let userNew = false;
-
-      if (dateDiffInDays(new Date(), new Date(user.start)) <= 60) {
-        userNew = true;
-      }
-
       apiKeys[apiKeys.indexOf(api)].taken = true;
 
       await db
@@ -106,7 +100,7 @@ export default async function handler(req, res) {
       };
 
       if (api.exchange === "binance") {
-        subscriber.new = userNew;
+        subscriber.new = api.limited || false;
       }
 
       const trader = await db.collection("traders").findOne({ id: traderId });

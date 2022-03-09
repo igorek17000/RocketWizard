@@ -3,6 +3,8 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/Trader.module.scss";
 
+import { useSession } from "next-auth/react";
+
 import { useRouter } from "next/router";
 
 import { getSession } from "next-auth/react";
@@ -16,6 +18,19 @@ function Trader({ traders, traderID }) {
   const [monthlyRoi, setMonthlyRoi] = useState(null);
   const [yearlyRoi, setYearlyRoi] = useState(null);
   const [desc, setDesc] = useState(null);
+
+  const [subscribed, setSubscribed] = useState(false);
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    trader.subscribers &&
+      trader.subscribers.forEach((subber) => {
+        if (session && subber.email === session.user.email) {
+          setSubscribed(true);
+        }
+      });
+  }, [trader]);
 
   useEffect(() => {
     const id = router.query.trader;
@@ -196,11 +211,15 @@ function Trader({ traders, traderID }) {
           {traderID === trader.id ? (
             <button onClick={submit}>UPDATE</button>
           ) : (
-            <Link
-              href={`https://www.rocketwizard.io/traders/subscribe/${trader.id}`}
-            >
-              <button>SUBSCRIBE</button>
-            </Link>
+            <>
+              {subscribed ? (
+                <button>SUBSCRIBED</button>
+              ) : (
+                <Link href={`/traders/subscribe/${trader.id}`}>
+                  <button>SUBSCRIBE</button>
+                </Link>
+              )}
+            </>
           )}
         </section>
       </section>
@@ -209,14 +228,14 @@ function Trader({ traders, traderID }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`http://localhost:3000/api/traders`);
 
   const traders = await res.json();
 
   const session = await getSession({ req });
   if (session) {
     const isTraderRes = await fetch(
-      `https://www.rocketwizard.io/api/isTrader?email=${session.user.email}`
+      `http://localhost:3000/api/isTrader?email=${session.user.email}`
     );
 
     const traderID = await isTraderRes.json();
