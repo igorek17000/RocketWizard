@@ -26,18 +26,13 @@ export default async function handler(req, res) {
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
 
-    console.log("STATUS: ", payment.payment_status);
-    console.log("SIGNATURE IS : ", signature);
-
     let valid = payment.payment_status === "confirmed";
 
     const price = payment.price_amount;
     const paid = payment.actually_paid;
     const outcome = payment.outcome_amount;
 
-    console.log("PRICE: ", price);
-    console.log("PAID: ", paid);
-    console.log("OUTCOME: ", outcome);
+    console.log("NEW PAYMENT COMING!!!");
 
     if (
       payment.payment_status === "partially_paid" &&

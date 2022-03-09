@@ -160,16 +160,19 @@ function TermsAndConditions() {
         <h2>Limitation on Liability</h2>
 
         <p>
-          To the maximum extent permitted by law, in no event shall company or
-          our suppliers be liable to you or any third-party for any lost
-          profits, lost data, costs of procurement of substitute products, or
-          any indirect, consequential, exemplary, incidental, special or
-          punitive damages arising from or relating to these terms or your use
-          of, or incapability to use the site even if company has been advised
-          of the possibility of such damages.  Access to and use of the site is
-          at your own discretion and risk, and you will be solely responsible
-          for any damage to your device or computer system, or loss of data
-          resulting therefrom.
+          Rocketwizard.io and its traders are released from any responsability
+          regarding the losses of the client. The client acknowledges that the
+          invested amount could be lost, and {"it's"} not the traders liability
+          if so happens. To the maximum extent permitted by law, in no event
+          shall company or our suppliers be liable to you or any third-party for
+          any lost profits, lost data, costs of procurement of substitute
+          products, or any indirect, consequential, exemplary, incidental,
+          special or punitive damages arising from or relating to these terms or
+          your use of, or incapability to use the site even if company has been
+          advised of the possibility of such damages.  Access to and use of the
+          site is at your own discretion and risk, and you will be solely
+          responsible for any damage to your device or computer system, or loss
+          of data resulting therefrom.
         </p>
 
         <p>
