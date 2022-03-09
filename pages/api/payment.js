@@ -41,7 +41,10 @@ export default async function handler(req, res) {
       valid = true;
     }
 
-    if (payment.payment_status === "finished") {
+    if (
+      payment.payment_status === "finished" ||
+      payment.payment_status === "confirmed"
+    ) {
       valid = true;
     }
 
