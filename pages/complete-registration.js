@@ -136,7 +136,7 @@ export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
   if (session) {
     const res = await fetch(
-      `htpps://www.rocketwizard.io/api/auth/has-password?email=${session.user.email}`
+      `https://www.rocketwizard.io/api/auth/has-password?email=${session.user.email}`
     );
 
     const hasPassword = await res.json();

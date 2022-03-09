@@ -228,9 +228,9 @@ function Renew({
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "htpps://www.rocketwizard.io/?orderSuccess=true",
-      cancel_url: "htpps://www.rocketwizard.io/checkout/fail",
-      ipn_callback_url: "htpps://www.rocketwizard.io/api/renew",
+      success_url: "https://www.rocketwizard.io/?orderSuccess=true",
+      cancel_url: "https://www.rocketwizard.io/checkout/fail",
+      ipn_callback_url: "https://www.rocketwizard.io/api/renew",
     };
 
     const invoice = await npApi.createInvoice(config);

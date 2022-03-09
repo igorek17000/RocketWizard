@@ -255,9 +255,9 @@ function Checkout({ traders, NPApi }) {
       pay_currency: crypto.value,
       order_description: `${plan.name} x ${quantity}`,
       order_id: orderId,
-      success_url: "htpps://www.rocketwizard.io/?orderSuccess=true",
-      cancel_url: "htpps://www.rocketwizard.io/checkout/fail",
-      ipn_callback_url: "htpps://www.rocketwizard.io/api/payment",
+      success_url: "https://www.rocketwizard.io/?orderSuccess=true",
+      cancel_url: "https://www.rocketwizard.io/checkout/fail",
+      ipn_callback_url: "https://www.rocketwizard.io/api/payment",
     };
 
     const invoice = await npApi.createInvoice(config);
@@ -631,7 +631,7 @@ function Checkout({ traders, NPApi }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`htpps://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
 
   const traders = await res.json();
 

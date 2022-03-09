@@ -121,7 +121,7 @@ export default function Home({ likeData, articleCount }) {
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
 
-  const articlesRes = await fetch("htpps://www.rocketwizard.io/faqData.json");
+  const articlesRes = await fetch("https://www.rocketwizard.io/faqData.json");
 
   const articleData = await articlesRes.json();
 
@@ -131,14 +131,14 @@ export async function getServerSideProps({ req }) {
 
   if (session) {
     const likeRes = await fetch(
-      `htpps://www.rocketwizard.io/api/faq-likes?email=${session.user.email}`
+      `https://www.rocketwizard.io/api/faq-likes?email=${session.user.email}`
     );
 
     const likeData = await likeRes.json();
 
     return { props: { likeData, articleCount } };
   } else {
-    const likeRes = await fetch(`htpps://www.rocketwizard.io/api/faq-likes`);
+    const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
 
     const likeData = await likeRes.json();
 
