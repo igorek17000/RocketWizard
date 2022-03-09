@@ -315,7 +315,7 @@ function AddApi({
                 />
               </div>
             )}
-            {exchange.value === "binance" && (
+            {exchange && exchange.value === "binance" && (
               <Checkbox
                 checked={limitedAcc}
                 onChange={(val) => setLimitedAcc(val)}
