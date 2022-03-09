@@ -60,11 +60,14 @@ function TraderDashboard({ traderID }) {
       monthly: new Array(30).fill(0),
     };
 
+    let sum = 0;
+    let monthSum = 0;
+
     if (subscribers) {
       for await (const subscriber of subscribers) {
         const diff = getDiff(subscriber.startDate);
 
-        setAllEarnings(allEarnings + getPrice(trader, subscriber.tier));
+        sum += getPrice(trader, subscriber.tier);
 
         if (diff < 24) {
           const index = Math.round(24 - diff);
@@ -78,12 +81,13 @@ function TraderDashboard({ traderID }) {
           const index = 30 - Math.round(diff / 24);
           tempData.monthly[index - 1] = tempData.monthly[index - 1] + 1;
 
-          setMonthlyEarnings(
-            monthlyEarnings + getPrice(trader, subscriber.tier)
-          );
+          monthSum += getPrice(trader, subscriber.tier);
         }
       }
     }
+
+    setAllEarnings(sum);
+    setMonthlyEarnings(monthSum);
 
     setData(tempData);
   };
