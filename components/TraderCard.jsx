@@ -30,19 +30,11 @@ function TraderCard({ trader, isTrader }) {
       });
   }, []);
 
-  const whitelist = session
-    ? [
-        "brkic123antonio@gmail.com",
-        "gio.mangia28@gmail.com",
-        "davidmosbusiness@gmail.com",
-      ].includes(session.user.email)
-    : false;
-
   return (
     <main
       className={styles.traderCard}
       style={{
-        opacity: (trader.comingSoon && !isTrader) || !whitelist ? 0.5 : 1,
+        opacity: trader.comingSoon && !isTrader ? 0.5 : 1,
       }}
     >
       {/* Header Section */}
@@ -120,7 +112,7 @@ function TraderCard({ trader, isTrader }) {
             fillColor="#731BDE"
           />
         </div>
-        {isTrader || trader.comingSoon || !whitelist ? (
+        {isTrader || trader.comingSoon ? (
           isTrader ? (
             <Link href={`/traders/${trader.id}`}>
               <button className={styles.editBtn}>Edit profile details</button>
