@@ -16,6 +16,8 @@ function TraderCard({ trader, isTrader }) {
 
     const n = subscribers.length + trader.baseSubscribers;
 
+    if (trader.comingSoon) return 0;
+
     return `${n} subscriber${n !== 1 ? "s" : ""}`;
   };
 
