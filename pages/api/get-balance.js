@@ -37,7 +37,7 @@ async function getOkex(apiKey) {
   await exchange
     .fetchBalance()
     .then((balanceObj) => (balance = balanceObj.total["USDT"]))
-    .catch(err);
+    .catch((e) => {});
 
   return balance;
 }
