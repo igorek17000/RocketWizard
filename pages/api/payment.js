@@ -29,10 +29,22 @@ export default async function handler(req, res) {
     console.log("STATUS: ", payment.payment_status);
     console.log("SIGNATURE IS : ", signature);
 
+    let valid = payment.payment_status === "confirmed";
+
+    const price = payment.price_amount;
+    const paid = payment.actually_paid;
+
+    console.log("PRICE: ", price);
+    console.log("PAID: ", paid);
+
     if (
-      payment.payment_status === "confirmed" &&
-      signature === req.headers["x-nowpayments-sig"]
+      payment.payment_status === "partially_paid" &&
+      parseFloat(price) - parseFloat(paid) <= parseFloat(price) * 0.1
     ) {
+      valid = true;
+    }
+
+    if (valid && signature === req.headers["x-nowpayments-sig"]) {
       const orderId = payment.order_id;
 
       const [traderId, planName, quantity, email, apiName, discountCode] =
