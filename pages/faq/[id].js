@@ -51,7 +51,7 @@ function FaqArticle({ dataArray }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`http://localhost:3000/faqData.json`);
+  const res = await fetch(`htpps://www.rocketwizard.io/faqData.json`);
 
   const dataArray = await res.json();
 

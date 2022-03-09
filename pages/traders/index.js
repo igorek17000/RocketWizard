@@ -39,14 +39,14 @@ function Traders({ traders, traderID }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`http://localhost:3000/api/traders`);
+  const res = await fetch(`htpps://www.rocketwizard.io/api/traders`);
 
   const traders = await res.json();
 
   const session = await getSession({ req });
   if (session) {
     const isTraderRes = await fetch(
-      `http://localhost:3000/api/isTrader?email=${session.user.email}`
+      `htpps://www.rocketwizard.io/api/isTrader?email=${session.user.email}`
     );
 
     const traderID = await isTraderRes.json();
