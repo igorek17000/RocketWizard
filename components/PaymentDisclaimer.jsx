@@ -21,7 +21,10 @@ function PaymentDisclaimer({ apiName, open, handleClose }) {
         />
         <div className={styles.content}>
           <h3>DISCLAIMER</h3>
-          <h5>You will be moved to another page to process the payment</h5>
+          <h5>
+            You will be moved to another page to process the payment. DO NOT
+            REFRESH UNTIL THE PAYMENT IS COMPLETED!
+          </h5>
           <p>
             The amount specified in the invoice is without fees, which means You
             will need to take care of paying the extra amount. Make sure the

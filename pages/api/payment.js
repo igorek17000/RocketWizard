@@ -33,14 +33,20 @@ export default async function handler(req, res) {
 
     const price = payment.price_amount;
     const paid = payment.actually_paid;
+    const outcome = payment.outcome_amount;
 
     console.log("PRICE: ", price);
     console.log("PAID: ", paid);
+    console.log("OUTCOME: ", outcome);
 
     if (
       payment.payment_status === "partially_paid" &&
       parseFloat(price) - parseFloat(paid) <= parseFloat(price) * 0.1
     ) {
+      valid = true;
+    }
+
+    if (payment.payment_status === "finished") {
       valid = true;
     }
 
@@ -118,7 +124,15 @@ export default async function handler(req, res) {
       const trader = await db.collection("traders").findOne({ id: traderId });
       const subscribers = trader.subscribers || [];
 
-      subscribers.push(subscriber);
+      const subscribed = await subscribers.find(
+        (subber) => subber.email === email
+      );
+
+      if (subscribed) {
+        subscribers[subscribers.indexOf(subscribed)] = subscriber;
+      } else {
+        subscribers.push(subscriber);
+      }
 
       await db
         .collection("traders")
