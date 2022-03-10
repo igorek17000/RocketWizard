@@ -96,7 +96,7 @@ function RoiCard({ balance }) {
           <div className={styles.values}>
             <h2 style={{ color: amountChange >= 0 ? "#39c491" : "#e96d69" }}>
               {amountChange >= 0 && "+"}
-              {amountChange}
+              {Math.round(amountChange * 100) / 100}
             </h2>
           </div>
           <div className={styles.graph}>
