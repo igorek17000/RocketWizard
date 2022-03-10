@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/BalanceCard.module.scss";
 
+import { useSession } from "next-auth/react";
+
 import Select from "react-select";
 
 import LineChart from "./LineChart";
@@ -44,11 +46,15 @@ const customStyles = {
   }),
 };
 
-function BalanceCard({ balance }) {
+function BalanceCard({ balance, apiName }) {
   const [timeframe, setTimeframe] = useState(options[0]);
   const [percentageChange, setPercentageChange] = useState(0);
 
   const [chartData, setChartData] = useState(balance.daily);
+
+  const [currBalance, setCurrBalance] = useState(null);
+
+  const { data: session, status } = useSession();
 
   const getPercentageChange = () => {
     let end = chartData[chartData.length - 1];
@@ -71,6 +77,24 @@ function BalanceCard({ balance }) {
     }
   };
 
+  const getCurrBalance = async () => {
+    const balanceResponse = await fetch("/api/get-balance", {
+      method: "POST",
+      body: JSON.stringify({
+        email: session.user.email,
+        apiName: api.value,
+        exists: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const balance = await balanceResponse.json();
+
+    setCurrBalance(balance.balance);
+  };
+
   useEffect(() => {
     getPercentageChange();
   }, [chartData]);
@@ -78,6 +102,10 @@ function BalanceCard({ balance }) {
   useEffect(() => {
     setChartData(balance.daily);
   }, [balance]);
+
+  useEffect(() => {
+    getCurrBalance();
+  }, []);
 
   return (
     <main className={styles.balanceCard}>
@@ -91,7 +119,7 @@ function BalanceCard({ balance }) {
           defaultValue={timeframe}
         />
       </section>
-      {chartData && chartData.length >= 5 ? (
+      {currBalance ? (
         <section className={styles.body}>
           <div className={styles.values}>
             <h2>${Math.round(chartData[chartData.length - 1] * 100) / 100}</h2>
@@ -100,12 +128,14 @@ function BalanceCard({ balance }) {
               {percentageChange}%
             </p>
           </div>
-          <div className={styles.graph}>
-            <LineChart
-              chartData={chartData}
-              color={percentageChange >= 0 ? "#39c491" : "#e96d69"}
-            />
-          </div>
+          {chartData && chartData.length >= 5 && (
+            <div className={styles.graph}>
+              <LineChart
+                chartData={chartData}
+                color={percentageChange >= 0 ? "#39c491" : "#e96d69"}
+              />
+            </div>
+          )}
         </section>
       ) : (
         <section className={styles.body}>

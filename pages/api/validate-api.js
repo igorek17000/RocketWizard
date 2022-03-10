@@ -27,6 +27,15 @@ async function validateBinance(apiKey) {
       valid = false;
     });
 
+  await exchange
+    .futuresAccount()
+    .then((_) => {
+      valid = true;
+    })
+    .catch((err) => {
+      valid = false;
+    });
+
   return valid;
 }
 
