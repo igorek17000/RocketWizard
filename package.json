@@ -57,7 +57,8 @@
     "sass": "^1.49.7",
     "sendmail": "^1.6.1",
     "talkjs": "^0.15.1",
-    "tls": "0.0.1"
+    "tls": "0.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "8.9.0",

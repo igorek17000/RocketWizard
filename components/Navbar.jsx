@@ -101,6 +101,8 @@ function Navbar() {
     "/register",
     "/complete-registration",
     "/account-created",
+    "/forgot-password",
+    "/forgot-password/activate",
   ]);
 
   const [links] = useState([

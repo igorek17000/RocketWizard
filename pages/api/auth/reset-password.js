@@ -1,6 +1,8 @@
 import { connectToDatabase } from "../../../lib/mongodb";
 import { hashPassword } from "../../../lib/auth";
 
+import { v4 as uuid } from "uuid";
+
 // simonjaycirclesquare1@gmail.com
 
 export default async function handler(req, res) {
@@ -19,7 +21,9 @@ export default async function handler(req, res) {
 
     console.log(hashes);
 
-    hashes[email] = hashedPassword;
+    const code = uuid();
+
+    hashes[email] = { pass: hashedPassword, code };
 
     require("dotenv").config();
 
@@ -40,7 +44,7 @@ export default async function handler(req, res) {
       to: email,
       subject: `Rocket Wizard Reset Password`,
       text: "Reset password",
-      html: `<div><a href="https://www.rocketwizard.io/forgot-password/activate?id=${hashedPassword}">Link to reset the password</a></div>`,
+      html: `<div><a href="https://rocket-wizard.io/forgot-password/activate?id=${code}&email=${email}">Link to reset the password</a></div>`,
     };
 
     transporter.sendMail(mailData);
