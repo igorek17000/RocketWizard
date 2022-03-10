@@ -195,7 +195,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
                   {api ? (
                     <div className={styles.body}>
                       <div className={styles.balanceRoiCards}>
-                        <BalanceCard balance={balance} apiName={api.value} >
+                        <BalanceCard balance={balance} apiName={api.value} />
                         <RoiCard balance={balance} />
                       </div>
                       <StatisticsCard balance={balance} />
