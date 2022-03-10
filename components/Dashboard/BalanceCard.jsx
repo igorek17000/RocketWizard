@@ -92,9 +92,7 @@ function BalanceCard({ balance, apiName }) {
 
     const balance = await balanceResponse.json();
 
-    console.log("balance: ", balance);
-
-    setCurrBalance(balance);
+    setCurrBalance(balance.balance);
   };
 
   useEffect(() => {
@@ -124,7 +122,7 @@ function BalanceCard({ balance, apiName }) {
       {currBalance ? (
         <section className={styles.body}>
           <div className={styles.values}>
-            <h2>${Math.round(chartData[chartData.length - 1] * 100) / 100}</h2>
+            <h2>${Math.round(currBalance * 100) / 100}</h2>
             <p style={{ color: percentageChange >= 0 ? "#39c491" : "#e96d69" }}>
               {percentageChange >= 0 && "+"}
               {percentageChange}%
