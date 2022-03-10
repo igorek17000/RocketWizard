@@ -35,8 +35,11 @@ async function getOkex(apiKey) {
   let balance = 0;
 
   await exchange
-    .fetchBalance()
-    .then((balanceObj) => (balance = balanceObj.total["USDT"]))
+    .futuresBalance()
+    .then((balanceObj) => {
+      console.log("balanceobj: ", balanceObj);
+      balance = balanceObj.total["USDT"];
+    })
     .catch((e) => {});
 
   return balance;

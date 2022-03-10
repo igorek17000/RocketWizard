@@ -19,17 +19,8 @@ async function validateBinance(apiKey) {
   let valid = false;
 
   await exchange
-    .fetchBalance()
+    .futuresBalance()
     .then((balance) => {
-      valid = true;
-    })
-    .catch((err) => {
-      valid = false;
-    });
-
-  await exchange
-    .futuresAccount()
-    .then((_) => {
       valid = true;
     })
     .catch((err) => {
