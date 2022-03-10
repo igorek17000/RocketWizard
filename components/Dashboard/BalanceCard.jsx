@@ -92,7 +92,9 @@ function BalanceCard({ balance, apiName }) {
 
     const balance = await balanceResponse.json();
 
-    setCurrBalance(balance.balance);
+    console.log("balance: ", balance);
+
+    setCurrBalance(balance);
   };
 
   useEffect(() => {
