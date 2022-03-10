@@ -16,14 +16,13 @@ async function validateBinance(apiKey) {
     APISECRET: apiKey.secret,
   });
 
-  let valid = false;
+  const balances = await binance.futuresBalance();
 
-  await binance
-    .futuresBalance()
-    .then((balance) => (valid = true))
-    .catch((err) => (valid = false));
-
-  return valid;
+  if (balances.code) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 async function validateOkex(apiKey) {
