@@ -20,9 +20,15 @@ async function getBinance(apiKey) {
 
   console.log("balances: ", balances);
 
-  const balance = parseFloat(
-    await balances.find((x) => x.asset === "USDT").balance
-  );
+  let balance;
+
+  try {
+    balance = parseFloat(
+      await balances.find((x) => x.asset === "USDT").balance
+    );
+  } catch {
+    balance = 0;
+  }
 
   return balance;
 }
