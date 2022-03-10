@@ -123,10 +123,14 @@ function BalanceCard({ balance, apiName }) {
         <section className={styles.body}>
           <div className={styles.values}>
             <h2>${Math.round(currBalance * 100) / 100}</h2>
-            <p style={{ color: percentageChange >= 0 ? "#39c491" : "#e96d69" }}>
-              {percentageChange >= 0 && "+"}
-              {percentageChange}%
-            </p>
+            {chartData && chartData.length >= 5 && (
+              <p
+                style={{ color: percentageChange >= 0 ? "#39c491" : "#e96d69" }}
+              >
+                {percentageChange >= 0 && "+"}
+                {percentageChange}%
+              </p>
+            )}
           </div>
           {chartData && chartData.length >= 5 && (
             <div className={styles.graph}>
