@@ -46,7 +46,7 @@ const customStyles = {
 
 function RoiCard({ balance }) {
   const [timeframe, setTimeframe] = useState(options[0]);
-  const [percentageChange, setPercentageChange] = useState(0);
+  const [amountChange, setAmountChange] = useState(0);
 
   const [chartData, setChartData] = useState(balance.daily);
 
@@ -54,9 +54,9 @@ function RoiCard({ balance }) {
     let end = chartData[chartData.length - 1];
     let start = chartData[0];
 
-    let change = (end / start) * 100;
+    let change = end - start;
 
-    setPercentageChange(Math.round(change * 100) / 100);
+    setAmountChange(change);
   };
 
   const changeTimeframe = (value) => {
@@ -82,7 +82,7 @@ function RoiCard({ balance }) {
   return (
     <main className={styles.roiCard}>
       <section className={styles.header}>
-        <h4>ROI</h4>
+        <h4>Balance History</h4>
         <Select
           styles={customStyles}
           options={options}
@@ -94,10 +94,16 @@ function RoiCard({ balance }) {
       {chartData && chartData.length >= 5 ? (
         <section className={styles.body}>
           <div className={styles.values}>
-            <h2> {percentageChange}%</h2>
+            <h2 style={{ color: amountChange >= 0 ? "#39c491" : "#e96d69" }}>
+              {amountChange >= 0 && "+"}
+              {amountChange}
+            </h2>
           </div>
           <div className={styles.graph}>
-            <LineChart chartData={chartData} color="#f0b207" />
+            <LineChart
+              chartData={chartData}
+              color={amountChange >= 0 ? "#39c491" : "#e96d69"}
+            />
           </div>
         </section>
       ) : (

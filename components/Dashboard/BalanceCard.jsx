@@ -110,36 +110,13 @@ function BalanceCard({ balance, apiName }) {
   return (
     <main className={styles.balanceCard}>
       <section className={styles.header}>
-        <h4>Total Balance</h4>
-        <Select
-          styles={customStyles}
-          options={options}
-          value={timeframe}
-          onChange={changeTimeframe}
-          defaultValue={timeframe}
-        />
+        <h4>Current Balance</h4>
       </section>
       {currBalance ? (
         <section className={styles.body}>
           <div className={styles.values}>
             <h2>${Math.round(currBalance * 100) / 100}</h2>
-            {chartData && chartData.length >= 5 && (
-              <p
-                style={{ color: percentageChange >= 0 ? "#39c491" : "#e96d69" }}
-              >
-                {percentageChange >= 0 && "+"}
-                {percentageChange}%
-              </p>
-            )}
           </div>
-          {chartData && chartData.length >= 5 && (
-            <div className={styles.graph}>
-              <LineChart
-                chartData={chartData}
-                color={percentageChange >= 0 ? "#39c491" : "#e96d69"}
-              />
-            </div>
-          )}
         </section>
       ) : (
         <section className={styles.body}>
