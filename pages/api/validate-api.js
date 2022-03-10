@@ -11,21 +11,17 @@ const MARKET_WS = "wss://api.huobi.de.com/ws";
 const ACCOUNT_WS = "wss://api.huobi.de.com/ws/v2";
 
 async function validateBinance(apiKey) {
-  const exchange = new ccxt.binance({
-    apiKey: apiKey.api,
-    secret: apiKey.secret,
+  const binance = new Binance().options({
+    APIKEY: apiKey.api,
+    APISECRET: apiKey.secret,
   });
 
   let valid = false;
 
-  await exchange
+  await binance
     .futuresBalance()
-    .then((balance) => {
-      valid = true;
-    })
-    .catch((err) => {
-      valid = false;
-    });
+    .then((balance) => (valid = true))
+    .catch((err) => (valid = false));
 
   return valid;
 }

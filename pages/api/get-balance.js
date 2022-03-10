@@ -18,6 +18,8 @@ async function getBinance(apiKey) {
 
   const balances = await binance.futuresBalance();
 
+  console.log("balances: ", balances);
+
   const balance = parseFloat(
     await balances.find((x) => x.asset === "USDT").balance
   );
@@ -35,11 +37,8 @@ async function getOkex(apiKey) {
   let balance = 0;
 
   await exchange
-    .futuresBalance()
-    .then((balanceObj) => {
-      console.log("balanceobj: ", balanceObj);
-      balance = balanceObj.total["USDT"];
-    })
+    .fetchBalance()
+    .then((balanceObj) => (balance = balanceObj.total["USDT"]))
     .catch((e) => {});
 
   return balance;
