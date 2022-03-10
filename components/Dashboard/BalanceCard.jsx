@@ -82,7 +82,7 @@ function BalanceCard({ balance, apiName }) {
       method: "POST",
       body: JSON.stringify({
         email: session.user.email,
-        apiName: api.value,
+        apiName,
         exists: true,
       }),
       headers: {
