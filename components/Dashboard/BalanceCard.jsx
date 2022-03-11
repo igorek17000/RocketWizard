@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/BalanceCard.module.scss";
+import { Oval } from "react-loader-spinner";
 
 import { useSession } from "next-auth/react";
 
@@ -120,7 +121,12 @@ function BalanceCard({ balance, apiName }) {
         </section>
       ) : (
         <section className={styles.body}>
-          <h3 className={styles.noData}>Not enough data</h3>
+          <Oval
+            color="#731bde"
+            secondaryColor="#a879e0"
+            height={80}
+            width={80}
+          />
         </section>
       )}
     </main>
