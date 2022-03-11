@@ -50,6 +50,7 @@ const customStyles = {
 function BalanceCard({ balance, apiName }) {
   const [timeframe, setTimeframe] = useState(options[0]);
   const [percentageChange, setPercentageChange] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const [chartData, setChartData] = useState(balance.daily);
 
@@ -94,6 +95,8 @@ function BalanceCard({ balance, apiName }) {
     const balance = await balanceResponse.json();
 
     setCurrBalance(balance.balance);
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -105,6 +108,7 @@ function BalanceCard({ balance, apiName }) {
   }, [balance]);
 
   useEffect(() => {
+    setLoading(true);
     getCurrBalance();
   }, [apiName]);
 
@@ -113,14 +117,17 @@ function BalanceCard({ balance, apiName }) {
       <section className={styles.header}>
         <h4>Current Balance</h4>
       </section>
-      {currBalance ? (
+      {currBalance && !loading ? (
         <section className={styles.body}>
           <div className={styles.values}>
             <h2>${Math.round(currBalance * 100) / 100}</h2>
           </div>
         </section>
       ) : (
-        <section className={styles.body}>
+        <section
+          className={styles.body}
+          style={{ justifyContent: "center", alignItems: "center" }}
+        >
           <Oval
             color="#731bde"
             secondaryColor="#a879e0"
