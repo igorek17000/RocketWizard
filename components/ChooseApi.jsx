@@ -188,6 +188,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
           sendApiName={(name) => sendApiName(name)}
           tip={true}
           tier={tier}
+          risky={true}
         />
       )}
 

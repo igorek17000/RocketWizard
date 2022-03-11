@@ -66,6 +66,7 @@ function AddApi({
   forceExchange = null,
   sendApiName,
   tip = false,
+  risky = false,
   tier,
 }) {
   const [exchange, setExchange] = useState(
@@ -350,8 +351,7 @@ function AddApi({
                 }
               />
             )}
-            <RiskyTrading />
-
+            {risky && <RiskyTrading />}
             {error && <Alert text={error} error={true} />}
 
             <button onClick={loading ? () => {} : handleAdd}>
