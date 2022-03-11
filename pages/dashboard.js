@@ -104,7 +104,24 @@ function Dashboard({ subscriptions, traderID, traders }) {
       for await (const key of keys) {
         tempOptions.push({
           value: key.name,
-          label: key.name,
+          label: (
+            <div
+              className={styles.labels}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                placeContent: "space-between",
+              }}
+            >
+              <p>{key.name}</p>
+              <img
+                src={`/images/settings/exchanges/${key.exchange}.svg`}
+                alt="Exchange"
+                className={styles.exchange}
+                style={{ height: "1rem" }}
+              />
+            </div>
+          ),
         });
       }
 
