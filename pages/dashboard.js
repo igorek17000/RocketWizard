@@ -20,6 +20,7 @@ import GuestMessage from "../components/Dashboard/GuestMessage";
 import TraderDashboard from "../components/Dashboard/TraderDashboard";
 import Renew from "../components/Renew";
 import Upgrade from "../components/Upgrade";
+import Alert from "../components/Alert";
 
 /*
 DEAL:     {
@@ -61,7 +62,7 @@ const customStyles = {
   }),
 };
 
-function Dashboard({ subscriptions, traderID, traders }) {
+function Dashboard({ subscriptions, traderID, traders, disclaimer }) {
   const [api, setApi] = useState(null);
   const [options, setOptions] = useState([]);
 
@@ -216,6 +217,7 @@ function Dashboard({ subscriptions, traderID, traders }) {
                         <RoiCard balance={balance} />
                       </div>
                       <StatisticsCard balance={balance} />
+                      <Alert error={true} text={disclaimer} />
                     </div>
                   ) : (
                     <div className={styles.body}>
@@ -275,6 +277,12 @@ export async function getServerSideProps({ req }) {
 
   const traders = await resTraders.json();
 
+  const resDisclaimer = await fetch(
+    `https://www.rocketwizard.io/api/dashboardDisclaimer`
+  );
+
+  const disclaimer = await resDisclaimer.json();
+
   if (session) {
     const res = await fetch(
       `https://www.rocketwizard.io/api/subscribe?email=${session.user.email}`
@@ -293,10 +301,18 @@ export async function getServerSideProps({ req }) {
         subscriptions: subs,
         traderID: traderID.traderId || null,
         traders,
+        disclaimer: disclaimer.msg,
       },
     };
   } else {
-    return { props: { subscriptions: [], isTrader: false, traders } };
+    return {
+      props: {
+        subscriptions: [],
+        isTrader: false,
+        traders,
+        disclaimer: disclaimer.msg,
+      },
+    };
   }
 }
 
