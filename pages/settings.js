@@ -277,7 +277,9 @@ function Settings({ subscriptions }) {
                 </>
               ) : (
                 <>
-                  {subscriptions && subscriptions.length > 0 ? (
+                  {subscriptions &&
+                  subscriptions.length > 0 &&
+                  apiKeys.length > 0 ? (
                     <div className={styles.list}>
                       {subscriptions.map((sub, i) => (
                         <ActivatedApi
