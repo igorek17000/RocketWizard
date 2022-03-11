@@ -55,7 +55,6 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
   const [addingApi, setAddingApi] = useState(false);
   const [loading, setLoading] = useState(true);
   const [exchange, setExchange] = useState(null);
-  const [multiplier, setMultiplier] = useState(1);
 
   const changeApi = (value) => {
     setApi(value);
@@ -96,27 +95,6 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
       }
 
       sendApiName(api.value);
-
-      try {
-        const response = await fetch("/api/api-add-risk", {
-          method: "POST",
-          body: JSON.stringify({
-            email: session.user.email,
-            apiName: api.value,
-            multiplier,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const json = await response.json();
-
-        if (!response.ok) {
-          setError(json.message);
-          throw new Error(json.message || "Something went wrong");
-        }
-      } catch (error) {}
 
       handleClose();
     }
@@ -209,7 +187,6 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
           forceExchange={exchange}
           sendApiName={(name) => sendApiName(name)}
           tip={true}
-          risky={true}
           tier={tier}
         />
       )}
@@ -250,9 +227,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
             <p>
               Or <span onClick={addApi}>Create a new one</span>
             </p>
-            <RiskyTrading
-              sendSelected={(selected) => setMultiplier(selected)}
-            />
+            <RiskyTrading />
             {error && <Alert text={error} error={true} />}
             <button onClick={handleChoose}>Continue</button>
           </div>

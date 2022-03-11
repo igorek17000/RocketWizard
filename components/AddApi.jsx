@@ -66,7 +66,6 @@ function AddApi({
   forceExchange = null,
   sendApiName,
   tip = false,
-  risky = false,
   tier,
 }) {
   const [exchange, setExchange] = useState(
@@ -76,7 +75,6 @@ function AddApi({
   const [api, setApi] = useState(null);
   const [secret, setSecret] = useState(null);
   const [password, setPassword] = useState(null);
-  const [multiplier, setMultiplier] = useState(1);
 
   const [limitedAcc, setLimitedAcc] = useState(false);
 
@@ -181,7 +179,6 @@ function AddApi({
         exchange: exchange.value,
         api,
         secret,
-        multiplier,
         limited: limitedAcc,
       };
 
@@ -348,11 +345,7 @@ function AddApi({
                 }
               />
             )}
-            {risky && (
-              <RiskyTrading
-                sendSelected={(selected) => setMultiplier(selected)}
-              />
-            )}
+            <RiskyTrading />
 
             {error && <Alert text={error} error={true} />}
 
