@@ -105,7 +105,7 @@ function BalanceCard({ balance, apiName }) {
 
   useEffect(() => {
     getCurrBalance();
-  }, []);
+  }, [apiName]);
 
   return (
     <main className={styles.balanceCard}>
