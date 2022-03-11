@@ -63,6 +63,7 @@ function StatisticsCard({ balance, forceExtra = 20 }) {
 
   useEffect(() => {
     setChartData(balance.weekly);
+    setTimeframe(options[1]);
   }, [balance]);
 
   return (
