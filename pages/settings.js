@@ -49,14 +49,16 @@ const customStyles = {
 
 function ActivatedApi({ sub, apiKeys, changed }) {
   const apiOptions = apiKeys
-    .filter(
-      (key) =>
-        key.exchange === sub.api.exchange &&
-        (!key.taken || sub.api.name === key.name)
-    )
-    .map((key) => {
-      return { value: key.name, label: key.name };
-    });
+    ? apiKeys
+        .filter(
+          (key) =>
+            key.exchange === sub.api.exchange &&
+            (!key.taken || sub.api.name === key.name)
+        )
+        .map((key) => {
+          return { value: key.name, label: key.name };
+        })
+    : [];
 
   const { data: session, status } = useSession();
 
@@ -105,14 +107,16 @@ function ActivatedApi({ sub, apiKeys, changed }) {
         src={`/images/settings/exchanges/${sub.api.exchange}.svg`}
         alt="Exchange"
       />
-      <Select
-        className={styles.select}
-        styles={customStyles}
-        defaultValue={apiValue}
-        options={apiOptions}
-        value={apiValue}
-        onChange={changeValue}
-      />
+      {apiKeys && (
+        <Select
+          className={styles.select}
+          styles={customStyles}
+          defaultValue={apiValue}
+          options={apiOptions}
+          value={apiValue}
+          onChange={changeValue}
+        />
+      )}
     </div>
   );
 }
