@@ -217,7 +217,7 @@ function Dashboard({ subscriptions, traderID, traders, disclaimer }) {
                         <RoiCard balance={balance} />
                       </div>
                       <StatisticsCard balance={balance} />
-                      <Alert error={true} text={disclaimer} />
+                      <Alert error={true} text={disclaimer} fontSize="1.8rem" />
                     </div>
                   ) : (
                     <div className={styles.body}>

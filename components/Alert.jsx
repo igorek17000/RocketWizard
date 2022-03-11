@@ -29,6 +29,7 @@ export default function Alert({
   includeIcon = true,
   error = false,
   center = false,
+  fontSize = "0.8rem",
 }) {
   const [backgroundColor, setBackgroundColor] = useState(bgColor);
   const [borderColor, setBorderColor] = useState(shadeColor(bgColor, -10));
@@ -58,6 +59,7 @@ export default function Alert({
           color: textColor,
           textAlign: center ? "center" : "left",
           width: center ? "100%" : "fit-content",
+          fontSize,
         }}
       >
         {text}
