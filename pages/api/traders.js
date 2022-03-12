@@ -10,6 +10,12 @@ export default async function handler(req, res) {
       .sort({ monthlyRoi: -1 })
       .toArray();
 
+    data = await data.map((trader) => {
+      return { ...trader, subscribers: null };
+    });
+
+    console.log(data);
+
     return res.json(data);
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
