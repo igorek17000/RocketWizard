@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         winrate: trader.winrate,
         yearlyRoi: trader.yearlyRoi,
         comingSoon: trader.comingSoon || false,
-        subscriberCount: trader.subscribers.length || 0,
+        subscriberCount: trader.subscribers ? trader.subscribers.length : 0,
       };
 
       return newTrader;
