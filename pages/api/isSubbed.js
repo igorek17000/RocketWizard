@@ -5,7 +5,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     const { id, e } = req.query;
-    const trader = await db.collection("traders").findOne({ traderId: id });
+    const trader = await db.collection("traders").findOne({ id });
 
     let subbed = false;
 
