@@ -12,9 +12,9 @@ function TraderCard({ trader, isTrader }) {
   const [subscribed, setSubscribed] = useState(false);
 
   const getSubscribers = () => {
-    const subscribers = trader.subscribers || [];
+    const subscribers = trader.subscriberCount || 0;
 
-    const n = subscribers.length + trader.baseSubscribers;
+    const n = subscribers + trader.baseSubscribers;
 
     if (trader.comingSoon) return 0;
 
