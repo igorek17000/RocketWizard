@@ -22,6 +22,7 @@ export default async function handler(req, res) {
         username: trader.username,
         winrate: trader.winrate,
         yearlyRoi: trader.yearlyRoi,
+        comingSoon: trader.comingSoon || false,
       };
 
       return newTrader;
