@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     const trader = await db.collection("traders").findOne({ id });
 
     trader.subscribers = await trader.subscribers.map((sub, i) => {
-      return { tier: sub.tier };
+      return { tier: sub.tier, startDate: sub.startDate };
     });
 
     return res.json(trader);
