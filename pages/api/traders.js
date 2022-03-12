@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
   if (req.method === "GET") {
-    const data = await db
+    let data = await db
       .collection("traders")
       .find()
       .sort({ monthlyRoi: -1 })
@@ -13,8 +13,6 @@ export default async function handler(req, res) {
     data = await data.map((trader) => {
       return { ...trader, subscribers: null };
     });
-
-    console.log(data);
 
     return res.json(data);
   } else {
