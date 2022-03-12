@@ -1,15 +1,6 @@
 import { connectToDatabase } from "../../lib/mongodb";
 const crypto = require("crypto");
 
-const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-
-function dateDiffInDays(a, b) {
-  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
-}
-
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -32,6 +23,8 @@ export default async function handler(req, res) {
     const paid = payment.actually_paid;
 
     console.log("NEW PAYMENT COMING!!!");
+
+    console.log(signature);
 
     if (
       payment.payment_status === "partially_paid" &&
