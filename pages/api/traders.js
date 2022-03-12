@@ -11,7 +11,20 @@ export default async function handler(req, res) {
       .toArray();
 
     data = await data.map((trader) => {
-      return { ...trader, subscribers: null };
+      const newTrader = {
+        basePrice: trader.basePrice,
+        baseSubscribers: trader.baseSubscribers,
+        description: trader.description,
+        exchange: trader.exchange,
+        id: trader.id,
+        monthlyRoi: trader.monthlyhRoi,
+        name: trader.name,
+        username: trader.username,
+        winrate: trader.winrate,
+        yearlyRoi: trader.yearlyRoi,
+      };
+
+      return newTrader;
     });
 
     return res.json(data);

@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const { id } = req.query;
     const trader = await db.collection("traders").findOne({ id });
 
-    trader.subscribers = await trader.subscribers.map((sub) => {});
+    trader.subscribers = await trader.subscribers.map((sub, i) => i);
 
     return res.json(trader);
   } else {
