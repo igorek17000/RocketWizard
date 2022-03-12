@@ -1,4 +1,5 @@
 import { connectToDatabase } from "../../lib/mongodb";
+require("dotenv/config");
 const crypto = require("crypto");
 
 const _MS_PER_DAY = 1000 * 60 * 60 * 24;
