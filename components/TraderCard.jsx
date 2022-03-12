@@ -23,13 +23,18 @@ function TraderCard({ trader, isTrader }) {
 
   const { data: session } = useSession();
 
+  const isSubbed = async () => {
+    const res = await fetch(
+      `/api/isSubbed?id=${trader.id}&e=${session.user.email}`
+    );
+
+    const data = await res.json();
+
+    setSubscribed(data.isSubbed);
+  };
+
   useEffect(() => {
-    trader.subscribers &&
-      trader.subscribers.forEach((subber) => {
-        if (session && subber.email === session.user.email) {
-          setSubscribed(true);
-        }
-      });
+    isSubbed();
   }, []);
 
   return (
