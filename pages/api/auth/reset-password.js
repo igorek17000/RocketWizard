@@ -19,8 +19,6 @@ export default async function handler(req, res) {
 
     const hashes = forgotPasses.hashes || {};
 
-    console.log(hashes);
-
     const code = uuid();
 
     hashes[email] = { pass: hashedPassword, code };

@@ -18,8 +18,6 @@ async function getBinance(apiKey) {
 
   const balances = await binance.futuresBalance();
 
-  console.log("balances: ", balances);
-
   let balance;
 
   try {

@@ -20,9 +20,6 @@ export default async function handler(req, res) {
 
     const hash = hashes[email];
 
-    console.log(hashes);
-    console.log(code);
-
     if (hash && hash.code === code) {
       delete hashes[email];
 

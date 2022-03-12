@@ -30,7 +30,6 @@ export default async function handler(req, res) {
 
     const price = payment.price_amount;
     const paid = payment.actually_paid;
-    const outcome = payment.outcome_amount;
 
     console.log("NEW PAYMENT COMING!!!");
 
