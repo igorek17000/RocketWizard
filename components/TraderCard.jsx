@@ -30,7 +30,7 @@ function TraderCard({ trader, isTrader }) {
 
     const data = await res.json();
 
-    setSubscribed(data.isSubbed);
+    setSubscribed(data.subbed);
   };
 
   useEffect(() => {
