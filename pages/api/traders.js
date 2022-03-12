@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         description: trader.description,
         exchange: trader.exchange,
         id: trader.id,
-        monthlyRoi: trader.monthlyhRoi,
+        monthlyRoi: trader.monthlyRoi,
         name: trader.name,
         username: trader.username,
         winrate: trader.winrate,
