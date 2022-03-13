@@ -9,9 +9,11 @@ export default async function handler(req, res) {
 
     let subbed = false;
 
-    for await (const sub of trader.subscribers) {
-      if (sub.email === e) {
-        subbed = true;
+    if (trader.subscribers) {
+      for await (const sub of trader.subscribers) {
+        if (sub.email === e) {
+          subbed = true;
+        }
       }
     }
 
