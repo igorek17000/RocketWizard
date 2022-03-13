@@ -1,11 +1,11 @@
 const { Cpk } = require("cryptocurrency-price-kit");
 const CoinGecko = require("cryptocurrency-price-kit/providers/coingecko.com");
 
+Cpk.useProviders([CoinGecko]);
+
+const coingecko = new Cpk("coingecko.com");
+
 export default async function handler(req, res) {
-  Cpk.useProviders([CoinGecko]);
-
-  const coingecko = new Cpk("coingecko.com");
-
   if (req.method === "POST") {
     const { payment } = req.body;
 

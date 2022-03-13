@@ -3,15 +3,15 @@ const crypto = require("crypto");
 const { Cpk } = require("cryptocurrency-price-kit");
 const CoinGecko = require("cryptocurrency-price-kit/providers/coingecko.com");
 
+Cpk.useProviders([CoinGecko]);
+
+const coingecko = new Cpk("coingecko.com");
+
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export default async function handler(req, res) {
-  Cpk.useProviders([CoinGecko]);
-
-  const coingecko = new Cpk("coingecko.com");
-
   const { db } = await connectToDatabase();
 
   const plans = ["basic", "advanced", "professional"];
