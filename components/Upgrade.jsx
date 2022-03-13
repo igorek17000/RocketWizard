@@ -120,10 +120,7 @@ function Upgrade({
   id = 0,
   quantity = 1,
   traderId,
-  NPapi,
 }) {
-  const npApi = new NowPaymentsApi({ apiKey: NPapi });
-
   const [readTerms, setReadTerms] = useState(false);
 
   const [crypto, setCrypto] = useState(null);
@@ -235,20 +232,22 @@ function Upgrade({
   const pay = async () => {
     const orderId = await getOrderID();
 
-    const config = {
-      price_amount: centRound(fullPrice),
-      price_currency: "usd",
-      pay_currency: crypto.value,
-      order_description: `${plan.name} x ${quantity}`,
-      order_id: orderId,
-      success_url: "https://www.rocketwizard.io/?orderSuccess=true",
-      cancel_url: "https://www.rocketwizard.io/checkout/fail",
-      ipn_callback_url: "https://www.rocketwizard.io/api/upgrade",
-    };
+    const res = await fetch("/api/create-payment", {
+      method: "POST",
+      body: JSON.stringify({
+        fullPrice: centRound(fullPrice),
+        currency: crypto.value,
+        description: `${plan.name} x ${quantity}`,
+        orderId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    const invoice = await npApi.createInvoice(config);
+    const json = await res.json();
 
-    router.replace(invoice.invoice_url);
+    router.replace(json.url);
 
     setDiscountCode(null);
     setDiscount(0);
@@ -482,11 +481,6 @@ function Upgrade({
       </section>
     </Modal>
   );
-}
-
-export async function getStaticProps() {
-  // Pass data to the page via props
-  return { props: { NPapi: process.env.NPapi } };
 }
 
 export default Upgrade;

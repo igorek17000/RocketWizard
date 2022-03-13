@@ -69,7 +69,6 @@ function Dashboard({
   codeOwner,
   traders,
   disclaimer,
-  NPApi,
 }) {
   const [api, setApi] = useState(null);
   const [options, setOptions] = useState([]);
@@ -204,7 +203,7 @@ function Dashboard({
           ) : (
             <>
               {codeOwner ? (
-                <CodeOwnerDashboard NPApi={NPApi} code={codeOwner} />
+                <CodeOwnerDashboard code={codeOwner} />
               ) : (
                 <section className={styles.card}>
                   <section className={styles.left}>
@@ -330,7 +329,6 @@ export async function getServerSideProps({ req }) {
         codeOwner: codeOwner.code || null,
         traders,
         disclaimer: disclaimer.msg,
-        NPApi: process.env.NPapi,
       },
     };
   } else {
@@ -341,7 +339,6 @@ export async function getServerSideProps({ req }) {
         codeOwner: false,
         traders,
         disclaimer: disclaimer.msg,
-        NPApi: process.env.NPapi,
       },
     };
   }

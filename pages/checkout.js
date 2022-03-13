@@ -115,9 +115,7 @@ const cryptoOptions = [
   },
 ];
 
-function Checkout({ traders, NPApi }) {
-  const npApi = new NowPaymentsApi({ apiKey: NPApi });
-
+function Checkout({ traders }) {
   const [readTerms, setReadTerms] = useState(false);
 
   const [country, setCountry] = useState(null);
@@ -249,20 +247,22 @@ function Checkout({ traders, NPApi }) {
 
     setDisclaimerOpen(null);
 
-    const config = {
-      price_amount: fullPrice,
-      price_currency: "usd",
-      pay_currency: crypto.value,
-      order_description: `${plan.name} x ${quantity}`,
-      order_id: orderId,
-      success_url: "https://www.rocketwizard.io/?orderSuccess=true",
-      cancel_url: "https://www.rocketwizard.io/checkout/fail",
-      ipn_callback_url: "https://www.rocketwizard.io/api/payment",
-    };
+    const res = await fetch("/api/create-payment", {
+      method: "POST",
+      body: JSON.stringify({
+        fullPrice,
+        currency: crypto.value,
+        description: `${plan.name} x ${quantity}`,
+        orderId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    const invoice = await npApi.createInvoice(config);
+    const json = await res.json();
 
-    router.replace(invoice.invoice_url);
+    router.replace(json.url);
 
     setName(null);
     setStreetAddress(null);
@@ -636,7 +636,7 @@ export async function getServerSideProps() {
   const traders = await res.json();
 
   // Pass data to the page via props
-  return { props: { traders, NPApi: process.env.NPapi } };
+  return { props: { traders } };
 }
 
 export default Checkout;

@@ -6,8 +6,6 @@ import { Oval } from "react-loader-spinner";
 
 import { StatisticsCard } from "./index";
 
-import NowPaymentsApi from "@nowpaymentsio/nowpayments-api-js";
-
 const getGreeting = () => {
   const hours = new Date().getHours();
 
@@ -20,16 +18,7 @@ const getGreeting = () => {
   }
 };
 
-const getDiff = (dateParam) => {
-  const now = new Date();
-  const date = new Date(dateParam);
-
-  return Math.floor(Math.abs(now - date) / 36e5);
-};
-
-function CodeOwnerDashboard({ NPApi, code = "PENNY" }) {
-  const npApi = new NowPaymentsApi({ apiKey: NPApi });
-
+function CodeOwnerDashboard({ code }) {
   const [data, setData] = useState(null);
   const [uses, setUses] = useState(0);
   const [dailyUses, setDailyUses] = useState(0);
@@ -43,84 +32,23 @@ function CodeOwnerDashboard({ NPApi, code = "PENNY" }) {
   };
 
   const getData = async () => {
-    const paymentTemp = await npApi.getListPayments();
-
-    const limit = paymentTemp.total;
-
-    const paymentsAll = await npApi.getListPayments({ limit });
-
-    let payments = await paymentsAll.data.filter(
-      (payment) =>
-        payment.payment_status !== "expired" &&
-        payment.payment_status !== "waiting"
-    );
-
-    payments = await asyncFilter(payments, async (payment) => {
-      if (payment.order_id.split(" ")[5] !== code) {
-        return false;
-      }
-
-      if (payment.payment_status === "partially_paid") {
-        const res = await fetch("/api/has-paid", {
-          method: "POST",
-          body: JSON.stringify({
-            payment,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const json = await res.json();
-
-        return json.success;
-      }
-
-      return true;
+    const res = await fetch("/api/get-code-use-data", {
+      method: "POST",
+      body: JSON.stringify({
+        code,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    let all = 0,
-      month = 0,
-      allUses = 0,
-      daily = 0;
+    const allData = await res.json();
 
-    const tempData = {
-      daily: new Array(24).fill(0),
-      weekly: new Array(14).fill(0),
-      monthly: new Array(30).fill(0),
-    };
-
-    for await (const payment of payments) {
-      all += payment.outcome_amount * 0.1;
-      allUses++;
-
-      const diff = getDiff(payment.created_at);
-
-      if (diff < 24) {
-        const index = Math.round(24 - diff);
-        tempData.daily[index - 1] = tempData.daily[index - 1] + 1;
-
-        daily++;
-      }
-
-      if (diff < 24 * 7) {
-        const index = 14 - Math.round(diff / 12);
-        tempData.weekly[index - 1] = tempData.weekly[index - 1] + 1;
-      }
-
-      if (diff < 24 * 30) {
-        const index = 30 - Math.round(diff / 24);
-        tempData.monthly[index - 1] = tempData.monthly[index - 1] + 1;
-
-        month += payment.outcome_amount * 0.1;
-      }
-    }
-
-    setAllEarnings(Math.round(all * 10) / 10);
-    setMonthlyEarnings(Math.round(month * 10) / 10);
-    setUses(allUses);
-    setDailyUses(daily);
-    setData(tempData);
+    setData(allData.tempData);
+    setUses(allData.allUses);
+    setDailyUses(allData.daily);
+    setMonthlyEarnings(allData.month);
+    setAllEarnings(allData.all);
   };
 
   useEffect(() => {

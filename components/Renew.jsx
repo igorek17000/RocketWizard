@@ -113,17 +113,7 @@ const cryptoOptions = [
   },
 ];
 
-function Renew({
-  traders,
-  open,
-  handleClose,
-  id = 0,
-  quantity = 1,
-  traderId,
-  NPapi,
-}) {
-  const npApi = new NowPaymentsApi({ apiKey: NPapi });
-
+function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
   const [readTerms, setReadTerms] = useState(false);
 
   const [crypto, setCrypto] = useState(null);
@@ -222,24 +212,26 @@ function Renew({
 
     const orderId = await getOrderID();
 
-    const config = {
-      price_amount: fullPrice,
-      price_currency: "usd",
-      pay_currency: crypto.value,
-      order_description: `${plan.name} x ${quantity}`,
-      order_id: orderId,
-      success_url: "https://www.rocketwizard.io/?orderSuccess=true",
-      cancel_url: "https://www.rocketwizard.io/checkout/fail",
-      ipn_callback_url: "https://www.rocketwizard.io/api/renew",
-    };
+    const res = await fetch("/api/create-payment", {
+      method: "POST",
+      body: JSON.stringify({
+        fullPrice: fullPrice,
+        currency: crypto.value,
+        description: `${plan.name} x ${quantity}`,
+        orderId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    const invoice = await npApi.createInvoice(config);
+    const json = await res.json();
+
+    router.replace(json.url);
 
     setDiscountCode(null);
     setDiscount(0);
     setCrypto(null);
-
-    router.push(invoice.invoice_url);
 
     return true;
   };
@@ -453,11 +445,6 @@ function Renew({
       </section>
     </Modal>
   );
-}
-
-export async function getStaticProps() {
-  // Pass data to the page via props
-  return { props: { NPapi: process.env.NPapi } };
 }
 
 export default Renew;
