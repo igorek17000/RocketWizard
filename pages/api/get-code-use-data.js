@@ -8,7 +8,7 @@ const NowPaymentsApi = require("@nowpaymentsio/nowpayments-api-js");
 
 const npApi = new NowPaymentsApi({ apiKey: process.env.NPApi });
 
-const hasPaid = (payment) => {
+const hasPaid = async (payment) => {
   const price = payment.price_amount;
   const paidBased = payment.actually_paid;
 
@@ -63,7 +63,7 @@ export default async function handler(req, res) {
       }
 
       if (payment.payment_status === "partially_paid") {
-        const paid = hasPaid(payment);
+        const paid = await hasPaid(payment);
 
         return paid;
       }
