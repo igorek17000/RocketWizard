@@ -1,5 +1,6 @@
 import { connectToDatabase } from "../../lib/mongodb";
 const crypto = require("crypto");
+let price = require("crypto-price");
 
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -20,9 +21,31 @@ export default async function handler(req, res) {
     let valid = payment.payment_status === "confirmed";
 
     const price = payment.price_amount;
-    const paid = payment.actually_paid;
+    const paidBased = payment.actually_paid;
+
+    let paid = paidBased;
 
     console.log("NEW PAYMENT COMING!!!");
+
+    if (payment.pay_currency !== "usdttrc20")
+      price
+        .getCryptoPrice("USD", payment.pay_currency)
+        .then((obj) => {
+          // Base for ex - USD, Crypto for ex - ETH
+          paid = obj.pricel;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    console.log(
+      "CRYPTO: ",
+      payment.pay_currency,
+      ", PAID: ",
+      paidBased,
+      ", CONVERTED: ",
+      paid
+    );
 
     if (
       payment.payment_status === "partially_paid" &&

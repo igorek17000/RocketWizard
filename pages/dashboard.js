@@ -63,7 +63,14 @@ const customStyles = {
   }),
 };
 
-function Dashboard({ subscriptions, traderID, traders, disclaimer, NPApi }) {
+function Dashboard({
+  subscriptions,
+  traderID,
+  codeOwner,
+  traders,
+  disclaimer,
+  NPApi,
+}) {
   const [api, setApi] = useState(null);
   const [options, setOptions] = useState([]);
 
@@ -153,8 +160,6 @@ function Dashboard({ subscriptions, traderID, traders, disclaimer, NPApi }) {
     }
   };
 
-  return <CodeOwnerDashboard NPApi={NPApi} />;
-
   if (!session) return <GuestMessage />;
 
   return (
@@ -197,75 +202,88 @@ function Dashboard({ subscriptions, traderID, traders, disclaimer, NPApi }) {
           {traderID ? (
             <TraderDashboard traderID={traderID} />
           ) : (
-            <section className={styles.card}>
-              <section className={styles.left}>
-                <section className={styles.data}>
-                  <div className={styles.top}>
-                    <h1>{getGreeting()}</h1>
-                    {api && (
-                      <Select
-                        className={styles.select}
-                        styles={customStyles}
-                        options={options}
-                        value={api}
-                        onChange={changeApi}
-                      />
-                    )}
-                  </div>
+            <>
+              {codeOwner ? (
+                <CodeOwnerDashboard NPApi={NPApi} code={codeOwner} />
+              ) : (
+                <section className={styles.card}>
+                  <section className={styles.left}>
+                    <section className={styles.data}>
+                      <div className={styles.top}>
+                        <h1>{getGreeting()}</h1>
+                        {api && (
+                          <Select
+                            className={styles.select}
+                            styles={customStyles}
+                            options={options}
+                            value={api}
+                            onChange={changeApi}
+                          />
+                        )}
+                      </div>
 
-                  {api ? (
-                    <div className={styles.body}>
-                      <div className={styles.balanceRoiCards}>
-                        <BalanceCard balance={balance} apiName={api.value} />
-                        <RoiCard balance={balance} />
+                      {api ? (
+                        <div className={styles.body}>
+                          <div className={styles.balanceRoiCards}>
+                            <BalanceCard
+                              balance={balance}
+                              apiName={api.value}
+                            />
+                            <RoiCard balance={balance} />
+                          </div>
+                          <StatisticsCard balance={balance} />
+                          <Alert
+                            error={true}
+                            text={disclaimer}
+                            fontSize="1.4rem"
+                          />
+                        </div>
+                      ) : (
+                        <div className={styles.body}>
+                          <div className={styles.noApi}>
+                            <h3>Connect an API to access the dashboard data</h3>
+                            <Select
+                              className={styles.select}
+                              styles={customStyles}
+                              options={options}
+                              value={api}
+                              onChange={changeApi}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </section>
+                    <section className={styles.deals}>
+                      <h2>My deals</h2>
+                      <div className={styles.dealList}>
+                        {deals.map((deal, i) => (
+                          <Deal deal={deal} key={i} />
+                        ))}
                       </div>
-                      <StatisticsCard balance={balance} />
-                      <Alert error={true} text={disclaimer} fontSize="1.4rem" />
-                    </div>
-                  ) : (
-                    <div className={styles.body}>
-                      <div className={styles.noApi}>
-                        <h3>Connect an API to access the dashboard data</h3>
-                        <Select
-                          className={styles.select}
-                          styles={customStyles}
-                          options={options}
-                          value={api}
-                          onChange={changeApi}
+                    </section>
+                  </section>
+                  <section className={styles.right}>
+                    <h2>My Subscriptions</h2>
+                    <div className={styles.subscriptionList}>
+                      {subscriptions.map((subscription, i) => (
+                        <Subscription
+                          subscription={subscription}
+                          key={i}
+                          openRenew={(sub) => {
+                            setRenewOpen(true);
+                            setSubscription(sub);
+                          }}
+                          openUpgrade={(sub) => {
+                            setUpgradeOpen(true);
+                            setSubscription(sub);
+                          }}
                         />
-                      </div>
+                      ))}
                     </div>
-                  )}
+                  </section>
                 </section>
-                <section className={styles.deals}>
-                  <h2>My deals</h2>
-                  <div className={styles.dealList}>
-                    {deals.map((deal, i) => (
-                      <Deal deal={deal} key={i} />
-                    ))}
-                  </div>
-                </section>
-              </section>
-              <section className={styles.right}>
-                <h2>My Subscriptions</h2>
-                <div className={styles.subscriptionList}>
-                  {subscriptions.map((subscription, i) => (
-                    <Subscription
-                      subscription={subscription}
-                      key={i}
-                      openRenew={(sub) => {
-                        setRenewOpen(true);
-                        setSubscription(sub);
-                      }}
-                      openUpgrade={(sub) => {
-                        setUpgradeOpen(true);
-                        setSubscription(sub);
-                      }}
-                    />
-                  ))}
-                </div>
-              </section>
-            </section>
+              )}
+            </>
           )}
         </>
       )}
@@ -295,14 +313,21 @@ export async function getServerSideProps({ req }) {
       `https://www.rocketwizard.io/api/isTrader?email=${session.user.email}`
     );
 
+    const codeRes = await fetch(
+      `https://www.rocketwizard.io/api/is-code-owner?email=${session.user.email}`
+    );
+
     const subs = await res.json();
 
     const traderID = await isTraderRes.json();
+
+    const codeOwner = await codeRes.json();
 
     return {
       props: {
         subscriptions: subs,
         traderID: traderID.traderId || null,
+        codeOwner: codeOwner.code || null,
         traders,
         disclaimer: disclaimer.msg,
         NPApi: process.env.NPapi,
@@ -313,6 +338,7 @@ export async function getServerSideProps({ req }) {
       props: {
         subscriptions: [],
         isTrader: false,
+        codeOwner: false,
         traders,
         disclaimer: disclaimer.msg,
         NPApi: process.env.NPapi,
