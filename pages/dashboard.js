@@ -160,6 +160,8 @@ function Dashboard({
     }
   };
 
+  return <CodeOwnerDashboard NPApi={NPApi} code={"PENNY15"} />;
+
   if (!session) return <GuestMessage />;
 
   return (
