@@ -55,8 +55,6 @@ function CodeOwnerDashboard({ NPApi, code = "PENNY" }) {
         payment.payment_status !== "waiting"
     );
 
-    console.log("PAYMENTS: ", payments);
-
     payments = await asyncFilter(payments, async (payment) => {
       if (payment.order_id.split(" ")[5] !== code) {
         return false;
@@ -93,8 +91,6 @@ function CodeOwnerDashboard({ NPApi, code = "PENNY" }) {
     };
 
     for await (const payment of payments) {
-      console.log(payment);
-
       all += payment.outcome_amount * 0.1;
       allUses++;
 
@@ -120,15 +116,11 @@ function CodeOwnerDashboard({ NPApi, code = "PENNY" }) {
       }
     }
 
-    console.log(all, month, allUses, daily);
-
     setAllEarnings(Math.round(all * 10) / 10);
     setMonthlyEarnings(Math.round(month * 10) / 10);
     setUses(allUses);
     setDailyUses(daily);
     setData(tempData);
-
-    console.log("PAYMENTS: ", payments);
   };
 
   useEffect(() => {
