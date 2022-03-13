@@ -31,21 +31,6 @@ export default async function handler(req, res) {
       paid *= crypto_price;
     }
 
-    console.log(
-      "PRICE: ",
-      price,
-      "CRYPTO: ",
-      payment.pay_currency.toUpperCase(),
-      ", PAID: ",
-      paidBased,
-      ", CONVERTED: ",
-      paid,
-      ", VALID: ",
-      parseFloat(price) - parseFloat(paid) <= parseFloat(price) * 0.1,
-      ", PERCENTAGE: ",
-      (parseFloat(price) - parseFloat(paid)) / parseFloat(price)
-    );
-
     if (parseFloat(price) - parseFloat(paid) <= parseFloat(price) * 0.1) {
       return res.status(200).json({ success: true });
     } else {

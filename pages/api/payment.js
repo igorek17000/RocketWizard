@@ -1,12 +1,17 @@
 import { connectToDatabase } from "../../lib/mongodb";
 const crypto = require("crypto");
-let price = require("crypto-price");
+const { Cpk } = require("cryptocurrency-price-kit");
+const CoinGecko = require("cryptocurrency-price-kit/providers/coingecko.com");
+
+Cpk.useProviders([CoinGecko]);
 
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export default async function handler(req, res) {
+  const coingecko = new Cpk("coingecko.com");
+
   const { db } = await connectToDatabase();
 
   const plans = ["basic", "advanced", "professional"];
@@ -25,27 +30,22 @@ export default async function handler(req, res) {
 
     let paid = paidBased;
 
-    console.log("NEW PAYMENT COMING!!!");
+    const currencies = {
+      btc: "BITCOIN",
+      eth: "ETHEREUM",
+      ltc: "LITECOIN",
+      doge: "DOGECOIN",
+      xmr: "MONERO",
+    };
 
-    if (payment.pay_currency !== "usdttrc20")
-      price
-        .getCryptoPrice("USD", payment.pay_currency)
-        .then((obj) => {
-          // Base for ex - USD, Crypto for ex - ETH
-          paid = obj.pricel;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    if (payment.pay_currency !== "usdttrc20") {
+      const crypto_price = await coingecko.get(
+        currencies[payment.pay_currency],
+        60
+      );
 
-    console.log(
-      "CRYPTO: ",
-      payment.pay_currency,
-      ", PAID: ",
-      paidBased,
-      ", CONVERTED: ",
-      paid
-    );
+      paid *= crypto_price;
+    }
 
     if (
       payment.payment_status === "partially_paid" &&
