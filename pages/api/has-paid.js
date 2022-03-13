@@ -29,6 +29,10 @@ export default async function handler(req, res) {
       );
 
       paid *= crypto_price;
+
+      console.log(
+        `CRYPTO: ${payment.pay_currency} PAID: ${paidBased} CONVERTED: ${paid}`
+      );
     }
 
     if (parseFloat(price) - parseFloat(paid) <= parseFloat(price) * 0.1) {
