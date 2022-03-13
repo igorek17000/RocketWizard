@@ -6,6 +6,12 @@ Cpk["useProviders"]([CoinGecko]);
 const coingecko = new Cpk("coingecko.com");
 const NowPaymentsApi = require("@nowpaymentsio/nowpayments-api-js");
 
+const asyncFilter = async (arr, predicate) => {
+  const results = await Promise.all(arr.map(predicate));
+
+  return arr.filter((_v, index) => results[index]);
+};
+
 const hasPaid = async (payment) => {
   const price = payment.price_amount;
   const paidBased = payment.actually_paid;

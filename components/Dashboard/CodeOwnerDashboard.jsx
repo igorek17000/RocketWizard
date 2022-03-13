@@ -25,12 +25,6 @@ function CodeOwnerDashboard({ code }) {
   const [monthlyEarnings, setMonthlyEarnings] = useState(0);
   const [allEarnings, setAllEarnings] = useState(0);
 
-  const asyncFilter = async (arr, predicate) => {
-    const results = await Promise.all(arr.map(predicate));
-
-    return arr.filter((_v, index) => results[index]);
-  };
-
   const getData = async () => {
     const res = await fetch("/api/get-code-use-data", {
       method: "POST",
