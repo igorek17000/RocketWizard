@@ -6,8 +6,6 @@ Cpk["useProviders"]([CoinGecko]);
 const coingecko = new Cpk("coingecko.com");
 const NowPaymentsApi = require("@nowpaymentsio/nowpayments-api-js");
 
-const npApi = new NowPaymentsApi({ apiKey: process.env.NPApi });
-
 const hasPaid = async (payment) => {
   const price = payment.price_amount;
   const paidBased = payment.actually_paid;
@@ -42,6 +40,8 @@ const getDiff = (dateParam) => {
 };
 
 export default async function handler(req, res) {
+  const npApi = new NowPaymentsApi({ apiKey: process.env.NPApi });
+
   if (req.method === "POST") {
     const { code } = req.body;
 

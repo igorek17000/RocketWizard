@@ -1,4 +1,8 @@
+const NowPaymentsApi = require("@nowpaymentsio/nowpayments-api-js");
+
 export default async function handler(req, res) {
+  const npApi = new NowPaymentsApi({ apiKey: process.env.NPApi });
+
   if (req.method === "POST") {
     const { fullPrice, currency, description, orderId } = req.body;
 
