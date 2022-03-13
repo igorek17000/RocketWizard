@@ -24,8 +24,6 @@ export default async function handler(req, res) {
 
     console.log("NEW PAYMENT COMING!!!");
 
-    console.log(signature);
-
     if (
       payment.payment_status === "partially_paid" &&
       parseFloat(price) - parseFloat(paid) <= parseFloat(price) * 0.1
