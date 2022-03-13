@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const { Cpk } = require("cryptocurrency-price-kit");
 const CoinGecko = require("cryptocurrency-price-kit/providers/coingecko.com");
 
-Cpk.useProviders([CoinGecko]);
+Cpk["useProviders"]([CoinGecko]);
 
 const coingecko = new Cpk("coingecko.com");
 
