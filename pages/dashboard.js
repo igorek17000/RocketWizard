@@ -18,6 +18,7 @@ import {
 } from "../components/Dashboard";
 import GuestMessage from "../components/Dashboard/GuestMessage";
 import TraderDashboard from "../components/Dashboard/TraderDashboard";
+import CodeOwnerDashboard from "../components/Dashboard/CodeOwnerDashboard";
 import Renew from "../components/Renew";
 import Upgrade from "../components/Upgrade";
 import Alert from "../components/Alert";
@@ -62,7 +63,7 @@ const customStyles = {
   }),
 };
 
-function Dashboard({ subscriptions, traderID, traders, disclaimer }) {
+function Dashboard({ subscriptions, traderID, traders, disclaimer, NPApi }) {
   const [api, setApi] = useState(null);
   const [options, setOptions] = useState([]);
 
@@ -151,6 +152,8 @@ function Dashboard({ subscriptions, traderID, traders, disclaimer }) {
       return "Good Evening!";
     }
   };
+
+  return <CodeOwnerDashboard NPApi={NPApi} />;
 
   if (!session) return <GuestMessage />;
 
@@ -302,6 +305,7 @@ export async function getServerSideProps({ req }) {
         traderID: traderID.traderId || null,
         traders,
         disclaimer: disclaimer.msg,
+        NPApi: process.env.NPapi,
       },
     };
   } else {
@@ -311,6 +315,7 @@ export async function getServerSideProps({ req }) {
         isTrader: false,
         traders,
         disclaimer: disclaimer.msg,
+        NPApi: process.env.NPapi,
       },
     };
   }
