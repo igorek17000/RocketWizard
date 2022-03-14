@@ -83,10 +83,6 @@ const options = {
       return true;
     },
   },
-  pages: {
-    signIn: "/auth/signin",
-    error: "/complete-registration",
-  },
   debug: true,
 };
 
