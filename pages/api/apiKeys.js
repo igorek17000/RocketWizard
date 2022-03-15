@@ -48,7 +48,24 @@ export default async function handler(req, res) {
     const { email } = req.query;
     const user = await db.collection("users").findOne({ email });
 
-    return res.json(user.apiKeys || []);
+    const apiKeys = user.apiKeys || [];
+
+    apiKeys = apiKeys.map((apiKey) => {
+      var apiBytes = CryptoJS.AES.decrypt(apiKey.api, key);
+      var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, key);
+      var passwordBytes = CryptoJS.AES.decrypt(apiKey.apiPassword, key);
+
+      return {
+        ...apiKey,
+        api: apiBytes.toString(CryptoJS.enc.Utf8),
+        secret: secretBytes.toString(CryptoJS.enc.Utf8),
+        apiPassword: apiKey.apiPassword
+          ? passwordBytes.toString(CryptoJS.enc.Utf8)
+          : null,
+      };
+    });
+
+    return res.json(apiKeys);
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
   }
