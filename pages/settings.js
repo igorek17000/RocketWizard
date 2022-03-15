@@ -14,6 +14,7 @@ import AddApi from "../components/AddApi";
 import Select from "react-select";
 
 import ConfirmDelete from "../components/ConfirmDelete";
+import Alert from "../components/Alert";
 
 const customStyles = {
   control: () => ({
@@ -219,6 +220,12 @@ function Settings({ subscriptions }) {
               </p>
               <button onClick={() => setOpenModal(true)}>Add API</button>
             </div>
+            <Alert
+              error={true}
+              text={
+                "DISCLAIMER: All unsubscribed API's have been deleted and all API names have been changed in the new security update. Don't worry, you will be able to change the name of your API soon."
+              }
+            />
           </section>
           <section className={styles.apiList}>
             <div className={styles.titles}>
