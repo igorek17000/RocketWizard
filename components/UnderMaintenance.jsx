@@ -14,9 +14,10 @@ function UnderMaintenance() {
         <img src="/images/logo_light.svg" alt="Logo" />
         <h1>Rocket Wizard is currently under maintenance</h1>
         <p>
-          Hello there! We are working on updating the website and it is
-          currently under maintenance until further notice. Please be patient.
-          We are working very hard to deploy the update as soon as possible!
+          Hello there! We're working on implementing a new and faster version of
+          both our API and Database systems. Please be patient. We are working
+          very hard to deploy the update as soon as possible! Website will be up
+          before 16.03.2022. 21:00 GMT.
         </p>
       </section>
     </main>
