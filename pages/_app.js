@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { SessionProvider } from "next-auth/react";
 
+import UnderMaintenance from "../components/UnderMaintenance";
+
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Oval } from "react-loader-spinner";
 
@@ -37,6 +39,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     };
   }, []);
 
+  const UNDER_MAINTENANCE = true;
+
   return (
     <ThemeProvider enableSystem={false}>
       <SessionProvider session={session}>
@@ -60,8 +64,16 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         ) : (
           <Scrollbar style={{ width: "100vw", height: "100vh" }}>
             <ChatWithNoSSR />
-            <Navbar />
-            <Component {...pageProps} />
+
+            {UNDER_MAINTENANCE ? (
+              <UnderMaintenance />
+            ) : (
+              <>
+                <Navbar />
+                <Component {...pageProps} />
+              </>
+            )}
+
             <h1 className="beta">BETA</h1>
           </Scrollbar>
         )}
