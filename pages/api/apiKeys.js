@@ -54,7 +54,7 @@ export default async function handler(req, res) {
 
     let apiKeys = user.apiKeys || [];
 
-    apiKeys = apiKeys.map((apiKey) => {
+    apiKeys = await apiKeys.map((apiKey) => {
       var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
       var secretBytes = CryptoJS.AES.decrypt(
         apiKey.secret,
