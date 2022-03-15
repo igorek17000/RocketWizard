@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     };
   }, []);
 
-  const UNDER_MAINTENANCE = false;
+  const UNDER_MAINTENANCE = true;
 
   return (
     <ThemeProvider enableSystem={false}>
