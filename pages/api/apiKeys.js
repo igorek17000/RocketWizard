@@ -15,7 +15,7 @@ export default async function handler(req, res) {
           .json({ message: `API called "${key.name}" already exists.` });
       } else if (
         user.apiKeys.find((x) => {
-          decrypted = CryptoJS.AES.decrypt(x.api, key);
+          decrypted = CryptoJS.AES.decrypt(x.api, process.env.cryptKey);
 
           decrypted.toString(CryptoJS.enc.Utf8) === key.api;
         })
