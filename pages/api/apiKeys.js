@@ -48,7 +48,7 @@ export default async function handler(req, res) {
     const { email } = req.query;
     const user = await db.collection("users").findOne({ email });
 
-    const apiKeys = user.apiKeys || [];
+    let apiKeys = user.apiKeys || [];
 
     apiKeys = apiKeys.map((apiKey) => {
       var apiBytes = CryptoJS.AES.decrypt(apiKey.api, key);
