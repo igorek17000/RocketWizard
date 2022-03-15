@@ -11,13 +11,13 @@ const REST_URL = "https://api.huobi.de.com";
 const MARKET_WS = "wss://api.huobi.de.com/ws";
 const ACCOUNT_WS = "wss://api.huobi.de.com/ws/v2";
 
-async function getBinance(apiKey) {
+async function getBinance(apiKey, exists) {
   var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
   var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, process.env.cryptKey);
 
   const binance = new Binance().options({
-    APIKEY: apiBytes.toString(CryptoJS.enc.Utf8),
-    APISECRET: secretBytes.toString(CryptoJS.enc.Utf8),
+    APIKEY: exists ? apiBytes.toString(CryptoJS.enc.Utf8) : apiKey.api,
+    APISECRET: exists ? secretBytes.toString(CryptoJS.enc.Utf8) : apiKey.secret,
   });
 
   const balances = await binance.futuresBalance();
@@ -35,7 +35,7 @@ async function getBinance(apiKey) {
   return balance;
 }
 
-async function getOkex(apiKey) {
+async function getOkex(apiKey, exists) {
   var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
   var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, process.env.cryptKey);
   var passwordBytes = CryptoJS.AES.decrypt(
@@ -44,9 +44,11 @@ async function getOkex(apiKey) {
   );
 
   const exchange = new ccxt.okx({
-    apiKey: apiBytes.toString(CryptoJS.enc.Utf8),
-    secret: secretBytes.toString(CryptoJS.enc.Utf8),
-    password: passwordBytes.toString(CryptoJS.enc.Utf8),
+    apiKey: exists ? apiBytes.toString(CryptoJS.enc.Utf8) : apiKey.api,
+    secret: exists ? secretBytes.toString(CryptoJS.enc.Utf8) : apiKey.secret,
+    password: exists
+      ? passwordBytes.toString(CryptoJS.enc.Utf8)
+      : apiKey.apiPassword,
   });
 
   let balance = 0;
@@ -59,7 +61,7 @@ async function getOkex(apiKey) {
   return balance;
 }
 
-async function getKucoin(apiKey) {
+async function getKucoin(apiKey, exists) {
   var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
   var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, process.env.cryptKey);
   var passwordBytes = CryptoJS.AES.decrypt(
@@ -68,9 +70,11 @@ async function getKucoin(apiKey) {
   );
 
   const config = {
-    apiKey: apiBytes.toString(CryptoJS.enc.Utf8),
-    secretKey: secretBytes.toString(CryptoJS.enc.Utf8),
-    passphrase: passwordBytes.toString(CryptoJS.enc.Utf8),
+    apiKey: exists ? apiBytes.toString(CryptoJS.enc.Utf8) : apiKey.api,
+    secretKey: exists ? secretBytes.toString(CryptoJS.enc.Utf8) : apiKey.secret,
+    passphrase: exists
+      ? passwordBytes.toString(CryptoJS.enc.Utf8)
+      : apiKey.apiPassword,
     environment: "live",
   };
 
@@ -88,13 +92,13 @@ async function getKucoin(apiKey) {
   return balance;
 }
 
-async function getHuobi(apiKey) {
+async function getHuobi(apiKey, exists) {
   var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
   var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, process.env.cryptKey);
 
   const hbsdk = new Huobi({
-    accessKey: apiBytes.toString(CryptoJS.enc.Utf8),
-    secretKey: secretBytes.toString(CryptoJS.enc.Utf8),
+    accessKey: exists ? apiBytes.toString(CryptoJS.enc.Utf8) : apiKey.api,
+    secretKey: exists ? secretBytes.toString(CryptoJS.enc.Utf8) : apiKey.secret,
     url: {
       rest: REST_URL,
       market_ws: MARKET_WS,
@@ -117,16 +121,16 @@ async function getHuobi(apiKey) {
   return balance;
 }
 
-async function getBalance(apiKey) {
+async function getBalance(apiKey, exists = false) {
   switch (apiKey.exchange) {
     case "binance":
-      return getBinance(apiKey);
+      return getBinance(apiKey, exists);
     case "okex":
-      return getOkex(apiKey);
+      return getOkex(apiKey, exists);
     case "kucoin":
-      return getKucoin(apiKey);
+      return getKucoin(apiKey, exists);
     case "huobi":
-      return getHuobi(apiKey);
+      return getHuobi(apiKey, exists);
     default:
       return 0;
   }
@@ -145,7 +149,7 @@ export default async function handler(req, res) {
 
       const apiKey = await user.apiKeys.find((x) => x.name === apiName);
 
-      let balance = await getBalance(apiKey);
+      let balance = await getBalance(apiKey, true);
 
       res.json({ balance });
     } else {
