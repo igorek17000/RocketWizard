@@ -13,11 +13,30 @@ export default async function handler(req, res) {
         return res
           .status(400)
           .json({ message: `API called "${key.name}" already exists.` });
-      } else if (user.apiKeys.find((x) => x.api === key.api)) {
+      } else if (
+        user.apiKeys.find((x) => {
+          decrypted = CryptoJS.AES.decrypt(x.api, key);
+
+          decrypted.toString(CryptoJS.enc.Utf8) === key.api;
+        })
+      ) {
         return res
           .status(400)
           .json({ message: `You cannot add the same API key multiple times.` });
       }
+    }
+
+    key.api = CryptoJS.AES.encrypt(key.api, process.env.cryptKey).toString();
+    key.secret = CryptoJS.AES.encrypt(
+      key.secret,
+      process.env.cryptKey
+    ).toString();
+
+    if (key.apiPassword) {
+      key.apiPassword = CryptoJS.AES.encrypt(
+        key.apiPassword,
+        process.env.cryptKey
+      ).toString();
     }
 
     await db

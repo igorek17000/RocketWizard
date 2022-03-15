@@ -3,6 +3,7 @@ const schedule = require("node-schedule");
 const Kucoin = require("kucoin-futures-node-api");
 const Huobi = require("node-huobi-sdk");
 const ccxt = require("ccxt");
+var CryptoJS = require("crypto-js");
 
 import { connectToDatabase } from "../../lib/mongodb";
 
@@ -11,9 +12,12 @@ const MARKET_WS = "wss://api.huobi.de.com/ws";
 const ACCOUNT_WS = "wss://api.huobi.de.com/ws/v2";
 
 async function getBinance(apiKey) {
+  var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
+  var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, process.env.cryptKey);
+
   const binance = new Binance().options({
-    APIKEY: apiKey.api,
-    APISECRET: apiKey.secret,
+    APIKEY: apiBytes.toString(CryptoJS.enc.Utf8),
+    APISECRET: secretBytes.toString(CryptoJS.enc.Utf8),
   });
 
   const balances = await binance.futuresBalance();
@@ -32,10 +36,17 @@ async function getBinance(apiKey) {
 }
 
 async function getOkex(apiKey) {
+  var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
+  var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, process.env.cryptKey);
+  var passwordBytes = CryptoJS.AES.decrypt(
+    apiKey.apiPassword,
+    process.env.cryptKey
+  );
+
   const exchange = new ccxt.okx({
-    apiKey: apiKey.api,
-    secret: apiKey.secret,
-    password: apiKey.apiPassword,
+    apiKey: apiBytes.toString(CryptoJS.enc.Utf8),
+    secret: secretBytes.toString(CryptoJS.enc.Utf8),
+    password: passwordBytes.toString(CryptoJS.enc.Utf8),
   });
 
   let balance = 0;
@@ -49,10 +60,17 @@ async function getOkex(apiKey) {
 }
 
 async function getKucoin(apiKey) {
+  var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
+  var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, process.env.cryptKey);
+  var passwordBytes = CryptoJS.AES.decrypt(
+    apiKey.apiPassword,
+    process.env.cryptKey
+  );
+
   const config = {
-    apiKey: apiKey.api,
-    secretKey: apiKey.secret,
-    passphrase: apiKey.apiPassword,
+    apiKey: apiBytes.toString(CryptoJS.enc.Utf8),
+    secretKey: secretBytes.toString(CryptoJS.enc.Utf8),
+    passphrase: passwordBytes.toString(CryptoJS.enc.Utf8),
     environment: "live",
   };
 
@@ -71,9 +89,12 @@ async function getKucoin(apiKey) {
 }
 
 async function getHuobi(apiKey) {
+  var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
+  var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, process.env.cryptKey);
+
   const hbsdk = new Huobi({
-    accessKey: apiKey.api,
-    secretKey: apiKey.secret,
+    accessKey: apiBytes.toString(CryptoJS.enc.Utf8),
+    secretKey: secretBytes.toString(CryptoJS.enc.Utf8),
     url: {
       rest: REST_URL,
       market_ws: MARKET_WS,
