@@ -15,7 +15,10 @@ export default async function handler(req, res) {
           .json({ message: `API called "${key.name}" already exists.` });
       } else if (
         user.apiKeys.find((x) => {
-          decrypted = CryptoJS.AES.decrypt(x.api, process.env.cryptKey);
+          decrypted = CryptoJS.AES.decrypt(
+            x.api,
+            process.env.cryptprocess.env.cryptKey
+          );
 
           decrypted.toString(CryptoJS.enc.Utf8) === key.api;
         })
@@ -51,9 +54,15 @@ export default async function handler(req, res) {
     let apiKeys = user.apiKeys || [];
 
     apiKeys = apiKeys.map((apiKey) => {
-      var apiBytes = CryptoJS.AES.decrypt(apiKey.api, key);
-      var secretBytes = CryptoJS.AES.decrypt(apiKey.secret, key);
-      var passwordBytes = CryptoJS.AES.decrypt(apiKey.apiPassword, key);
+      var apiBytes = CryptoJS.AES.decrypt(apiKey.api, process.env.cryptKey);
+      var secretBytes = CryptoJS.AES.decrypt(
+        apiKey.secret,
+        process.env.cryptKey
+      );
+      var passwordBytes = CryptoJS.AES.decrypt(
+        apiKey.apiPassword,
+        process.env.cryptKey
+      );
 
       return {
         ...apiKey,

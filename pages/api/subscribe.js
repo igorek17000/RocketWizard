@@ -19,9 +19,22 @@ export default async function handler(req, res) {
           (x) => x.email === email
         );
 
-        const apiKey = traderSub.apiKey;
+        var apiBytes = CryptoJS.AES.decrypt(
+          traderSub.apiKey,
+          process.env.cryptKey
+        );
+        const apiKey = apiBytes.toString(CryptoJS.enc.Utf8);
 
-        const api = await user.apiKeys.find((x) => x.api === apiKey);
+        const api = await user.apiKeys.find((x) => {
+          var bytes = CryptoJS.AES.decrypt(
+            traderSub.apiKey,
+            process.env.cryptKey
+          );
+
+          const key = bytes.toString(CryptoJS.enc.Utf8);
+
+          return key === apiKey;
+        });
 
         return {
           ...sub,
