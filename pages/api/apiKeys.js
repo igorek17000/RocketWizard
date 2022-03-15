@@ -68,10 +68,6 @@ export default async function handler(req, res) {
       return {
         ...apiKey,
         api: apiBytes.toString(CryptoJS.enc.Utf8),
-        secret: secretBytes.toString(CryptoJS.enc.Utf8),
-        apiPassword: apiKey.apiPassword
-          ? passwordBytes.toString(CryptoJS.enc.Utf8)
-          : null,
       };
     });
 
