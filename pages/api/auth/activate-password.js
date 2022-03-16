@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     const hash = hashes[email];
 
     if (hash && hash.code === code) {
-      delete hashes[email];
+      hashes[email] = null;
 
       await db
         .collection("config")
