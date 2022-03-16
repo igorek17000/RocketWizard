@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { connectToDatabase } from "../../../lib/mongodb";
 import { verifyPassword, hashPassword } from "../../../lib/auth";
+var CryptoJS = require("crypto-js");
 
 const options = {
   session: {
@@ -81,6 +82,20 @@ const options = {
       }
 
       return true;
+    },
+    session: async (session) => {
+      if (!session) return;
+
+      const signature = CryptoJS.AES.encrypt(
+        process.env.rwSignature,
+        process.env.cryptKey
+      ).toString();
+
+      session.session.rwSignature = signature;
+
+      session = session.session;
+
+      return Promise.resolve(session);
     },
   },
   debug: true,

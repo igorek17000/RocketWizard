@@ -111,9 +111,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
   };
 
   const getAPIs = async () => {
-    const res = await fetch(
-      `https://www.rocketwizard.io/api/apiKeys?email=${session.user.email}`
-    );
+    const res = await fetch(`https://www.rocketwizard.io/api/apiKeys`);
 
     const keys = await res.json();
 

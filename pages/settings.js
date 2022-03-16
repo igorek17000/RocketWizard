@@ -122,9 +122,10 @@ function ActivatedApi({ sub, apiKeys, changed }) {
   );
 }
 
-function Settings({ subscriptions }) {
+function Settings() {
   const [openModal, setOpenModal] = useState(false);
   const [apiKeys, setApiKeys] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
 
   const [deleting, setDeleting] = useState(null);
 
@@ -135,17 +136,26 @@ function Settings({ subscriptions }) {
   const getApiKeys = async () => {
     if (!session) return;
 
-    const res = await fetch(
-      `https://www.rocketwizard.io/api/apiKeys?email=${session.user.email}`
-    );
+    const res = await fetch(`https://www.rocketwizard.io/api/apiKeys`);
 
     const keys = await res.json();
 
     setApiKeys(keys ? keys : []);
   };
 
+  const getSubs = async () => {
+    if (!session) return;
+
+    const res = await fetch(`https://www.rocketwizard.io/api/subscribe`);
+
+    const subs = await res.json();
+
+    setSubscriptions(subs ? subs : []);
+  };
+
   useEffect(() => {
     getApiKeys();
+    getSubs();
   }, [session]);
 
   const shorten = (str, n) => {
@@ -159,9 +169,8 @@ function Settings({ subscriptions }) {
     if (apiName && session) {
       try {
         const response = await fetch("/api/delete-api", {
-          method: "POST",
+          method: "DELETE",
           body: JSON.stringify({
-            email: session.user.email,
             apiName: apiName,
           }),
           headers: {
@@ -312,25 +321,6 @@ function Settings({ subscriptions }) {
       </section>
     </main>
   );
-}
-
-export async function getServerSideProps({ req }) {
-  const session = await getSession({ req });
-
-  if (session) {
-    const res = await fetch(
-      `https://www.rocketwizard.io/api/subscribe?email=${session.user.email}`
-    );
-    const subs = await res.json();
-
-    return {
-      props: {
-        subscriptions: subs,
-      },
-    };
-  } else {
-    return { props: { subscriptions: [] } };
-  }
 }
 
 export default Settings;

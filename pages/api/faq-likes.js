@@ -1,11 +1,22 @@
 import { connectToDatabase } from "../../lib/mongodb";
+import { getSession } from "next-auth/react";
 
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
-  if (req.method === "GET") {
-    const { email } = req.query;
+  const session = await getSession({ req });
 
+  let email;
+
+  if (session) {
+    // Signed in
+    email = session.user.email;
+  } else {
+    // Not Signed in
+    email = null;
+  }
+
+  if (req.method === "GET") {
     const data = await db.collection("faq").findOne({ id: "likes" });
 
     let user, likeData;
@@ -30,7 +41,7 @@ export default async function handler(req, res) {
 
     return res.json(likeData);
   } else if (req.method === "POST") {
-    const { likeData, email } = req.body;
+    const { likeData } = req.body;
 
     const liked = likeData.likes === 1;
     const disliked = likeData.dislikes === 1;

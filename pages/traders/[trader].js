@@ -7,12 +7,28 @@ import { useSession } from "next-auth/react";
 
 import { useRouter } from "next/router";
 
-import { getSession } from "next-auth/react";
-
-function Trader({ traders, traderID }) {
+function Trader({ traders }) {
   const router = useRouter();
 
   const [trader, setTrader] = useState(traders[0]);
+
+  const [traderID, setTraderID] = useState(null);
+
+  const { data: session, status } = useSession();
+
+  const userIsTrader = async () => {
+    if (!session) return;
+
+    const isTraderRes = await fetch(`https://www.rocketwizard.io/api/isTrader`);
+
+    const traderIDjson = await isTraderRes.json();
+
+    setTraderID(traderIDjson);
+  };
+
+  useEffect(() => {
+    userIsTrader();
+  }, [session]);
 
   const [winrate, setWinrate] = useState(null);
   const [monthlyRoi, setMonthlyRoi] = useState(null);
@@ -20,8 +36,6 @@ function Trader({ traders, traderID }) {
   const [desc, setDesc] = useState(null);
 
   const [subscribed, setSubscribed] = useState(false);
-
-  const { data: session } = useSession();
 
   useEffect(() => {
     trader.subscribers &&
@@ -232,18 +246,7 @@ export async function getServerSideProps({ req }) {
 
   const traders = await res.json();
 
-  const session = await getSession({ req });
-  if (session) {
-    const isTraderRes = await fetch(
-      `https://www.rocketwizard.io/api/isTrader?email=${session.user.email}`
-    );
-
-    const traderID = await isTraderRes.json();
-
-    return { props: { traders, traderID: traderID.traderId || null } };
-  } else {
-    return { props: { traders, traderID: null } };
-  }
+  return { props: { traders } };
 }
 
 export default Trader;

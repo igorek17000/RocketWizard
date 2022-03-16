@@ -1,5 +1,6 @@
 import { connectToDatabase } from "../../lib/mongodb";
 const crypto = require("crypto");
+import { getSession } from "next-auth/react";
 
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -7,7 +8,21 @@ function capitalize(string) {
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
-  const plans = ["basic", "advanced", "professional"];
+  const session = await getSession({ req });
+
+  if (session) {
+    // Signed in
+
+    var bytes = CryptoJS.AES.decrypt(session.rwSignature, process.env.cryptKey);
+    const unhashed = bytes.toString(CryptoJS.enc.Utf8);
+
+    if (!unhashed === process.env.rwSignature) {
+      return res.status(401).json({ msg: "Invalid signature" });
+    }
+  } else {
+    // Not Signed in
+    return res.status(401).json({ msg: "No session info" });
+  }
 
   if (req.method === "POST") {
     const { email, oldApiName, newApiName, traderId } = req.body;

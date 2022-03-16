@@ -1,4 +1,5 @@
 import { connectToDatabase } from "../../lib/mongodb";
+var CryptoJS = require("crypto-js");
 
 let nodemailer = require("nodemailer");
 require("dotenv").config();
@@ -37,6 +38,20 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { email, traderId } = req.body;
 
+    const sentHash = req.headers["x-rocketwizard-sig"];
+
+    if (!sentHash) {
+      return res.status(500).json({ msg: "Undefined signature header" });
+    }
+
+    const unhashedBytes = CryptoJS.AES.decrypt(sentHash, process.env.cryptKey);
+
+    const unhashed = unhashedBytes.toString(CryptoJS.enc.Utf8);
+
+    if (!unhashed || !(unhashed === process.env.rwSignature)) {
+      return res.status(500).json({ msg: "Invalid signature header" });
+    }
+
     const user = await db.collection("users").findOne({ email });
 
     if (!user) {
@@ -63,6 +78,6 @@ export default async function handler(req, res) {
       .collection("users")
       .updateOne({ email }, { $set: { subscriptions: subs } });
 
-    res.status(200);
+    res.status(200).json({ success: true });
   }
 }

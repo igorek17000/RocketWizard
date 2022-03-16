@@ -63,19 +63,17 @@ const customStyles = {
   }),
 };
 
-function Dashboard({
-  subscriptions,
-  traderID,
-  codeOwner,
-  traders,
-  disclaimer,
-}) {
+function Dashboard({ traders, disclaimer }) {
   const [api, setApi] = useState(null);
   const [options, setOptions] = useState([]);
 
   const [renewOpen, setRenewOpen] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [subscription, setSubscription] = useState(null);
+
+  const [subscriptions, setSubscriptions] = useState(null);
+  const [traderID, setTraderID] = useState(null);
+  const [codeOwner, setCodeOwner] = useState(null);
 
   const [balance, setBalance] = useState({
     daily: [],
@@ -94,16 +92,36 @@ function Dashboard({
       `https://www.rocketwizard.io/api/balance?email=${session.user.email}&apiName=${value.value}`
     );
 
-    const balance = await res.json();
+    const balancejson = await res.json();
 
-    setBalance(balance);
+    setBalance(balancejson);
+  };
+
+  const getInfo = async () => {
+    if (!session) return;
+
+    const res = await fetch(`https://www.rocketwizard.io/api/subscribe`);
+
+    const isTraderRes = await fetch(`https://www.rocketwizard.io/api/isTrader`);
+
+    const codeRes = await fetch(
+      `https://www.rocketwizard.io/api/is-code-owner`
+    );
+
+    const subsJson = await res.json();
+
+    const traderIDJson = await isTraderRes.json();
+
+    const codeOwnerJson = await codeRes.json();
+
+    setSubscriptions(subsJson);
+    setTraderID(traderIDJson.traderId);
+    setCodeOwner(codeOwnerJson.code);
   };
 
   const getAPIs = async () => {
     if (session) {
-      const res = await fetch(
-        `https://www.rocketwizard.io/api/apiKeys?email=${session.user.email}`
-      );
+      const res = await fetch(`https://www.rocketwizard.io/api/apiKeys`);
 
       const keys = await res.json();
 
@@ -138,11 +156,12 @@ function Dashboard({
   };
 
   useEffect(() => {
-    options && setLoading(false);
-  }, [options]);
+    options && subscriptions && setLoading(false);
+  }, [options, subscriptions]);
 
   useEffect(() => {
     getAPIs();
+    getInfo();
   }, [session]);
 
   const [deals] = useState([]);
@@ -303,45 +322,12 @@ export async function getServerSideProps({ req }) {
 
   const disclaimer = await resDisclaimer.json();
 
-  if (session) {
-    const res = await fetch(
-      `https://www.rocketwizard.io/api/subscribe?email=${session.user.email}`
-    );
-
-    const isTraderRes = await fetch(
-      `https://www.rocketwizard.io/api/isTrader?email=${session.user.email}`
-    );
-
-    const codeRes = await fetch(
-      `https://www.rocketwizard.io/api/is-code-owner?email=${session.user.email}`
-    );
-
-    const subs = await res.json();
-
-    const traderID = await isTraderRes.json();
-
-    const codeOwner = await codeRes.json();
-
-    return {
-      props: {
-        subscriptions: subs,
-        traderID: traderID.traderId || null,
-        codeOwner: codeOwner.code || null,
-        traders,
-        disclaimer: disclaimer.msg,
-      },
-    };
-  } else {
-    return {
-      props: {
-        subscriptions: [],
-        isTrader: false,
-        codeOwner: false,
-        traders,
-        disclaimer: disclaimer.msg,
-      },
-    };
-  }
+  return {
+    props: {
+      traders,
+      disclaimer: disclaimer.msg,
+    },
+  };
 }
 
 export default Dashboard;

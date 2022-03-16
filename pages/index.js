@@ -3,7 +3,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import Link from "next/link";
 
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import FaqCard from "../components/FaqCard";
 
@@ -13,12 +13,30 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import OrderSuccess from "../components/OrderSuccess";
 
-export default function Home({ likeData, articleCount }) {
+export default function Home({ articleCount }) {
   const { theme } = useTheme();
 
   const router = useRouter();
 
   const { orderSuccess } = router.query;
+
+  const [likeData, setLikeData] = useState(null);
+
+  const { data: session, status } = useSession();
+
+  const getLikeData = async () => {
+    if (!session) return;
+
+    const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
+
+    const likeDataJson = await likeRes.json();
+
+    setLikeData(likeDataJson);
+  };
+
+  useEffect(() => {
+    getLikeData();
+  }, [session]);
 
   const [cards] = useState([
     {
@@ -113,14 +131,14 @@ export default function Home({ likeData, articleCount }) {
           </Link>
         </section>
       </main>
-      <FaqCard card={false} articleCount={articleCount} likeData={likeData} />
+      {likeData && (
+        <FaqCard card={false} articleCount={articleCount} likeData={likeData} />
+      )}
     </div>
   );
 }
 
 export async function getServerSideProps({ req }) {
-  const session = await getSession({ req });
-
   const articlesRes = await fetch("https://www.rocketwizard.io/faqData.json");
 
   const articleData = await articlesRes.json();
@@ -129,24 +147,9 @@ export async function getServerSideProps({ req }) {
     .map((article) => article.rows.length)
     .reduce((a, b) => a + b);
 
-  if (session) {
-    const likeRes = await fetch(
-      `https://www.rocketwizard.io/api/faq-likes?email=${session.user.email}`
-    );
-
-    const likeData = await likeRes.json();
-
-    return { props: { likeData, articleCount } };
-  } else {
-    const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
-
-    const likeData = await likeRes.json();
-
-    return {
-      props: {
-        likeData,
-        articleCount,
-      },
-    };
-  }
+  return {
+    props: {
+      articleCount,
+    },
+  };
 }
