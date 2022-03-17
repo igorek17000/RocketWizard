@@ -5,6 +5,14 @@ import { connectToDatabase } from "../../lib/mongodb";
 
 const priceMultipliers = [1, 1.6, 1.75];
 
+const centRound = (val) => {
+  if (val % 10 > 6 || val % 10 === 0) {
+    return Math.ceil(val / 10) * 10 - 0.01;
+  } else {
+    return Math.floor(val / 10) * 10 + 5.99;
+  }
+};
+
 const getPrice = async (
   basePrice,
   id,
