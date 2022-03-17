@@ -15,7 +15,7 @@ import { useTheme } from "next-themes";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Oval } from "react-loader-spinner";
 
-function CompleteRegistration() {
+function CompleteRegistration({ hasPassword }) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
@@ -24,8 +24,6 @@ function CompleteRegistration() {
 
   const [password, setPassword] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
-
-  const [hasPassword, setHasPassword] = useState(false);
 
   const { theme, setTheme } = useTheme();
 
@@ -75,22 +73,6 @@ function CompleteRegistration() {
       setLoading(false);
     }
   }, []);
-
-  const getPasswordInfo = async () => {
-    if (!session) return;
-
-    const res = await fetch(
-      `https://www.rocketwizard.io/api/auth/has-password`
-    );
-
-    const hasPasswordJson = await res.json();
-
-    setHasPassword(hasPasswordJson);
-  };
-
-  useEffect(() => {
-    getPasswordInfo();
-  }, [session]);
 
   if (!theme) return null;
 
@@ -148,6 +130,23 @@ function CompleteRegistration() {
       </main>
     </div>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+
+  if (!session) {
+    return { props: { hasPassword: false } };
+  }
+
+  const user = await db
+    .collection("users")
+    .findOne({ email: session.user.email });
+
+  const hasPassword =
+    user && user.password != null && user.password != undefined;
+
+  return { props: { hasPassword } };
 }
 
 export default CompleteRegistration;
