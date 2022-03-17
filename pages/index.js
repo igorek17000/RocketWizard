@@ -25,8 +25,6 @@ export default function Home({ articleCount }) {
   const { data: session, status } = useSession();
 
   const getLikeData = async () => {
-    if (!session) return;
-
     const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
 
     const likeDataJson = await likeRes.json();
@@ -36,7 +34,7 @@ export default function Home({ articleCount }) {
 
   useEffect(() => {
     getLikeData();
-  }, [session]);
+  }, []);
 
   const [cards] = useState([
     {
@@ -106,7 +104,7 @@ export default function Home({ articleCount }) {
               }`}
               alt="Exchanges icon"
             />
-            <Link href="/register">
+            <Link href={session ? "/dashboard" : "/register"}>
               <button>Start Now</button>
             </Link>
           </div>
