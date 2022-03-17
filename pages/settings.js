@@ -49,14 +49,12 @@ const customStyles = {
 };
 
 function ActivatedApi({ sub, apiKeys, changed }) {
-  console.info("ACTIVATED API: -- SUB: ", sub, ", --API KEYS: ", apiKeys);
-
   const apiOptions = apiKeys
     ? apiKeys
         .filter(
           (key) =>
-            key.exchange === sub.api.exchange &&
-            (!key.taken || sub.api.name === key.name)
+            key.exchange === sub.exchange &&
+            (!key.taken || (sub.api ? sub.api.name === key.name : false))
         )
         .map((key) => {
           return { value: key.name, label: key.name };
@@ -65,10 +63,14 @@ function ActivatedApi({ sub, apiKeys, changed }) {
 
   const { data: session, status } = useSession();
 
-  const [apiValue, setApiValue] = useState({
-    value: sub.api.name,
-    label: sub.api.name,
-  });
+  const [apiValue, setApiValue] = useState(
+    sub.api
+      ? {
+          value: sub.api.name,
+          label: sub.api.name,
+        }
+      : null
+  );
 
   const changeValue = async (val) => {
     if (val.value && session) {
@@ -78,7 +80,7 @@ function ActivatedApi({ sub, apiKeys, changed }) {
           body: JSON.stringify({
             email: session.user.email,
             newApiName: val.value,
-            oldApiName: sub.api.name,
+            oldApiName: sub.api ? sub.api.name : null,
             traderId: sub.traderId,
           }),
           headers: {
@@ -107,7 +109,7 @@ function ActivatedApi({ sub, apiKeys, changed }) {
         <h4>{sub.traderId}</h4>
       </div>
       <img
-        src={`/images/settings/exchanges/${sub.api.exchange}.svg`}
+        src={`/images/settings/exchanges/${sub.exchange}.svg`}
         alt="Exchange"
       />
       {apiKeys && (

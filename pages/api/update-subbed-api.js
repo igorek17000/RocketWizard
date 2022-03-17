@@ -32,9 +32,14 @@ export default async function handler(req, res) {
     const apiKeys = user.apiKeys;
 
     const newApi = await user.apiKeys.find((x) => x.name === newApiName);
-    const oldApi = await user.apiKeys.find((x) => x.name === oldApiName);
+    const oldApi = oldApiName
+      ? await user.apiKeys.find((x) => x.name === oldApiName)
+      : null;
 
-    apiKeys[apiKeys.indexOf(oldApi)].taken = false;
+    if (oldApiName) {
+      apiKeys[apiKeys.indexOf(oldApi)].taken = false;
+    }
+
     apiKeys[apiKeys.indexOf(newApi)].taken = true;
 
     const trader = await db.collection("traders").findOne({ id: traderId });

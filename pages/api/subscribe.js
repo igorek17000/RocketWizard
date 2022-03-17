@@ -40,6 +40,8 @@ export default async function handler(req, res) {
           (x) => x.email === email
         );
 
+        sub.exchange = trader.exchange;
+
         var apiBytes = CryptoJS.AES.decrypt(
           traderSub.apiKey,
           process.env.cryptKey
