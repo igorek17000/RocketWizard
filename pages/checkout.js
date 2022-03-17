@@ -250,7 +250,9 @@ function Checkout({ traders }) {
     const res = await fetch("/api/create-payment", {
       method: "POST",
       body: JSON.stringify({
-        fullPrice,
+        tier: id,
+        traderId: traderId,
+        discountCode: discountCode || null,
         currency: crypto.value,
         description: `${plan.name} x ${quantity}`,
         orderId,

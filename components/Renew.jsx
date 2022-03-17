@@ -215,7 +215,9 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
     const res = await fetch("/api/create-payment", {
       method: "POST",
       body: JSON.stringify({
-        fullPrice: fullPrice,
+        tier: id,
+        traderId: traderId,
+        discountCode: discountCode || null,
         currency: crypto.value,
         description: `${plan.name} x ${quantity}`,
         orderId,

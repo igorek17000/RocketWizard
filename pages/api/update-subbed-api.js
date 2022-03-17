@@ -1,5 +1,5 @@
 import { connectToDatabase } from "../../lib/mongodb";
-const crypto = require("crypto");
+var CryptoJS = require("crypto-js");
 import { getSession } from "next-auth/react";
 
 function capitalize(string) {
