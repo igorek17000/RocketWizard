@@ -49,6 +49,8 @@ const customStyles = {
 };
 
 function ActivatedApi({ sub, apiKeys, changed }) {
+  console.log("ACTIVATED API: -- SUB: ", sub, ", --API KEYS: ", apiKeys);
+
   const apiOptions = apiKeys
     ? apiKeys
         .filter(
