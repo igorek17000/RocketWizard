@@ -62,7 +62,9 @@ export default async function handler(req, res) {
     let discount = 0;
 
     if (discountCode) {
-      const codeObj = await db.collection("discountCodes").findOne({ code });
+      const codeObj = await db
+        .collection("discountCodes")
+        .findOne({ code: discountCode });
 
       discount = codeObj.discount;
     }
