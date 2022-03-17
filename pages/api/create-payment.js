@@ -3,7 +3,7 @@ var CryptoJS = require("crypto-js");
 import { getSession } from "next-auth/react";
 import { connectToDatabase } from "../../lib/mongodb";
 
-const [priceMultipliers] = useState([1, 1.6, 1.75]);
+const priceMultipliers = [1, 1.6, 1.75];
 
 const getPrice = async (
   basePrice,
