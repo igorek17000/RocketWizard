@@ -12,8 +12,6 @@ function Faq({ articleCount }) {
   const { data: session, status } = useSession();
 
   const getLikeData = async () => {
-    if (!session) return;
-
     const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
 
     const likeDataJson = await likeRes.json();
@@ -23,7 +21,7 @@ function Faq({ articleCount }) {
 
   useEffect(() => {
     getLikeData();
-  }, [session]);
+  }, []);
 
   return (
     <main className={styles.faq}>
