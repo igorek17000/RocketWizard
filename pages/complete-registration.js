@@ -14,6 +14,7 @@ import { useTheme } from "next-themes";
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Oval } from "react-loader-spinner";
+import { connectToDatabase } from "../lib/mongodb";
 
 function CompleteRegistration({ hasPassword }) {
   const router = useRouter();
