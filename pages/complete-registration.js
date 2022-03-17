@@ -134,6 +134,7 @@ function CompleteRegistration({ hasPassword }) {
 
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
+  const { db } = await connectToDatabase();
 
   if (!session) {
     return { props: { hasPassword: false } };
