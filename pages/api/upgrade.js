@@ -13,10 +13,45 @@ export default async function handler(req, res) {
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
 
+    let valid = payment.payment_status === "confirmed";
+
+    const price = payment.price_amount;
+    const paidBased = payment.actually_paid;
+
+    let paid = paidBased;
+
+    const currencies = {
+      btc: "BITCOIN",
+      eth: "ETHEREUM",
+      ltc: "LITECOIN",
+      doge: "DOGECOIN",
+      xmr: "MONERO",
+    };
+
+    if (payment.pay_currency !== "usdttrc20") {
+      const crypto_price = await coingecko.get(
+        currencies[payment.pay_currency],
+        60
+      );
+
+      paid *= crypto_price;
+    }
+
     if (
-      payment.payment_status === "confirmed" &&
-      signature === req.headers["x-nowpayments-sig"]
+      payment.payment_status === "partially_paid" &&
+      parseFloat(price) - parseFloat(paid) <= parseFloat(price) * 0.1
     ) {
+      valid = true;
+    }
+
+    if (
+      payment.payment_status === "finished" ||
+      payment.payment_status === "confirmed"
+    ) {
+      valid = true;
+    }
+
+    if (valid && signature === req.headers["x-nowpayments-sig"]) {
       const orderId = payment.order_id;
 
       const [traderId, email, discountCode] = orderId.split(" ");

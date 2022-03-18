@@ -11,6 +11,10 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { email, newPassword } = req.body;
 
+    if (!typeof email === "string") {
+      return res.status(402).json({ msg: "Invalid email" });
+    }
+
     const hashedPassword = await hashPassword(newPassword);
 
     const forgotPasses = await db
