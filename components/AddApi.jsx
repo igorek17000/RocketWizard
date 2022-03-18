@@ -3,6 +3,8 @@ import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
 import styles from "../styles/AddApi.module.scss";
 
+import { isMobile } from "react-device-detect";
+
 import Checkbox from "react-custom-checkbox";
 
 import { Scrollbar } from "react-scrollbars-custom";
@@ -164,7 +166,7 @@ function AddApi({
         "Wallet balance is too high for this tier. Please select a higher tier or change your wallet balance."
       );
       return false;
-    } else if (parseFloat(balance.balance) < 400) {
+    } else if (parseFloat(balance.balance) < 4) {
       setError(
         "Wallet balance is too low. Please add funds to your futures account. Minimum required is $400."
       );
@@ -262,7 +264,18 @@ function AddApi({
         >
           <div className={styles.content}>
             <div className={styles.inputContainer}>
-              <label>Exchange</label>
+              <label>
+                Exchange
+                {exchange && exchange.value === "okex" && (
+                  <Link href={isMobile ? "/okx-mobile.pdf" : "/okx-pc.pdf"}>
+                    <p>
+                      {" ("}
+                      <a className={styles.guide}>OKX API GUIDE</a>
+                      {")"}
+                    </p>
+                  </Link>
+                )}
+              </label>
               {forceExchange ? (
                 <div className={styles.forceExchange}>
                   <p>{capitalize(forceExchange)}</p>
@@ -277,6 +290,7 @@ function AddApi({
                 />
               )}
             </div>
+
             <div className={styles.inputContainer}>
               <label htmlFor="name">Name of the profile</label>
               <input

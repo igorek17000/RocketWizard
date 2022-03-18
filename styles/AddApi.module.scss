@@ -13,6 +13,12 @@
   border-radius: 0.7rem;
   color: black;
 
+  .guide {
+    color: #731bde;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   .closeCorner {
     position: absolute;
     right: 0;
@@ -57,6 +63,8 @@
     label {
       font-size: 1rem;
       font-weight: 600;
+      display: flex;
+      align-items: center;
     }
 
     input,
