@@ -66,6 +66,33 @@
           margin-top: 2rem;
           width: 70%;
 
+          .discord {
+            width: 100%;
+            background-color: #dfc6ff;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+
+            svg {
+              margin-right: 1rem;
+              width: 1.4rem;
+              height: 1.4rem;
+            }
+
+            p {
+              color: #4e3883;
+              font-weight: 300;
+              font-size: 1rem;
+
+              a {
+                font-weight: 500;
+                text-decoration: underline;
+                cursor: pointer;
+              }
+            }
+          }
+
           .balanceRoiCards {
             width: 100%;
             display: flex;
@@ -247,6 +274,13 @@
       .left {
         .data {
           .body {
+            .discord {
+              svg {
+                width: 2rem;
+                height: 2rem;
+              }
+            }
+
             .balanceRoiCards {
               flex-direction: column;
             }

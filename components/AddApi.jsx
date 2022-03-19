@@ -267,13 +267,20 @@ function AddApi({
               <label>
                 Exchange
                 {exchange && exchange.value === "okex" && (
-                  <Link href={isMobile ? "/okx-mobile.pdf" : "/okx-pc.pdf"}>
-                    <p>
-                      {" ("}
-                      <a className={styles.guide}>OKX API GUIDE</a>
-                      {")"}
-                    </p>
-                  </Link>
+                  <p>
+                    {" ("}
+                    <a
+                      className={styles.guide}
+                      href={`https://rocketwizard.io/${
+                        isMobile ? "okx-mobile.pdf" : "okx-pc.pdf"
+                      }`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      OKX API GUIDE
+                    </a>
+                    {")"}
+                  </p>
                 )}
               </label>
               {forceExchange ? (
