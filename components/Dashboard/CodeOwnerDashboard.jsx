@@ -74,11 +74,11 @@ function CodeOwnerDashboard({ code }) {
         <div className={styles.cards}>
           <div className={styles.card}>
             <p>Monthly earnings</p>
-            <h2 className={styles.price}>{monthlyEarnings / 2}$</h2>
+            <h2 className={styles.price}>{monthlyEarnings}$</h2>
           </div>
           <div className={styles.card}>
             <p>Total earnings</p>
-            <h2 className={styles.price}>{allEarnings / 2}$</h2>
+            <h2 className={styles.price}>{allEarnings}$</h2>
           </div>
         </div>
         <StatisticsCard balance={data} forceExtra={uses < 20 ? 5 : 20} />

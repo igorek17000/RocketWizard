@@ -77,8 +77,6 @@ export default async function handler(req, res) {
       return true;
     });
 
-    console.log("PAYMENTS: ", payments);
-
     let all = 0,
       month = 0,
       allUses = 0,
