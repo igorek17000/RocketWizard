@@ -21,6 +21,62 @@
     user-select: none;
     width: 70%;
 
+    .articleGrid {
+      margin-top: 0.5rem;
+      width: 60%;
+      display: -ms-grid;
+      display: grid;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      place-items: center;
+      -ms-grid-columns: (minmax(20em, 1fr)) [auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+      -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+      grid-column-gap: 1em;
+      grid-row-gap: 1em;
+
+      .article {
+        width: 100%;
+        padding: 2rem;
+        background-color: #efe2ff;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        cursor: pointer;
+        transition: 0.25s ease-in-out;
+        height: 12rem;
+
+        &:hover {
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+          background-color: darken(#efe2ff, 5%);
+        }
+
+        img {
+          height: 6rem;
+          margin-bottom: 1rem;
+        }
+
+        p {
+          font-weight: 600;
+          color: #434343;
+          font-size: 0.95rem;
+          margin-right: 0;
+        }
+      }
+
+      .comingSoon {
+        opacity: 0.4;
+        pointer-events: none;
+
+        &:hover {
+          background-color: #efe2ff;
+        }
+      }
+    }
+
     .returnMsg {
       width: 100%;
       background-color: #dfc6ff;
@@ -53,5 +109,11 @@
 @media only screen and (max-width: 600px) {
   .faqArticle {
     padding: 1rem;
+
+    .card .articleGrid {
+      width: 100%;
+      -ms-grid-columns: (minmax(12em, 1fr)) [auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+    }
   }
 }
