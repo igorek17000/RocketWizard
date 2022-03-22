@@ -62,6 +62,7 @@ function FaqGuides() {
               }.pdf`}
               target="_blank"
               rel="noopener noreferrer"
+              key={i}
             >
               <img src={`/images/faq/articles/${guide.name}.svg`} alt="guide" />
               <p>{guide.name.toUpperCase()} API GUIDE</p>
