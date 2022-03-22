@@ -266,22 +266,33 @@ function AddApi({
             <div className={styles.inputContainer}>
               <label>
                 Exchange
-                {exchange && exchange.value === "okex" && (
-                  <p>
-                    {" ("}
-                    <a
-                      className={styles.guide}
-                      href={`https://rocketwizard.io/${
-                        isMobile ? "okx-mobile.pdf" : "okx-pc.pdf"
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      OKX API GUIDE
-                    </a>
-                    {")"}
-                  </p>
-                )}
+                {exchange &&
+                  (exchange.value === "okex" ||
+                    exchange.value === "binance") && (
+                    <p>
+                      {" ("}
+                      <a
+                        className={styles.guide}
+                        href={`https://rocketwizard.io/${
+                          isMobile
+                            ? `${
+                                exchange.value === "okex"
+                                  ? "okx-mobile"
+                                  : "binance"
+                              }.pdf`
+                            : `${
+                                exchange.value === "okex" ? "okx-pc" : "binance"
+                              }.pdf`
+                        }`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {exchange.value === "okex" ? "OKX" : "BINANCE"} API
+                        GUIDE
+                      </a>
+                      {")"}
+                    </p>
+                  )}
               </label>
               {forceExchange ? (
                 <div className={styles.forceExchange}>

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../styles/FaqCard.module.scss";
 
+import { isMobile } from "react-device-detect";
+
 import { useSession } from "next-auth/react";
 
 import { BiStar, BiLink } from "react-icons/bi";
@@ -16,7 +18,21 @@ import {
 } from "react-icons/ai";
 
 function Article({ article }) {
-  return (
+  return article.guide ? (
+    <a
+      className={styles.article}
+      href={`https://rocketwizard.io/${
+        isMobile
+          ? `${article.guide === "okex" ? "okx-mobile" : "binance"}.pdf`
+          : `${article.guide === "okex" ? "okx-pc" : "binance"}.pdf`
+      }`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img src={`/images/faq/articles/${article.guide}.svg`} alt="guide" />
+      <p>{article.guide === "okex" ? "OKX" : "BINANCE"} API GUIDE</p>
+    </a>
+  ) : (
     <Link href={article.href}>
       <div className={styles.article}>
         <img src={`/images/faq/articles/${article.img}`} alt="Article" />
@@ -97,6 +113,16 @@ function FaqCard({ card = true, likeData, articleCount }) {
       img: "tech.svg",
       title: "Security",
       href: "/faq/security",
+    },
+    {
+      img: "tech.svg",
+      title: "Binance guide",
+      guide: "binance",
+    },
+    {
+      img: "tech.svg",
+      title: "Binance guide",
+      guide: "okex",
     },
   ]);
 
