@@ -77,6 +77,8 @@ function Dashboard({ traders, disclaimer }) {
   const [traderID, setTraderID] = useState(null);
   const [codeOwner, setCodeOwner] = useState(null);
 
+  const [taken, setTaken] = useState(false);
+
   const [balance, setBalance] = useState({
     daily: [],
     weekly: [],
@@ -94,9 +96,16 @@ function Dashboard({ traders, disclaimer }) {
       `https://www.rocketwizard.io/api/balance?email=${session.user.email}&apiName=${value.value}`
     );
 
+    const takenRes = await fetch(
+      `https://www.rocketwizard.io/api/is-taken?email=${session.user.email}&apiName=${value.value}`
+    );
+
     const balancejson = await res.json();
 
+    const takenjson = await takenRes.json();
+
     setBalance(balancejson);
+    setTaken(takenjson.taken);
   };
 
   const getInfo = async () => {
@@ -244,7 +253,7 @@ function Dashboard({ traders, disclaimer }) {
 
                       {api ? (
                         <div className={styles.body}>
-                          {api.taken && (
+                          {taken && (
                             <div className={styles.discord}>
                               <BsDiscord fill="#4e388" />
                               <p>
