@@ -244,21 +244,18 @@ function Dashboard({ traders, disclaimer }) {
 
                       {api ? (
                         <div className={styles.body}>
-                          {/*
                           <div className={styles.discord}>
                             <BsDiscord fill="#4e388" />
                             <p>
                               <a
-                                href="https://discord.com/api/oauth2/authorize?client_id=954424483916173372&redirect_uri=https%3A%2F%2Fwww.rocketwizard.io&response_type=code&scope=identify "
+                                href="https://discord.com/api/oauth2/authorize?client_id=956209550686556170&redirect_uri=https%3A%2F%2Fwww.rocketwizard.io%2F&response_type=code&scope=identify"
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                Connect
+                                Join the Discord
                               </a>
                             </p>
                           </div>
-                            */}
-
                           <div className={styles.balanceRoiCards}>
                             <BalanceCard
                               balance={balance}

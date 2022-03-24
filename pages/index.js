@@ -32,9 +32,36 @@ export default function Home({ articleCount }) {
     setLikeData(likeDataJson);
   };
 
+  const discord = async (code) => {
+    const response = await fetch("/api/discord", {
+      method: "POST",
+      body: JSON.stringify({
+        code: code,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const json = await response.json();
+
+    if (response.status === 200) {
+      router.push(json.invite);
+    } else {
+      console.log(json);
+    }
+  };
+
   useEffect(() => {
     getLikeData();
   }, []);
+
+  useEffect(() => {
+    const discordCode = router.query.code;
+    if (discordCode) {
+      discord(discordCode);
+    }
+  }, [router]);
 
   const [cards] = useState([
     {
