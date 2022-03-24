@@ -245,6 +245,7 @@ function Dashboard({ traders, disclaimer }) {
                       {api ? (
                         <div className={styles.body}>
                           <div className={styles.discord}>
+                            {/*
                             <BsDiscord fill="#4e388" />
                             <p>
                               <a
@@ -255,6 +256,7 @@ function Dashboard({ traders, disclaimer }) {
                                 Join the Discord
                               </a>
                             </p>
+                      */}
                           </div>
                           <div className={styles.balanceRoiCards}>
                             <BalanceCard
