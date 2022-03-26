@@ -25,6 +25,8 @@ function TraderDashboard({ traderID }) {
 
   const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
+  const [earnMultiplier, setEarnMultiplier] = useState(1);
+
   const getDiff = (dateParam) => {
     const now = new Date();
     const date = new Date(dateParam);
@@ -40,6 +42,18 @@ function TraderDashboard({ traderID }) {
     }
 
     return price;
+  };
+
+  const updateEarnMultiplier = (subs) => {
+    if (subs < 60) setEarnMultiplier(0.5);
+    else if (subs < 110) setEarnMultiplier(0.55);
+    else if (subs < 130) setEarnMultiplier(0.57);
+    else if (subs < 150) setEarnMultiplier(0.6);
+    else if (subs < 180) setEarnMultiplier(0.63);
+    else if (subs < 220) setEarnMultiplier(0.66);
+    else setEarnMultiplier(0.7);
+
+    return;
   };
 
   const getData = async () => {
@@ -80,6 +94,8 @@ function TraderDashboard({ traderID }) {
         }
       }
     }
+
+    updateEarnMultiplier(subscribers.length);
 
     for (const [i, tier] of trader.allTimeSubs.entries()) {
       if (i > trader.paidFor - 1) {
@@ -124,11 +140,11 @@ function TraderDashboard({ traderID }) {
         <div className={styles.cards}>
           <div className={styles.card}>
             <p>Unpaid</p>
-            <h2 className={styles.price}>{unpaid / 2}$</h2>
+            <h2 className={styles.price}>{unpaid * earnMultiplier}$</h2>
           </div>
           <div className={styles.card}>
             <p>Total earnings</p>
-            <h2 className={styles.price}>{allEarnings / 2}$</h2>
+            <h2 className={styles.price}>{allEarnings * earnMultiplier}$</h2>
           </div>
         </div>
         <StatisticsCard balance={data} forceExtra={subCount < 20 ? 5 : 20} />
