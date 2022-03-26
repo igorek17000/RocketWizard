@@ -134,6 +134,7 @@ export default async function handler(req, res) {
 
       const trader = await db.collection("traders").findOne({ id: traderId });
       const subscribers = trader.subscribers || [];
+      const allTimeSubs = trader.allTimeSubs || [];
 
       const subscribed = await subscribers.find(
         (subber) => subber.email === email
@@ -143,11 +144,12 @@ export default async function handler(req, res) {
         subscribers[subscribers.indexOf(subscribed)] = subscriber;
       } else {
         subscribers.push(subscriber);
+        allTimeSubs.push(subscriber.tier);
       }
 
       await db
         .collection("traders")
-        .updateOne({ id: traderId }, { $set: { subscribers } });
+        .updateOne({ id: traderId }, { $set: { subscribers, allTimeSubs } });
 
       return res.json({ success: true });
     }
