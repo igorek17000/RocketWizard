@@ -81,7 +81,7 @@ function CodeOwnerDashboard({ code }) {
             <h2 className={styles.price}>{allEarnings}$</h2>
           </div>
         </div>
-        <StatisticsCard balance={data} forceExtra={uses < 20 ? 5 : 20} />
+        <StatisticsCard balance={data} forceExtra={uses < 20 ? 2 : 7} />
       </div>
     </section>
   );
