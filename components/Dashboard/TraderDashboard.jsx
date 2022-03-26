@@ -147,7 +147,7 @@ function TraderDashboard({ traderID }) {
             <h2 className={styles.price}>{allEarnings * earnMultiplier}$</h2>
           </div>
         </div>
-        <StatisticsCard balance={data} forceExtra={subCount < 20 ? 0 : 5} />
+        <StatisticsCard balance={data} forceExtra={subCount < 20 ? 1 : 6} />
       </div>
     </section>
   );
