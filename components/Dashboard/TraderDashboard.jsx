@@ -32,12 +32,11 @@ function TraderDashboard({ traderID }) {
     return Math.floor(Math.abs(now - date) / 36e5);
   };
 
-  const getPrice = (trader, id) => {
-    let price = trader.basePrice;
+  const getPrice = (basePrice, id) => {
+    let price = basePrice;
 
     if (id !== 0) {
-      price =
-        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+      price = priceMultipliers[id] * (basePrice * priceMultipliers[id - 1]);
     }
 
     return price;
@@ -61,7 +60,7 @@ function TraderDashboard({ traderID }) {
     };
 
     let sum = 0;
-    let monthSum = 0;
+    let unpaidSum = 0;
 
     if (subscribers) {
       for await (const subscriber of subscribers) {
@@ -82,14 +81,16 @@ function TraderDashboard({ traderID }) {
       }
     }
 
-    setAllEarnings(
-      Math.round(trader.allTime * (trader.basePrice / 2) * 100) / 100
-    );
-    setUnpaid(
-      Math.round(
-        (trader.allTime - trader.paidFor) * (trader.basePrice / 2) * 100
-      ) / 100
-    );
+    for (const [i, tier] of trader.allTimeSubs.entries()) {
+      if (i > trader.paidFor - 1) {
+        unpaidSum += getPrice(trader.basePrice, tier);
+      }
+
+      sum += getPrice(trader.basePrice, tier);
+    }
+
+    setAllEarnings(sum);
+    setUnpaid(unpaidSum);
 
     setData(tempData);
   };
