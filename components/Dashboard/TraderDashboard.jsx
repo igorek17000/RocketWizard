@@ -22,6 +22,7 @@ function TraderDashboard({ traderID }) {
   const [subCount, setSubCount] = useState(0);
   const [monthlyEarnings, setMonthlyEarnings] = useState(0);
   const [allEarnings, setAllEarnings] = useState(0);
+  const [allTimeSubs, setAllTimeSubs] = useState(0);
 
   const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
@@ -67,8 +68,6 @@ function TraderDashboard({ traderID }) {
       for await (const subscriber of subscribers) {
         const diff = getDiff(subscriber.startDate);
 
-        sum += getPrice(trader, subscriber.tier);
-
         if (diff < 24) {
           const index = Math.round(24 - diff);
           tempData.daily[index - 1] = tempData.daily[index - 1] + 1;
@@ -80,14 +79,16 @@ function TraderDashboard({ traderID }) {
         if (diff < 24 * 30) {
           const index = 30 - Math.round(diff / 24);
           tempData.monthly[index - 1] = tempData.monthly[index - 1] + 1;
-
-          monthSum += getPrice(trader, subscriber.tier);
         }
       }
     }
 
-    setAllEarnings(sum);
-    setMonthlyEarnings(monthSum);
+    setAllEarnings(
+      Math.round(
+        (trader.allTime - trader.paidFor) * (trader.basePrice / 2) * 100
+      ) / 100
+    );
+    setAllTimeSubs(trader.allTime);
 
     setData(tempData);
   };
@@ -120,12 +121,12 @@ function TraderDashboard({ traderID }) {
         </div>
         <div className={styles.cards}>
           <div className={styles.card}>
-            <p>Monthly earnings</p>
-            <h2 className={styles.price}>{monthlyEarnings / 2}$</h2>
+            <p>All time subscriber count</p>
+            <h2 className={styles.price}>{allTimeSubs}</h2>
           </div>
           <div className={styles.card}>
             <p>Total earnings</p>
-            <h2 className={styles.price}>{allEarnings / 2}$</h2>
+            <h2 className={styles.price}>{allEarnings}$</h2>
           </div>
         </div>
         <StatisticsCard balance={data} forceExtra={subCount < 20 ? 5 : 20} />
