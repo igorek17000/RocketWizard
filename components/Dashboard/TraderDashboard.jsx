@@ -124,11 +124,11 @@ function TraderDashboard({ traderID }) {
         <div className={styles.cards}>
           <div className={styles.card}>
             <p>Unpaid</p>
-            <h2 className={styles.price}>{unpaid}$</h2>
+            <h2 className={styles.price}>{unpaid / 2}$</h2>
           </div>
           <div className={styles.card}>
             <p>Total earnings</p>
-            <h2 className={styles.price}>{allEarnings}$</h2>
+            <h2 className={styles.price}>{allEarnings / 2}$</h2>
           </div>
         </div>
         <StatisticsCard balance={data} forceExtra={subCount < 20 ? 5 : 20} />
