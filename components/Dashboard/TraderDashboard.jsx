@@ -20,9 +20,8 @@ const getGreeting = () => {
 function TraderDashboard({ traderID }) {
   const [data, setData] = useState(null);
   const [subCount, setSubCount] = useState(0);
-  const [monthlyEarnings, setMonthlyEarnings] = useState(0);
   const [allEarnings, setAllEarnings] = useState(0);
-  const [allTimeSubs, setAllTimeSubs] = useState(0);
+  const [unpaid, setUnpaid] = useState(0);
 
   const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
@@ -84,11 +83,13 @@ function TraderDashboard({ traderID }) {
     }
 
     setAllEarnings(
+      Math.round(trader.allTime * (trader.basePrice / 2) * 100) / 100
+    );
+    setUnpaid(
       Math.round(
         (trader.allTime - trader.paidFor) * (trader.basePrice / 2) * 100
       ) / 100
     );
-    setAllTimeSubs(trader.allTime);
 
     setData(tempData);
   };
@@ -121,8 +122,8 @@ function TraderDashboard({ traderID }) {
         </div>
         <div className={styles.cards}>
           <div className={styles.card}>
-            <p>All time subscriber count</p>
-            <h2 className={styles.price}>{allTimeSubs}</h2>
+            <p>Unpaid</p>
+            <h2 className={styles.price}>{unpaid}$</h2>
           </div>
           <div className={styles.card}>
             <p>Total earnings</p>
