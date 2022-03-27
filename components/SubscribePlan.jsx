@@ -76,11 +76,19 @@ function SubscribePlan({ id, trader }) {
         </div>
         <h3>Monthly package</h3>
         <h5 style={{ backgroundColor: plan.planColor }}>{plan.name}</h5>
-        <img
-          src={`/images/settings/exchanges/${trader.exchange}.svg`}
-          alt="Exchange"
-          className={styles.exchange}
-        />
+        {trader.secondExchange ? (
+          <img
+            src={`/images/settings/exchanges/${trader.exchange}-${trader.secondExchange}.svg`}
+            alt="Exchange"
+            className={styles.exchange}
+          />
+        ) : (
+          <img
+            src={`/images/settings/exchanges/${trader.exchange}.svg`}
+            alt="Exchange"
+            className={styles.exchange}
+          />
+        )}
       </section>
 
       {/* Details section */}

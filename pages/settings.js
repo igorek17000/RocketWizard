@@ -53,7 +53,8 @@ function ActivatedApi({ sub, apiKeys, changed }) {
     ? apiKeys
         .filter(
           (key) =>
-            key.exchange === sub.exchange &&
+            (key.exchange === sub.exchange ||
+              key.exchange === sub.secondExchange) &&
             (!key.taken || (sub.api ? sub.api.name === key.name : false))
         )
         .map((key) => {
@@ -108,10 +109,19 @@ function ActivatedApi({ sub, apiKeys, changed }) {
       <div className={styles.values}>
         <h4>{sub.traderId}</h4>
       </div>
-      <img
-        src={`/images/settings/exchanges/${sub.exchange}.svg`}
-        alt="Exchange"
-      />
+      {sub.secondExchange ? (
+        <img
+          src={`/images/settings/exchanges/${sub.secondExchange}-${sub.exchange}.svg`}
+          alt="Exchange"
+          className={styles.exchange}
+        />
+      ) : (
+        <img
+          src={`/images/settings/exchanges/${sub.exchange}.svg`}
+          alt="Exchange"
+          className={styles.exchange}
+        />
+      )}
       {apiKeys && (
         <Select
           className={styles.select}

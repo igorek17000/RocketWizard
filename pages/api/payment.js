@@ -126,6 +126,7 @@ export default async function handler(req, res) {
         apiPassword: api.apiPassword,
         multiplier: api.multiplier,
         startDate: new Date(),
+        exchange: api.exchange,
       };
 
       if (api.exchange === "binance") {

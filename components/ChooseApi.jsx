@@ -55,6 +55,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
   const [addingApi, setAddingApi] = useState(false);
   const [loading, setLoading] = useState(true);
   const [exchange, setExchange] = useState(null);
+  const [secondExchange, setSecondExchange] = useState(null);
 
   const changeApi = (value) => {
     setApi(value);
@@ -108,9 +109,17 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
     const json = await res.json();
 
     setExchange(json.exchange);
+    setSecondExchange(json.secondExchange);
+
+    return {
+      exchangeOne: json.exchange,
+      exchangeTwo: json.secondExchange,
+    };
   };
 
   const getAPIs = async () => {
+    const { exchangeOne, exchangeTwo } = await getExchange();
+
     const res = await fetch(`https://www.rocketwizard.io/api/apiKeys`);
 
     const keys = await res.json();
@@ -119,7 +128,10 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
     let count = 0;
 
     for await (const key of keys) {
-      if (key.exchange === exchange && !key.taken) {
+      if (
+        (key.exchange === exchangeOne || key.exchange === exchangeTwo) &&
+        !key.taken
+      ) {
         count++;
         tempOptions.push({
           value: key.name,
@@ -146,11 +158,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
   }, [options]);
 
   useEffect(() => {
-    exchange && getAPIs();
-  }, [exchange]);
-
-  useEffect(() => {
-    open && getExchange();
+    open && getAPIs();
   }, [open]);
 
   if (!session)
@@ -183,6 +191,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
             handleClose();
           }}
           forceExchange={exchange}
+          forceSecondExchange={secondExchange}
           sendApiName={(name) => sendApiName(name)}
           tip={true}
           tier={tier}
@@ -213,7 +222,9 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
             <h3>Choose API</h3>
             <div className={styles.inputContainer}>
               <label>
-                Your {capitalize(exchange)} {"API's"}
+                {`Your ${capitalize(exchange)} ${
+                  secondExchange ? `or ${capitalize(secondExchange)} ` : ""
+                } APIs`}
               </label>
               <Select
                 className={styles.select}

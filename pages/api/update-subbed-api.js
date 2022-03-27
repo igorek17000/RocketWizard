@@ -53,6 +53,7 @@ export default async function handler(req, res) {
     traderSubs[index].apiKey = newApi.api || null;
     traderSubs[index].secret = newApi.secret || null;
     traderSubs[index].apiPassword = newApi.apiPassword || null;
+    traderSubs[index].exchange = newApi.exchange || null;
 
     await db
       .collection("users")

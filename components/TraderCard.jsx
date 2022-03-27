@@ -65,12 +65,22 @@ function TraderCard({ trader, isTrader }) {
       {/* Body Section */}
 
       <section className={styles.body}>
-        <div className={styles.exchange}>
-          <img
-            src={`/images/settings/exchanges/${trader.exchange}.svg`}
-            alt="Exchange"
-          />
-        </div>
+        {trader.secondExchange ? (
+          <div className={styles.exchange}>
+            <img
+              src={`/images/settings/exchanges/${trader.exchange}-${trader.secondExchange}.svg`}
+              alt="Two exchanges"
+            />
+          </div>
+        ) : (
+          <div className={styles.exchange}>
+            <img
+              src={`/images/settings/exchanges/${trader.exchange}.svg`}
+              alt="Exchange"
+            />
+          </div>
+        )}
+
         <div className={styles.roi}>
           <h3>Last Month ROI</h3>
           <div className={styles.monthlyRoi}>

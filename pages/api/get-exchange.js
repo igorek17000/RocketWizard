@@ -8,7 +8,10 @@ export default async function handler(req, res) {
 
     const trader = await db.collection("traders").findOne({ id: traderId });
 
-    return res.json({ exchange: trader.exchange });
+    return res.json({
+      exchange: trader.exchange,
+      secondExchange: trader.secondExchange || null,
+    });
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
   }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
 import styles from "../styles/AddApi.module.scss";
@@ -21,13 +21,6 @@ import { AiOutlineClose } from "react-icons/ai";
 import Select from "react-select";
 
 import Alert from "./Alert";
-
-const options = [
-  { value: "binance", label: "Binance" },
-  { value: "okex", label: "Okx" },
-  // { value: "huobi", label: "Huobi" },
-  { value: "kucoin", label: "Kucoin" },
-];
 
 const customStyles = {
   control: () => ({
@@ -66,14 +59,15 @@ function AddApi({
   handleClose,
   updateKeys = () => {},
   forceExchange = null,
+  forceSecondExchange = null,
   sendApiName,
   tip = false,
   risky = false,
   tier,
 }) {
-  const [exchange, setExchange] = useState(
-    forceExchange ? { value: forceExchange } : null
-  );
+  const [options, setOptions] = useState([]);
+
+  const [exchange, setExchange] = useState(null);
   const [name, setName] = useState(null);
   const [api, setApi] = useState(null);
   const [secret, setSecret] = useState(null);
@@ -88,6 +82,40 @@ function AddApi({
   const [passwordExchanges] = useState(["okex", "kucoin"]);
 
   const { data: session, status } = useSession();
+
+  useEffect(() => {
+    let optionsTemp = [];
+
+    let labels = {
+      binance: "Binance",
+      okex: "Okx",
+      huobi: "Huobi",
+      kucoin: "Kucoin",
+    };
+
+    if (forceExchange) {
+      optionsTemp.push({
+        value: forceExchange,
+        label: labels[forceExchange],
+      });
+
+      if (forceSecondExchange) {
+        optionsTemp.push({
+          value: forceSecondExchange,
+          label: labels[forceSecondExchange],
+        });
+      }
+
+      setOptions(optionsTemp);
+    } else {
+      setOptions([
+        { value: "binance", label: "Binance" },
+        { value: "okex", label: "Okx" },
+        // { value: "huobi", label: "Huobi" },
+        { value: "kucoin", label: "Kucoin" },
+      ]);
+    }
+  }, [forceExchange, forceSecondExchange]);
 
   const changeExchange = (value) => {
     setExchange(value);
@@ -294,7 +322,7 @@ function AddApi({
                     </p>
                   )}
               </label>
-              {forceExchange ? (
+              {forceExchange && !forceSecondExchange ? (
                 <div className={styles.forceExchange}>
                   <p>{capitalize(forceExchange)}</p>
                 </div>

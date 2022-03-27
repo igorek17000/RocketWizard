@@ -41,6 +41,7 @@ export default async function handler(req, res) {
         );
 
         sub.exchange = trader.exchange;
+        sub.secondExchange = trader.secondExchange || null;
 
         var apiBytes = CryptoJS.AES.decrypt(
           traderSub.apiKey,
