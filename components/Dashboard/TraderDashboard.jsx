@@ -140,11 +140,15 @@ function TraderDashboard({ traderID }) {
         <div className={styles.cards}>
           <div className={styles.card}>
             <p>Unpaid</p>
-            <h2 className={styles.price}>{unpaid * earnMultiplier}$</h2>
+            <h2 className={styles.price}>
+              {Math.round(unpaid * earnMultiplier * 100) / 100}$
+            </h2>
           </div>
           <div className={styles.card}>
             <p>Total earnings</p>
-            <h2 className={styles.price}>{allEarnings * earnMultiplier}$</h2>
+            <h2 className={styles.price}>
+              {Math.round(allEarnings * earnMultiplier * 100) / 100}$
+            </h2>
           </div>
         </div>
         <StatisticsCard balance={data} forceExtra={subCount < 20 ? 1 : 6} />
