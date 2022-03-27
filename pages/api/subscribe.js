@@ -49,13 +49,22 @@ export default async function handler(req, res) {
         );
         const apiKey = apiBytes.toString(CryptoJS.enc.Utf8);
 
-        const api = await user.apiKeys.find((x) => {
+        let api = await user.apiKeys.find((x) => {
           var bytes = CryptoJS.AES.decrypt(x.api, process.env.cryptKey);
 
           const key = bytes.toString(CryptoJS.enc.Utf8);
 
           return key === apiKey;
         });
+
+        if (!traderSub.apiKey) {
+          api = {
+            api: null,
+            apiPassword: null,
+            secret: null,
+            name: null,
+          };
+        }
 
         return {
           ...sub,

@@ -51,9 +51,17 @@ export default async function handler(req, res) {
       subs[index].secret = null;
       subs[index].apiPassword = null;
 
+      let subscriptions = user.subscriptions;
+
+      subscriptions[subscriptions.indexOf(sub)].apiName = null;
+
       await db
         .collection("traders")
         .updateOne({ id: sub.traderId }, { $set: { subscribers: subs } });
+
+      await db
+        .collection("users")
+        .updateOne({ email }, { $set: { subscriptions } });
     }
 
     await db.collection("users").updateOne(
