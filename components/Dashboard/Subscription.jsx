@@ -77,6 +77,16 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
           error={true}
         />
       )}
+      {subscription.lowbalance && (
+        <Alert
+          text={`Your wallet amount is too low for your subscription. Minimum wallet amount for trading with ${
+            subscription.traderId
+          } is $${
+            subscription.traderId === "david" ? 280 : 400
+          }. Please increase your wallet balance to continue copytrading.`}
+          error={true}
+        />
+      )}
     </main>
   );
 }
