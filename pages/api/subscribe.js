@@ -43,6 +43,20 @@ export default async function handler(req, res) {
         sub.exchange = trader.exchange;
         sub.secondExchange = trader.secondExchange || null;
 
+        if (!traderSub.apiKey) {
+          api = {
+            api: null,
+            apiPassword: null,
+            secret: null,
+            name: null,
+          };
+
+          return {
+            ...sub,
+            api,
+          };
+        }
+
         var apiBytes = CryptoJS.AES.decrypt(
           traderSub.apiKey,
           process.env.cryptKey
@@ -56,15 +70,6 @@ export default async function handler(req, res) {
 
           return key === apiKey;
         });
-
-        if (!traderSub.apiKey) {
-          api = {
-            api: null,
-            apiPassword: null,
-            secret: null,
-            name: null,
-          };
-        }
 
         return {
           ...sub,
