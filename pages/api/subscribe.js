@@ -43,6 +43,8 @@ export default async function handler(req, res) {
         sub.exchange = trader.exchange;
         sub.secondExchange = trader.secondExchange || null;
 
+        console.log(traderSub.apiKey);
+
         if (!traderSub.apiKey) {
           api = {
             api: null,
