@@ -53,7 +53,7 @@ export default async function handler(req, res) {
 
       await db
         .collection("traders")
-        .updateOne({ id: sub.traderId }, { subscribers: subs });
+        .updateOne({ id: sub.traderId }, { $set: { subscribers: subs } });
     }
 
     await db.collection("users").updateOne(
