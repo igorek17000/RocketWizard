@@ -105,8 +105,8 @@ function TraderDashboard({ traderID }) {
       sum += getPrice(trader.basePrice, tier);
     }
 
-    setAllEarnings(sum);
-    setUnpaid(unpaidSum);
+    setAllEarnings(Math.round(sum * 100) / 100);
+    setUnpaid(Math.round(unpaidSum * 100) / 100);
 
     setData(tempData);
   };
