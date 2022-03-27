@@ -28,6 +28,32 @@ export default async function handler(req, res) {
   if (req.method === "DELETE") {
     const { apiName } = req.body;
 
+    const user = await db.collection("users").findOne({ email });
+
+    const apiKey = await user.apiKeys.find((el) => el.name === apiName);
+
+    if (apiKey.taken) {
+      const sub = await user.subscriptions.find((el) => el.apiName === apiName);
+
+      const trader = await db
+        .collection("traders")
+        .findOne({ id: sub.traderId });
+
+      let subs = trader.subscribers;
+
+      let userSub = await subs.find((el) => el.email === email);
+
+      const index = subs.indexOf(userSub);
+
+      subs[index].apiKey = null;
+      subs[index].secret = null;
+      subs[index].apiPassword = null;
+
+      await db
+        .collection("traders")
+        .updateOne({ id: sub.traderId }, { subscribers: subs });
+    }
+
     await db.collection("users").updateOne(
       { email },
       {
