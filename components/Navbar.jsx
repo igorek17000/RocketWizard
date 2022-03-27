@@ -18,20 +18,24 @@ import "react-toggle/style.css";
 
 import { useTheme } from "next-themes";
 
-export function MobileMenu({ links, close }) {
+export function MobileMenu({ links, close, owner }) {
   const { data: session, status } = useSession();
 
   return (
     <div className={styles.mobileMenu}>
       <AiOutlineClose className={styles.close} onClick={() => close(true)} />
       <ul>
-        {links.map((link, i) => (
-          <li key={i}>
-            <Link href={link.link}>
-              <a onClick={() => close(true)}>{link.name}</a>
-            </Link>
-          </li>
-        ))}
+        {links.map((link, i) => {
+          if (link.ownerLink && !owner) return null;
+
+          return (
+            <li key={i}>
+              <Link href={link.link}>
+                <a onClick={() => close(true)}>{link.name}</a>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
       {session ? (
         <div className={styles.user}>
@@ -84,7 +88,7 @@ function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [render, setRender] = useState(false);
+  const [owner, setOwner] = useState(false);
 
   const { theme, setTheme } = useTheme();
 
@@ -130,6 +134,11 @@ function Navbar() {
       name: "FAQ",
       link: "/faq",
     },
+    {
+      name: "Refund",
+      link: "/refund",
+      ownerLink: true,
+    },
   ]);
 
   const mobileMenuVariants = {
@@ -149,6 +158,16 @@ function Navbar() {
       : "/images/navbar/nopfp.svg"
   );
 
+  const isOwner = async () => {
+    const response = await fetch("/api/is-owner");
+
+    const json = await response.json();
+
+    if (json.isOwner) {
+      setOwner(true);
+    }
+  };
+
   useEffect(() => {
     setLogoSrc(theme === "dark" ? "logo_dark.svg" : "logo_light.svg");
   }, [theme]);
@@ -158,6 +177,7 @@ function Navbar() {
       setPfpSrc(
         session.user.image ? session.user.image : "/images/navbar/nopfp.svg"
       );
+      isOwner();
     }
   }, [session]);
 
@@ -174,6 +194,8 @@ function Navbar() {
             if (link.link === "/") {
               isActive = router.pathname === link.link;
             }
+
+            if (link.ownerLink && !owner) return null;
 
             return (
               <li key={i}>
@@ -202,7 +224,11 @@ function Navbar() {
           transition={{ duration: 0.3, type: "tween" }}
           variants={mobileMenuVariants}
         >
-          <MobileMenu close={() => setMobileMenuOpen(false)} links={links} />
+          <MobileMenu
+            close={() => setMobileMenuOpen(false)}
+            links={links}
+            owner={owner}
+          />
         </motion.div>
         {session ? (
           <div className={styles.user}>
