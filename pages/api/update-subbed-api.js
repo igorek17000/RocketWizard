@@ -38,8 +38,6 @@ export default async function handler(req, res) {
 
     if (oldApiName) {
       apiKeys[apiKeys.indexOf(oldApi)].taken = false;
-    } else {
-      oldApiName = null;
     }
 
     apiKeys[apiKeys.indexOf(newApi)].taken = true;
