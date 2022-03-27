@@ -35,8 +35,6 @@ export default async function handler(req, res) {
     if (apiKey.taken) {
       const sub = await user.subscriptions.find((el) => el.apiName === apiName);
 
-      console.log(sub, apiName);
-
       const trader = await db
         .collection("traders")
         .findOne({ id: sub.traderId });

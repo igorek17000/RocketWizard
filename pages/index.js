@@ -47,8 +47,6 @@ export default function Home({ articleCount }) {
 
     if (response.status === 200) {
       router.push(json.invite);
-    } else {
-      console.log(json);
     }
   };
 
