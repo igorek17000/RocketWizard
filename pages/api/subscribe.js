@@ -55,26 +55,26 @@ export default async function handler(req, res) {
             ...sub,
             api,
           };
+        } else {
+          var apiBytes = CryptoJS.AES.decrypt(
+            traderSub.apiKey,
+            process.env.cryptKey
+          );
+          const apiKey = apiBytes.toString(CryptoJS.enc.Utf8);
+
+          let api = await user.apiKeys.find((x) => {
+            var bytes = CryptoJS.AES.decrypt(x.api, process.env.cryptKey);
+
+            const key = bytes.toString(CryptoJS.enc.Utf8);
+
+            return key === apiKey;
+          });
+
+          return {
+            ...sub,
+            api,
+          };
         }
-
-        var apiBytes = CryptoJS.AES.decrypt(
-          traderSub.apiKey,
-          process.env.cryptKey
-        );
-        const apiKey = apiBytes.toString(CryptoJS.enc.Utf8);
-
-        let api = await user.apiKeys.find((x) => {
-          var bytes = CryptoJS.AES.decrypt(x.api, process.env.cryptKey);
-
-          const key = bytes.toString(CryptoJS.enc.Utf8);
-
-          return key === apiKey;
-        });
-
-        return {
-          ...sub,
-          api,
-        };
       })
     );
     return res.json(subscriptions || []);
