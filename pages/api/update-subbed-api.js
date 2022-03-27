@@ -55,9 +55,19 @@ export default async function handler(req, res) {
     traderSubs[index].apiPassword = newApi.apiPassword || null;
     traderSubs[index].exchange = newApi.exchange || null;
 
+    const subscription = await user.subscriptions.find(
+      (el) => el.apiName === oldApiName
+    );
+
+    const subIndex = user.subscriptions.indexOf(subscription);
+
+    let subscriptions = user.subscriptions;
+
+    subscriptions[subIndex].apiName = newApiName;
+
     await db
       .collection("users")
-      .updateOne({ email }, { $set: { apiKeys: apiKeys } });
+      .updateOne({ email }, { $set: { apiKeys: apiKeys, subscriptions } });
 
     await db
       .collection("traders")
