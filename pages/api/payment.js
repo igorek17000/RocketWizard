@@ -104,6 +104,7 @@ export default async function handler(req, res) {
           traderId,
           plan,
           quantity,
+          apiName,
         });
       }
 
