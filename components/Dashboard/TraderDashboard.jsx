@@ -23,6 +23,9 @@ function TraderDashboard({ traderID }) {
   const [allEarnings, setAllEarnings] = useState(0);
   const [unpaid, setUnpaid] = useState(0);
 
+  const [unpaidSubscribers, setUnpaidSubscribers] = useState(0);
+  const [paidSubscribers, setPaidSubscribers] = useState(0);
+
   const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
   const [earnMultiplier, setEarnMultiplier] = useState(1);
@@ -76,6 +79,10 @@ function TraderDashboard({ traderID }) {
     let sum = 0;
     let unpaidSum = 0;
 
+    let unpaidSubs = 0;
+
+    let all = subscribers ? subscribers.length : 0;
+
     if (subscribers) {
       for await (const subscriber of subscribers) {
         const diff = getDiff(subscriber.startDate);
@@ -100,10 +107,14 @@ function TraderDashboard({ traderID }) {
     for (const [i, tier] of trader.allTimeSubs.entries()) {
       if (i > trader.paidFor - 1) {
         unpaidSum += getPrice(trader.basePrice, tier);
+        unpaidSubs++;
       }
 
       sum += getPrice(trader.basePrice, tier);
     }
+
+    setUnpaidSubscribers(unpaidSubs);
+    setPaidSubscribers(all - unpaidSubs);
 
     setAllEarnings(Math.round(sum * 100) / 100);
     setUnpaid(Math.round(unpaidSum * 100) / 100);
@@ -149,6 +160,16 @@ function TraderDashboard({ traderID }) {
             <h2 className={styles.price}>
               {Math.round(allEarnings * earnMultiplier * 100) / 100}$
             </h2>
+          </div>
+        </div>
+        <div className={styles.cards}>
+          <div className={styles.card}>
+            <p>Unpaid Subs</p>
+            <h2 className={styles.price}>{unpaidSubscribers}</h2>
+          </div>
+          <div className={styles.card}>
+            <p>Paid Subs</p>
+            <h2 className={styles.price}>{paidSubscribers}</h2>
           </div>
         </div>
         <StatisticsCard balance={data} forceExtra={subCount < 20 ? 1 : 6} />
