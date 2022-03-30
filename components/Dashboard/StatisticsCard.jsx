@@ -90,7 +90,9 @@ function StatisticsCard({ balance, forceExtra = 20 }) {
             extra={forceExtra}
             aspectRatio={null}
           />
-          <button>SEE ALL</button>
+          {/*
+                        <button>SEE ALL</button>
+              */}
         </section>
       ) : (
         <section className={styles.body}>
