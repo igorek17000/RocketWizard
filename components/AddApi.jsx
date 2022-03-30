@@ -68,13 +68,17 @@ function AddApi({
   const [options, setOptions] = useState([]);
 
   const labels = {
-     okex: "Okx",
-     binance: "Binance",
-     kucoin: "Kucoin",
-     huobi: "Huobi",
+    okex: "Okx",
+    binance: "Binance",
+    kucoin: "Kucoin",
+    huobi: "Huobi",
   };
 
-  const [exchange, setExchange] = useState((forceExchange && !forceSecondExchange) ? { value: forceExchange, label: labels[forceExchange]} : null);
+  const [exchange, setExchange] = useState(
+    forceExchange && !forceSecondExchange
+      ? { value: forceExchange, label: labels[forceExchange] }
+      : null
+  );
   const [name, setName] = useState(null);
   const [api, setApi] = useState(null);
   const [secret, setSecret] = useState(null);
