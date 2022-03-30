@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     params.append("client_secret", "kmDi_2OdSyjyoz1bxJjl2zqkEAyxypCp");
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", "https://www.rocketwizard.io/");
+    params.append("redirect_uri", "https://rocketwizard.io/");
     params.append("scope", "identify");
 
     fetch("https://discord.com/api/oauth2/token", {

@@ -163,7 +163,7 @@ function Settings() {
   const getApiKeys = async () => {
     if (!session) return;
 
-    const res = await fetch(`https://www.rocketwizard.io/api/apiKeys`);
+    const res = await fetch(`https://rocketwizard.io/api/apiKeys`);
 
     const keys = await res.json();
 
@@ -173,7 +173,7 @@ function Settings() {
   const getSubs = async () => {
     if (!session) return;
 
-    const res = await fetch(`https://www.rocketwizard.io/api/subscribe`);
+    const res = await fetch(`https://rocketwizard.io/api/subscribe`);
 
     const subs = await res.json();
 
