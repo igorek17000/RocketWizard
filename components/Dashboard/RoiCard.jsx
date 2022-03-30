@@ -89,6 +89,7 @@ function RoiCard({ balance }) {
           value={timeframe}
           onChange={changeTimeframe}
           defaultValue={timeframe}
+          isSearchable={false}
         />
       </section>
       {chartData && chartData.length >= 5 ? (

@@ -568,6 +568,7 @@ function Checkout({ traders }) {
                       options={cryptoOptions}
                       value={crypto}
                       onChange={changeCrypto}
+                      isSearchable={false}
                       placeholder="Crypto"
                     />
                     <img src="/images/checkout/coins.svg" alt="Crypto coins" />

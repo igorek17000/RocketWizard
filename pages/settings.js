@@ -105,7 +105,17 @@ function ActivatedApi({ sub, apiKeys, changed }) {
   };
 
   return (
-    <div className={styles.api}>
+    <div
+      className={styles.api}
+      style={
+        !apiValue.value
+          ? {
+              border: "2px solid #e96d69",
+              boxShadow: "0 0 3px #e96d6952",
+            }
+          : undefined
+      }
+    >
       <div className={styles.values}>
         <h4>{sub.traderId}</h4>
       </div>
@@ -130,6 +140,7 @@ function ActivatedApi({ sub, apiKeys, changed }) {
           options={apiOptions}
           value={apiValue}
           onChange={changeValue}
+          isSearchable={false}
         />
       )}
     </div>
@@ -140,6 +151,8 @@ function Settings() {
   const [openModal, setOpenModal] = useState(false);
   const [apiKeys, setApiKeys] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
+
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   const [deleting, setDeleting] = useState(null);
 
@@ -170,7 +183,7 @@ function Settings() {
   useEffect(() => {
     getApiKeys();
     getSubs();
-  }, [session]);
+  }, [session, forceUpdate]);
 
   const shorten = (str, n) => {
     let start = str.substr(0, n);
@@ -202,7 +215,7 @@ function Settings() {
         return;
       }
 
-      getApiKeys();
+      setForceUpdate((fu) => fu + 1);
     }
   };
 

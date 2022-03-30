@@ -232,6 +232,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
                 options={options}
                 value={api}
                 onChange={changeApi}
+                isSearchable={false}
               />
             </div>
             <p>

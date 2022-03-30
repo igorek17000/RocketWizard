@@ -386,6 +386,7 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
                       options={cryptoOptions}
                       value={crypto}
                       onChange={changeCrypto}
+                      isSearchable={false}
                       placeholder="Crypto"
                     />
                     <img src="/images/checkout/coins.svg" alt="Crypto coins" />

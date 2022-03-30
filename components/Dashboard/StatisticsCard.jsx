@@ -79,6 +79,7 @@ function StatisticsCard({ balance, forceExtra = 20 }) {
           value={timeframe}
           onChange={changeTimeframe}
           defaultValue={timeframe}
+          isSearchable={false}
         />
       </section>
       {chartData && chartData.length >= 5 ? (

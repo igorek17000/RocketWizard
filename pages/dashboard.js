@@ -247,6 +247,7 @@ function Dashboard({ traders, disclaimer }) {
                             options={options}
                             value={api}
                             onChange={changeApi}
+                            isSearchable={false}
                           />
                         )}
                       </div>
@@ -292,6 +293,7 @@ function Dashboard({ traders, disclaimer }) {
                               options={options}
                               value={api}
                               onChange={changeApi}
+                              isSearchable={false}
                             />
                           </div>
                         </div>

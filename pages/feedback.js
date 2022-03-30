@@ -128,6 +128,7 @@ function Feedback() {
             options={options}
             value={category}
             onChange={changeCategory}
+            isSearchable={false}
           />
         </div>
         <div className={styles.message}>
