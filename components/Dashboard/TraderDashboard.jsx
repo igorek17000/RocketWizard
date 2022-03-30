@@ -47,14 +47,22 @@ function TraderDashboard({ traderID }) {
     return price;
   };
 
-  const updateEarnMultiplier = (subs) => {
-    if (subs < 60) setEarnMultiplier(0.5);
-    else if (subs < 110) setEarnMultiplier(0.55);
-    else if (subs < 130) setEarnMultiplier(0.57);
-    else if (subs < 150) setEarnMultiplier(0.6);
-    else if (subs < 180) setEarnMultiplier(0.63);
-    else if (subs < 220) setEarnMultiplier(0.66);
-    else setEarnMultiplier(0.7);
+  const updateEarnMultiplier = (subs, traderId) => {
+    if (traderId === "raz") {
+      if (subs < 60) setEarnMultiplier(0.5);
+      if (subs < 100) setEarnMultiplier(0.55);
+      else if (subs < 150) setEarnMultiplier(0.6);
+      else if (subs < 250) setEarnMultiplier(0.65);
+      else setEarnMultiplier(0.75);
+    } else {
+      if (subs < 60) setEarnMultiplier(0.5);
+      else if (subs < 110) setEarnMultiplier(0.55);
+      else if (subs < 130) setEarnMultiplier(0.57);
+      else if (subs < 150) setEarnMultiplier(0.6);
+      else if (subs < 180) setEarnMultiplier(0.63);
+      else if (subs < 220) setEarnMultiplier(0.66);
+      else setEarnMultiplier(0.7);
+    }
 
     return;
   };
@@ -102,7 +110,7 @@ function TraderDashboard({ traderID }) {
       }
     }
 
-    updateEarnMultiplier(subscribers.length);
+    updateEarnMultiplier(subscribers.length, trader.id);
 
     for (const [i, tier] of trader.allTimeSubs.entries()) {
       if (i > trader.paidFor - 1) {
