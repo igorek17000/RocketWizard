@@ -23,7 +23,7 @@ function Trader({ traders }) {
 
     const traderIDjson = await isTraderRes.json();
 
-    setTraderID(traderIDjson);
+    setTraderID(traderIDjson.traderId);
   };
 
   useEffect(() => {
