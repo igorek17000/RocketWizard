@@ -110,7 +110,9 @@ export default async function handler(req, res) {
 
       const api = await user.apiKeys.find((x) => x.name === apiName);
 
-      apiKeys[apiKeys.indexOf(api)].taken = true;
+      if (api) {
+        apiKeys[apiKeys.indexOf(api)].taken = true;
+      }
 
       await db
         .collection("users")
