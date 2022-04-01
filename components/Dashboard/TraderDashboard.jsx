@@ -118,8 +118,6 @@ function TraderDashboard({ traderID }) {
         unpaidSubs++;
       }
 
-      console.log(getPrice(trader.basePrice, tier));
-
       sum += getPrice(trader.basePrice, tier);
     }
 

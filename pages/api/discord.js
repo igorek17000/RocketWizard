@@ -1,5 +1,4 @@
 const fetch = require("node-fetch");
-const { url } = require("inspector");
 const axios = require("axios");
 const { URLSearchParams } = require("url");
 const botToken = process.env.botToken;
@@ -22,7 +21,7 @@ function make_config(authorization_token, isBot = false) {
 async function isInsideServer(userID) {
   const response = await axios
     .get(
-      "https://discord.com/api/v9/guilds/952251011127464016/members/" + userID,
+      "https://discord.com/api/v9/guilds/952251011127464016/members/" + userID, // Server ID
       make_config(botToken, true)
     )
     .catch();
@@ -35,7 +34,7 @@ async function make_invite() {
   // 521410157847117865
 
   const response = await fetch(
-    "https://discord.com/api/v9/channels/952251011127464019/invites",
+    "https://discord.com/api/v9/channels/952251011127464019/invites", // Channel ID
     {
       method: "POST",
       body: JSON.stringify({ max_uses: 1 }),

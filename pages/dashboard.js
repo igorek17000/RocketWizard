@@ -270,10 +270,7 @@ function Dashboard({ traders, disclaimer }) {
                           )}
 
                           <div className={styles.balanceRoiCards}>
-                            <BalanceCard
-                              balance={balance}
-                              apiName={api.value}
-                            />
+                            <BalanceCard apiName={api.value} />
                             <RoiCard balance={balance} />
                           </div>
                           <StatisticsCard balance={balance} />

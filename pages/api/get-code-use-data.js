@@ -55,9 +55,15 @@ export default async function handler(req, res) {
 
     const limit = paymentTemp.total;
 
-    const paymentsAll = await npApi.getListPayments({ limit });
+    let paymentsAll = [];
 
-    let payments = await paymentsAll.data.filter(
+    for (let i = 0; i < limit / 100; i++) {
+      let pagePayments = await npApi.getListPayments({ limit: 100, page: i });
+
+      paymentsAll = [...paymentsAll, ...pagePayments.data];
+    }
+
+    let payments = await paymentsAll.filter(
       (payment) =>
         payment.payment_status !== "expired" &&
         payment.payment_status !== "waiting"

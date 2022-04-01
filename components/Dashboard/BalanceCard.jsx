@@ -47,37 +47,12 @@ const customStyles = {
   }),
 };
 
-function BalanceCard({ balance, apiName }) {
-  const [timeframe, setTimeframe] = useState(options[0]);
-  const [percentageChange, setPercentageChange] = useState(0);
+function BalanceCard({ apiName }) {
   const [loading, setLoading] = useState(true);
-
-  const [chartData, setChartData] = useState(balance.daily);
 
   const [currBalance, setCurrBalance] = useState(null);
 
   const { data: session, status } = useSession();
-
-  const getPercentageChange = () => {
-    let end = chartData[chartData.length - 1];
-    let start = chartData[0];
-
-    let change = (end / start - 1) * 100;
-
-    setPercentageChange(Math.round(change * 100) / 100);
-  };
-
-  const changeTimeframe = (value) => {
-    setTimeframe(value);
-
-    if (value.value === "daily") {
-      setChartData(balance.daily);
-    } else if (value.value === "weekly") {
-      setChartData(balance.weekly);
-    } else {
-      setChartData(balance.monthly);
-    }
-  };
 
   const getCurrBalance = async () => {
     const balanceResponse = await fetch("/api/get-balance", {
@@ -100,14 +75,6 @@ function BalanceCard({ balance, apiName }) {
   };
 
   useEffect(() => {
-    getPercentageChange();
-  }, [chartData]);
-
-  useEffect(() => {
-    setChartData(balance.daily);
-  }, [balance]);
-
-  useEffect(() => {
     setLoading(true);
     getCurrBalance();
   }, [apiName]);
@@ -117,7 +84,7 @@ function BalanceCard({ balance, apiName }) {
       <section className={styles.header}>
         <h4>Current Balance</h4>
       </section>
-      {currBalance && !loading ? (
+      {currBalance !== null && currBalance !== undefined && !loading ? (
         <section className={styles.body}>
           <div className={styles.values}>
             <h2>${Math.round(currBalance * 100) / 100}</h2>
