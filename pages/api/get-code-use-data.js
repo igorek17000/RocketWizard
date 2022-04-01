@@ -53,13 +53,11 @@ export default async function handler(req, res) {
 
     const paymentTemp = await npApi.getListPayments();
 
-    console.log("payment temp: ", paymentTemp);
-
     const limit = paymentTemp.total;
 
-    console.log("payment limit: ", limit);
-
     const paymentsAll = await npApi.getListPayments({ limit });
+
+    console.log(paymentsAll);
 
     let payments = await paymentsAll.data.filter(
       (payment) =>
