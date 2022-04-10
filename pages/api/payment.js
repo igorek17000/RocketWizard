@@ -107,7 +107,7 @@ export default async function handler(req, res) {
           .updateOne({ email }, { $pull: { deals: { id: dealId } } });
       }
 
-      const endDate = new Date();
+      let endDate = new Date();
       endDate.setMonth(endDate.getMonth() + parseInt(quantity));
 
       const plan = {
@@ -127,6 +127,16 @@ export default async function handler(req, res) {
 
       if (found) {
         // Already subbed
+
+        endDate = new Date(subs[subs.indexOf(found)].plan.end);
+
+        if (!found.disabled) {
+          endDate.setMonth(endDate.getMonth() + 1);
+        } else {
+          subs[subs.indexOf(found)].disabled = false;
+        }
+
+        plan.end = endDate;
 
         subs[subs.indexOf(found)].plan = plan;
       } else {

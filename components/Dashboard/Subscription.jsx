@@ -3,7 +3,7 @@ import styles from "../../styles/Subscription.module.scss";
 
 import Alert from "../Alert";
 
-function Subscription({ subscription, openRenew, openUpgrade }) {
+function Subscription({ traders, subscription, openRenew, openUpgrade }) {
   const [subs] = useState([
     { name: "Basic", color: "#39E694" },
     { name: "Advanced", color: "#BA62EB" },
@@ -12,8 +12,44 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
   const [remainingDays, setRemainingDays] = useState(null);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [fullPrice, setFullPrice] = useState(null);
+
+  const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
   const percentageRef = useRef(null);
+
+  const centRound = (val) => {
+    if (val % 10 > 6 || val % 10 === 0) {
+      return Math.ceil(val / 10) * 10 - 0.01;
+    } else {
+      return Math.floor(val / 10) * 10 + 5.99;
+    }
+  };
+
+  const getPrice = async () => {
+    if (!traders) return 0;
+
+    const trader = await traders.find(
+      (trader) => trader.id == subscription.traderId
+    );
+
+    let price = trader ? trader.basePrice : 0;
+
+    let id = subscription.plan.id;
+
+    if (parseInt(id) !== 0) {
+      price =
+        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+    }
+
+    const planPriceTemp = Math.max(centRound(price), 0).toLocaleString("en-US");
+
+    setFullPrice(centRound(planPriceTemp));
+  };
+
+  useEffect(() => {
+    getPrice();
+  }, []);
 
   const getPercentage = async () => {
     const res = await fetch(
@@ -56,7 +92,7 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     setRemainingDays(diffDays);
 
-    getPercentage();
+    if (!subscription.disabled) getPercentage();
   }, []);
 
   useEffect(() => {
@@ -92,23 +128,24 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
               {remainingDays} day{remainingDays > 1 && "s"} remaining
             </p>
           </div>
-          <div className={styles.percentage}>
-            <label>Wallet %</label>
-            <div className={styles.inputButton}>
-              <input type="number" ref={percentageRef} />
+          {!subscription.disabled && (
+            <div className={styles.percentage}>
+              <label>Wallet %</label>
+              <div className={styles.inputButton}>
+                <input type="number" ref={percentageRef} />
 
-              <button
-                style={{
-                  backgroundColor: "#e96d69",
-                }}
-                onClick={updatePercentage}
-              >
-                Update
-              </button>
+                <button
+                  style={{
+                    backgroundColor: "#e96d69",
+                  }}
+                  onClick={updatePercentage}
+                >
+                  Update
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
-          {/*
           {subscription.disabled && subscription.plan.id !== subs.length - 1 ? (
             <button
               style={{
@@ -119,22 +156,19 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
               Upgrade
             </button>
           ) : (
-
-                  <button
-                    style={{
-                      backgroundColor: subs[subscription.plan.id].color,
-                    }}
-                    onClick={() => openRenew(subscription)}
-                  >
-                    Renew subscription
-                  </button>
-
+            <button
+              style={{
+                backgroundColor: subs[subscription.plan.id].color,
+              }}
+              onClick={() => openRenew(subscription)}
+            >
+              Renew subscription
+            </button>
           )}
-          */}
         </section>
         <section className={styles.right}>
           <h3>
-            ${subscription.plan.price}
+            ${fullPrice}
             <span>/month</span>
           </h3>
         </section>

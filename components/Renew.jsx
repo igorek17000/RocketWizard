@@ -113,7 +113,15 @@ const cryptoOptions = [
   },
 ];
 
-function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
+function Renew({
+  traders,
+  open,
+  handleClose,
+  id = 0,
+  quantity = 1,
+  traderId,
+  apiName,
+}) {
   const [readTerms, setReadTerms] = useState(false);
 
   const [crypto, setCrypto] = useState(null);
@@ -193,9 +201,9 @@ function Renew({ traders, open, handleClose, id = 0, quantity = 1, traderId }) {
   const [codeSuccess, setCodeSuccess] = useState(null);
 
   const getOrderID = async () => {
-    return `${traderId} ${session.user.email} ${
+    return `${traderId} ${plan.name} ${1} ${session.user.email} ${apiName} ${
       discountCode ? discountCode : "false"
-    }`;
+    } ${"0"}`;
   };
 
   const checkValues = async () => {

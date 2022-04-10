@@ -14,50 +14,6 @@ import { useRouter } from "next/router";
 import OrderSuccess from "../components/OrderSuccess";
 
 export default function Home({ articleCount }) {
-  const test = async () => {
-    var CryptoJS = require("crypto-js");
-
-    const rwSignature =
-      "Hzq7PfHP64ZcxwcsbrXYzbEmM0C1Un79VLiiMK2U5oVjMlXQyyYGyOAzN0hjJoE9xAZ3cE6zDXvGllLVNX3nxJwxfj6ELBpDlYUqvvSHIDtGDOQd3s9Ww8KwsuHBm3csmc2aycKXkekwSmaQYe0DDypnq3FJYE1BJohEjEqcotegrd54paTEz4F4CddpL06SLmHBzxeT4rrBKmAMyqJemFgxb0JQ72ewKytipt5ZT80f8tZ2CFerWL91oM0YOQkmSysOOCREnxKDc3qe9NpuLvFIzyFQSoF9jFcwleGlR7uD3s2qs4T2lcEmIFohpsZykWFBAf0u8khCgbH9coHuoBkDVJ7fvnRXIopQDcpKa0ufFFsfolQf607osQh70rNReaX6NlUW0A2AWpp5VgmuTmqSUk8755XR2Iyp3sfk7hZ2aqkNFYGyvn7JZ65cBavXxMaJ77hfasE0TYZPIrDpfjew0latKce0PUoS9cfQXWI88v8YxSLI";
-
-    const cryptKey =
-      "FyHOIFOX42UyYKh9j4KfssyctVETJg18CT7kyInHEIPz8kEqMDKqh2BuMmer5BVggTacmNVZtjC6SHYqov6kxPybhI2ofFfvHiBH";
-
-    const signature = CryptoJS.AES.encrypt(rwSignature, cryptKey).toString();
-
-    // GET ANALYISTS
-
-    const analystsRes = await fetch(
-      "https://www.rocketwizard.io/api/get-analysts",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-rocketwizard-sig": signature,
-        },
-      }
-    );
-
-    const analysts = await analystsRes.json();
-
-    let subscriberRes, subscribers;
-
-    for await (const analyst of analysts) {
-      subscriberRes = await fetch(
-        `https://www.rocketwizard.io/api/get-subscribers?analyst=${analyst.id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-rocketwizard-sig": signature,
-          },
-        }
-      );
-
-      subscribers = await subscriberRes.json();
-    }
-  };
-
   const { theme } = useTheme();
 
   const router = useRouter();
@@ -69,7 +25,7 @@ export default function Home({ articleCount }) {
   const { data: session, status } = useSession();
 
   const getLikeData = async () => {
-    const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
+    const likeRes = await fetch(`http://localhost:3000/api/faq-likes`);
 
     const likeDataJson = await likeRes.json();
 
@@ -96,7 +52,6 @@ export default function Home({ articleCount }) {
 
   useEffect(() => {
     getLikeData();
-    test();
   }, []);
 
   useEffect(() => {
@@ -207,7 +162,7 @@ export default function Home({ articleCount }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const articlesRes = await fetch("https://www.rocketwizard.io/faqData.json");
+  const articlesRes = await fetch("http://localhost:3000/faqData.json");
 
   const articleData = await articlesRes.json();
 

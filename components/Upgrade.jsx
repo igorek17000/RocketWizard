@@ -120,6 +120,8 @@ function Upgrade({
   id = 0,
   quantity = 1,
   traderId,
+  apiName,
+  endDate,
 }) {
   const [readTerms, setReadTerms] = useState(false);
 
@@ -170,13 +172,13 @@ function Upgrade({
   const [fullPrice, setFullPrice] = useState(0);
   const [planPrice, setPlanPrice] = useState(0);
 
-  const daysInMonth = () => {
-    const date = new Date();
+  const getDaysDiff = (dateOne, dateTwo) => {
+    const date1 = new Date(dateOne);
+    const date2 = new Date(dateTwo);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    const month = date.getMonth();
-    const year = date.getFullYear();
-
-    return new Date(year, month + 1, 0).getDate();
+    return diffDays;
   };
 
   const getPrice = async () => {
@@ -207,11 +209,11 @@ function Upgrade({
 
     const today = new Date();
 
-    const date = today.getDate();
+    const remainingDays = getDaysDiff(today, endDate);
 
-    const days = daysInMonth();
+    const pricePerDay = reducedPrice / 30;
 
-    const tillEndPrice = centRound((reducedPrice / days) * (days - date));
+    const tillEndPrice = centRound(pricePerDay * remainingDays);
 
     setPlanPrice(tillEndPrice);
 
@@ -226,13 +228,15 @@ function Upgrade({
   const [codeSuccess, setCodeSuccess] = useState(null);
 
   const getOrderID = async () => {
-    return `${traderId} ${session.user.email}`;
+    return `${traderId} ${plans[id].name} ${1} ${
+      session.user.email
+    } ${apiName} ${discountCode ? discountCode : "false"} ${"0"}`;
   };
 
   const pay = async () => {
     const orderId = await getOrderID();
 
-    const res = await fetch("/api/create-payment", {
+    const res = await fetch("/api/create-upgrade-payment", {
       method: "POST",
       body: JSON.stringify({
         tier: id,
