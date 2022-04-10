@@ -7,8 +7,25 @@ Cpk["useProviders"]([CoinGecko]);
 
 const coingecko = new Cpk("coingecko.com");
 
-function capitalize(string) {
+function capitalizeStr(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function getOriginalPrice(traderId) {
+  switch (traderId) {
+    case "raz":
+      return 99.99;
+    case "david":
+      return 75.99;
+    case "maximus":
+      return 59.99;
+    case "elias":
+      return 75.99;
+    case "riddy":
+      return 79.99;
+    default:
+      return 0;
+  }
 }
 
 export default async function handler(req, res) {
@@ -22,6 +39,8 @@ export default async function handler(req, res) {
     const hmac = crypto.createHmac("sha512", process.env.NPnotificationsKey);
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
+
+    console.log(signature);
 
     let valid = payment.payment_status === "confirmed";
 
@@ -64,8 +83,15 @@ export default async function handler(req, res) {
     if (valid && signature === req.headers["x-nowpayments-sig"]) {
       const orderId = payment.order_id;
 
-      const [traderId, planName, quantity, email, apiName, discountCode] =
-        orderId.split(" ");
+      const [
+        traderId,
+        planName,
+        quantity,
+        email,
+        apiName,
+        discountCode,
+        dealId,
+      ] = orderId.split(" ");
 
       console.log(`${email} BOUGHT ${traderId}'s ${planName} PLAN!!`);
 
@@ -75,14 +101,20 @@ export default async function handler(req, res) {
           .updateOne({ code: discountCode }, { $inc: { uses: 1 } });
       }
 
+      if (dealId !== "0") {
+        await db
+          .collection("users")
+          .updateOne({ email }, { $pull: { deals: { id: dealId } } });
+      }
+
       const endDate = new Date();
-      endDate.setMonth(endDate.getMonth() + 1);
+      endDate.setMonth(endDate.getMonth() + parseInt(quantity));
 
       const plan = {
         id: plans.indexOf(planName.toLowerCase()),
-        name: capitalize(planName),
+        name: capitalizeStr(planName),
         end: endDate,
-        price: req.body.price_amount,
+        price: getOriginalPrice(traderId),
       };
 
       const user = await db.collection("users").findOne({ email });
@@ -103,7 +135,7 @@ export default async function handler(req, res) {
         subs.push({
           traderId,
           plan,
-          quantity,
+          quantity: parseInt(quantity),
           apiName,
         });
       }
@@ -130,6 +162,7 @@ export default async function handler(req, res) {
         multiplier: api.multiplier,
         startDate: new Date(),
         exchange: api.exchange,
+        percentage: 7,
       };
 
       if (api.exchange === "binance") {

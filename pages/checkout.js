@@ -115,11 +115,35 @@ const cryptoOptions = [
   },
 ];
 
+let originalMonthOptions = [
+  {
+    value: 1,
+    label: "1 month",
+    addOne: false,
+  },
+  {
+    value: 2,
+    label: "2 months",
+    addOne: false,
+  },
+  {
+    value: 3,
+    label: "3 months",
+    addOne: false,
+  },
+];
+
 function Checkout({ traders }) {
   const [readTerms, setReadTerms] = useState(false);
 
+  const [monthOptions, setMonthOptions] = useState(originalMonthOptions);
+
   const [country, setCountry] = useState(null);
   const [crypto, setCrypto] = useState(null);
+  const [month, setMonth] = useState({
+    value: 1,
+    label: "1 month",
+  });
 
   const [choosingApi, setChoosingApi] = useState(false);
   const [disclaimerOpen, setDisclaimerOpen] = useState(null);
@@ -144,6 +168,12 @@ function Checkout({ traders }) {
 
   const changeCrypto = (value) => {
     setCrypto(value);
+  };
+
+  const changeMonths = (value) => {
+    setMonth(value);
+
+    setQuantity(value.value);
   };
 
   const changeCountry = (value) => {
@@ -172,7 +202,18 @@ function Checkout({ traders }) {
 
   const [shipping] = useState(0);
 
+  const getMonthDeals = async () => {
+    if (!session) return;
+    const dealsRes = await fetch(`https://www.rocketwizard.io/api/month-deals`);
+
+    const monthsJson = await dealsRes.json();
+
+    setMonthOptions(monthsJson);
+  };
+
   useEffect(() => {
+    getMonthDeals();
+
     const id = router.query.p;
     const quantity = router.query.q;
     const traderId = router.query.t;
@@ -210,10 +251,15 @@ function Checkout({ traders }) {
         priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
     }
 
-    const planPriceTemp = Math.max(
-      centRound(price * quantity),
-      0
-    ).toLocaleString("en-US");
+    let quan = quantity;
+
+    if (month.addOne) {
+      quan--;
+    }
+
+    const planPriceTemp = Math.max(centRound(price * quan), 0).toLocaleString(
+      "en-US"
+    );
 
     setPlanPrice(centRound(planPriceTemp));
 
@@ -239,7 +285,9 @@ function Checkout({ traders }) {
   const getOrderID = async (apiName) => {
     return `${traderId} ${plan.name} ${quantity} ${
       session.user.email
-    } ${apiName} ${discountCode ? discountCode : "false"}`;
+    } ${apiName} ${discountCode ? discountCode : "false"} ${
+      month.id ? month.id : "0"
+    }`;
   };
 
   const pay = async (apiName) => {
@@ -256,6 +304,8 @@ function Checkout({ traders }) {
         currency: crypto.value,
         description: `${plan.name} x ${quantity}`,
         orderId,
+        quantity,
+        addOne: month.addOne,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -345,6 +395,10 @@ function Checkout({ traders }) {
   useEffect(() => {
     getPrice();
   }, [discount, quantity, id, plan]);
+
+  useEffect(() => {
+    getMonthDeals();
+  }, [session]);
 
   useEffect(() => {
     getPrice();
@@ -514,6 +568,17 @@ function Checkout({ traders }) {
                   {codeSuccess && (
                     <Alert text={codeSuccess} bgColor="#9dffaab9" />
                   )}
+                  <div className={styles.months}>
+                    <label>Months</label>
+                    <Select
+                      className={styles.select}
+                      styles={customStylesCrypto}
+                      options={monthOptions}
+                      value={month}
+                      onChange={changeMonths}
+                      isSearchable={false}
+                    />
+                  </div>
                 </div>
               </section>
             </section>

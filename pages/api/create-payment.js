@@ -18,6 +18,7 @@ const getPrice = async (
   id,
   discount,
   quantity = 1,
+  addOne = false,
   shipping = 0
 ) => {
   let price = basePrice;
@@ -26,7 +27,13 @@ const getPrice = async (
     price = priceMultipliers[id] * (basePrice * priceMultipliers[id - 1]);
   }
 
-  const planPriceTemp = Math.max(centRound(price * quantity), 0).toLocaleString(
+  let quan = quantity;
+
+  if (addOne) {
+    quan--;
+  }
+
+  const planPriceTemp = Math.max(centRound(price * quan), 0).toLocaleString(
     "en-US"
   );
 
@@ -60,8 +67,16 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "POST") {
-    const { tier, traderId, discountCode, currency, description, orderId } =
-      req.body;
+    const {
+      tier,
+      traderId,
+      discountCode,
+      currency,
+      description,
+      orderId,
+      quantity,
+      addOne,
+    } = req.body;
 
     const trader = await db.collection("traders").findOne({ id: traderId });
 
@@ -77,7 +92,13 @@ export default async function handler(req, res) {
       discount = codeObj.discount;
     }
 
-    const fullPrice = await getPrice(basePrice, tier, discount);
+    const fullPrice = await getPrice(
+      basePrice,
+      tier,
+      discount,
+      quantity,
+      addOne
+    );
 
     const config = {
       price_amount: fullPrice,

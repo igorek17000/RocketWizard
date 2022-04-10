@@ -104,7 +104,7 @@ function AddApi({
       kucoin: "Kucoin",
     };
 
-    if (forceExchange) {
+    if (forceExchange && 1 === 2) {
       optionsTemp.push({
         value: forceExchange,
         label: labels[forceExchange],
@@ -333,7 +333,7 @@ function AddApi({
                     </p>
                   )}
               </label>
-              {forceExchange && !forceSecondExchange ? (
+              {forceExchange && !forceSecondExchange && 1 === 2 ? (
                 <div className={styles.forceExchange}>
                   <p>{capitalize(forceExchange)}</p>
                 </div>
@@ -390,6 +390,8 @@ function AddApi({
                 />
               </div>
             )}
+            {/*
+
             {exchange && exchange.value === "binance" && (
               <Checkbox
                 checked={limitedAcc}
@@ -423,6 +425,7 @@ function AddApi({
                 }
               />
             )}
+            */}
             {risky && <RiskyTrading />}
             {error && <Alert text={error} error={true} />}
 

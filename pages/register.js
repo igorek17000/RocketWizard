@@ -177,7 +177,6 @@ function Register() {
             size={20}
             label="Remember me"
           />
-          <Link href="/login">Already registered?</Link>
         </div>
         <Checkbox
           checked={readTerms}

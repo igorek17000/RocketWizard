@@ -128,10 +128,20 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
     let count = 0;
 
     for await (const key of keys) {
+      /*
       if (
         (key.exchange === exchangeOne || key.exchange === exchangeTwo) &&
         !key.taken
       ) {
+        count++;
+        tempOptions.push({
+          value: key.name,
+          label: key.name,
+        });
+      }
+      */
+
+      if (!key.taken) {
         count++;
         tempOptions.push({
           value: key.name,
@@ -222,9 +232,14 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
             <h3>Choose API</h3>
             <div className={styles.inputContainer}>
               <label>
-                {`Your ${capitalize(exchange)} ${
+                {
+                  /*
+                `Your ${capitalize(exchange)} ${
                   secondExchange ? `or ${capitalize(secondExchange)} ` : ""
-                } APIs`}
+                } APIs`
+                */
+                  `Your APIs`
+                }
               </label>
               <Select
                 className={styles.select}

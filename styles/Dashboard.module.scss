@@ -145,6 +145,7 @@
         }
 
         .dealList {
+          width: fit-content;
           margin-top: 1rem;
           display: flex;
           align-items: center;
@@ -288,12 +289,14 @@
         }
 
         .deals {
+          padding: 1.2rem;
           h2 {
             text-align: center;
           }
 
           .dealList {
             flex-direction: column;
+            margin: 0 auto;
           }
         }
       }

@@ -17,7 +17,7 @@ function UnderMaintenance() {
           {"Hello there! We're"} working on implementing a new and faster
           version of both our API and Database systems. Please be patient. We
           are working very hard to deploy the update as soon as possible!
-          Website will be up before 16.03.2022. 21:00 GMT.
+          Website will be up before 12.04.2022.
         </p>
       </section>
     </main>

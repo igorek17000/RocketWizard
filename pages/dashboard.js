@@ -74,6 +74,8 @@ function Dashboard({ traders, disclaimer }) {
   const [subscription, setSubscription] = useState(null);
 
   const [subscriptions, setSubscriptions] = useState(null);
+  const [deals, setDeals] = useState([]);
+
   const [traderID, setTraderID] = useState(null);
   const [codeOwner, setCodeOwner] = useState(null);
 
@@ -113,6 +115,8 @@ function Dashboard({ traders, disclaimer }) {
 
     const res = await fetch(`https://www.rocketwizard.io/api/subscribe`);
 
+    const dealsRes = await fetch(`https://www.rocketwizard.io/api/deals`);
+
     const isTraderRes = await fetch(`https://www.rocketwizard.io/api/isTrader`);
 
     const codeRes = await fetch(
@@ -121,10 +125,13 @@ function Dashboard({ traders, disclaimer }) {
 
     const subsJson = await res.json();
 
+    const dealsJson = await dealsRes.json();
+
     const traderIDJson = await isTraderRes.json();
 
     const codeOwnerJson = await codeRes.json();
 
+    setDeals(dealsJson);
     setSubscriptions(subsJson);
     setTraderID(traderIDJson.traderId);
     setCodeOwner(codeOwnerJson.code);
@@ -174,8 +181,6 @@ function Dashboard({ traders, disclaimer }) {
     getAPIs();
     getInfo();
   }, [session]);
-
-  const [deals] = useState([]);
 
   const getGreeting = () => {
     const hours = new Date().getHours();
@@ -300,7 +305,7 @@ function Dashboard({ traders, disclaimer }) {
                       <h2>My deals</h2>
                       <div className={styles.dealList}>
                         {deals.map((deal, i) => (
-                          <Deal deal={deal} key={i} />
+                          <Deal deal={deal} refreshDeals={getInfo} key={i} />
                         ))}
                       </div>
                     </section>

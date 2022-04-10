@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../../styles/Subscription.module.scss";
 
 import Alert from "../Alert";
@@ -10,6 +10,43 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
     { name: "Professional", color: "#731BDE" },
   ]);
   const [remainingDays, setRemainingDays] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
+
+  const percentageRef = useRef(null);
+
+  const getPercentage = async () => {
+    const res = await fetch(
+      `/api/wallet-percentage?traderId=${subscription.traderId}`
+    );
+
+    const json = await res.json();
+
+    percentageRef.current.value = json.percentage;
+  };
+
+  const updatePercentage = async () => {
+    const res = await fetch("/api/wallet-percentage", {
+      method: "POST",
+      body: JSON.stringify({
+        traderId: subscription.traderId,
+        percentage: parseFloat(percentageRef.current.value),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.status === 200) {
+      setSuccess("Successfully changed subscription percentage!");
+      setError(null);
+    } else {
+      setSuccess(null);
+      setError(
+        "There was an error while trying to update your subscription percentage."
+      );
+    }
+  };
 
   useEffect(() => {
     let start = new Date();
@@ -18,7 +55,24 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
     const diffTime = Math.abs(end - start);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     setRemainingDays(diffDays);
+
+    getPercentage();
   }, []);
+
+  useEffect(() => {
+    let timeout;
+    if (success) {
+      timeout = setTimeout(() => {
+        setSuccess(null);
+      }, 3000);
+    } else if (error) {
+      timeout = setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [success, error]);
 
   return (
     <main
@@ -38,6 +92,22 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
               {remainingDays} day{remainingDays > 1 && "s"} remaining
             </p>
           </div>
+          <div className={styles.percentage}>
+            <label>Wallet %</label>
+            <div className={styles.inputButton}>
+              <input type="number" ref={percentageRef} />
+
+              <button
+                style={{
+                  backgroundColor: "#e96d69",
+                }}
+                onClick={updatePercentage}
+              >
+                Update
+              </button>
+            </div>
+          </div>
+
           {/*
           {subscription.disabled && subscription.plan.id !== subs.length - 1 ? (
             <button
@@ -69,6 +139,8 @@ function Subscription({ subscription, openRenew, openUpgrade }) {
           </h3>
         </section>
       </section>
+      {error && <Alert text={error} error={true} />}
+      {success && <Alert text={success} bgColor="#9dffaab9" />}
       {subscription.disabled && (
         <Alert
           text={`Wallet balance is too high. Please${

@@ -29,11 +29,25 @@ function LightenDarkenColor(col, amt) {
   return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
 }
 
-function Deal({ deal }) {
+function Deal({ deal, refreshDeals }) {
   const gradient = `linear-gradient(90deg, ${LightenDarkenColor(
     deal.bgColor,
     -70
   )} 0%, ${deal.bgColor} 100%)`;
+
+  const updateActiveStatus = async () => {
+    await fetch("/api/activate-deal", {
+      method: "POST",
+      body: JSON.stringify({
+        id: deal.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    refreshDeals();
+  };
 
   return (
     <main className={styles.deal} style={{ background: gradient }}>

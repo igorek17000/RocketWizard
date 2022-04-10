@@ -156,7 +156,8 @@
               margin-bottom: 1rem;
             }
 
-            .codeAndError {
+            .codeAndError,
+            .months {
               display: flex;
               align-items: flex-start;
               width: 60%;
@@ -211,6 +212,16 @@
                 .remove {
                   background-color: #e96d69;
                 }
+              }
+            }
+
+            .months {
+              margin-top: 1rem;
+              width: 100%;
+
+              .select {
+                width: 100%;
+                margin-top: 0.2rem;
               }
             }
           }
