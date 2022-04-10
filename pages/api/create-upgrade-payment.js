@@ -138,9 +138,10 @@ export default async function handler(req, res) {
       pay_currency: currency,
       order_description: description,
       order_id: orderId,
-      success_url: "http://localhost:3000/?orderSuccess=true",
-      cancel_url: "http://localhost:3000/checkout/fail",
-      ipn_callback_url: "http://localhost:3000/api/payment",
+      success_url:
+        "https://rocket-wizard-testing.vercel.app/?orderSuccess=true",
+      cancel_url: "https://rocket-wizard-testing.vercel.app/checkout/fail",
+      ipn_callback_url: "https://rocket-wizard-testing.vercel.app/api/payment",
     };
 
     const invoice = await npApi.createInvoice(config);

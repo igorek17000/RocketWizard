@@ -204,7 +204,9 @@ function Checkout({ traders }) {
 
   const getMonthDeals = async () => {
     if (!session) return;
-    const dealsRes = await fetch(`http://localhost:3000/api/month-deals`);
+    const dealsRes = await fetch(
+      `https://rocket-wizard-testing.vercel.app/api/month-deals`
+    );
 
     const monthsJson = await dealsRes.json();
 
@@ -699,7 +701,9 @@ function Checkout({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`http://localhost:3000/api/traders`);
+  const res = await fetch(
+    `https://rocket-wizard-testing.vercel.app/api/traders`
+  );
 
   const traders = await res.json();
 

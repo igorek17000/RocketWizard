@@ -103,7 +103,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
 
   const getExchange = async () => {
     const res = await fetch(
-      `http://localhost:3000/api/get-exchange?traderId=${traderId}`
+      `https://rocket-wizard-testing.vercel.app/api/get-exchange?traderId=${traderId}`
     );
 
     const json = await res.json();
@@ -120,7 +120,9 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
   const getAPIs = async () => {
     const { exchangeOne, exchangeTwo } = await getExchange();
 
-    const res = await fetch(`http://localhost:3000/api/apiKeys`);
+    const res = await fetch(
+      `https://rocket-wizard-testing.vercel.app/api/apiKeys`
+    );
 
     const keys = await res.json();
 

@@ -56,7 +56,7 @@ export default async function handler(req, res) {
     params.append("client_secret", "kmDi_2OdSyjyoz1bxJjl2zqkEAyxypCp");
     params.append("grant_type", "authorization_code");
     params.append("code", code);
-    params.append("redirect_uri", "http://localhost:3000/");
+    params.append("redirect_uri", "https://rocket-wizard-testing.vercel.app/");
     params.append("scope", "identify");
 
     fetch("https://discord.com/api/oauth2/token", {

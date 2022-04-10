@@ -25,7 +25,9 @@ export default function Home({ articleCount }) {
   const { data: session, status } = useSession();
 
   const getLikeData = async () => {
-    const likeRes = await fetch(`http://localhost:3000/api/faq-likes`);
+    const likeRes = await fetch(
+      `https://rocket-wizard-testing.vercel.app/api/faq-likes`
+    );
 
     const likeDataJson = await likeRes.json();
 
@@ -162,7 +164,9 @@ export default function Home({ articleCount }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const articlesRes = await fetch("http://localhost:3000/faqData.json");
+  const articlesRes = await fetch(
+    "https://rocket-wizard-testing.vercel.app/faqData.json"
+  );
 
   const articleData = await articlesRes.json();
 

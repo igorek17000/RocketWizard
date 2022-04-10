@@ -57,7 +57,7 @@ function FaqGuides() {
               className={`${styles.article} ${
                 guide.comingSoon ? styles.comingSoon : undefined
               }`}
-              href={`http://localhost:3000/${
+              href={`https://rocket-wizard-testing.vercel.app/${
                 isMobile ? guide.mobileLink : guide.pcLink
               }.pdf`}
               target="_blank"

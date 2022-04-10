@@ -163,7 +163,9 @@ function Settings() {
   const getApiKeys = async () => {
     if (!session) return;
 
-    const res = await fetch(`http://localhost:3000/api/apiKeys`);
+    const res = await fetch(
+      `https://rocket-wizard-testing.vercel.app/api/apiKeys`
+    );
 
     const keys = await res.json();
 
@@ -173,7 +175,9 @@ function Settings() {
   const getSubs = async () => {
     if (!session) return;
 
-    const res = await fetch(`http://localhost:3000/api/subscribe`);
+    const res = await fetch(
+      `https://rocket-wizard-testing.vercel.app/api/subscribe`
+    );
 
     const subs = await res.json();
 

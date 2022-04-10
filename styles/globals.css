@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --bg-shapes: url("http://localhost:3000/images/bgShapesLight.svg");
+  --bg-shapes: url("https://rocket-wizard-testing.vercel.app/images/bgShapesLight.svg");
   --background: white;
   --text-primary: black;
   --text-secondary: #731bde;
@@ -15,7 +15,7 @@
   --shield: #e1e1e1;
 }
 [data-theme="dark"] {
-  --bg-shapes: url("http://localhost:3000/images/bgShapesDark.svg");
+  --bg-shapes: url("https://rocket-wizard-testing.vercel.app/images/bgShapesDark.svg");
   --background: #231f20;
   --text-primary: white;
   --text-secondary: #a089ba;

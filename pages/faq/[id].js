@@ -51,7 +51,9 @@ function FaqArticle({ dataArray }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`http://localhost:3000/faqData.json`);
+  const res = await fetch(
+    `https://rocket-wizard-testing.vercel.app/faqData.json`
+  );
 
   const dataArray = await res.json();
 
