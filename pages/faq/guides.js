@@ -13,26 +13,26 @@ function FaqGuides() {
   const [guides] = useState([
     {
       name: "okex",
-      mobileLink: "okx-mobile",
-      pcLink: "okx-pc",
+      mobileLink: "okx-mobile-NOTFOUND",
+      pcLink: "okx-pc-NOTFOUND",
       comingSoon: false,
     },
     {
       name: "binance",
-      mobileLink: "binance",
-      pcLink: "binance",
+      mobileLink: "binance-NOTFOUND",
+      pcLink: "binance-NOTFOUND",
       comingSoon: false,
     },
     {
       name: "kucoin",
-      mobileLink: "kucoin-mobile",
-      pcLink: "kucoin-pc",
+      mobileLink: "kucoin-mobile-NOTFOUND",
+      pcLink: "kucoin-pc-NOTFOUND",
       comingSoon: true,
     },
     {
       name: "huobi",
-      mobileLink: "huobi-mobile",
-      pcLink: "huobi-pc",
+      mobileLink: "huobi-mobile-NOTFOUND",
+      pcLink: "huobi-pc-NOTFOUND",
       comingSoon: true,
     },
   ]);
@@ -57,7 +57,7 @@ function FaqGuides() {
               className={`${styles.article} ${
                 guide.comingSoon ? styles.comingSoon : undefined
               }`}
-              href={`https://rocket-wizard-testing.vercel.app/${
+              href={`https://www.rocketwizard.io/${
                 isMobile ? guide.mobileLink : guide.pcLink
               }.pdf`}
               target="_blank"

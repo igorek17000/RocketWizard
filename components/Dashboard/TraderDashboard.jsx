@@ -69,7 +69,7 @@ function TraderDashboard({ traderID }) {
 
   const getData = async () => {
     const res = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/get-trader?id=${traderID}`
+      `https://www.rocketwizard.io/api/get-trader?id=${traderID}`
     );
 
     const trader = await res.json();

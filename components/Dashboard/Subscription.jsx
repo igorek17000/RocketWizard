@@ -3,6 +3,10 @@ import styles from "../../styles/Subscription.module.scss";
 
 import Alert from "../Alert";
 
+const capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 function Subscription({ traders, subscription, openRenew, openUpgrade }) {
   const [subs] = useState([
     { name: "Basic", color: "#39E694" },
@@ -39,7 +43,8 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
 
     if (parseInt(id) !== 0) {
       price =
-        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+        priceMultipliers[id] *
+        centRound(trader.basePrice * priceMultipliers[id - 1]);
     }
 
     const planPriceTemp = Math.max(centRound(price), 0).toLocaleString("en-US");
@@ -62,6 +67,12 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
   };
 
   const updatePercentage = async () => {
+    if (percentageRef.current.value > 7) {
+      setSuccess(null);
+      setError("Percentage cannot be over 7%");
+      return;
+    }
+
     const res = await fetch("/api/wallet-percentage", {
       method: "POST",
       body: JSON.stringify({
@@ -123,7 +134,10 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
       <section className={styles.content}>
         <section className={styles.left}>
           <div className={styles.info}>
-            <h4>{subs[subscription.plan.id].name}</h4>
+            <h4>
+              {capitalize(subscription.traderId)}{" "}
+              {subs[subscription.plan.id].name}
+            </h4>
             <p>
               {remainingDays} day{remainingDays > 1 && "s"} remaining
             </p>
@@ -132,11 +146,11 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
             <div className={styles.percentage}>
               <label>Wallet %</label>
               <div className={styles.inputButton}>
-                <input type="number" ref={percentageRef} />
+                <input type="number" ref={percentageRef} max={7} />
 
                 <button
                   style={{
-                    backgroundColor: "#e96d69",
+                    backgroundColor: subs[subscription.plan.id].color,
                   }}
                   onClick={updatePercentage}
                 >
@@ -145,8 +159,30 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
               </div>
             </div>
           )}
-
-          {subscription.disabled && subscription.plan.id !== subs.length - 1 ? (
+          {subscription.disabled ? (
+            <>
+              {subscription.plan.id !== subs.length - 1 ? (
+                <button
+                  style={{
+                    backgroundColor: "#e96d69",
+                  }}
+                  onClick={() => openUpgrade(subscription)}
+                >
+                  Upgrade
+                </button>
+              ) : null}
+            </>
+          ) : (
+            <button
+              style={{
+                backgroundColor: subs[subscription.plan.id].color,
+              }}
+              onClick={() => openRenew(subscription)}
+            >
+              Renew subscription
+            </button>
+          )}
+          {/*subscription.disabled && subscription.plan.id !== subs.length - 1 ? (
             <button
               style={{
                 backgroundColor: "#e96d69",
@@ -164,7 +200,7 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
             >
               Renew subscription
             </button>
-          )}
+            )*/}
         </section>
         <section className={styles.right}>
           <h3>

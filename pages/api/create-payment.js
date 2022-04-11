@@ -24,7 +24,8 @@ const getPrice = async (
   let price = basePrice;
 
   if (parseInt(id) !== 0) {
-    price = priceMultipliers[id] * (basePrice * priceMultipliers[id - 1]);
+    price =
+      priceMultipliers[id] * centRound(basePrice * priceMultipliers[id - 1]);
   }
 
   let quan = quantity;
@@ -33,9 +34,10 @@ const getPrice = async (
     quan--;
   }
 
-  const planPriceTemp = Math.max(centRound(price * quan), 0).toLocaleString(
-    "en-US"
-  );
+  const planPriceTemp = Math.max(
+    centRound(centRound(price) * quan),
+    0
+  ).toLocaleString("en-US");
 
   const fullPriceTemp =
     Math.floor(
@@ -106,10 +108,9 @@ export default async function handler(req, res) {
       pay_currency: currency,
       order_description: description,
       order_id: orderId,
-      success_url:
-        "https://rocket-wizard-testing.vercel.app/?orderSuccess=true",
-      cancel_url: "https://rocket-wizard-testing.vercel.app/checkout/fail",
-      ipn_callback_url: "https://rocket-wizard-testing.vercel.app/api/payment",
+      success_url: "https://www.rocketwizard.io/?orderSuccess=true",
+      cancel_url: "https://www.rocketwizard.io/checkout/fail",
+      ipn_callback_url: "https://www.rocketwizard.io/api/payment",
     };
 
     const invoice = await npApi.createInvoice(config);

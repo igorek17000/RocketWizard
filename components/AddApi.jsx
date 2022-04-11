@@ -312,15 +312,17 @@ function AddApi({
                       {" ("}
                       <a
                         className={styles.guide}
-                        href={`https://rocket-wizard-testing.vercel.app/${
+                        href={`https://www.rocketwizard.io/${
                           isMobile
                             ? `${
                                 exchange.value === "okex"
-                                  ? "okx-mobile"
-                                  : "binance"
+                                  ? "okx-mobile-NOTFOUND"
+                                  : "binance-NOTFOUND"
                               }.pdf`
                             : `${
-                                exchange.value === "okex" ? "okx-pc" : "binance"
+                                exchange.value === "okex"
+                                  ? "okx-pc-NOTFOUND"
+                                  : "binance-NOTFOUND"
                               }.pdf`
                         }`}
                         target="_blank"

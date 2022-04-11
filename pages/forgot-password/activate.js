@@ -58,7 +58,7 @@ export async function getServerSideProps({ query }) {
   const { id, email } = query;
 
   const res = await fetch(
-    `https://rocket-wizard-testing.vercel.app/api/auth/activate-password?e=${email}&c=${id}`
+    `https://www.rocketwizard.io/api/auth/activate-password?e=${email}&c=${id}`
   );
 
   return { props: { success: res.status === 200, email, id } };

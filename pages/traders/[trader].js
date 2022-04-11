@@ -19,9 +19,7 @@ function Trader({ traders }) {
   const userIsTrader = async () => {
     if (!session) return;
 
-    const isTraderRes = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/isTrader`
-    );
+    const isTraderRes = await fetch(`https://www.rocketwizard.io/api/isTrader`);
 
     const traderIDjson = await isTraderRes.json();
 
@@ -244,9 +242,7 @@ function Trader({ traders }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(
-    `https://rocket-wizard-testing.vercel.app/api/traders`
-  );
+  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
 
   const traders = await res.json();
 

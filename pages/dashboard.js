@@ -95,11 +95,11 @@ function Dashboard({ traders, disclaimer }) {
     setApi(value);
 
     const res = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/balance?email=${session.user.email}&apiName=${value.value}`
+      `https://www.rocketwizard.io/api/balance?email=${session.user.email}&apiName=${value.value}`
     );
 
     const takenRes = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/is-taken?email=${session.user.email}&apiName=${value.value}`
+      `https://www.rocketwizard.io/api/is-taken?email=${session.user.email}&apiName=${value.value}`
     );
 
     const balancejson = await res.json();
@@ -113,20 +113,14 @@ function Dashboard({ traders, disclaimer }) {
   const getInfo = async () => {
     if (!session) return;
 
-    const res = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/subscribe`
-    );
+    const res = await fetch(`https://www.rocketwizard.io/api/subscribe`);
 
-    const dealsRes = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/deals`
-    );
+    const dealsRes = await fetch(`https://www.rocketwizard.io/api/deals`);
 
-    const isTraderRes = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/isTrader`
-    );
+    const isTraderRes = await fetch(`https://www.rocketwizard.io/api/isTrader`);
 
     const codeRes = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/is-code-owner`
+      `https://www.rocketwizard.io/api/is-code-owner`
     );
 
     const subsJson = await res.json();
@@ -145,9 +139,7 @@ function Dashboard({ traders, disclaimer }) {
 
   const getAPIs = async () => {
     if (session) {
-      const res = await fetch(
-        `https://rocket-wizard-testing.vercel.app/api/apiKeys`
-      );
+      const res = await fetch(`https://www.rocketwizard.io/api/apiKeys`);
 
       const keys = await res.json();
 
@@ -354,14 +346,12 @@ function Dashboard({ traders, disclaimer }) {
 export async function getServerSideProps({ req }) {
   const session = await getSession({ req });
 
-  const resTraders = await fetch(
-    `https://rocket-wizard-testing.vercel.app/api/traders`
-  );
+  const resTraders = await fetch(`https://www.rocketwizard.io/api/traders`);
 
   const traders = await resTraders.json();
 
   const resDisclaimer = await fetch(
-    `https://rocket-wizard-testing.vercel.app/api/dashboardDisclaimer`
+    `https://www.rocketwizard.io/api/dashboardDisclaimer`
   );
 
   const disclaimer = await resDisclaimer.json();

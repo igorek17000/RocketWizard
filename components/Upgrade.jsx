@@ -191,7 +191,8 @@ function Upgrade({
 
     if (parseInt(id) !== 0) {
       price =
-        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+        priceMultipliers[id] *
+        centRound(trader.basePrice * priceMultipliers[id - 1]);
     }
 
     if (parseInt(id - 1) !== 0) {

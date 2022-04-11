@@ -180,11 +180,12 @@ function Renew({
 
     if (parseInt(id) !== 0) {
       price =
-        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+        priceMultipliers[id] *
+        centRound(trader.basePrice * priceMultipliers[id - 1]);
     }
 
     const planPriceTemp = Math.max(
-      centRound(price * quantity),
+      centRound(centRound(price) * quantity),
       0
     ).toLocaleString("en-US");
 

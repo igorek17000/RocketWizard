@@ -21,7 +21,8 @@ function SubscribePlan({ id, trader }) {
 
     if (id !== 0) {
       price =
-        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+        priceMultipliers[id] *
+        centRound(trader.basePrice * priceMultipliers[id - 1]);
     }
 
     return centRound(price).toLocaleString("en-US");

@@ -204,9 +204,7 @@ function Checkout({ traders }) {
 
   const getMonthDeals = async () => {
     if (!session) return;
-    const dealsRes = await fetch(
-      `https://rocket-wizard-testing.vercel.app/api/month-deals`
-    );
+    const dealsRes = await fetch(`https://www.rocketwizard.io/api/month-deals`);
 
     const monthsJson = await dealsRes.json();
 
@@ -250,7 +248,8 @@ function Checkout({ traders }) {
 
     if (parseInt(id) !== 0) {
       price =
-        priceMultipliers[id] * (trader.basePrice * priceMultipliers[id - 1]);
+        priceMultipliers[id] *
+        centRound(trader.basePrice * priceMultipliers[id - 1]);
     }
 
     let quan = quantity;
@@ -259,9 +258,10 @@ function Checkout({ traders }) {
       quan--;
     }
 
-    const planPriceTemp = Math.max(centRound(price * quan), 0).toLocaleString(
-      "en-US"
-    );
+    const planPriceTemp = Math.max(
+      centRound(centRound(price) * quan),
+      0
+    ).toLocaleString("en-US");
 
     setPlanPrice(centRound(planPriceTemp));
 
@@ -701,9 +701,7 @@ function Checkout({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(
-    `https://rocket-wizard-testing.vercel.app/api/traders`
-  );
+  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
 
   const traders = await res.json();
 

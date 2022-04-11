@@ -5,12 +5,24 @@ import requestIp from "request-ip";
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
+  const ALLOWED_IPS = [
+    "16.163.178.120",
+    "18.163.135.46",
+    "18.166.146.189",
+    "18.166.23.163",
+    "18.167.198.127",
+  ];
+
   if (req.method === "GET") {
     const sentHash = req.headers["x-rocketwizard-sig"];
 
     const detectedIp = requestIp.getClientIp(req);
 
     console.log("CLIENT IP: ", detectedIp);
+
+    if (!ALLOWED_IPS.includes(detectedIp.toString())) {
+      return res.status(500).json({ msg: "Invalid IP" });
+    }
 
     if (!sentHash) {
       return res.status(500).json({ msg: "Undefined signature header" });
