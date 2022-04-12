@@ -35,13 +35,7 @@ function Traders({ traders }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className={styles.traderCards}>
-        <div className={styles.disclaimer}>
-          <Alert
-            text="Cross exchange functionality will be ready soon."
-            error={true}
-            center={true}
-          />
-        </div>
+        <div className={styles.disclaimer}></div>
 
         {traders.map((trader, i) => (
           <TraderCard
