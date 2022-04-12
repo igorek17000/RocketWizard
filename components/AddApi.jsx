@@ -123,7 +123,7 @@ function AddApi({
         { value: "binance", label: "Binance" },
         { value: "okex", label: "Okx" },
         // { value: "huobi", label: "Huobi" },
-        { value: "kucoin", label: "Kucoin" },
+        // { value: "kucoin", label: "Kucoin" },
       ]);
     }
   }, [forceExchange, forceSecondExchange]);
