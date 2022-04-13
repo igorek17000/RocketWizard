@@ -316,13 +316,13 @@ function AddApi({
                           isMobile
                             ? `${
                                 exchange.value === "okex"
-                                  ? "okx-mobile-NOTFOUND"
-                                  : "binance-NOTFOUND"
+                                  ? "OKX_GUIDE"
+                                  : "BINANCE_GUIDE"
                               }.pdf`
                             : `${
                                 exchange.value === "okex"
-                                  ? "okx-pc-NOTFOUND"
-                                  : "binance-NOTFOUND"
+                                  ? "OKX_GUIDE"
+                                  : "BINANCE_GUIDE"
                               }.pdf`
                         }`}
                         target="_blank"

@@ -13,26 +13,26 @@ function FaqGuides() {
   const [guides] = useState([
     {
       name: "okex",
-      mobileLink: "okx-mobile-NOTFOUND",
-      pcLink: "okx-pc-NOTFOUND",
+      mobileLink: "OKX_GUIDE",
+      pcLink: "OKX_GUIDE",
       comingSoon: false,
     },
     {
       name: "binance",
-      mobileLink: "binance-NOTFOUND",
-      pcLink: "binance-NOTFOUND",
+      mobileLink: "BINANCE_GUIDE",
+      pcLink: "BINANCE_GUIDE",
       comingSoon: false,
     },
     {
       name: "kucoin",
-      mobileLink: "kucoin-mobile-NOTFOUND",
-      pcLink: "kucoin-pc-NOTFOUND",
+      mobileLink: "kucoin-mobile",
+      pcLink: "kucoin-pc",
       comingSoon: true,
     },
     {
       name: "huobi",
-      mobileLink: "huobi-mobile-NOTFOUND",
-      pcLink: "huobi-pc-NOTFOUND",
+      mobileLink: "huobi-mobile",
+      pcLink: "huobi-pc",
       comingSoon: true,
     },
   ]);
