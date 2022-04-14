@@ -131,7 +131,7 @@ export default async function handler(req, res) {
         endDate = new Date(subs[subs.indexOf(found)].plan.end);
 
         if (!found.disabled) {
-          endDate.setMonth(endDate.getMonth() + 1);
+          endDate.setMonth(endDate.getMonth() + parseInt(quantity));
         } else {
           subs[subs.indexOf(found)].disabled = false;
         }

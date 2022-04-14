@@ -161,7 +161,7 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
           )}
           {subscription.disabled ? (
             <>
-              {subscription.plan.id !== subs.length - 1 ? (
+              {subscription.plan.id !== subs.length - 1 && 1 === 2 ? (
                 <button
                   style={{
                     backgroundColor: "#e96d69",
@@ -182,25 +182,6 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
               Renew subscription
             </button>
           )}
-          {/*subscription.disabled && subscription.plan.id !== subs.length - 1 ? (
-            <button
-              style={{
-                backgroundColor: "#e96d69",
-              }}
-              onClick={() => openUpgrade(subscription)}
-            >
-              Upgrade
-            </button>
-          ) : (
-            <button
-              style={{
-                backgroundColor: subs[subscription.plan.id].color,
-              }}
-              onClick={() => openRenew(subscription)}
-            >
-              Renew subscription
-            </button>
-            )*/}
         </section>
         <section className={styles.right}>
           <h3>

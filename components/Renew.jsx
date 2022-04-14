@@ -113,21 +113,61 @@ const cryptoOptions = [
   },
 ];
 
+let originalMonthOptions = [
+  {
+    value: 1,
+    label: "1 month",
+    addOne: false,
+  },
+  {
+    value: 2,
+    label: "2 months",
+    addOne: false,
+  },
+  {
+    value: 3,
+    label: "3 months",
+    addOne: false,
+  },
+];
+
 function Renew({
   traders,
   open,
   handleClose,
   id = 0,
-  quantity = 1,
+  quan = 1,
   traderId,
   apiName,
 }) {
   const [readTerms, setReadTerms] = useState(false);
 
+  const [monthOptions, setMonthOptions] = useState(originalMonthOptions);
+
   const [crypto, setCrypto] = useState(null);
+  const [month, setMonth] = useState({
+    value: 1,
+    label: "1 month",
+  });
 
   const [discountCode, setDiscountCode] = useState(null);
   const [discount, setDiscount] = useState(0);
+  const [quantity, setQuantity] = useState(quan);
+
+  const changeMonths = (value) => {
+    setMonth(value);
+
+    setQuantity(value.value);
+  };
+
+  const getMonthDeals = async () => {
+    if (!session) return;
+    const dealsRes = await fetch(`https://www.rocketwizard.io/api/month-deals`);
+
+    const monthsJson = await dealsRes.json();
+
+    setMonthOptions(monthsJson);
+  };
 
   const codeRef = useRef(null);
 
@@ -184,8 +224,14 @@ function Renew({
         centRound(trader.basePrice * priceMultipliers[id - 1]);
     }
 
+    let quanTemp = quantity;
+
+    if (month.addOne) {
+      quanTemp--;
+    }
+
     const planPriceTemp = Math.max(
-      centRound(centRound(price) * quantity),
+      centRound(centRound(price) * quanTemp),
       0
     ).toLocaleString("en-US");
 
@@ -202,9 +248,11 @@ function Renew({
   const [codeSuccess, setCodeSuccess] = useState(null);
 
   const getOrderID = async () => {
-    return `${traderId} ${plan.name} ${1} ${session.user.email} ${apiName} ${
-      discountCode ? discountCode : "false"
-    } ${"0"}`;
+    return `${traderId} ${plan.name} ${quantity} ${
+      session.user.email
+    } ${apiName} ${discountCode ? discountCode : "false"} ${
+      month.id ? month.id : "0"
+    }`;
   };
 
   const checkValues = async () => {
@@ -230,6 +278,8 @@ function Renew({
         currency: crypto.value,
         description: `${plan.name} x ${quantity}`,
         orderId,
+        quantity,
+        addOne: month.addOne,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -294,6 +344,10 @@ function Renew({
     getPrice();
   }, []);
 
+  useEffect(() => {
+    getMonthDeals();
+  }, [router]);
+
   return (
     <Modal
       aria-labelledby="unstyled-modal-title"
@@ -342,6 +396,17 @@ function Renew({
                 {codeSuccess && (
                   <Alert text={codeSuccess} bgColor="#9dffaab9" />
                 )}
+                <div className={styles.months}>
+                  <label>Months</label>
+                  <Select
+                    className={styles.select}
+                    styles={customStylesCrypto}
+                    options={monthOptions}
+                    value={month}
+                    onChange={changeMonths}
+                    isSearchable={false}
+                  />
+                </div>
               </div>
             </section>
 

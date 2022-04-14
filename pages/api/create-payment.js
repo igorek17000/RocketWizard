@@ -95,10 +95,10 @@ export default async function handler(req, res) {
     }
 
     const fullPrice = await getPrice(
-      basePrice,
-      tier,
+      parseFloat(basePrice),
+      parseInt(tier),
       discount,
-      quantity,
+      parseInt(quantity),
       addOne
     );
 

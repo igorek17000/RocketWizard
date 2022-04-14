@@ -44,11 +44,26 @@
         margin-bottom: 1rem;
       }
 
-      .codeAndError {
+      .codeAndError,
+      .months {
         display: flex;
         align-items: flex-start;
         width: 60%;
         flex-direction: column;
+
+        .select {
+          padding: 0;
+          width: 8rem;
+          border: 1px solid;
+          border-color: var(--border);
+          background-color: white;
+          font-size: 1rem;
+          border-radius: 0.3rem;
+          margin-top: 0.3rem;
+          background: #f0f0f0;
+          color: black;
+          border-radius: 5px;
+        }
 
         label {
           font-size: 0.95rem;
@@ -99,6 +114,16 @@
           .remove {
             background-color: #e96d69;
           }
+        }
+      }
+
+      .months {
+        margin-top: 1rem;
+        width: 50%;
+
+        .select {
+          width: 100%;
+          margin-top: 0.2rem;
         }
       }
     }
@@ -247,6 +272,23 @@
 @media only screen and (max-width: 820px) {
   .card {
     width: 95%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .card {
+    .body {
+      .additional {
+        .months {
+          width: 100%;
+
+          .select {
+            width: 100%;
+            margin-top: 0.2rem;
+          }
+        }
+      }
+    }
   }
 }
 
