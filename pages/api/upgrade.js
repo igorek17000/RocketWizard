@@ -97,9 +97,7 @@ export default async function handler(req, res) {
 
       const foundSub = await subbers.find((sub) => sub.email === email);
 
-      const newSubber = foundSub;
-
-      newSubber.tier = found.plan.id + 1;
+      subbers[subbers.indexOf(foundSub)] = found.plan.id + 1;
 
       await db
         .collection("traders")

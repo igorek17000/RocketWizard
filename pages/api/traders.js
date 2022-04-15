@@ -25,6 +25,7 @@ export default async function handler(req, res) {
         yearlyRoi: trader.yearlyRoi,
         comingSoon: trader.comingSoon || false,
         subscriberCount: trader.subscribers ? trader.subscribers.length : 0,
+        full: trader.full || false,
       };
 
       return newTrader;

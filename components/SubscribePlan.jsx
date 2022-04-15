@@ -65,7 +65,10 @@ function SubscribePlan({ id, trader }) {
     <main
       className={styles.subscribePlan}
       style={{
-        opacity: comingSoon[trader.exchange].includes(plan.name) ? 0.6 : 1,
+        opacity:
+          comingSoon[trader.exchange].includes(plan.name) || trader.full
+            ? 0.6
+            : 1,
       }}
     >
       {/* Top section */}
@@ -112,7 +115,7 @@ function SubscribePlan({ id, trader }) {
 
       <section className={styles.bottom}>
         <p>24/7 Live Support Chat</p>
-        {comingSoon[trader.exchange].includes(plan.name) ? (
+        {comingSoon[trader.exchange].includes(plan.name) || trader.full ? (
           <h3 className={styles.comingSoon}>COMING SOON</h3>
         ) : (
           <Link

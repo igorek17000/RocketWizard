@@ -188,6 +188,8 @@ export default async function handler(req, res) {
       );
 
       if (subscribed) {
+        subscriber.startDate = subscribed.startDate;
+        subscriber.percentage = subscribed.percentage;
         subscribers[subscribers.indexOf(subscribed)] = subscriber;
       } else {
         subscribers.push(subscriber);

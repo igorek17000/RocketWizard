@@ -131,13 +131,15 @@ function TraderCard({ trader, isTrader }) {
             fillColor="#731BDE"
           />
         </div>
-        {isTrader || trader.comingSoon ? (
+        {isTrader || trader.comingSoon || trader.full ? (
           isTrader ? (
             <Link href={`/traders/${trader.id}`}>
               <button className={styles.editBtn}>Edit profile details</button>
             </Link>
           ) : (
-            <button className={styles.editBtn}>COMING SOON</button>
+            <button className={styles.editBtn}>
+              {trader.full ? "FULL" : "COMING SOON"}
+            </button>
           )
         ) : (
           <div className={styles.buttons}>
