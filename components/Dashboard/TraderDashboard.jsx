@@ -28,8 +28,6 @@ function TraderDashboard({ traderID }) {
 
   const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
-  const [earnMultiplier, setEarnMultiplier] = useState(1);
-
   const getDiff = (dateParam) => {
     const now = new Date();
     const date = new Date(dateParam);
@@ -47,24 +45,22 @@ function TraderDashboard({ traderID }) {
     return price;
   };
 
-  const updateEarnMultiplier = (subs, traderId) => {
+  const calcEarnMultiplier = (subs, traderId) => {
     if (traderId === "raz") {
-      if (subs < 60) setEarnMultiplier(0.5);
-      if (subs < 100) setEarnMultiplier(0.55);
-      else if (subs < 150) setEarnMultiplier(0.6);
-      else if (subs < 250) setEarnMultiplier(0.65);
-      else setEarnMultiplier(0.75);
+      if (subs < 60) return 0.5;
+      if (subs < 100) return 0.55;
+      else if (subs < 150) return 0.6;
+      else if (subs < 250) return 0.65;
+      else return 0.75;
     } else {
-      if (subs < 60) setEarnMultiplier(0.5);
-      else if (subs < 110) setEarnMultiplier(0.55);
-      else if (subs < 130) setEarnMultiplier(0.57);
-      else if (subs < 150) setEarnMultiplier(0.6);
-      else if (subs < 180) setEarnMultiplier(0.63);
-      else if (subs < 220) setEarnMultiplier(0.66);
-      else setEarnMultiplier(0.7);
+      if (subs < 60) return 0.5;
+      else if (subs < 110) return 0.55;
+      else if (subs < 130) return 0.57;
+      else if (subs < 150) return 0.6;
+      else if (subs < 180) return 0.63;
+      else if (subs < 220) return 0.66;
+      else return 0.7;
     }
-
-    return;
   };
 
   const getData = async () => {
@@ -85,9 +81,11 @@ function TraderDashboard({ traderID }) {
     };
 
     let sum = 0;
+    let paidSum = 0;
     let unpaidSum = 0;
 
     let unpaidSubs = 0;
+    let paidSubs = 0;
 
     let all = subscribers ? subscribers.length : 0;
 
@@ -110,22 +108,37 @@ function TraderDashboard({ traderID }) {
       }
     }
 
-    updateEarnMultiplier(subscribers.length, trader.id);
-
     for (const [i, tier] of trader.allTimeSubs.entries()) {
       if (i > trader.paidFor - 1) {
         unpaidSum += getPrice(trader.basePrice, tier);
         unpaidSubs++;
+      } else {
+        paidSum += getPrice(trader.basePrice, tier);
+        paidSubs++;
       }
 
       sum += getPrice(trader.basePrice, tier);
     }
 
-    setUnpaidSubscribers(unpaidSubs);
-    setPaidSubscribers(all - unpaidSubs);
+    let allEarnMulti = calcEarnMultiplier(subscribers.length, trader.id);
+    let paidEarnMulti = calcEarnMultiplier(paidSubs, trader.id);
 
-    setAllEarnings(Math.round(sum * 100) / 100);
-    setUnpaid(Math.round(unpaidSum * 100) / 100);
+    unpaidSum = Math.round((sum - paidSum) * allEarnMulti * 100) / 100;
+
+    paidSum = Math.round(paidSum * paidEarnMulti * 100) / 100;
+
+    console.log(paidSum);
+
+    sum = Math.round((unpaidSum + paidSum) * 100) / 100;
+
+    console.log("ALL EARN: ", allEarnMulti);
+    console.log("PAID EARN: ", paidEarnMulti);
+
+    setUnpaidSubscribers(unpaidSubs);
+    setPaidSubscribers(paidSubs);
+
+    setAllEarnings(sum);
+    setUnpaid(unpaidSum);
 
     setData(tempData);
   };
@@ -159,15 +172,11 @@ function TraderDashboard({ traderID }) {
         <div className={styles.cards}>
           <div className={styles.card}>
             <p>Unpaid</p>
-            <h2 className={styles.price}>
-              {Math.round(unpaid * earnMultiplier * 100) / 100}$
-            </h2>
+            <h2 className={styles.price}>{unpaid}$</h2>
           </div>
           <div className={styles.card}>
             <p>Total earnings</p>
-            <h2 className={styles.price}>
-              {Math.round(allEarnings * earnMultiplier * 100) / 100}$
-            </h2>
+            <h2 className={styles.price}>{allEarnings}$</h2>
           </div>
         </div>
         <div className={styles.cards}>
