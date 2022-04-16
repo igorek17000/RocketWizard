@@ -52,10 +52,7 @@ function ActivatedApi({ sub, apiKeys, changed }) {
   const apiOptions = apiKeys
     ? apiKeys
         .filter(
-          (key) =>
-            (key.exchange === sub.exchange ||
-              key.exchange === sub.secondExchange) &&
-            (!key.taken || (sub.api ? sub.api.name === key.name : false))
+          (key) => !key.taken || (sub.api ? sub.api.name === key.name : false)
         )
         .map((key) => {
           return { value: key.name, label: key.name };

@@ -106,6 +106,8 @@ function Dashboard({ traders, disclaimer }) {
 
     const takenjson = await takenRes.json();
 
+    console.log(takenjson);
+
     setBalance(balancejson);
     setTaken(takenjson.taken);
   };
