@@ -105,7 +105,7 @@ function ActivatedApi({ sub, apiKeys, changed }) {
     <div
       className={styles.api}
       style={
-        !apiValue.value
+        !apiValue || !apiValue.value
           ? {
               border: "2px solid #e96d69",
               boxShadow: "0 0 3px #e96d6952",
