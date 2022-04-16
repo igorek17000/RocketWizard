@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         .json({ msg: "You are not authorized to do this action." });
     }
 
-    if (!password === process.env.ownerPassword) {
+    if (!(password === process.env.ownerPassword)) {
       return res.status(403).json({ msg: "Invalid password." });
     }
 

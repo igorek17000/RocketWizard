@@ -1,0 +1,66 @@
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem auto;
+  width: fit-content;
+  place-content: space-between;
+
+  p {
+    margin: 0 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .toggleSwitch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    margin-left: 1rem;
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    .switch {
+      position: absolute;
+      cursor: pointer;
+      background-color: #bdbdbd;
+      border-radius: 25px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transition: background-color 0.2s ease;
+
+      &::before {
+        position: absolute;
+        content: "";
+        left: 5px;
+        top: 50%;
+        width: 21px;
+        height: 21px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+        transform: translateY(-50%);
+      }
+    }
+
+    input[type="checkbox"]:checked + .switch::before {
+      transform: translate(30px, -50%);
+    }
+
+    input[type="checkbox"]:checked + .switch {
+      background-color: #4d099b;
+    }
+
+    input[type="checkbox"]:checked + .switch::after {
+      background: url("../public/images/navbar/stars.svg");
+      background-size: cover;
+      left: 20%;
+      width: 15px;
+      height: 19.5px;
+    }
+  }
+}

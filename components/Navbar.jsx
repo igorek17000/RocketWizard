@@ -139,6 +139,11 @@ function Navbar() {
       link: "/refund",
       ownerLink: true,
     },
+    {
+      name: "Owner Dashboard",
+      link: "/owner-dashboard",
+      ownerLink: true,
+    },
   ]);
 
   const mobileMenuVariants = {

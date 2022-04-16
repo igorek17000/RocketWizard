@@ -71,7 +71,7 @@ export default async function handler(req, res) {
 
     subs[subs.indexOf(found)] = newSub;
 
-    await sendMail(email, traderId, traderId === "david" ? 280 : 400);
+    await sendMail(email, traderId, traderId === "david" ? 280 : 300);
 
     await db
       .collection("users")

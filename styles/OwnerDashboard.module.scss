@@ -1,0 +1,262 @@
+.dashboard {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 5rem;
+
+  .loadingCard {
+    height: calc(100vh - 10rem) !important;
+    justify-content: center;
+  }
+
+  .ownerDashboard {
+    margin-top: 3rem;
+    background-color: var(--card-bg);
+    border: 1px solid;
+    border-color: var(--border);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    width: 65%;
+    height: fit-content;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    color: black;
+    flex-direction: column;
+    padding: 2rem 5rem;
+
+    .top {
+      width: 100%;
+      display: flex;
+      align-items: center;
+
+      h1 {
+        margin-right: auto;
+        font-size: 2rem;
+      }
+    }
+
+    .body {
+      margin-top: 3rem;
+      width: 90%;
+
+      .discount,
+      .payout,
+      .pass {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: center;
+
+        h3 {
+          text-align: center;
+        }
+
+        .inputs,
+        .traders {
+          width: 100%;
+          margin: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 0.5rem;
+          flex-wrap: wrap;
+          gap: 1rem;
+
+          input {
+            width: 20rem;
+            background: #f0f0f0;
+            color: black;
+            padding: 0.4rem 1rem;
+            border-radius: 0.4rem;
+            font-size: 1rem;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            outline: none;
+            transition: 0.25s ease-in-out;
+
+            &:focus {
+              border: 1px solid black;
+            }
+          }
+
+          button {
+            width: 20rem;
+            background-color: #731bde;
+            box-shadow: 10px 12px 24px hsla(341, 100%, 54%, 0.15);
+            border-radius: 0.3rem;
+            padding: 0.4rem 3rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.25s ease-in-out;
+
+            &:hover {
+              background-color: darken(#731bde, 10%);
+            }
+          }
+        }
+      }
+
+      .pass {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        input {
+          margin: 0.5rem auto;
+          width: 20rem;
+          background: #f0f0f0;
+          color: black;
+          padding: 0.4rem 1rem;
+          border-radius: 0.4rem;
+          font-size: 1rem;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          outline: none;
+          transition: 0.25s ease-in-out;
+
+          &:focus {
+            border: 1px solid black;
+          }
+        }
+      }
+
+      .payout {
+        margin-top: 4rem;
+
+        .traders {
+          width: 70%;
+          .trader {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            place-content: space-between;
+            border-top: 1px solid rgb(228, 228, 228);
+            padding-top: 0.5rem;
+
+            button {
+              padding: 0.3rem 2rem;
+              width: 10rem;
+            }
+
+            h4 {
+              color: #39c491;
+              text-shadow: 0 0 10px #39c4914b;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1500px) {
+  .dashboard {
+    .ownerDashboard {
+      .body {
+        width: 100%;
+        padding: 1rem;
+
+        .payout {
+          width: 100%;
+
+          .traders {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .dashboard {
+    padding: 1rem;
+    .ownerDashboard {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .dashboard {
+    .ownerDashboard {
+      .body {
+        .payout {
+          .traders {
+            .trader {
+              flex-direction: column;
+
+              p {
+                font-size: 1.1rem;
+              }
+
+              h4 {
+                margin: 0.5rem 0;
+                font-size: 2rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .dashboard {
+    .ownerDashboard {
+      padding: 1rem;
+      .body {
+        .pass {
+          input {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .dashboard {
+    .ownerDashboard {
+      .body {
+        .discount {
+          .inputs {
+            input {
+              width: 15rem;
+              font-size: 0.9rem;
+            }
+
+            button {
+              width: 15rem;
+              font-size: 0.9rem;
+            }
+          }
+        }
+
+        .payout {
+          .traders {
+            .trader {
+              flex-direction: column;
+
+              p {
+                font-size: 0.85rem;
+              }
+
+              h4 {
+                margin: 0.5rem 0;
+                font-size: 1.2rem;
+              }
+
+              button {
+                font-size: 0.9rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

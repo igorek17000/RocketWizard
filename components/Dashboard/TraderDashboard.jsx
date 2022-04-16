@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/TraderDashboard.module.scss";
+import CopytradingSwitch from "../CopytradingSwitch";
 
 import { Oval } from "react-loader-spinner";
 
@@ -159,6 +160,7 @@ function TraderDashboard({ traderID }) {
         <h1>{getGreeting()}</h1>
       </div>
       <div className={styles.body}>
+        <CopytradingSwitch />
         <div className={styles.cards}>
           <div className={styles.card}>
             <p>New subscribers</p>

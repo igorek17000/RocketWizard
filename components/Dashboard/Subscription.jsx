@@ -205,7 +205,7 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
           text={`Your wallet amount is too low for your subscription. Minimum wallet amount for trading with ${
             subscription.traderId
           } is $${
-            subscription.traderId === "david" ? 280 : 400
+            subscription.traderId === "david" ? 280 : 300
           }. Please increase your wallet balance to continue copytrading.`}
           error={true}
         />
