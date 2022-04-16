@@ -58,17 +58,22 @@ export default async function handler(req, res) {
             api,
           };
         } else {
-          console.log("HAS API KEY");
           var apiBytes = CryptoJS.AES.decrypt(
             traderSub.apiKey,
             process.env.cryptKey
           );
           const apiKey = apiBytes.toString(CryptoJS.enc.Utf8);
 
+          console.log("TRADER SUB API KEY: ", apiKey);
+
           let api = await user.apiKeys.find((x) => {
             var bytes = CryptoJS.AES.decrypt(x.api, process.env.cryptKey);
 
             const key = bytes.toString(CryptoJS.enc.Utf8);
+
+            console.log("USER API KEY: ", key);
+
+            console.log("SAME: ", key === apiKey);
 
             return key === apiKey;
           });
