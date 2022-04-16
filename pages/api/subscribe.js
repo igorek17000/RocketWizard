@@ -44,6 +44,8 @@ export default async function handler(req, res) {
         sub.secondExchange = trader.secondExchange || null;
 
         if (!traderSub.apiKey) {
+          console.log("DOESNT HAVE API KEY");
+
           let api = {
             api: null,
             apiPassword: null,
@@ -56,6 +58,7 @@ export default async function handler(req, res) {
             api,
           };
         } else {
+          console.log("HAS API KEY");
           var apiBytes = CryptoJS.AES.decrypt(
             traderSub.apiKey,
             process.env.cryptKey
@@ -77,6 +80,9 @@ export default async function handler(req, res) {
         }
       })
     );
+
+    console.log("HIS SUBS: ", subscriptions);
+
     return res.json(subscriptions || []);
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
