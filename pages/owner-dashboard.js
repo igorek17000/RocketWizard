@@ -202,7 +202,10 @@ function OwnerDashboard() {
               <div className={styles.traders}>
                 {payouts.map((payout, i) => (
                   <div className={styles.trader} key={i}>
-                    <p>{payout.trader}'s payout</p>
+                    <p>
+                      {payout.trader}
+                      {"'s"} payout
+                    </p>
                     <h4>${payout.payout}</h4>
                     <button onClick={() => payoutTrader(payout.trader)}>
                       Payout
