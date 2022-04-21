@@ -205,9 +205,9 @@ function AddApi({
         "Wallet balance is too high for this tier. Please select a higher tier or change your wallet balance."
       );
       return false;
-    } else if (parseFloat(balance.balance) < 300) {
+    } else if (parseFloat(balance.balance) < 0) {
       setError(
-        "Wallet balance is too low. Please add funds to your futures account. Minimum required is $300."
+        "Wallet balance is too low. Please add funds to your futures account. Minimum required is $0."
       );
       return false;
     }
