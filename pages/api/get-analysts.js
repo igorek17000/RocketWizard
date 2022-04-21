@@ -52,8 +52,9 @@ export default async function handler(req, res) {
         api: trader.api,
         copytrading: trader.copytrading,
         exchange: trader.exchange,
-        webhook: "https://blablalberpgwrkopwo.com/",
-        avatarurl: "https://bageorotoewaoew.com/",
+        webhook: trader.webhook,
+        avatarurl: trader.avatarurl,
+        roleid: trader.roleid,
         username: usernames[trader.id],
       });
     }
