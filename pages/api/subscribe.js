@@ -42,6 +42,7 @@ export default async function handler(req, res) {
 
         sub.exchange = trader.exchange;
         sub.secondExchange = trader.secondExchange || null;
+        sub.paused = traderSub.paused || false;
 
         if (!traderSub.apiKey) {
           console.log("DOESNT HAVE API KEY");

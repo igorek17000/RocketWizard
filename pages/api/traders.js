@@ -26,6 +26,7 @@ export default async function handler(req, res) {
         comingSoon: trader.comingSoon || false,
         subscriberCount: trader.subscribers ? trader.subscribers.length : 0,
         full: trader.full || false,
+        unavailable: trader.unavailable || false,
       };
 
       return newTrader;

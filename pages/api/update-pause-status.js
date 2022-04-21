@@ -26,40 +26,23 @@ export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
   if (req.method === "POST") {
-    const {
-      discountCode,
-      discountAmount,
-      discountEmail,
-      commission,
-      password,
-    } = req.body;
+    const { paused, traderId } = req.body;
 
-    const sender = await db.collection("users").findOne({ email });
+    const user = await db.collection("users").findOne({ email });
 
-    if (!sender.isOwner) {
-      return res
-        .status(403)
-        .json({ msg: "You are not authorized to do this action." });
-    }
+    const trader = await db.collection("traders").findOne({ id: traderId });
 
-    if (!(password === process.env.ownerPassword)) {
-      return res.status(403).json({ msg: "Invalid password." });
-    }
+    let subs = trader.subscribers;
 
-    await db.collection("discountCodes").insertOne({
-      code: discountCode.toUpperCase(),
-      discount: discountAmount,
-      commission,
-    });
+    const userSub = await subs.find((x) => x.email === email);
 
-    await db.collection("users").updateOne(
-      {
-        email: discountEmail,
-      },
-      { $set: { discountCode } }
-    );
+    subs[subs.indexOf(userSub)].paused = paused;
 
-    return res.status(200).json({ msg: "Successfuly added." });
+    await db
+      .collection("traders")
+      .updateOne({ id: traderId }, { $set: { subscribers: subs } });
+
+    return res.status(200).json({ success: true });
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
   }

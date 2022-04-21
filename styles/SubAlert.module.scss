@@ -1,0 +1,30 @@
+.alert {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 90%;
+  display: flex;
+  align-items: flex-start;
+  padding: 0.5rem;
+  border: 1px solid;
+  border-bottom: 0px solid;
+  border-radius: 0.5rem 0.5rem 0 0;
+  text-align: left;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  svg {
+    width: 1.8rem;
+    height: 1.8rem;
+    color: #ffffff !important;
+  }
+
+  p {
+    margin-top: 0 !important;
+    margin-left: 0.5rem !important;
+    font-weight: 600;
+    width: fit-content;
+    font-size: 0.8rem;
+    text-align: left;
+  }
+}

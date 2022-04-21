@@ -41,7 +41,8 @@
 
       .discount,
       .payout,
-      .pass {
+      .pass,
+      .data {
         margin-top: 1rem;
         width: 100%;
         justify-content: center;
@@ -142,6 +143,66 @@
             h4 {
               color: #39c491;
               text-shadow: 0 0 10px #39c4914b;
+              position: absolute;
+              left: 50%;
+              transform: translateX(-50%);
+            }
+
+            input {
+              width: 3rem;
+              padding: 0.2rem;
+              position: absolute;
+              left: 50%;
+              transform: translateX(-50%);
+            }
+
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+
+            input[type="number"] {
+              -moz-appearance: textfield;
+            }
+          }
+        }
+      }
+
+      .data {
+        margin-top: 4rem;
+
+        .cards {
+          display: flex;
+          align-items: center;
+          place-content: space-between;
+
+          .card {
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            width: 45%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 0.5rem;
+            border: 1px solid;
+            border-color: var(--border);
+
+            p {
+              font-size: 0.9rem;
+              opacity: 0.7;
+            }
+
+            h2 {
+              margin-top: 0.5rem;
+              color: #731bde;
+              font-size: 2.5rem;
+              text-shadow: 0 0 10px #731bde63;
+            }
+
+            .price {
+              color: #39c491;
+              text-shadow: 0 0 10px #39c4914b;
             }
           }
         }
@@ -169,7 +230,7 @@
   }
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1200px) {
   .dashboard {
     padding: 1rem;
     .ownerDashboard {
@@ -191,10 +252,28 @@
                 font-size: 1.1rem;
               }
 
-              h4 {
+              h4,
+              input {
+                position: relative;
+                left: 0;
+                transform: translateX(-0%);
                 margin: 0.5rem 0;
                 font-size: 2rem;
               }
+
+              input {
+                font-size: 1rem;
+              }
+            }
+          }
+        }
+
+        .data {
+          .cards {
+            flex-direction: column;
+
+            .card {
+              width: 100%;
             }
           }
         }
@@ -252,6 +331,16 @@
 
               button {
                 font-size: 0.9rem;
+              }
+            }
+          }
+        }
+
+        .data {
+          .cards {
+            .card {
+              h2 {
+                font-size: 2rem;
               }
             }
           }

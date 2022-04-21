@@ -38,12 +38,23 @@ export default async function handler(req, res) {
 
     const data = [];
 
+    const usernames = {
+      david: "David",
+      raz: "Minimusk",
+      riddy: "AR",
+      elias: "vRyzz",
+      maximus: "Maximus & Jimm",
+    };
+
     for await (const trader of traders) {
       data.push({
         id: trader.id,
         api: trader.api,
         copytrading: trader.copytrading,
         exchange: trader.exchange,
+        webhook: "https://blablalberpgwrkopwo.com/",
+        avatarurl: "https://bageorotoewaoew.com/",
+        username: usernames[trader.id],
       });
     }
 

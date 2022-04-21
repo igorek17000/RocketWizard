@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { SessionProvider } from "next-auth/react";
 
+import { BsDiscord } from "react-icons/bs";
+
 import UnderMaintenance from "../components/UnderMaintenance";
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
@@ -22,9 +24,22 @@ const ChatWithNoSSR = dynamic(() => import("../components/Chat"), {
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [loading, setLoading] = React.useState(false);
+  const [taken, setTaken] = React.useState(false);
+
+  const checkApiTaken = async () => {
+    const takenRes = await fetch(`http://localhost:3000/api/is-any-taken`);
+
+    const takenjson = await takenRes.json();
+
+    if (takenjson.taken) {
+      setTaken(true);
+    }
+  };
+
   useEffect(() => {
     const start = () => {
       setLoading(true);
+      checkApiTaken();
     };
     const end = () => {
       setLoading(false);
@@ -74,7 +89,21 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               </>
             )}
 
-            <h1 className="beta">BETA</h1>
+            {/*<h1 className="beta">BETA</h1>*/}
+            {taken && (
+              <div className="discord">
+                <BsDiscord fill="#4e388" />
+                <p>
+                  <a
+                    href="https://discord.com/api/oauth2/authorize?client_id=956209550686556170&redirect_uri=https%3A%2F%2Fwww.rocketwizard.io%2F&response_type=code&scope=identify"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Join the Discord
+                  </a>
+                </p>
+              </div>
+            )}
           </Scrollbar>
         )}
       </SessionProvider>

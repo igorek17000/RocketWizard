@@ -25,15 +25,7 @@ export default async function handler(req, res) {
 
   const { db } = await connectToDatabase();
 
-  if (req.method === "POST") {
-    const {
-      discountCode,
-      discountAmount,
-      discountEmail,
-      commission,
-      password,
-    } = req.body;
-
+  if (req.method === "GET") {
     const sender = await db.collection("users").findOne({ email });
 
     if (!sender.isOwner) {
@@ -42,24 +34,9 @@ export default async function handler(req, res) {
         .json({ msg: "You are not authorized to do this action." });
     }
 
-    if (!(password === process.env.ownerPassword)) {
-      return res.status(403).json({ msg: "Invalid password." });
-    }
+    let data = await db.collection("config").findOne({ id: "data" });
 
-    await db.collection("discountCodes").insertOne({
-      code: discountCode.toUpperCase(),
-      discount: discountAmount,
-      commission,
-    });
-
-    await db.collection("users").updateOne(
-      {
-        email: discountEmail,
-      },
-      { $set: { discountCode } }
-    );
-
-    return res.status(200).json({ msg: "Successfuly added." });
+    return res.status(200).json({ sum: data.handled || 0 });
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
   }

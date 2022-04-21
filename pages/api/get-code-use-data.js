@@ -1,3 +1,4 @@
+import { connectToDatabase } from "../../lib/mongodb";
 const { Cpk } = require("cryptocurrency-price-kit");
 const CoinGecko = require("cryptocurrency-price-kit/providers/coingecko.com");
 
@@ -10,6 +11,26 @@ const asyncFilter = async (arr, predicate) => {
   const results = await Promise.all(arr.map(predicate));
 
   return arr.filter((_v, index) => results[index]);
+};
+
+const convertPrice = async (x, curr) => {
+  const currencies = {
+    btc: "BITCOIN",
+    eth: "ETHEREUM",
+    ltc: "LITECOIN",
+    doge: "DOGECOIN",
+    xmr: "MONERO",
+  };
+
+  let amount = x;
+
+  if (curr !== "usdttrc20") {
+    const crypto_price = await coingecko.get(currencies[curr], 60);
+
+    amount *= crypto_price;
+  }
+
+  return amount;
 };
 
 const hasPaid = async (payment) => {
@@ -47,9 +68,18 @@ const getDiff = (dateParam) => {
 
 export default async function handler(req, res) {
   const npApi = new NowPaymentsApi({ apiKey: process.env.NPApi });
+  const { db } = await connectToDatabase();
 
   if (req.method === "POST") {
     const { code } = req.body;
+
+    const discountCode = await db
+      .collection("discountCodes")
+      .findOne({ code: code.toUpperCase() });
+
+    let commission = discountCode.commission || 10;
+
+    commission = commission / 100;
 
     const paymentTemp = await npApi.getListPayments();
 
@@ -94,8 +124,15 @@ export default async function handler(req, res) {
       monthly: new Array(30).fill(0),
     };
 
+    let outcome = 0;
+
     for await (const payment of payments) {
-      all += payment.outcome_amount * 0.1;
+      outcome = await convertPrice(
+        payment.outcome_amount,
+        payment.outcome_currency
+      );
+
+      all += outcome * commission;
       allUses++;
 
       const diff = getDiff(payment.created_at);
@@ -116,7 +153,7 @@ export default async function handler(req, res) {
         const index = 30 - Math.round(diff / 24);
         tempData.monthly[index - 1] = tempData.monthly[index - 1] + 1;
 
-        month += payment.outcome_amount * 0.1;
+        month += outcome * commission;
       }
     }
 

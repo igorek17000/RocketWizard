@@ -11,6 +11,11 @@ import ProgressBar from "./ProgressBar";
 function TraderCard({ trader, isTrader }) {
   const [subscribed, setSubscribed] = useState(false);
 
+  let warningText = "UNAVAILABLE";
+
+  if (trader.full) warningText = "FULL";
+  else if (trader.comingSoon) warningText = "COMING SOON";
+
   const getSubscribers = () => {
     const subscribers = trader.subscriberCount || 0;
 
@@ -131,15 +136,13 @@ function TraderCard({ trader, isTrader }) {
             fillColor="#731BDE"
           />
         </div>
-        {isTrader || trader.comingSoon || trader.full ? (
+        {isTrader || trader.comingSoon || trader.full || trader.unavailable ? (
           isTrader ? (
             <Link href={`/traders/${trader.id}`}>
               <button className={styles.editBtn}>Edit profile details</button>
             </Link>
           ) : (
-            <button className={styles.editBtn}>
-              {trader.full ? "FULL" : "COMING SOON"}
-            </button>
+            <button className={styles.editBtn}>{warningText}</button>
           )
         ) : (
           <div className={styles.buttons}>
@@ -147,7 +150,9 @@ function TraderCard({ trader, isTrader }) {
               <button className={styles.viewMoreBtn}>View more</button>
             </Link>
             {subscribed ? (
-              <button>SUBSCRIBED</button>
+              <button className={styles.editBtn} style={{ marginTop: "0rem" }}>
+                SUBSCRIBED
+              </button>
             ) : (
               <Link href={`/traders/subscribe/${trader.id}`}>
                 <button>SUBSCRIBE</button>

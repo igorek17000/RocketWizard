@@ -53,11 +53,9 @@ const getPayout = async (trader) => {
 
   unpaidSum = Math.round((sum - paidSum) * allEarnMulti * 100) / 100;
 
-  const deduction = (trader.deduction || 0) / 100;
+  const deduction = trader.deduction || 0;
 
-  console.log(unpaidSum, deduction);
-
-  unpaidSum = Math.round(unpaidSum * (1 - deduction) * 100) / 100;
+  unpaidSum = Math.round(unpaidSum - unpaidSum * deduction * 100) / 100;
 
   return unpaidSum;
 };
@@ -85,29 +83,10 @@ export default async function handler(req, res) {
 
   const { db } = await connectToDatabase();
 
-  if (req.method === "GET") {
-    const sender = await db.collection("users").findOne({ email });
+  if (req.method === "POST") {
+    const { name, password, deduction } = req.body;
 
-    if (!sender.isOwner) {
-      return res
-        .status(403)
-        .json({ msg: "You are not authorized to do this action." });
-    }
-
-    const traders = await db.collection("traders").find({}).toArray();
-
-    let data = [];
-    let payout = 0;
-
-    for await (const trader of traders) {
-      payout = await getPayout(trader);
-
-      data.push({ trader: trader.name, payout, deduction: trader.deduction });
-    }
-
-    return res.status(200).json(data);
-  } else if (req.method === "POST") {
-    const { name, password } = req.body;
+    console.log(deduction);
 
     const sender = await db.collection("users").findOne({ email });
 
@@ -121,15 +100,9 @@ export default async function handler(req, res) {
       return res.status(403).json({ msg: "Invalid password." });
     }
 
-    const trader = await db.collection("traders").findOne({ name });
+    await db.collection("traders").updateOne({ name }, { $set: { deduction } });
 
-    const subs = trader.subscribers.length;
-
-    await db
-      .collection("traders")
-      .updateOne({ name }, { $set: { paidFor: subs, deduction: 0 } });
-
-    return res.status(200).json({ msg: "Successful payout!" });
+    return res.status(200).json({ msg: "Successful deduction update!" });
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
   }

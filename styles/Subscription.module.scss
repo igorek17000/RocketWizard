@@ -1,54 +1,143 @@
 .subscription {
   width: 100%;
-  height: 25%;
+  height: 13.5rem;
   border-radius: 0.3rem;
   display: flex;
   align-items: flex-start;
   place-content: space-between;
   flex-direction: column;
-  padding: 1rem;
+  padding: 0.7rem;
   margin-top: 1rem;
+  position: relative;
+  transition: 0.2s ease-in-out;
+
+  .toggleSwitch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    margin-left: 1rem;
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    .switch {
+      position: absolute;
+      cursor: pointer;
+      background-color: #bdbdbd;
+      border-radius: 25px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transition: background-color 0.2s ease;
+
+      &::before {
+        position: absolute;
+        content: "";
+        left: 5px;
+        top: 50%;
+        width: 21px;
+        height: 21px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+        transform: translateY(-50%);
+      }
+    }
+
+    input[type="checkbox"]:checked + .switch::before {
+      transform: translate(30px, -50%);
+    }
+
+    input[type="checkbox"]:checked + .switch {
+      background-color: #43de6c;
+    }
+
+    input[type="checkbox"]:checked + .switch::after {
+      background: url("../public/images/navbar/stars.svg");
+      background-size: cover;
+      left: 20%;
+      width: 15px;
+      height: 19.5px;
+    }
+  }
+
+  .pauseScreen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-color: rgba(146, 248, 255, 0.15);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h3 {
+      font-size: 2.5rem;
+    }
+  }
 
   .content {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
     place-content: space-between;
     width: 100%;
     height: 100%;
 
-    .left {
+    .top,
+    .mid,
+    .bottom {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
+      width: 100%;
       place-content: space-between;
-      flex-direction: column;
-      height: 100%;
+    }
 
+    .top {
+      align-items: flex-start;
       .info {
         h4 {
           font-weight: 600;
-          font-size: 1.1rem;
+          font-size: 1rem;
+          transition: 0.2s ease-in-out;
         }
 
         p {
-          font-size: 0.95rem;
+          font-size: 0.9rem;
           color: #8c8c8c;
         }
       }
+    }
+
+    .mid {
+      place-content: space-around flex-start;
+      margin: 1.5rem 0;
 
       button {
-        margin-top: 1rem;
         border-radius: 0.3rem;
         border: none;
-        font-size: 0.75rem;
-        padding: 0.25rem 0.3rem;
+        font-size: 0.8rem;
+        padding: 0.4rem 0.5rem;
         color: white;
         cursor: pointer;
         transition: 0.25s ease-in-out;
+        margin-right: 0.5rem;
 
         &:hover {
           background-color: darken(#731bde, 10%);
         }
       }
+    }
+
+    .bottom {
+      align-items: flex-end;
 
       .percentage {
         width: 100%;
@@ -66,6 +155,7 @@
           height: 2rem;
           display: flex;
           align-items: center;
+          margin-top: 0.5rem;
 
           input::-webkit-outer-spin-button,
           input::-webkit-inner-spin-button {
@@ -98,17 +188,23 @@
           }
 
           button {
-            margin-top: 0;
             height: 100%;
-            padding: 0.3rem;
-            margin-left: 0.38rem;
-            font-size: 0.7rem;
+            border-radius: 0.3rem;
+            border: none;
+            font-size: 0.75rem;
+            padding: 0.4rem 0.5rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.25s ease-in-out;
+            margin-left: 0.8rem;
+
+            &:hover {
+              background-color: darken(#731bde, 10%);
+            }
           }
         }
       }
-    }
 
-    .right {
       h3 {
         font-size: 1.15rem;
         font-weight: bold;
@@ -122,84 +218,36 @@
   }
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1300px) {
   .subscription {
-    margin-right: 0.5rem;
     .content {
-      .left {
-        .info {
-          h4 {
-            font-size: 0.9rem;
-          }
-
-          p {
-            font-size: 0.8rem;
-          }
-        }
-
-        button {
-          border-radius: 0.2rem;
-          font-size: 0.9rem;
-          padding: 0.25rem 0.4rem;
-        }
-      }
-
-      .right {
-        h3 {
-          font-size: 1rem;
-        }
-      }
-    }
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  .subscription {
-    height: fit-content;
-    width: 37%;
-
-    .content {
-      flex-direction: column-reverse;
-      align-items: center;
-
-      .left {
-        margin-top: 1rem;
-        align-items: center;
-        place-content: space-evenly;
-
-        .info {
-          margin-bottom: 1rem;
-          align-items: center;
-          text-align: center;
-        }
-
+      .bottom {
         .percentage {
-          align-items: center;
           label {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
           }
 
           .inputButton {
-            flex-direction: column;
-            width: 4rem;
-            height: fit-content;
+            width: 80%;
+            margin-top: 0.3rem;
 
             input {
-              width: 100%;
-              margin-top: 0.15rem;
-              padding: 0.2rem;
-              border-radius: 0.2rem;
-              font-size: 0.85rem;
+              width: 2.5rem;
+              font-size: 0.9rem;
             }
 
             button {
-              margin-top: 0.5rem;
-              width: 100%;
-              padding: 0.3rem;
-              margin-left: 0;
-              font-size: 0.85rem;
-              margin-bottom: 0.5rem;
+              font-size: 0.7rem;
+              padding: 0.3rem 0.4rem;
+              margin-left: 0.5rem;
             }
+          }
+        }
+
+        h3 {
+          font-size: 1.1rem;
+          span {
+            font-size: 1rem;
           }
         }
       }
@@ -207,23 +255,34 @@
   }
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 400px) {
   .subscription {
-    padding: 0.5rem;
+    height: 18rem;
     .content {
-      .left {
-        button {
-          font-size: 0.7rem;
+      .top {
+        align-items: center;
+        flex-direction: column-reverse;
+
+        .info {
+          text-align: center;
           margin-top: 0.5rem;
         }
       }
-    }
-  }
-}
 
-@media only screen and (max-width: 550px) {
-  .subscription {
-    margin-top: 1rem;
-    width: 100%;
+      .mid {
+        margin: 0.5rem auto;
+        width: fit-content;
+      }
+
+      .bottom {
+        align-items: center;
+        flex-direction: column;
+
+        .percentage {
+          width: fit-content;
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
   }
 }

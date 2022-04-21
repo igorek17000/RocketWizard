@@ -1,13 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../../styles/Subscription.module.scss";
 
-import Alert from "../Alert";
+import SubAlert from "../SubAlert";
 
 const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-function Subscription({ traders, subscription, openRenew, openUpgrade }) {
+function Subscription({
+  traders,
+  subscription,
+  openRenew,
+  openUpgrade,
+  refresh,
+}) {
   const [subs] = useState([
     { name: "Basic", color: "#39E694" },
     { name: "Advanced", color: "#BA62EB" },
@@ -16,6 +22,7 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
   const [remainingDays, setRemainingDays] = useState(null);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
+  const [themeColor, setThemeColor] = useState(null);
   const [fullPrice, setFullPrice] = useState(null);
 
   const [priceMultipliers] = useState([1, 1.6, 1.75]);
@@ -56,6 +63,10 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
     getPrice();
   }, []);
 
+  useEffect(() => {
+    setThemeColor(subs[subscription.plan.id].color);
+  }, [subscription]);
+
   const getPercentage = async () => {
     const res = await fetch(
       `/api/wallet-percentage?traderId=${subscription.traderId}`
@@ -95,6 +106,26 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
     }
   };
 
+  const changeSubPausedState = async () => {
+    const res = await fetch("/api/update-pause-status", {
+      method: "POST",
+      body: JSON.stringify({
+        paused: subscription.paused ? !subscription.paused : true,
+        traderId: subscription.traderId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    refresh();
+
+    if (!(res.status === 200)) {
+      setSuccess(null);
+      setError("Server is busy. Please try again later.");
+    }
+  };
+
   useEffect(() => {
     let start = new Date();
     let end = new Date(subscription.plan.end);
@@ -109,11 +140,17 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
   useEffect(() => {
     let timeout;
     if (success) {
+      setThemeColor("#43DE6C");
+
       timeout = setTimeout(() => {
         setSuccess(null);
+        setThemeColor(subs[subscription.plan.id].color);
       }, 3000);
     } else if (error) {
+      setThemeColor("#FF4848");
+
       timeout = setTimeout(() => {
+        setThemeColor(subs[subscription.plan.id].color);
         setError(null);
       }, 3000);
     }
@@ -125,12 +162,113 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
     <main
       className={styles.subscription}
       style={{
-        border: `3px solid ${
-          subscription.disabled ? "#e96d69" : subs[subscription.plan.id].color
-        }`,
+        border: `3px solid ${subscription.disabled ? "#e96d69" : themeColor}`,
         boxShadow: subscription.disabled ? " 0 0 10px #e96d69" : undefined,
       }}
     >
+      {subscription.paused && (
+        <section className={styles.pauseScreen}>
+          <h3>PAUSED</h3>
+          <label className={styles.toggleSwitch}>
+            <input
+              type="checkbox"
+              checked={!subscription.paused}
+              onChange={changeSubPausedState}
+            />
+            <span className={styles.switch} />
+          </label>
+        </section>
+      )}
+
+      <section className={styles.content}>
+        {/* Top section */}
+        <section className={styles.top}>
+          <div className={styles.info}>
+            <h4 style={(error || success) && { color: themeColor }}>
+              {capitalize(subscription.traderId)}{" "}
+              {subs[subscription.plan.id].name}
+            </h4>
+            <p>
+              {remainingDays} day{remainingDays > 1 && "s"} remaining
+            </p>
+          </div>
+
+          <label className={styles.toggleSwitch}>
+            <input
+              type="checkbox"
+              checked={!subscription.paused}
+              onChange={changeSubPausedState}
+            />
+            <span className={styles.switch} />
+          </label>
+        </section>
+
+        {/* Mid section */}
+        <section className={styles.mid}>
+          <button
+            style={{
+              backgroundColor: themeColor,
+            }}
+            onClick={() => openRenew(subscription)}
+          >
+            Renew
+          </button>
+          <button
+            style={{
+              backgroundColor: themeColor,
+            }}
+            onClick={() => openUpgrade(subscription)}
+          >
+            Upgrade
+          </button>
+        </section>
+
+        {/* Bottom section */}
+        <section className={styles.bottom}>
+          <div className={styles.percentage}>
+            <label>Maximum wallet %</label>
+            <div className={styles.inputButton}>
+              <input type="number" ref={percentageRef} max={7} />
+
+              <button
+                style={{
+                  backgroundColor: themeColor,
+                }}
+                onClick={updatePercentage}
+              >
+                Update
+              </button>
+            </div>
+          </div>
+          <h3>
+            ${fullPrice}
+            <span>/month</span>
+          </h3>
+        </section>
+        {error && <SubAlert text={error} error={true} />}
+        {success && <SubAlert text={success} />}
+        {subscription.disabled && (
+          <SubAlert
+            text={`Wallet balance is too high. Please${
+              subscription.plan.id !== subs.length - 1 ? " upgrade or" : ""
+            } reduce your wallet balance.`}
+            error={true}
+          />
+        )}
+        {subscription.lowbalance && (
+          <SubAlert
+            text={`Your wallet amount is too low for your subscription. Minimum wallet amount for trading with ${
+              subscription.traderId
+            } is $${
+              subscription.traderId === "david" ? 280 : 300
+            }. Please increase your wallet balance to continue copytrading.`}
+            error={true}
+          />
+        )}
+      </section>
+
+      {/* 
+
       <section className={styles.content}>
         <section className={styles.left}>
           <div className={styles.info}>
@@ -150,7 +288,7 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
 
                 <button
                   style={{
-                    backgroundColor: subs[subscription.plan.id].color,
+                    backgroundColor: themeColor,
                   }}
                   onClick={updatePercentage}
                 >
@@ -175,7 +313,7 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
           ) : (
             <button
               style={{
-                backgroundColor: subs[subscription.plan.id].color,
+                backgroundColor: themeColor,
               }}
               onClick={() => openRenew(subscription)}
             >
@@ -210,6 +348,7 @@ function Subscription({ traders, subscription, openRenew, openUpgrade }) {
           error={true}
         />
       )}
+        */}
     </main>
   );
 }
