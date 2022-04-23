@@ -46,7 +46,7 @@ export default async function handler(req, res) {
       to: email,
       subject: `Rocket Wizard Reset Password`,
       text: "Reset password",
-      html: `<div><a href="http://localhost:3000/forgot-password/activate?id=${code}&email=${email}">Link to reset the password</a></div>`,
+      html: `<div><a href="https://www.rocketwizard.io/forgot-password/activate?id=${code}&email=${email}">Link to reset the password</a></div>`,
     };
 
     transporter.sendMail(mailData);

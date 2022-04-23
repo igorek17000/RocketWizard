@@ -213,14 +213,16 @@ function Subscription({
           >
             Renew
           </button>
-          <button
-            style={{
-              backgroundColor: themeColor,
-            }}
-            onClick={() => openUpgrade(subscription)}
-          >
-            Upgrade
-          </button>
+          {1 === 2 && (
+            <button
+              style={{
+                backgroundColor: themeColor,
+              }}
+              onClick={() => openUpgrade(subscription)}
+            >
+              Upgrade
+            </button>
+          )}
         </section>
 
         {/* Bottom section */}
