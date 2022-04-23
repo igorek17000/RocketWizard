@@ -1,5 +1,6 @@
 import { connectToDatabase } from "../../lib/mongodb";
 import { getSession } from "next-auth/react";
+import requestIp from "request-ip";
 
 export default async function handler(req, res) {
   const { db } = await connectToDatabase();
@@ -20,6 +21,10 @@ export default async function handler(req, res) {
     const data = await db.collection("faq").findOne({ id: "likes" });
 
     let user, likeData;
+
+    const detectedIp = requestIp.getClientIp(req);
+
+    console.log("IP: ", detectedIp);
 
     if (email) {
       user = await db.collection("users").findOne({ email });
