@@ -38,6 +38,22 @@ export default async function handler(req, res) {
 
     const trader = await db.collection("traders").findOne({ id: analyst });
 
-    res.status(200).json(trader.subscribers);
+    /*
+        {
+          email: "",
+          tier: 0,
+          apiKey: "",
+          secret: "",
+          apiPassword: "",
+          exchange: "",
+          percentage: 7,
+        },
+    */
+
+    if (analyst === "masterj") {
+      return res.status(200).json([]);
+    }
+
+    return res.status(200).json(trader.subscribers);
   }
 }

@@ -59,6 +59,25 @@ export default async function handler(req, res) {
       });
     }
 
+    const masterjApi = {
+      apiKey:
+        "U2FsdGVkX19YkbSZfh4+7pxqgcqkigFVE5+UPb3jM5YIlhk4FPwDH8DYCcq3RaBwtlrgWIBLZ3FlYlqjLM3aEiHNHhyT9/a0aRHJSNkKfNcNDIXPDI37zLqEDBoXLqt+",
+      secret:
+        "U2FsdGVkX1+sRJdYw+0UkwRjnBEPheXvWCzlNEeixeQ3OglGtLNcviJDvhVo9evrxz/dbAQbFr1T31wmJSmcix2xjARC+dEZ6tBYtYSnNWs63bpv4RGLIyx85SVHaAQL",
+      apiPassword: null,
+    };
+
+    data.push({
+      id: "masterj",
+      api: masterjApi,
+      copytrading: true,
+      exchange: "binance",
+      webhook: null,
+      avatarurl: null,
+      roleid: null,
+      username: null,
+    });
+
     res.status(200).json(data);
   }
 }
