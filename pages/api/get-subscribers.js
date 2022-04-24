@@ -36,8 +36,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ msg: "Invalid signature header" });
     }
 
-    const trader = await db.collection("traders").findOne({ id: analyst });
-
     /*
         {
           email: "",
@@ -53,6 +51,8 @@ export default async function handler(req, res) {
     if (analyst === "masterj") {
       return res.status(200).json([]);
     }
+
+    const trader = await db.collection("traders").findOne({ id: analyst });
 
     return res.status(200).json(trader.subscribers);
   }
