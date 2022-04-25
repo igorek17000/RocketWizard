@@ -67,6 +67,8 @@ export default async function handler(req, res) {
 
     const trader = await db.collection("traders").findOne({ id: analyst });
 
-    return res.status(200).json(trader.subscribers);
+    const subs = await trader.subscribers.filter((x) => !x.paused);
+
+    return res.status(200).json(subs);
   }
 }
