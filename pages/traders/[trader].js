@@ -30,9 +30,6 @@ function Trader({ traders }) {
     userIsTrader();
   }, [session]);
 
-  const [winrate, setWinrate] = useState(null);
-  const [monthlyRoi, setMonthlyRoi] = useState(null);
-  const [yearlyRoi, setYearlyRoi] = useState(null);
   const [desc, setDesc] = useState(null);
 
   const [subscribed, setSubscribed] = useState(false);
@@ -51,27 +48,12 @@ function Trader({ traders }) {
     if (id) {
       let traderTemp = traders.find((trader) => trader.id === id);
       setTrader(traderTemp || traders[0]);
-      setWinrate(traderTemp.winrate || 0);
-      setMonthlyRoi(traderTemp.monthlyRoi || 0);
-      setYearlyRoi(traderTemp.yearlyRoi || 0);
       setDesc(traderTemp.description || "");
     }
   }, [router]);
 
-  function isNumeric(value) {
-    return /^-?\d+$/.test(value);
-  }
-
   const checkValues = () => {
-    return (
-      winrate &&
-      monthlyRoi &&
-      yearlyRoi &&
-      desc &&
-      isNumeric(winrate) &&
-      isNumeric(monthlyRoi) &&
-      isNumeric(yearlyRoi)
-    );
+    return desc;
   };
 
   const submit = async () => {
@@ -80,9 +62,6 @@ function Trader({ traders }) {
         method: "POST",
         body: JSON.stringify({
           traderID,
-          winrate: parseInt(winrate),
-          monthlyRoi: parseInt(monthlyRoi),
-          yearlyRoi: parseInt(yearlyRoi),
           description: desc,
         }),
         headers: {
@@ -147,17 +126,7 @@ function Trader({ traders }) {
                     fill="#731bde"
                   />
                 </svg>
-                <h4>
-                  {traderID === trader.id ? (
-                    <input
-                      placeholder={trader.winrate}
-                      onChange={(e) => setWinrate(e.target.value)}
-                    />
-                  ) : (
-                    trader.winrate
-                  )}
-                  %
-                </h4>
+                <h4>{trader.winrate}%</h4>
               </div>
             </div>
             <div className={styles.box}>
@@ -177,17 +146,7 @@ function Trader({ traders }) {
                     fill="#1bde8e"
                   />
                 </svg>
-                <h4>
-                  {traderID === trader.id ? (
-                    <input
-                      placeholder={trader.monthlyRoi}
-                      onChange={(e) => setMonthlyRoi(e.target.value)}
-                    />
-                  ) : (
-                    trader.monthlyRoi
-                  )}
-                  %
-                </h4>
+                <h4>{trader.monthlyRoi}%</h4>
               </div>
             </div>
             <div className={styles.box}>
@@ -208,17 +167,7 @@ function Trader({ traders }) {
                   />
                 </svg>
 
-                <h4>
-                  {traderID === trader.id ? (
-                    <input
-                      placeholder={trader.yearlyRoi}
-                      onChange={(e) => setYearlyRoi(e.target.value)}
-                    />
-                  ) : (
-                    trader.yearlyRoi
-                  )}
-                  %
-                </h4>
+                <h4>{trader.yearlyRoi}%</h4>
               </div>
             </div>
           </div>

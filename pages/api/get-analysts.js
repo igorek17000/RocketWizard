@@ -40,10 +40,10 @@ export default async function handler(req, res) {
 
     const usernames = {
       david: "David",
-      raz: "Minimusk",
+      raz: "Mini musk",
       riddy: "AR",
       elias: "vRyzz",
-      maximus: "Maximus & Jimm",
+      maximus: "MCF TEAM",
     };
 
     for await (const trader of traders) {

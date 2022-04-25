@@ -26,16 +26,13 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "POST") {
-    const { description, winrate, monthlyRoi, yearlyRoi, traderID } = req.body;
+    const { description, traderID } = req.body;
 
     await db.collection("traders").updateOne(
       { id: traderID },
       {
         $set: {
           description,
-          winrate,
-          monthlyRoi,
-          yearlyRoi,
         },
       }
     );

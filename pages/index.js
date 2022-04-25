@@ -65,17 +65,27 @@ export default function Home({ articleCount }) {
     {
       img: "shield.svg",
       title: "Top Tier Risk Mitigation",
-      text: "Risk management implemented at its best form with a 96% Trades winning rate",
+      text: "Every selected trader has to follow a strict risk management policy imposed by Rocketwizard to limit any potential losses and to preserve the longevity of the investments made.",
     },
     {
       img: "roi.svg",
-      title: "120% Average ROI",
-      text: "Get 120% and above on your initial investment monthly",
+      title: "56% Compounded Monthly Return",
+      text: "Average return of 1.5% Daily with an average winrate of 85%.",
     },
     {
       img: "automatic.svg",
-      title: "Fully automatic",
-      text: "Zero efforts, avoid wasting time, energy and getting stressed with looking at charts all day long",
+      title: "Fully automated",
+      text: "Avoid wasting time, energy and getting stressed from looking at charts all day long, Let our group of professional and carefully selected traders do the job for you through our API copytrading system. There is no need for any login, personal account access or monitoring of trades from you.",
+    },
+    {
+      img: "automatic.svg",
+      title: "Quality Control",
+      text: "We only accept experienced and reputable traders with a proven track record (our acceptance rate is around 5% of all applicants). We also have a dedicated in-house team that ensures that all the risk management guidelines are followed closely on a daily basis.",
+    },
+    {
+      img: "automatic.svg",
+      title: "Community of like-minded individuals",
+      text: "Join our customers-only community and meet like-minded individuals. You can expect to build strong connections and network with individuals from all over the world and from all kinds of backgrounds. You can also communicate with our traders and learn from their trading experiences and analysis.",
     },
   ]);
 
