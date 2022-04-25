@@ -38,18 +38,31 @@ export default async function handler(req, res) {
 
     /*
         {
-          email: "",
+          email: "ghufar@yahoo.com",
           tier: 0,
-          apiKey: "",
-          secret: "",
-          apiPassword: "",
-          exchange: "",
+          apiKey: "U2FsdGVkX19isWC1aftpZvtLQVXb/LLRhoTdltk6aafMuccQFzTMnH0CodhJUAQGV4NDQgDgPtc1z/bbYD9fHg==",
+          secret: "U2FsdGVkX19I9zyrGATEMKKU3Y/YSb/zG6pmukaO/sFtLFE4E0Y/8dG7vMPO19oryd5KSbMgVzPcGeUNYr0qwg==",
+          apiPassword: "U2FsdGVkX18dECcixCOExjjbz1kXmu95yQBxa9mke66MxN2jB3DXss9uvAsR9pF2",
+          exchange: "okex",
           percentage: 7,
         },
     */
 
     if (analyst === "masterj") {
-      return res.status(200).json([]);
+      return res.status(200).json([
+        {
+          email: "ghufar@yahoo.com",
+          tier: 0,
+          apiKey:
+            "U2FsdGVkX19isWC1aftpZvtLQVXb/LLRhoTdltk6aafMuccQFzTMnH0CodhJUAQGV4NDQgDgPtc1z/bbYD9fHg==",
+          secret:
+            "U2FsdGVkX19I9zyrGATEMKKU3Y/YSb/zG6pmukaO/sFtLFE4E0Y/8dG7vMPO19oryd5KSbMgVzPcGeUNYr0qwg==",
+          apiPassword:
+            "U2FsdGVkX18dECcixCOExjjbz1kXmu95yQBxa9mke66MxN2jB3DXss9uvAsR9pF2",
+          exchange: "okex",
+          percentage: 7,
+        },
+      ]);
     }
 
     const trader = await db.collection("traders").findOne({ id: analyst });
