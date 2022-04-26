@@ -65,12 +65,12 @@ export default function Home({ articleCount }) {
     {
       img: "shield.svg",
       title: "Top Tier Risk Mitigation",
-      text: "Every selected trader has to follow a strict risk management policy imposed by Rocketwizard to limit any potential losses and to preserve the longevity of the investments made.",
+      text: "Every selected trader follows a strict risk management policy imposed by Rocketwizard to limit any potential losses and to preserve the longevity of the investments made.",
     },
     {
       img: "roi.svg",
       title: "56% Compounded Monthly Return",
-      text: "Average return of 1.5% Daily with an average winrate of 85%.",
+      text: "Get up to 56% Your initial investment in 1 month.",
     },
     {
       img: "automatic.svg",
@@ -78,12 +78,12 @@ export default function Home({ articleCount }) {
       text: "Avoid wasting time, energy and getting stressed from looking at charts all day long, Let our group of professional and carefully selected traders do the job for you through our API copytrading system. There is no need for any login, personal account access or monitoring of trades from you.",
     },
     {
-      img: "automatic.svg",
+      img: "quality.svg",
       title: "Quality Control",
-      text: "We only accept experienced and reputable traders with a proven track record (our acceptance rate is around 5% of all applicants). We also have a dedicated in-house team that ensures that all the risk management guidelines are followed closely on a daily basis.",
+      text: "We only accept experienced and reputable traders with a proven track record (acceptance rate of 5%). We also have a dedicated in-house team that ensures all the risk management guidelines are followed closely on a daily basis.",
     },
     {
-      img: "automatic.svg",
+      img: "community.svg",
       title: "Community of like-minded individuals",
       text: "Join our customers-only community and meet like-minded individuals. You can expect to build strong connections and network with individuals from all over the world and from all kinds of backgrounds. You can also communicate with our traders and learn from their trading experiences and analysis.",
     },

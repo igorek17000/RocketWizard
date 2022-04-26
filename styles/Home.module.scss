@@ -64,7 +64,7 @@
     }
 
     .bottom {
-      width: 70%;
+      width: 85%;
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -79,8 +79,28 @@
         .card {
           display: flex;
           align-items: flex-start;
-          width: 100%;
+          width: 85%;
           margin: 2rem;
+
+          &:nth-child(1) {
+            margin-left: 0;
+          }
+
+          &:nth-child(2) {
+            margin-left: -50%;
+          }
+
+          &:nth-child(3) {
+            margin-left: 20%;
+          }
+
+          &:nth-child(4) {
+            margin-left: -20%;
+          }
+
+          &:nth-child(5) {
+            margin-left: 30%;
+          }
 
           &:nth-child(2),
           &:nth-child(4) {
@@ -131,11 +151,12 @@
             }
 
             p {
-              font-size: 1.1rem;
+              font-size: 1rem;
               font-weight: 600;
               height: 50%;
               display: flex;
               text-align: left;
+              line-height: 2rem;
             }
           }
         }
@@ -207,6 +228,15 @@
 
         .cards {
           .card {
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5) {
+              margin-left: 0;
+              margin-right: 0;
+            }
+
             .text h2 {
               font-size: 1.4rem;
             }
@@ -308,7 +338,7 @@
             }
 
             .text h2 {
-              font-size: 1.25rem;
+              font-size: 1.8rem;
             }
 
             .text h2,
