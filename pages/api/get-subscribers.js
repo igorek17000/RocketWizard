@@ -46,6 +46,7 @@ export default async function handler(req, res) {
           exchange: "okex",
           percentage: 7,
         },
+        
     */
 
     if (analyst === "masterj") {
