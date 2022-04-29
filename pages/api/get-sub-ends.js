@@ -24,6 +24,8 @@ export default async function handler(req, res) {
       return res.status(500).json({ msg: "Invalid IP" });
     }
 
+    */
+
     if (!sentHash) {
       return res.status(500).json({ msg: "Undefined signature header" });
     }
@@ -35,21 +37,6 @@ export default async function handler(req, res) {
     if (!unhashed || !(unhashed === process.env.rwSignature)) {
       return res.status(500).json({ msg: "Invalid signature header" });
     }
-
-    */
-
-    /*
-        {
-          email: "ghufar@yahoo.com",
-          tier: 0,
-          apiKey: "U2FsdGVkX19isWC1aftpZvtLQVXb/LLRhoTdltk6aafMuccQFzTMnH0CodhJUAQGV4NDQgDgPtc1z/bbYD9fHg==",
-          secret: "U2FsdGVkX19I9zyrGATEMKKU3Y/YSb/zG6pmukaO/sFtLFE4E0Y/8dG7vMPO19oryd5KSbMgVzPcGeUNYr0qwg==",
-          apiPassword: "U2FsdGVkX18dECcixCOExjjbz1kXmu95yQBxa9mke66MxN2jB3DXss9uvAsR9pF2",
-          exchange: "okex",
-          percentage: 7,
-        },
-        
-    */
 
     const users = await db.collection("users").find({}).toArray();
 
