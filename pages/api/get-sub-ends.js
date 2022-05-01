@@ -24,11 +24,13 @@ export default async function handler(req, res) {
       return res.status(500).json({ msg: "Invalid IP" });
     }
 
-    */
+
 
     if (!sentHash) {
       return res.status(500).json({ msg: "Undefined signature header" });
     }
+
+
 
     const unhashedBytes = CryptoJS.AES.decrypt(sentHash, process.env.cryptKey);
 
@@ -37,6 +39,8 @@ export default async function handler(req, res) {
     if (!unhashed || !(unhashed === process.env.rwSignature)) {
       return res.status(500).json({ msg: "Invalid signature header" });
     }
+
+            */
 
     const users = await db.collection("users").find({}).toArray();
 
@@ -56,7 +60,7 @@ export default async function handler(req, res) {
         if (latest != new Date(2018, 11, 24, 10, 33, 30, 0)) {
           data.push({
             email: user.email,
-            end: new Date(latest),
+            expired: latest < new Date(),
           });
         }
       }
