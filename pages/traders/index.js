@@ -5,8 +5,8 @@ import styles from "../../styles/Traders.module.scss";
 import TraderCard from "../../components/TraderCard";
 
 import { useSession } from "next-auth/react";
-
 import Alert from "../../components/Alert";
+import { motion } from "framer-motion";
 
 function Traders({ traders }) {
   const [traderID, setTraderID] = useState(null);
@@ -34,18 +34,25 @@ function Traders({ traders }) {
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={styles.traderCards}>
-        <div className={styles.disclaimer}></div>
+      <motion.div
+        className={styles.motionDiv}
+        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <section className={styles.traderCards}>
+          <div className={styles.disclaimer}></div>
 
-        {traders.map((trader, i) => (
-          <TraderCard
-            key={i}
-            trader={trader}
-            i={i}
-            isTrader={traderID === trader.id}
-          />
-        ))}
-      </section>
+          {traders.map((trader, i) => (
+            <TraderCard
+              key={i}
+              trader={trader}
+              i={i}
+              isTrader={traderID === trader.id}
+            />
+          ))}
+        </section>
+      </motion.div>
     </main>
   );
 }

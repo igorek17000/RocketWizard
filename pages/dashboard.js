@@ -24,6 +24,7 @@ import CodeOwnerDashboard from "../components/Dashboard/CodeOwnerDashboard";
 import Renew from "../components/Renew";
 import Upgrade from "../components/Upgrade";
 import Alert from "../components/Alert";
+import { motion } from "framer-motion";
 
 /*
 DEAL:     {
@@ -247,53 +248,16 @@ function Dashboard({ traders, disclaimer }) {
               ) : (
                 <section className={styles.card}>
                   <section className={styles.left}>
-                    <section className={styles.data}>
-                      <div className={styles.top}>
-                        <h1>{getGreeting()}</h1>
-                        {api && (
-                          <Select
-                            className={styles.select}
-                            styles={customStyles}
-                            options={options}
-                            value={api}
-                            onChange={changeApi}
-                            isSearchable={false}
-                          />
-                        )}
-                      </div>
-
-                      {api ? (
-                        <div className={styles.body}>
-                          {taken && (
-                            <div className={styles.discord}>
-                              <BsDiscord fill="#4e388" />
-                              <p>
-                                <a
-                                  href="https://discord.com/api/oauth2/authorize?client_id=956209550686556170&redirect_uri=https%3A%2F%2Fwww.rocketwizard.io%2F&response_type=code&scope=identify"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  Join the Discord
-                                </a>
-                              </p>
-                            </div>
-                          )}
-
-                          <div className={styles.balanceRoiCards}>
-                            <BalanceCard apiName={api.value} />
-                            <RoiCard balance={balance} />
-                          </div>
-                          <StatisticsCard balance={balance} />
-                          <Alert
-                            error={true}
-                            text={disclaimer}
-                            fontSize="1.4rem"
-                          />
-                        </div>
-                      ) : (
-                        <div className={styles.body}>
-                          <div className={styles.noApi}>
-                            <h3>Connect an API to access the dashboard data</h3>
+                    <motion.div
+                      className={styles.motionDiv}
+                      transition={{ duration: 0.5 }}
+                      initial={{ opacity: 0 }}
+                      animate={!loading ? { opacity: 1 } : ""}
+                    >
+                      <section className={styles.data}>
+                        <div className={styles.top}>
+                          <h1>{getGreeting()}</h1>
+                          {api && (
                             <Select
                               className={styles.select}
                               styles={customStyles}
@@ -302,39 +266,107 @@ function Dashboard({ traders, disclaimer }) {
                               onChange={changeApi}
                               isSearchable={false}
                             />
-                          </div>
+                          )}
                         </div>
-                      )}
-                    </section>
-                    <section className={styles.deals}>
-                      <h2>My deals</h2>
-                      <div className={styles.dealList}>
-                        {deals.map((deal, i) => (
-                          <Deal deal={deal} refreshDeals={getInfo} key={i} />
+
+                        {api ? (
+                          <motion.div
+                            className={styles.motionDiv}
+                            transition={{ duration: 0.5 }}
+                            initial={{ opacity: 0 }}
+                            animate={api ? { opacity: 1 } : ""}
+                          >
+                            <div className={styles.body}>
+                              {taken && (
+                                <div className={styles.discord}>
+                                  <BsDiscord fill="#4e388" />
+                                  <p>
+                                    <a
+                                      href="https://discord.com/api/oauth2/authorize?client_id=956209550686556170&redirect_uri=https%3A%2F%2Fwww.rocketwizard.io%2F&response_type=code&scope=identify"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      Join the Discord
+                                    </a>
+                                  </p>
+                                </div>
+                              )}
+
+                              <div className={styles.balanceRoiCards}>
+                                <BalanceCard apiName={api.value} />
+                                <RoiCard balance={balance} />
+                              </div>
+                              <StatisticsCard balance={balance} />
+                              <Alert
+                                error={true}
+                                text={disclaimer}
+                                fontSize="1.4rem"
+                              />
+                            </div>
+                          </motion.div>
+                        ) : (
+                          <div className={styles.body}>
+                            <div className={styles.noApi}>
+                              <h3>
+                                Connect an API to access the dashboard data
+                              </h3>
+                              <Select
+                                className={styles.select}
+                                styles={customStyles}
+                                options={options}
+                                value={api}
+                                onChange={changeApi}
+                                isSearchable={false}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </section>
+                    </motion.div>
+                    <motion.div
+                      className={styles.motionDiv}
+                      transition={{ duration: 0.5 }}
+                      initial={{ opacity: 0 }}
+                      animate={!loading ? { opacity: 1 } : ""}
+                    >
+                      <section className={styles.deals}>
+                        <h2>My deals</h2>
+                        <div className={styles.dealList}>
+                          {deals.map((deal, i) => (
+                            <Deal deal={deal} refreshDeals={getInfo} key={i} />
+                          ))}
+                        </div>
+                      </section>
+                    </motion.div>
+                  </section>
+
+                  <section className={styles.right}>
+                    <motion.div
+                      className={styles.motionDiv}
+                      transition={{ duration: 0.5 }}
+                      initial={{ opacity: 0 }}
+                      animate={!loading ? { opacity: 1 } : ""}
+                    >
+                      <h2>My Subscriptions</h2>
+                      <div className={styles.subscriptionList}>
+                        {subscriptions.map((subscription, i) => (
+                          <Subscription
+                            traders={traders}
+                            subscription={subscription}
+                            key={i}
+                            openRenew={(sub) => {
+                              setRenewOpen(true);
+                              setSubscription(sub);
+                            }}
+                            openUpgrade={(sub) => {
+                              setUpgradeOpen(true);
+                              setSubscription(sub);
+                            }}
+                            refresh={getInfo}
+                          />
                         ))}
                       </div>
-                    </section>
-                  </section>
-                  <section className={styles.right}>
-                    <h2>My Subscriptions</h2>
-                    <div className={styles.subscriptionList}>
-                      {subscriptions.map((subscription, i) => (
-                        <Subscription
-                          traders={traders}
-                          subscription={subscription}
-                          key={i}
-                          openRenew={(sub) => {
-                            setRenewOpen(true);
-                            setSubscription(sub);
-                          }}
-                          openUpgrade={(sub) => {
-                            setUpgradeOpen(true);
-                            setSubscription(sub);
-                          }}
-                          refresh={getInfo}
-                        />
-                      ))}
-                    </div>
+                    </motion.div>
                   </section>
                 </section>
               )}

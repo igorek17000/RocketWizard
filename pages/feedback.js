@@ -7,6 +7,7 @@ import Select from "react-select";
 import SubmissionSent from "../components/SubmissionSent";
 
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 
 function Feedback() {
   const [feedback, setFeedback] = useState(null);
@@ -118,32 +119,39 @@ function Feedback() {
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={styles.card}>
-        <img src="/images/logo_light.svg" alt="Logo" />
-        <div className={`${styles.inputContainer} ${styles.category}`}>
-          <label htmlFor="category">Category*</label>
-          <Select
-            className={styles.select}
-            styles={customStyles}
-            options={options}
-            value={category}
-            onChange={changeCategory}
-            isSearchable={false}
-          />
-        </div>
-        <div className={styles.message}>
-          <div className={styles.inputContainer}>
-            <label htmlFor="message">Feedback*</label>
-            <textarea
-              placeholder="Type your message"
-              type="text"
-              id="message"
-              onChange={(e) => setFeedback(e.target.value)}
+      <motion.div
+        className={styles.motionDiv}
+        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <section className={styles.card}>
+          <img src="/images/logo_light.svg" alt="Logo" />
+          <div className={`${styles.inputContainer} ${styles.category}`}>
+            <label htmlFor="category">Category*</label>
+            <Select
+              className={styles.select}
+              styles={customStyles}
+              options={options}
+              value={category}
+              onChange={changeCategory}
+              isSearchable={false}
             />
           </div>
-        </div>
-        <button onClick={submit}>SUBMIT</button>
-      </section>
+          <div className={styles.message}>
+            <div className={styles.inputContainer}>
+              <label htmlFor="message">Feedback*</label>
+              <textarea
+                placeholder="Type your message"
+                type="text"
+                id="message"
+                onChange={(e) => setFeedback(e.target.value)}
+              />
+            </div>
+          </div>
+          <button onClick={submit}>SUBMIT</button>
+        </section>
+      </motion.div>
     </main>
   );
 }

@@ -5,6 +5,7 @@ import styles from "../../styles/Faq.module.scss";
 import FaqCard from "../../components/FaqCard";
 
 import { useSession } from "next-auth/react";
+import { motion } from "framer-motion";
 
 function Faq({ articleCount }) {
   const [likeData, setLikeData] = useState(null);
@@ -30,7 +31,16 @@ function Faq({ articleCount }) {
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {likeData && <FaqCard likeData={likeData} articleCount={articleCount} />}
+      <motion.div
+        className={styles.motionDiv}
+        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        {likeData && (
+          <FaqCard likeData={likeData} articleCount={articleCount} />
+        )}
+      </motion.div>
     </main>
   );
 }
