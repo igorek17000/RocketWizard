@@ -59,15 +59,9 @@ function OwnerDashboard() {
   };
 
   const getData = async () => {
-    const earningsRes = await fetch(
-      "https://www.rocketwizard.io/api/get-earnings"
-    );
-    const tradersRes = await fetch(
-      "https://www.rocketwizard.io/api/get-trader-ids"
-    );
-    const handleRes = await fetch(
-      "https://www.rocketwizard.io/api/get-handled"
-    );
+    const earningsRes = await fetch("http://localhost:3000/api/get-earnings");
+    const tradersRes = await fetch("http://localhost:3000/api/get-trader-ids");
+    const handleRes = await fetch("http://localhost:3000/api/get-handled");
 
     const traderIDs = await tradersRes.json();
     const handledAmount = await handleRes.json();
@@ -85,7 +79,7 @@ function OwnerDashboard() {
 
     for await (const traderID of traderIDs) {
       const res = await fetch(
-        `https://www.rocketwizard.io/api/get-trader?id=${traderID}`
+        `http://localhost:3000/api/get-trader?id=${traderID}`
       );
 
       const trader = await res.json();

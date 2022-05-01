@@ -27,9 +27,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [taken, setTaken] = React.useState(false);
 
   const checkApiTaken = async () => {
-    const takenRes = await fetch(
-      `https://www.rocketwizard.io/api/is-any-taken`
-    );
+    const takenRes = await fetch(`http://localhost:3000/api/is-any-taken`);
 
     const takenjson = await takenRes.json();
 

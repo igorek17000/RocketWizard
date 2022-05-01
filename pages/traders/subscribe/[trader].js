@@ -37,7 +37,7 @@ function Subscribe({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`http://localhost:3000/api/traders`);
 
   const traders = await res.json();
 

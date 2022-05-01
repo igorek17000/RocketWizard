@@ -5,6 +5,14 @@
   padding-bottom: 5rem;
   margin-bottom: 5rem;
 
+  .motionDiv {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+  }
+
   .loadingCard {
     height: calc(100vh - 10rem) !important;
     justify-content: center;

@@ -15,6 +15,7 @@ import Select from "react-select";
 
 import ConfirmDelete from "../components/ConfirmDelete";
 import Alert from "../components/Alert";
+import { motion } from "framer-motion";
 
 const customStyles = {
   control: () => ({
@@ -162,7 +163,7 @@ function Settings() {
   const getApiKeys = async () => {
     if (!session) return;
 
-    const res = await fetch(`https://www.rocketwizard.io/api/apiKeys`);
+    const res = await fetch(`http://localhost:3000/api/apiKeys`);
 
     const keys = await res.json();
 
@@ -172,7 +173,7 @@ function Settings() {
   const getSubs = async () => {
     if (!session) return;
 
-    const res = await fetch(`https://www.rocketwizard.io/api/subscribe`);
+    const res = await fetch(`http://localhost:3000/api/subscribe`);
 
     const subs = await res.json();
 
@@ -243,110 +244,117 @@ function Settings() {
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className={styles.card}>
-        <div className={styles.header}>
-          <h1>Settings</h1>
-        </div>
-        <div className={styles.body}>
-          <section className={styles.addApi}>
-            <div className={styles.box}>
-              <h3>Add API</h3>
-              <p>
-                API will let you control your exchanges and will be used to
-                automate the trading process
-              </p>
-              <button onClick={() => setOpenModal(true)}>Add API</button>
-            </div>
-            <Alert
-              error={true}
-              text={
-                "DISCLAIMER: All unsubscribed API's have been deleted and all API names have been changed in the new security update. Don't worry, you will be able to change the name of your API soon."
-              }
-            />
-          </section>
-          <section className={styles.apiList}>
-            <div className={styles.titles}>
-              <h3
-                style={{ opacity: activeLink === "list" ? 1 : 0.3 }}
-                onClick={() => setActiveLink("list")}
-              >
-                API list
-              </h3>
-              <h3
-                style={{ opacity: activeLink === "activated" ? 1 : 0.3 }}
-                onClick={() => setActiveLink("activated")}
-              >
-                Activated
-              </h3>
-            </div>
-            <Scrollbar style={{ height: "22.2rem" }}>
-              {activeLink === "list" ? (
-                <>
-                  {apiKeys.length > 0 ? (
-                    <div className={styles.list}>
-                      {apiKeys.map((api, i) => (
-                        <div
-                          className={styles.api}
-                          key={i}
-                          style={
-                            api.taken
-                              ? {
-                                  border: "2px solid #39c491",
-                                  boxShadow: "0 0 3px #39c49152",
-                                }
-                              : undefined
-                          }
-                        >
-                          <IoTrashOutline
-                            className={styles.trash}
-                            onClick={() => setDeleting(api.name)}
-                          />
-                          <div className={styles.values}>
-                            <h4>{shorten(api.name, 20)}</h4>
-                            <h4>{shorten(api.api, 20)}</h4>
-                          </div>
-                          <img
-                            src={`/images/settings/exchanges/${api.exchange}.svg`}
-                            alt="Exchange"
-                          />
+      <motion.div
+        className={styles.motionDiv}
+        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
+        <section className={styles.card}>
+          <div className={styles.header}>
+            <h1>Settings</h1>
+          </div>
+          <div className={styles.body}>
+            <section className={styles.addApi}>
+              <div className={styles.box}>
+                <h3>Add API</h3>
+                <p>
+                  API will let you control your exchanges and will be used to
+                  automate the trading process
+                </p>
+                <button onClick={() => setOpenModal(true)}>Add API</button>
+              </div>
+              <Alert
+                error={true}
+                text={
+                  "DISCLAIMER: All unsubscribed API's have been deleted and all API names have been changed in the new security update. Don't worry, you will be able to change the name of your API soon."
+                }
+              />
+            </section>
+            <section className={styles.apiList}>
+              <div className={styles.titles}>
+                <h3
+                  style={{ opacity: activeLink === "list" ? 1 : 0.3 }}
+                  onClick={() => setActiveLink("list")}
+                >
+                  API list
+                </h3>
+                <h3
+                  style={{ opacity: activeLink === "activated" ? 1 : 0.3 }}
+                  onClick={() => setActiveLink("activated")}
+                >
+                  Activated
+                </h3>
+              </div>
+              <Scrollbar style={{ height: "22.2rem" }}>
+                {activeLink === "list" ? (
+                  <>
+                    {apiKeys.length > 0 ? (
+                      <div className={styles.list}>
+                        {apiKeys.map((api, i) => (
                           <div
-                            className={styles.delBtn}
-                            onClick={() => setDeleting(api.name)}
+                            className={styles.api}
+                            key={i}
+                            style={
+                              api.taken
+                                ? {
+                                    border: "2px solid #39c491",
+                                    boxShadow: "0 0 3px #39c49152",
+                                  }
+                                : undefined
+                            }
                           >
-                            <IoTrashOutline />
-                            <p>DELETE</p>
+                            <IoTrashOutline
+                              className={styles.trash}
+                              onClick={() => setDeleting(api.name)}
+                            />
+                            <div className={styles.values}>
+                              <h4>{shorten(api.name, 20)}</h4>
+                              <h4>{shorten(api.api, 20)}</h4>
+                            </div>
+                            <img
+                              src={`/images/settings/exchanges/${api.exchange}.svg`}
+                              alt="Exchange"
+                            />
+                            <div
+                              className={styles.delBtn}
+                              onClick={() => setDeleting(api.name)}
+                            >
+                              <IoTrashOutline />
+                              <p>DELETE</p>
+                            </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <h1>{"You didn't add any API keys yet."}</h1>
-                  )}
-                </>
-              ) : (
-                <>
-                  {subscriptions &&
-                  subscriptions.length > 0 &&
-                  apiKeys.length > 0 ? (
-                    <div className={styles.list}>
-                      {subscriptions.map((sub, i) => (
-                        <ActivatedApi
-                          sub={sub}
-                          apiKeys={apiKeys}
-                          key={i}
-                          changed={getApiKeys}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <h1>{"You don't have any subscriptions yet."}</h1>
-                  )}
-                </>
-              )}
-            </Scrollbar>
-          </section>
-        </div>
-      </section>
+                        ))}
+                      </div>
+                    ) : (
+                      <h1>{"You didn't add any API keys yet."}</h1>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {subscriptions &&
+                    subscriptions.length > 0 &&
+                    apiKeys.length > 0 ? (
+                      <div className={styles.list}>
+                        {subscriptions.map((sub, i) => (
+                          <ActivatedApi
+                            sub={sub}
+                            apiKeys={apiKeys}
+                            key={i}
+                            changed={getApiKeys}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <h1>{"You don't have any subscriptions yet."}</h1>
+                    )}
+                  </>
+                )}
+              </Scrollbar>
+            </section>
+          </div>
+        </section>
+      </motion.div>
     </main>
   );
 }
