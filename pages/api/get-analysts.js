@@ -59,19 +59,19 @@ export default async function handler(req, res) {
       });
     }
 
-    const masterjApi = {
+    const jackApi = {
       apiKey:
-        "U2FsdGVkX19YkbSZfh4+7pxqgcqkigFVE5+UPb3jM5YIlhk4FPwDH8DYCcq3RaBwtlrgWIBLZ3FlYlqjLM3aEiHNHhyT9/a0aRHJSNkKfNcNDIXPDI37zLqEDBoXLqt+",
+        "U2FsdGVkX19buHpp/tu1yr5FiyKO3smF8WCYnk25oM9cseoNyB4u2c/IFYo/vZBm8up2QCz/VPvM4foIXHwzPQ==",
       secret:
-        "U2FsdGVkX1+sRJdYw+0UkwRjnBEPheXvWCzlNEeixeQ3OglGtLNcviJDvhVo9evrxz/dbAQbFr1T31wmJSmcix2xjARC+dEZ6tBYtYSnNWs63bpv4RGLIyx85SVHaAQL",
-      apiPassword: null,
+        "U2FsdGVkX18UemGUxv7vP5kyOVb4/nkiifdEvlR7V6pwxdcXtRc3kEkOIhQzgLEcPvgnfDKqUMhMeaa/ZEQevA==",
+      apiPassword: "U2FsdGVkX18XzX6dGyntQTIkQNRctGVIvdeQDBBdYI4=",
     };
 
     data.push({
-      id: "masterj",
-      api: masterjApi,
+      id: "jack",
+      api: jackApi,
       copytrading: true,
-      exchange: "binance",
+      exchange: "okex",
       webhook: null,
       avatarurl: null,
       roleid: null,

@@ -48,7 +48,8 @@ function TraderCard({ trader, isTrader }) {
     <main
       className={styles.traderCard}
       style={{
-        opacity: trader.comingSoon && !isTrader ? 0.5 : 1,
+        opacity:
+          (trader.comingSoon || trader.unavailable) && !isTrader ? 0.5 : 1,
       }}
     >
       {/* Header Section */}

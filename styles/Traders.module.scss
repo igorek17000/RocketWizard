@@ -22,19 +22,16 @@
 
   .traderCards {
     margin-top: 5rem;
-    width: 90%;
-    display: -ms-grid;
-    display: grid;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
+    width: 80%;
+    display: flex;
     align-items: center;
-    place-items: center;
-    -ms-grid-columns: (minmax(17em, 1fr)) [auto-fit];
-    grid-template-columns: repeat(auto-fit, minmax(17em, 1fr));
-    -ms-grid-rows: 1fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 1em;
-    grid-row-gap: 1em;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+
+    .motionDiv {
+      width: 23rem;
+    }
   }
 }
 

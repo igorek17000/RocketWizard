@@ -3,7 +3,7 @@
   border: 1px solid;
   border-color: var(--border);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  width: 100%;
+  width: 23rem;
   border-radius: 2rem;
   color: black;
 
@@ -193,6 +193,12 @@
     button {
       font-size: 0.9rem;
     }
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .traderCard {
+    width: 100%;
   }
 }
 

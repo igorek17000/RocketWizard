@@ -34,25 +34,26 @@ function Traders({ traders }) {
         <meta name="description" content="Make money while sleeping" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <motion.div
-        className={styles.motionDiv}
-        transition={{ duration: 0.5 }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <section className={styles.traderCards}>
-          <div className={styles.disclaimer}></div>
 
-          {traders.map((trader, i) => (
+      <section className={styles.traderCards}>
+        <div className={styles.disclaimer}></div>
+
+        {traders.map((trader, i) => (
+          <motion.div
+            className={styles.motionDiv}
+            transition={{ duration: 0.4, delay: 0.2 * i }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            key={i}
+          >
             <TraderCard
-              key={i}
               trader={trader}
               i={i}
               isTrader={traderID === trader.id}
             />
-          ))}
-        </section>
-      </motion.div>
+          </motion.div>
+        ))}
+      </section>
     </main>
   );
 }
