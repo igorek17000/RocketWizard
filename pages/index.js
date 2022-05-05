@@ -63,14 +63,14 @@ export default function Home({ articleCount }) {
 
   const [cards] = useState([
     {
-      img: "shield.svg",
-      title: "Top Tier Risk Mitigation",
-      text: "Every selected trader follows a strict risk management policy imposed by Rocketwizard to limit any potential losses and to preserve the longevity of the investments made.",
-    },
-    {
       img: "roi.svg",
       title: "56% Compounded Monthly Return",
       text: "Get up to 56% Your initial investment in 1 month.",
+    },
+    {
+      img: "shield.svg",
+      title: "Top Tier Risk Mitigation",
+      text: "Every selected trader follows a strict risk management policy imposed by Rocketwizard to limit any potential losses and to preserve the longevity of the investments made.",
     },
     {
       img: "automatic.svg",
