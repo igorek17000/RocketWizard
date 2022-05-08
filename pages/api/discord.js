@@ -3,6 +3,9 @@ const axios = require("axios");
 const { URLSearchParams } = require("url");
 const botToken = process.env.botToken;
 
+import { connectToDatabase } from "../../lib/mongodb";
+import { getSession } from "next-auth/react";
+
 function make_config(authorization_token, isBot = false) {
   // Define the function
   const data = {
@@ -48,6 +51,20 @@ async function make_invite() {
 }
 
 export default async function handler(req, res) {
+  const { db } = await connectToDatabase();
+
+  const session = await getSession({ req });
+
+  let email;
+
+  if (session) {
+    // Signed in
+    email = session.user.email;
+  } else {
+    // Not Signed in
+    email = null;
+  }
+
   if (req.method === "POST") {
     const { code } = req.body;
 
@@ -78,6 +95,10 @@ export default async function handler(req, res) {
             } catch {
               isInServer = false;
             }
+
+            await db
+              .collection("users")
+              .updateOne({ email }, { $set: { discord_id: response.data.id } });
 
             if (!isInServer) {
               const invite = await make_invite();

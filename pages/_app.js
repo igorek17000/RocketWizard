@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { BsDiscord } from "react-icons/bs";
 
 import UnderMaintenance from "../components/UnderMaintenance";
+import DiscordAuthWarning from "../components/DiscordAuthWarning";
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Oval } from "react-loader-spinner";
@@ -39,6 +40,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   };
 
   useEffect(() => {
+    checkApiTaken();
     const start = () => {
       setLoading(true);
       checkApiTaken();
@@ -86,6 +88,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               <UnderMaintenance />
             ) : (
               <>
+                {taken && <DiscordAuthWarning />}
+
                 <Navbar />
                 <Component {...pageProps} />
               </>
