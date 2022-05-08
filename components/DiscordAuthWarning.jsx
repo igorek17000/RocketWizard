@@ -18,7 +18,7 @@ function DiscordAuthWarning() {
         Because of some updates to our discord system, you will need to click
         the button and authorize your discord account in the next{" "}
         {getLeftHours()} hours, or you will be kicked out of the server.{" "}
-        {"Don't"}
+        {"Don't "}
         worry, you can rejoin as long as your subscription is still active.
       </p>
       <a
