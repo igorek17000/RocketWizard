@@ -26,6 +26,7 @@ const ChatWithNoSSR = dynamic(() => import("../components/Chat"), {
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [loading, setLoading] = React.useState(false);
   const [taken, setTaken] = React.useState(false);
+  const [discordAuth, setDiscordAuth] = React.useState(false);
 
   const checkApiTaken = async () => {
     const takenRes = await fetch(
@@ -39,11 +40,25 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     }
   };
 
+  const checkDiscordId = async () => {
+    const discordAuthRes = await fetch(
+      `https://www.rocketwizard.io/api/discord-auth-done`
+    );
+
+    const discjson = await discordAuthRes.json();
+
+    if (discjson.authenticated) {
+      setDiscordAuth(true);
+    }
+  };
+
   useEffect(() => {
     checkApiTaken();
+    checkDiscordId();
     const start = () => {
       setLoading(true);
       checkApiTaken();
+      checkDiscordId();
     };
     const end = () => {
       setLoading(false);
@@ -88,7 +103,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               <UnderMaintenance />
             ) : (
               <>
-                {taken && <DiscordAuthWarning />}
+                {taken && !discordAuth && <DiscordAuthWarning />}
 
                 <Navbar />
                 <Component {...pageProps} />
