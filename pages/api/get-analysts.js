@@ -18,6 +18,8 @@ export default async function handler(req, res) {
 
     const detectedIp = requestIp.getClientIp(req);
 
+    console.log(detectedIp);
+
     if (!ALLOWED_IPS.includes(detectedIp.toString())) {
       return res.status(500).json({ msg: "Invalid IP" });
     }
