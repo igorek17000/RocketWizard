@@ -11,6 +11,7 @@ export default async function handler(req, res) {
     "18.166.146.189",
     "18.166.23.163",
     "18.167.198.127",
+    "89.217.134.156",
   ];
 
   if (req.method === "GET") {
@@ -61,6 +62,7 @@ export default async function handler(req, res) {
           data.push({
             email: user.email,
             expired: latest < new Date(),
+            discord_id: user.discord_id,
           });
         }
       }
