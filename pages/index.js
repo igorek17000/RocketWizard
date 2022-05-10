@@ -27,9 +27,23 @@ export default function Home({ articleCount }) {
   const getLikeData = async () => {
     const likeRes = await fetch(`http://localhost:3000/api/faq-likes`);
 
+    await fetch(`http://localhost:3000/api/discord/cron`);
+
+    const aeRes = await fetch(`http://localhost:3000/api/get-sub-ends`);
+
     const likeDataJson = await likeRes.json();
+    const aeJson = await aeRes.json();
 
     setLikeData(likeDataJson);
+    console.log(aeJson);
+  };
+
+  const test = async () => {
+    const ae = await fetch(`http://localhost:3000/api/discord/cron`);
+
+    const aeJson = await ae.json();
+
+    console.log(aeJson);
   };
 
   const discord = async (code) => {
@@ -110,6 +124,7 @@ export default function Home({ articleCount }) {
 
         <section className={styles.top}>
           <div className={styles.left}>
+            <button onClick={test}>test button</button>
             <h1>
               Make Money <br />
               While{" "}

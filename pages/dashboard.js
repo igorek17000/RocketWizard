@@ -280,7 +280,7 @@ function Dashboard({ traders, disclaimer }) {
                                   <BsDiscord fill="#4e388" />
                                   <p>
                                     <a
-                                      href="https://discord.com/api/oauth2/authorize?client_id=956209550686556170&redirect_uri=https%3A%2F%2Fwww.rocketwizard.io%2F&response_type=code&scope=identify"
+                                      href="/api/discord/auth"
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >

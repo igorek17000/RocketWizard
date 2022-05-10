@@ -97,6 +97,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           <Scrollbar style={{ width: "100vw", height: "100vh" }}>
             <ChatWithNoSSR />
 
+            {/* I will just have to run a function to remove discord ids from everyone so they get to see the warning again */}
+
             {UNDER_MAINTENANCE ? (
               <UnderMaintenance />
             ) : (
@@ -114,7 +116,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 <BsDiscord fill="#4e388" />
                 <p>
                   <a
-                    href="https://discord.com/api/oauth2/authorize?client_id=956209550686556170&redirect_uri=https%3A%2F%2Fwww.rocketwizard.io%2F&response_type=code&scope=identify"
+                    href="/api/discord/auth"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

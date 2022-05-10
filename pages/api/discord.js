@@ -96,6 +96,12 @@ export default async function handler(req, res) {
               isInServer = false;
             }
 
+            // This is the initial api I had for joining the server, I just added the line below which adds their id to the database
+
+            // we must only add people who 'authorize the bot' itself so we can focre them to join the server
+
+            // Do I leave this api for joining then or no? And then I need to put the authorize warning back?
+
             await db
               .collection("users")
               .updateOne({ email }, { $set: { discord_id: response.data.id } });
