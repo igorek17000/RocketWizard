@@ -27,11 +27,11 @@ export default function Home({ articleCount }) {
   const { data: session, status } = useSession();
 
   const getLikeData = async () => {
-    const likeRes = await fetch(`http://localhost:3000/api/faq-likes`);
+    const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
 
-    await fetch(`http://localhost:3000/api/discord/cron`);
+    await fetch(`https://www.rocketwizard.io/api/discord/cron`);
 
-    const aeRes = await fetch(`http://localhost:3000/api/get-sub-ends`);
+    const aeRes = await fetch(`https://www.rocketwizard.io/api/get-sub-ends`);
 
     const likeDataJson = await likeRes.json();
     const aeJson = await aeRes.json();
@@ -41,7 +41,7 @@ export default function Home({ articleCount }) {
   };
 
   const test = async () => {
-    const ae = await fetch(`http://localhost:3000/api/discord/cron`);
+    const ae = await fetch(`https://www.rocketwizard.io/api/discord/cron`);
 
     const aeJson = await ae.json();
 
@@ -222,7 +222,7 @@ export default function Home({ articleCount }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const articlesRes = await fetch("http://localhost:3000/faqData.json");
+  const articlesRes = await fetch("https://www.rocketwizard.io/faqData.json");
 
   const articleData = await articlesRes.json();
 
