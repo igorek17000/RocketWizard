@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/FaqCard.module.scss";
 
@@ -14,6 +14,10 @@ import {
   AiFillLike,
   AiFillDislike,
 } from "react-icons/ai";
+
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useAnimation } from "framer-motion";
 
 function Article({ article }) {
   return (
@@ -164,88 +168,118 @@ function FaqCard({ card = true, likeData, articleCount }) {
     setDisliked(dislikedProp);
   };
 
-  return (
-    <section
-      className={`${styles.faqComponent} ${card ? styles.faqCard : null}`}
-      style={
-        !card
-          ? { backgroundColor: "transparent", color: "var(--text-primary)" }
-          : undefined
-      }
-    >
-      <h1>Frequently Asked Questions</h1>
-      <div className={styles.articles}>
-        <p>
-          There are <span>{articleCount || 0} articles</span> in our platform.
-        </p>
-        <div className={styles.articleGrid}>
-          {articles.map((article, i) => (
-            <Article article={article} key={i} />
-          ))}
-          <CantFind />
-        </div>
-      </div>
-      <div className={styles.qAndLinks}>
-        <div className={styles.popularQuestions}>
-          <div className={styles.title}>
-            <BiStar />
-            <h3>Popular questions</h3>
-          </div>
+  const { ref, inView } = useInView();
+  const animation = useAnimation();
 
-          <ul>
-            {questions.map((question, i) => (
-              <li key={i}>{question.question}</li>
+  useEffect(() => {
+    if (inView) {
+      animation.start({
+        y: 0,
+        opacity: 1,
+        transition: {
+          type: "spring",
+          duration: 1.25,
+          bounce: 0.1,
+          delay: 0.2,
+        },
+      });
+    } else {
+      animation.start({
+        y: "3vw",
+        opacity: 0,
+        transition: {
+          type: "spring",
+          duration: 0.25,
+          bounce: 0.1,
+        },
+      });
+    }
+  }, [inView]);
+
+  return (
+    <motion.div ref={ref} animate={animation} initial={{ opacity: 0 }}>
+      <section
+        className={`${styles.faqComponent} ${card ? styles.faqCard : null}`}
+        style={
+          !card
+            ? { backgroundColor: "transparent", color: "var(--text-primary)" }
+            : undefined
+        }
+      >
+        <h1>Frequently Asked Questions</h1>
+        <div className={styles.articles}>
+          <p>
+            There are <span>{articleCount || 0} articles</span> in our platform.
+          </p>
+          <div className={styles.articleGrid}>
+            {articles.map((article, i) => (
+              <Article article={article} key={i} />
             ))}
-          </ul>
-        </div>
-        <div className={styles.links}>
-          <div className={styles.title}>
-            <BiLink />
-            <h3>Useful links for you</h3>
-          </div>
-          <ul>
-            <li>
-              <Link href="/contact">Contact form</Link>
-            </li>
-            <li>
-              <Link href="/feedback">Feedback</Link>
-            </li>
-            <li>
-              <Link href="/terms-and-conditions">Terms and Conditions</Link>
-            </li>
-            <li>
-              <Link href="/privacy-policy">Privacy Policy</Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className={styles.find}>
-        <h3>Did you find what you were looking for?</h3>
-        <div className={styles.likes}>
-          <div className={styles.like}>
-            <p>{likes}</p>
-            {liked ? (
-              <AiFillLike onClick={() => like(false)} />
-            ) : (
-              <AiOutlineLike onClick={() => like(true)} />
-            )}
-          </div>
-          <div className={styles.dislike}>
-            <p>{dislikes}</p>
-            {disliked ? (
-              <AiFillDislike onClick={() => dislike(false)} />
-            ) : (
-              <AiOutlineDislike onClick={() => dislike(true)} />
-            )}
+            <CantFind />
           </div>
         </div>
-      </div>
-      <footer className={styles.footer}>
-        <p>
-          Rocket Wizard <span>2022</span>
-        </p>
-      </footer>
-    </section>
+        <div className={styles.qAndLinks}>
+          <div className={styles.popularQuestions}>
+            <div className={styles.title}>
+              <BiStar />
+              <h3>Popular questions</h3>
+            </div>
+
+            <ul>
+              {questions.map((question, i) => (
+                <li key={i}>{question.question}</li>
+              ))}
+            </ul>
+          </div>
+          <div className={styles.links}>
+            <div className={styles.title}>
+              <BiLink />
+              <h3>Useful links for you</h3>
+            </div>
+            <ul>
+              <li>
+                <Link href="/contact">Contact form</Link>
+              </li>
+              <li>
+                <Link href="/feedback">Feedback</Link>
+              </li>
+              <li>
+                <Link href="/terms-and-conditions">Terms and Conditions</Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy">Privacy Policy</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className={styles.find}>
+          <h3>Did you find what you were looking for?</h3>
+          <div className={styles.likes}>
+            <div className={styles.like}>
+              <p>{likes}</p>
+              {liked ? (
+                <AiFillLike onClick={() => like(false)} />
+              ) : (
+                <AiOutlineLike onClick={() => like(true)} />
+              )}
+            </div>
+            <div className={styles.dislike}>
+              <p>{dislikes}</p>
+              {disliked ? (
+                <AiFillDislike onClick={() => dislike(false)} />
+              ) : (
+                <AiOutlineDislike onClick={() => dislike(true)} />
+              )}
+            </div>
+          </div>
+        </div>
+        <footer className={styles.footer}>
+          <p>
+            Rocket Wizard <span>2022</span>
+          </p>
+        </footer>
+      </section>
+    </motion.div>
   );
 }
 
