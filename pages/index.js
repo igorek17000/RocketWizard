@@ -8,10 +8,12 @@ import { useSession } from "next-auth/react";
 import FaqCard from "../components/FaqCard";
 
 import { Typewriter } from "react-simple-typewriter";
-
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
 import OrderSuccess from "../components/OrderSuccess";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useAnimation } from "framer-motion";
 
 export default function Home({ articleCount }) {
   const { theme } = useTheme();
@@ -45,6 +47,34 @@ export default function Home({ articleCount }) {
 
     console.log(aeJson);
   };
+
+  const { ref, inView } = useInView();
+  const animation = useAnimation();
+
+  useEffect(() => {
+    if (inView) {
+      animation.start({
+        y: 0,
+        opacity: 1,
+        transition: {
+          type: "spring",
+          duration: 1.25,
+          bounce: 0.1,
+          delay: 0.2,
+        },
+      });
+    } else {
+      animation.start({
+        y: "3vw",
+        opacity: 0,
+        transition: {
+          type: "spring",
+          duration: 0.25,
+          bounce: 0.1,
+        },
+      });
+    }
+  }, [inView]);
 
   const discord = async (code) => {
     const response = await fetch("/api/discord", {
@@ -162,8 +192,12 @@ export default function Home({ articleCount }) {
 
         {/* Bottom Section */}
 
-        <section className={styles.bottom}>
-          <div className={styles.cards}>
+        <section className={styles.bottom} ref={ref}>
+          <motion.div
+            className={styles.cards}
+            animate={animation}
+            initial={{ opacity: 0 }}
+          >
             {cards.map((card, i) => (
               <div className={styles.card} key={i}>
                 <img src={`/images/home/cards/${card.img}`} alt="Card icon" />
@@ -173,7 +207,8 @@ export default function Home({ articleCount }) {
                 </div>
               </div>
             ))}
-          </div>
+          </motion.div>
+
           <Link href="/traders">
             <button>VIEW OUR TRADERS</button>
           </Link>
