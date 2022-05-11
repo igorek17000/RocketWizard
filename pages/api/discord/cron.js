@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
     let tempUser = users.find((test) => test.discord_id == user.id);
 
-    if (!tempUser) {
+    if (!tempUser && !user.bot) {
       if (!bypassRoles.some((role) => roles.includes(role))) {
         nonauthCount++;
         // await discord.kickMember(user.id);
