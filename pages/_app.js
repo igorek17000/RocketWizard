@@ -105,8 +105,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               <UnderMaintenance />
             ) : (
               <>
-                {taken && !discordAuth && <DiscordAuthWarning />}
-
                 <Navbar />
                 <Component {...pageProps} />
               </>
