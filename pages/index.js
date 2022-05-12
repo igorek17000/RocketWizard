@@ -154,7 +154,6 @@ export default function Home({ articleCount }) {
 
         <section className={styles.top}>
           <div className={styles.left}>
-            <button onClick={test}>test button</button>
             <h1>
               Make Money <br />
               While{" "}
