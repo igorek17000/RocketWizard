@@ -15,25 +15,28 @@ const getPrice = (basePrice, id) => {
 };
 
 const calcEarnMultiplier = (subs, traderId) => {
-  if (traderId === "raz") {
-    if (subs < 60) return 0.5;
-    if (subs < 100) return 0.55;
-    else if (subs < 150) return 0.6;
-    else if (subs < 250) return 0.65;
-    else return 0.75;
-  } else {
-    if (subs < 60) return 0.5;
-    else if (subs < 110) return 0.55;
-    else if (subs < 130) return 0.57;
-    else if (subs < 150) return 0.6;
-    else if (subs < 180) return 0.63;
-    else if (subs < 220) return 0.66;
-    else return 0.7;
-  }
+  if (subs < 150) return 0.5;
+
+  return 0.55;
 };
 
 const getPayout = async (trader) => {
   const subscribers = trader.subscribers;
+
+  const earningsRes = await fetch(
+    "https://www.rocketwizard.io/api/get-trader-payment",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        traderId: trader.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const earnings = await earningsRes.json();
 
   let sum = 0;
   let paidSum = 0;
@@ -51,7 +54,9 @@ const getPayout = async (trader) => {
 
   let allEarnMulti = calcEarnMultiplier(subscribers.length, trader.id);
 
-  unpaidSum = Math.round((sum - paidSum) * allEarnMulti * 100) / 100;
+  sum = Math.round(earnings.all * allEarnMulti * 100) / 100;
+  paidSum = Math.round(trader.paidAmount * 100) / 100;
+  unpaidSum = Math.round((sum - paidSum) * 100) / 100;
 
   const deduction = (trader.deduction || 0) / 100;
 
@@ -125,9 +130,29 @@ export default async function handler(req, res) {
 
     const subs = trader.subscribers.length;
 
+    const earningsRes = await fetch(
+      "https://www.rocketwizard.io/api/get-trader-payment",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          traderId: trader.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const earnings = await earningsRes.json();
+
+    const sum = earnings.all;
+
     await db
       .collection("traders")
-      .updateOne({ name }, { $set: { paidFor: subs, deduction: 0 } });
+      .updateOne(
+        { name },
+        { $set: { paidFor: subs, deduction: 0, paidAmount: sum } }
+      );
 
     return res.status(200).json({ msg: "Successful payout!" });
   } else {

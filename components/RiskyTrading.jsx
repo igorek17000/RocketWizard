@@ -5,7 +5,7 @@ function RiskyTrading() {
   return (
     <main className={styles.risky}>
       <h3>Wallet Percentage</h3>
-      <p>The trader will have access to use 8% of your wallet per position.</p>
+      <p>The trader will have access to use 7% of your wallet per position.</p>
     </main>
   );
 }

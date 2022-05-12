@@ -29,6 +29,10 @@ export default async function handler(req, res) {
     const user = member.user;
     const roles = member.roles;
 
+    if (!bypassRoles.some((role) => roles.includes(role))) {
+      memberCount++;
+    }
+
     /*memberCount++;
 
     let foundUser = await users.find(
@@ -41,23 +45,35 @@ export default async function handler(req, res) {
       nonauthCount++;
     }*/
 
+    let tempUser = users.find((test) => test.discord_id == user.id);
+
+    if (!tempUser && !user.bot) {
+      if (!bypassRoles.some((role) => roles.includes(role))) {
+        nonauthCount++;
+        // await discord.kickMember(user.id);
+      }
+    }
+
+    /*
     if (
       users.find(
         (tempUser) =>
           tempUser.discord_id == user.id &&
-          !(tempUser.subscriptions && tempUser.subscriptions.length > 0)
       )
     ) {
       if (!bypassRoles.some((role) => roles.includes(role))) {
-        console.log(user);
-        //await discord.kickMember(user.id);
+        nonauthCount++;
+        await discord.kickMember(user.id);
       }
     }
+    */
   }
 
-  //console.log(memberCount);
-  //console.log(authCount);
-  //console.log(nonauthCount);
+  authCount = memberCount - nonauthCount;
+
+  console.log(memberCount);
+  console.log(authCount);
+  console.log(nonauthCount);
 
   res.send("done");
 }

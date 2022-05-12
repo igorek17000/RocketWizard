@@ -36,32 +36,10 @@ function TraderDashboard({ traderID }) {
     return Math.floor(Math.abs(now - date) / 36e5);
   };
 
-  const getPrice = (basePrice, id) => {
-    let price = basePrice;
-
-    if (id !== 0) {
-      price = priceMultipliers[id] * (basePrice * priceMultipliers[id - 1]);
-    }
-
-    return price;
-  };
-
   const calcEarnMultiplier = (subs, traderId) => {
-    if (traderId === "raz") {
-      if (subs < 60) return 0.5;
-      if (subs < 100) return 0.55;
-      else if (subs < 150) return 0.6;
-      else if (subs < 250) return 0.65;
-      else return 0.75;
-    } else {
-      if (subs < 60) return 0.5;
-      else if (subs < 110) return 0.55;
-      else if (subs < 130) return 0.57;
-      else if (subs < 150) return 0.6;
-      else if (subs < 180) return 0.63;
-      else if (subs < 220) return 0.66;
-      else return 0.7;
-    }
+    if (subs < 150) return 0.5;
+
+    return 0.55;
   };
 
   const getData = async () => {
@@ -69,9 +47,23 @@ function TraderDashboard({ traderID }) {
       `https://www.rocketwizard.io/api/get-trader?id=${traderID}`
     );
 
+    const earningsRes = await fetch("/api/get-trader-payment", {
+      method: "POST",
+      body: JSON.stringify({
+        traderId: traderID,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
     const trader = await res.json();
 
     const subscribers = trader.subscribers;
+
+    const earnings = await earningsRes.json();
+
+    console.log("Earnings: ", earnings);
 
     setSubCount(subscribers ? subscribers.length : 0);
 
@@ -87,8 +79,6 @@ function TraderDashboard({ traderID }) {
 
     let unpaidSubs = 0;
     let paidSubs = 0;
-
-    let all = subscribers ? subscribers.length : 0;
 
     if (subscribers) {
       for await (const subscriber of subscribers) {
@@ -111,29 +101,20 @@ function TraderDashboard({ traderID }) {
 
     for (const [i, tier] of trader.allTimeSubs.entries()) {
       if (i > trader.paidFor - 1) {
-        unpaidSum += getPrice(trader.basePrice, tier);
         unpaidSubs++;
       } else {
-        paidSum += getPrice(trader.basePrice, tier);
         paidSubs++;
       }
-
-      sum += getPrice(trader.basePrice, tier);
     }
 
     let allEarnMulti = calcEarnMultiplier(subscribers.length, trader.id);
-    let paidEarnMulti = calcEarnMultiplier(paidSubs, trader.id);
 
-    unpaidSum = Math.round((sum - paidSum) * allEarnMulti * 100) / 100;
+    sum = Math.round(earnings.all * allEarnMulti * 100) / 100;
+    paidSum = Math.round(trader.paidAmount * 100) / 100;
+    unpaidSum = Math.round((sum - paidSum) * 100) / 100;
 
-    paidSum = Math.round(paidSum * paidEarnMulti * 100) / 100;
-
+    console.log(sum);
     console.log(paidSum);
-
-    sum = Math.round((unpaidSum + paidSum) * 100) / 100;
-
-    console.log("ALL EARN: ", allEarnMulti);
-    console.log("PAID EARN: ", paidEarnMulti);
 
     setUnpaidSubscribers(unpaidSubs);
     setPaidSubscribers(paidSubs);

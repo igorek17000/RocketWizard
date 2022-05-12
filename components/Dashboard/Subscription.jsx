@@ -25,6 +25,8 @@ function Subscription({
   const [themeColor, setThemeColor] = useState(null);
   const [fullPrice, setFullPrice] = useState(null);
 
+  const [renewable, setRenewable] = useState(false);
+
   const [priceMultipliers] = useState([1, 1.6, 1.75]);
 
   const percentageRef = useRef(null);
@@ -59,8 +61,21 @@ function Subscription({
     setFullPrice(centRound(planPriceTemp));
   };
 
+  const canRenew = async () => {
+    if (!traders) return 0;
+
+    const trader = await traders.find(
+      (trader) => trader.id == subscription.traderId
+    );
+
+    console.log(trader);
+
+    setRenewable(trader.renewable);
+  };
+
   useEffect(() => {
     getPrice();
+    canRenew();
   }, []);
 
   useEffect(() => {
@@ -205,14 +220,17 @@ function Subscription({
 
         {/* Mid section */}
         <section className={styles.mid}>
-          <button
-            style={{
-              backgroundColor: themeColor,
-            }}
-            onClick={() => openRenew(subscription)}
-          >
-            Renew
-          </button>
+          {renewable && (
+            <button
+              style={{
+                backgroundColor: themeColor,
+              }}
+              onClick={() => openRenew(subscription)}
+            >
+              Renew
+            </button>
+          )}
+
           {1 === 2 && (
             <button
               style={{

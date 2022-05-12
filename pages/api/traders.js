@@ -27,6 +27,11 @@ export default async function handler(req, res) {
         subscriberCount: trader.subscribers ? trader.subscribers.length : 0,
         full: trader.full || false,
         unavailable: trader.unavailable || false,
+        renewable:
+          trader.renewable !== null && trader.renewable !== undefined
+            ? trader.renewable
+            : true,
+        risk: trader.risk || 0,
       };
 
       return newTrader;

@@ -101,6 +101,19 @@
     margin-bottom: 1rem;
     width: 100%;
 
+    .roiFlex {
+      display: flex;
+      align-items: center;
+
+      width: 100%;
+
+      .columnRoi {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
     .roi,
     .exchange {
       display: flex;
@@ -118,6 +131,18 @@
       img {
         margin-top: 0.5rem;
         height: 1.7rem;
+      }
+
+      .flexBoxROI {
+        width: 100%;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .inv {
+          width: 24px;
+        }
       }
 
       .monthlyRoi,
@@ -163,7 +188,8 @@
       }
 
       h2 {
-        font-size: 1.6rem;
+        margin-top: -0.5rem;
+        font-size: 1.5rem;
         color: #731bde;
         text-align: center;
       }

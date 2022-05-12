@@ -135,6 +135,10 @@ function Navbar() {
       link: "/faq",
     },
     {
+      name: "Work With Us",
+      link: "/work-with-us",
+    },
+    {
       name: "Refund",
       link: "/refund",
       ownerLink: true,

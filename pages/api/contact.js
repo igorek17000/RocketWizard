@@ -14,7 +14,7 @@ export default function (req, res) {
   const mailData = {
     from: "rocketwizardcontact@gmail.com",
     to: "support@rocketwizard.io",
-    subject: `Message From ${req.body.name}`,
+    subject: `${req.body.name} wants to join the RocketWizard team!`,
     text:
       req.body.message +
       " | Sent from: " +

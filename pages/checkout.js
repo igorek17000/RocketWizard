@@ -199,6 +199,7 @@ function Checkout({ traders }) {
   const [plan, setPlan] = useState(plans[0]);
   const [traderId, setTraderId] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [display, setDisplay] = useState(false);
 
   const [shipping] = useState(0);
 
@@ -223,6 +224,13 @@ function Checkout({ traders }) {
       setPlan(plans[id] || plans[0]);
       setQuantity(parseInt(quantity) || 1);
       setTraderId(traderId);
+
+      let tempTrader =
+        traders.find((trader) => trader.id === traderId) || traders[0];
+
+      if (tempTrader.unavailable || tempTrader.full) {
+        setDisplay(false);
+      } else setDisplay(true);
     }
   }, [router]);
 
@@ -407,296 +415,301 @@ function Checkout({ traders }) {
   }, []);
 
   return (
-    <main className={styles.checkout}>
-      <Script src="https://unpkg.com/@nowpaymentsio/nowpayments-api-js/dist/nowpayments-api-js.min.js"></Script>
-      <Head>
-        <title>Checkout | Rocket Wizard</title>
-        <meta name="description" content="Make money while sleeping" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <PaymentDisclaimer
-        open={disclaimerOpen !== null}
-        apiName={disclaimerOpen}
-        handleClose={(apiName) =>
-          apiName ? pay(apiName) : setDisclaimerOpen(null)
-        }
-      />
-      <ChooseApi
-        open={choosingApi}
-        handleClose={() => setChoosingApi(false)}
-        traderId={traderId}
-        tier={id}
-        sendApiName={(apiName) => setDisclaimerOpen(apiName)}
-      />
-      <section className={styles.card}>
-        <div className={styles.header}>
-          <h1>Checkout</h1>
-        </div>
-        <div className={styles.body}>
-          <div className={styles.returnMsg}>
-            <p>
-              You want to return?{" "}
-              <span onClick={() => router.back()}>Click here to go back</span>
-            </p>
+    display && (
+      <main className={styles.checkout}>
+        <Script src="https://unpkg.com/@nowpaymentsio/nowpayments-api-js/dist/nowpayments-api-js.min.js"></Script>
+        <Head>
+          <title>Checkout | Rocket Wizard</title>
+          <meta name="description" content="Make money while sleeping" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <PaymentDisclaimer
+          open={disclaimerOpen !== null}
+          apiName={disclaimerOpen}
+          handleClose={(apiName) =>
+            apiName ? pay(apiName) : setDisclaimerOpen(null)
+          }
+        />
+        <ChooseApi
+          open={choosingApi}
+          handleClose={() => setChoosingApi(false)}
+          traderId={traderId}
+          tier={id}
+          sendApiName={(apiName) => setDisclaimerOpen(apiName)}
+        />
+        <section className={styles.card}>
+          <div className={styles.header}>
+            <h1>Checkout</h1>
           </div>
-          <div className={styles.content}>
-            {/* SHIPPING AND CONTACT AND ADDITIONAL */}
+          <div className={styles.body}>
+            <div className={styles.returnMsg}>
+              <p>
+                You want to return?{" "}
+                <span onClick={() => router.back()}>Click here to go back</span>
+              </p>
+            </div>
+            <div className={styles.content}>
+              {/* SHIPPING AND CONTACT AND ADDITIONAL */}
 
-            <section className={styles.shippingContactAdditional}>
-              {/* SHIPPING AND CONTACT */}
+              <section className={styles.shippingContactAdditional}>
+                {/* SHIPPING AND CONTACT */}
 
-              <section className={styles.shippingAndContact}>
-                {/* SHIPPING */}
+                <section className={styles.shippingAndContact}>
+                  {/* SHIPPING */}
 
-                <section className={styles.shipping}>
-                  <h2>SHIPPING DETAILS</h2>
-                  <p>
-                    <span>*</span>required fields
-                  </p>
-                  <div className={styles.inputContainer}>
-                    <label htmlFor="name">
-                      Full Name<span>*</span>
-                    </label>
-                    <input
-                      id="name"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.inputContainer}>
-                    <label htmlFor="country">
-                      Country<span>*</span>
-                    </label>
-                    <Select
-                      className={styles.select}
-                      styles={customStyles}
-                      options={options}
-                      value={country}
-                      onChange={changeCountry}
-                    />
-                  </div>
-                  <div className={styles.inputContainer}>
-                    <label htmlFor="address">
-                      Street Address<span>*</span>
-                    </label>
-                    <input
-                      id="address"
-                      onChange={(e) => setStreetAddress(e.target.value)}
-                    />
-                    {!secondAddressActivated ? (
-                      <p
-                        style={{ cursor: "pointer" }}
-                        onClick={() => setSecondAddressActivated(true)}
-                      >
-                        + Add another address field (optional)
-                      </p>
-                    ) : (
-                      <>
-                        <input
-                          id="secondAddress"
-                          onChange={(e) =>
-                            setSecondStreetAddress(e.target.value)
-                          }
-                        />
+                  <section className={styles.shipping}>
+                    <h2>SHIPPING DETAILS</h2>
+                    <p>
+                      <span>*</span>required fields
+                    </p>
+                    <div className={styles.inputContainer}>
+                      <label htmlFor="name">
+                        Full Name<span>*</span>
+                      </label>
+                      <input
+                        id="name"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.inputContainer}>
+                      <label htmlFor="country">
+                        Country<span>*</span>
+                      </label>
+                      <Select
+                        className={styles.select}
+                        styles={customStyles}
+                        options={options}
+                        value={country}
+                        onChange={changeCountry}
+                      />
+                    </div>
+                    <div className={styles.inputContainer}>
+                      <label htmlFor="address">
+                        Street Address<span>*</span>
+                      </label>
+                      <input
+                        id="address"
+                        onChange={(e) => setStreetAddress(e.target.value)}
+                      />
+                      {!secondAddressActivated ? (
                         <p
                           style={{ cursor: "pointer" }}
-                          onClick={() => setSecondAddressActivated(false)}
+                          onClick={() => setSecondAddressActivated(true)}
                         >
-                          - Remove another address field
+                          + Add another address field (optional)
                         </p>
-                      </>
-                    )}
-                  </div>
-                  <div className={styles.inputContainer}>
-                    <label htmlFor="zip">
-                      Postcode / ZIP<span>*</span>
-                    </label>
-                    <div className={styles.zipInput}>
-                      {" "}
+                      ) : (
+                        <>
+                          <input
+                            id="secondAddress"
+                            onChange={(e) =>
+                              setSecondStreetAddress(e.target.value)
+                            }
+                          />
+                          <p
+                            style={{ cursor: "pointer" }}
+                            onClick={() => setSecondAddressActivated(false)}
+                          >
+                            - Remove another address field
+                          </p>
+                        </>
+                      )}
+                    </div>
+                    <div className={styles.inputContainer}>
+                      <label htmlFor="zip">
+                        Postcode / ZIP<span>*</span>
+                      </label>
+                      <div className={styles.zipInput}>
+                        {" "}
+                        <input
+                          id="zip"
+                          onChange={(e) => setZip(e.target.value)}
+                        />
+                        <p>Enter ZIP for City & State</p>
+                      </div>
+                    </div>
+                  </section>
+                  {/* CONTACT */}
+
+                  <section className={styles.contact}>
+                    <h2>CONTACT INFORMATION</h2>
+                    <div className={styles.inputContainer}>
+                      <label htmlFor="email">
+                        Email<span>*</span>
+                      </label>
                       <input
-                        id="zip"
-                        onChange={(e) => setZip(e.target.value)}
+                        id="email"
+                        onChange={(e) => setEmail(e.target.value)}
                       />
-                      <p>Enter ZIP for City & State</p>
                     </div>
-                  </div>
+                  </section>
                 </section>
-                {/* CONTACT */}
 
-                <section className={styles.contact}>
-                  <h2>CONTACT INFORMATION</h2>
-                  <div className={styles.inputContainer}>
-                    <label htmlFor="email">
-                      Email<span>*</span>
-                    </label>
-                    <input
-                      id="email"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-                </section>
-              </section>
+                {/* ADDITIONAL */}
 
-              {/* ADDITIONAL */}
-
-              <section className={styles.additional}>
-                <h2>ADDITIONAL OPTIONS</h2>
-                <p>+ Apply a coupon code</p>
-                <div className={styles.codeAndError}>
-                  <label>Discount</label>
-                  <div className={styles.discount}>
-                    <BsTagFill />
-                    <input
-                      placeholder="CODE"
-                      ref={codeRef}
-                      readOnly={discount > 0}
-                    />
-                    {discount > 0 ? (
-                      <button
-                        onClick={removeDiscountCode}
-                        className={styles.remove}
-                      >
-                        Remove
-                      </button>
-                    ) : (
-                      <button
-                        onClick={applyDiscountCode}
-                        className={styles.apply}
-                      >
-                        Apply
-                      </button>
+                <section className={styles.additional}>
+                  <h2>ADDITIONAL OPTIONS</h2>
+                  <p>+ Apply a coupon code</p>
+                  <div className={styles.codeAndError}>
+                    <label>Discount</label>
+                    <div className={styles.discount}>
+                      <BsTagFill />
+                      <input
+                        placeholder="CODE"
+                        ref={codeRef}
+                        readOnly={discount > 0}
+                      />
+                      {discount > 0 ? (
+                        <button
+                          onClick={removeDiscountCode}
+                          className={styles.remove}
+                        >
+                          Remove
+                        </button>
+                      ) : (
+                        <button
+                          onClick={applyDiscountCode}
+                          className={styles.apply}
+                        >
+                          Apply
+                        </button>
+                      )}
+                    </div>
+                    {codeError && <Alert text={codeError} error={true} />}
+                    {codeSuccess && (
+                      <Alert text={codeSuccess} bgColor="#9dffaab9" />
                     )}
-                  </div>
-                  {codeError && <Alert text={codeError} error={true} />}
-                  {codeSuccess && (
-                    <Alert text={codeSuccess} bgColor="#9dffaab9" />
-                  )}
-                  <div className={styles.months}>
-                    <label>Months</label>
-                    <Select
-                      className={styles.select}
-                      styles={customStylesCrypto}
-                      options={monthOptions}
-                      value={month}
-                      onChange={changeMonths}
-                      isSearchable={false}
-                    />
-                  </div>
-                </div>
-              </section>
-            </section>
-
-            {/* ORDER AND PAYMENT */}
-
-            <section className={styles.orderAndPayment}>
-              {/* YOUR ORDER */}
-
-              <section className={styles.order}>
-                <h2>YOUR ORDER</h2>
-                <div className={styles.list}>
-                  <div className={styles.item}>
-                    <h3>PRODUCT</h3>
-                    <h3>TOTAL</h3>
-                  </div>
-                  <div className={styles.item}>
-                    <h4>
-                      {plan.name} x {quantity}
-                    </h4>
-                    <p>${planPrice}</p>
-                  </div>
-                  <div className={styles.item}>
-                    <h4>SHIPPING</h4>
-                    <p>{shipping > 0 ? "$" + shipping : "FREE SHIPPING"}</p>
-                  </div>
-                  {discount > 0 && (
-                    <div className={styles.item}>
-                      <h4>DISCOUNT CODE ({discountCode})</h4>
-                      <p>-${discount}</p>
+                    <div className={styles.months}>
+                      <label>Months</label>
+                      <Select
+                        className={styles.select}
+                        styles={customStylesCrypto}
+                        options={monthOptions}
+                        value={month}
+                        onChange={changeMonths}
+                        isSearchable={false}
+                      />
                     </div>
-                  )}
-
-                  <div className={styles.item}>
-                    <h4>TOTAL</h4>
-                    <h4 className={styles.total}>
-                      ${Math.round(fullPrice * 100) / 100}
-                    </h4>
                   </div>
-                </div>
+                </section>
               </section>
-              {/* PAYMENT METHOD */}
 
-              <section className={styles.payment}>
-                <h2>PAYMENT METHOD</h2>
+              {/* ORDER AND PAYMENT */}
 
-                <div className={styles.cryptoMethod}>
-                  <div className={styles.header}>
-                    <Select
-                      className={styles.select}
-                      styles={customStylesCrypto}
-                      options={cryptoOptions}
-                      value={crypto}
-                      onChange={changeCrypto}
-                      isSearchable={false}
-                      placeholder="Crypto"
-                    />
-                    <img src="/images/checkout/coins.svg" alt="Crypto coins" />
+              <section className={styles.orderAndPayment}>
+                {/* YOUR ORDER */}
+
+                <section className={styles.order}>
+                  <h2>YOUR ORDER</h2>
+                  <div className={styles.list}>
+                    <div className={styles.item}>
+                      <h3>PRODUCT</h3>
+                      <h3>TOTAL</h3>
+                    </div>
+                    <div className={styles.item}>
+                      <h4>
+                        {plan.name} x {quantity}
+                      </h4>
+                      <p>${planPrice}</p>
+                    </div>
+                    <div className={styles.item}>
+                      <h4>SHIPPING</h4>
+                      <p>{shipping > 0 ? "$" + shipping : "FREE SHIPPING"}</p>
+                    </div>
+                    {discount > 0 && (
+                      <div className={styles.item}>
+                        <h4>DISCOUNT CODE ({discountCode})</h4>
+                        <p>-${discount}</p>
+                      </div>
+                    )}
+
+                    <div className={styles.item}>
+                      <h4>TOTAL</h4>
+                      <h4 className={styles.total}>
+                        ${Math.round(fullPrice * 100) / 100}
+                      </h4>
+                    </div>
                   </div>
-                  <div className={styles.body}>
-                    <p>
-                      {
-                        "You can pay with crypto if you don't have a debit or a credit card"
-                      }
-                    </p>
+                </section>
+                {/* PAYMENT METHOD */}
+
+                <section className={styles.payment}>
+                  <h2>PAYMENT METHOD</h2>
+
+                  <div className={styles.cryptoMethod}>
+                    <div className={styles.header}>
+                      <Select
+                        className={styles.select}
+                        styles={customStylesCrypto}
+                        options={cryptoOptions}
+                        value={crypto}
+                        onChange={changeCrypto}
+                        isSearchable={false}
+                        placeholder="Crypto"
+                      />
+                      <img
+                        src="/images/checkout/coins.svg"
+                        alt="Crypto coins"
+                      />
+                    </div>
+                    <div className={styles.body}>
+                      <p>
+                        {
+                          "You can pay with crypto if you don't have a debit or a credit card"
+                        }
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <Checkbox
-                  checked={readTerms}
-                  onChange={(val) => setReadTerms(val)}
-                  icon={
-                    <div
-                      style={{
-                        display: "flex",
-                        flex: 1,
-                        backgroundColor: "#731bde",
-                        alignSelf: "stretch",
-                        margin: "2px",
-                        borderRadius: "3px",
-                      }}
-                    />
-                  }
-                  labelStyle={{
-                    marginLeft: 15,
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    textAlign: "left",
-                  }}
-                  borderColor="#731bde"
-                  size={20}
-                  label={
-                    <p>
-                      I have read and agree to the website{" "}
-                      <Link href="/terms-and-conditions">
-                        terms and conditions
-                      </Link>
-                    </p>
-                  }
-                />
-                <p>
-                  Your personal data will be used to process your order, support
-                  your experience throughout this website, and for other
-                  purposes described in our{" "}
-                  <span>
-                    <Link href="/privacy-policy">privacy policy.</Link>
-                  </span>
-                </p>
-                {mainError && <Alert text={mainError} error={true} />}
-                <button onClick={checkValues}>Place Order</button>
-                {success && <Alert text={success} bgColor="#9dffaab9" />}
+                  <Checkbox
+                    checked={readTerms}
+                    onChange={(val) => setReadTerms(val)}
+                    icon={
+                      <div
+                        style={{
+                          display: "flex",
+                          flex: 1,
+                          backgroundColor: "#731bde",
+                          alignSelf: "stretch",
+                          margin: "2px",
+                          borderRadius: "3px",
+                        }}
+                      />
+                    }
+                    labelStyle={{
+                      marginLeft: 15,
+                      fontSize: "0.85rem",
+                      fontWeight: 600,
+                      textAlign: "left",
+                    }}
+                    borderColor="#731bde"
+                    size={20}
+                    label={
+                      <p>
+                        I have read and agree to the website{" "}
+                        <Link href="/terms-and-conditions">
+                          terms and conditions
+                        </Link>
+                      </p>
+                    }
+                  />
+                  <p>
+                    Your personal data will be used to process your order,
+                    support your experience throughout this website, and for
+                    other purposes described in our{" "}
+                    <span>
+                      <Link href="/privacy-policy">privacy policy.</Link>
+                    </span>
+                  </p>
+                  {mainError && <Alert text={mainError} error={true} />}
+                  <button onClick={checkValues}>Place Order</button>
+                  {success && <Alert text={success} bgColor="#9dffaab9" />}
+                </section>
               </section>
-            </section>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    )
   );
 }
 
