@@ -24,7 +24,7 @@ const getPayout = async (trader) => {
   const subscribers = trader.subscribers;
 
   const earningsRes = await fetch(
-    "htpps://www.rocketwizard.io/api/get-trader-payment",
+    "https://www.rocketwizard.io/api/get-trader-payment",
     {
       method: "POST",
       body: JSON.stringify({
@@ -131,7 +131,7 @@ export default async function handler(req, res) {
     const subs = trader.subscribers.length;
 
     const earningsRes = await fetch(
-      "htpps://www.rocketwizard.io/api/get-trader-payment",
+      "https://www.rocketwizard.io/api/get-trader-payment",
       {
         method: "POST",
         body: JSON.stringify({

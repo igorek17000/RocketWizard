@@ -13,7 +13,7 @@ function Faq({ articleCount }) {
   const { data: session, status } = useSession();
 
   const getLikeData = async () => {
-    const likeRes = await fetch(`htpps://www.rocketwizard.io/api/faq-likes`);
+    const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
 
     const likeDataJson = await likeRes.json();
 
@@ -46,7 +46,7 @@ function Faq({ articleCount }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const articlesRes = await fetch("htpps://www.rocketwizard.io/faqData.json");
+  const articlesRes = await fetch("https://www.rocketwizard.io/faqData.json");
 
   const articleData = await articlesRes.json();
 
