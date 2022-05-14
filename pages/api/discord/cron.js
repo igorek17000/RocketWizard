@@ -29,51 +29,35 @@ export default async function handler(req, res) {
     const user = member.user;
     const roles = member.roles;
 
-    if (!bypassRoles.some((role) => roles.includes(role))) {
-      memberCount++;
-    }
-
-    /*memberCount++;
-
-    let foundUser = await users.find(
-      (tempUser) => tempUser.discord_id === user.id
-    );
-
-    if (foundUser) {
-      authCount++;
-    } else {
-      nonauthCount++;
-    }*/
-
     let tempUser = users.find((test) => test.discord_id == user.id);
 
-    if (!tempUser && !user.bot) {
-      if (!bypassRoles.some((role) => roles.includes(role))) {
+    if (!bypassRoles.some((role) => roles.includes(role))) {
+      memberCount++;
+
+      let isSubbed = true;
+
+      if (tempUser) {
+        if (tempUser.subscriptions) {
+          if (tempUser.subscriptions.length === 0) {
+            isSubbed = false;
+          }
+        } else {
+          isSubbed = false;
+        }
+      }
+
+      if ((!tempUser || !isSubbed) && !user.bot) {
         nonauthCount++;
         // await discord.kickMember(user.id);
       }
     }
-
-    /*
-    if (
-      users.find(
-        (tempUser) =>
-          tempUser.discord_id == user.id &&
-      )
-    ) {
-      if (!bypassRoles.some((role) => roles.includes(role))) {
-        nonauthCount++;
-        await discord.kickMember(user.id);
-      }
-    }
-    */
   }
 
   authCount = memberCount - nonauthCount;
 
-  console.log(memberCount);
-  console.log(authCount);
-  console.log(nonauthCount);
+  console.log("members: ", memberCount);
+  console.log("staying in: ", authCount);
+  console.log("have to be kicked: ", nonauthCount);
 
   res.send("done");
 }

@@ -134,10 +134,7 @@ function Navbar() {
       name: "FAQ",
       link: "/faq",
     },
-    {
-      name: "Work With Us",
-      link: "/work-with-us",
-    },
+
     {
       name: "Refund",
       link: "/refund",
@@ -149,6 +146,13 @@ function Navbar() {
       ownerLink: true,
     },
   ]);
+
+  /*
+    {
+      name: "Work With Us",
+      link: "/work-with-us",
+    },
+  */
 
   const mobileMenuVariants = {
     open: { opacity: 1, x: 0 },

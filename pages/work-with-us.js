@@ -103,6 +103,8 @@ function Contact() {
     setSubmitted(true);
   };
 
+  return null;
+
   return (
     <main className={styles.contact}>
       {submitted && (

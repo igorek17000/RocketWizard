@@ -10,7 +10,7 @@ const sendMail = async (email, traderName, amount) => {
     host: "smtp.gmail.com",
     auth: {
       user: "rocketwizardcontact@gmail.com",
-      pass: process.env.password,
+      pass: "bixqhtvjowmnsttb",
     },
     from: "rocketwizardcontact@gmail.com",
     secure: true,

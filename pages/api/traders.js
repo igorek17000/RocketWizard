@@ -10,6 +10,14 @@ export default async function handler(req, res) {
       .sort({ monthlyRoi: -1 })
       .toArray();
 
+    data = await data.filter((x) => {
+      let ignore = x.ignore;
+
+      if (!ignore) {
+        return x;
+      }
+    });
+
     data = await data.map((trader) => {
       const newTrader = {
         basePrice: trader.basePrice,
@@ -32,6 +40,8 @@ export default async function handler(req, res) {
             ? trader.renewable
             : true,
         risk: trader.risk || 0,
+        monthlyRoiMax: trader.monthlyRoiMax || 0,
+        yearlyRoiMax: trader.yearlyRoiMax || 0,
       };
 
       return newTrader;

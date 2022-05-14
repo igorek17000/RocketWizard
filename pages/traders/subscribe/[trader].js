@@ -18,7 +18,7 @@ function Subscribe({ traders }) {
       let tempTrader = traders.find((trader) => trader.id === id) || traders[0];
       setTrader(tempTrader);
 
-      if (tempTrader.unavailable || tempTrader.full) {
+      if (tempTrader.unavailable || tempTrader.full || tempTrader.comingSoon) {
         setDisplay(false);
       } else setDisplay(true);
     }
@@ -45,7 +45,7 @@ function Subscribe({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`htpps://www.rocketwizard.io/api/traders`);
 
   const traders = await res.json();
 

@@ -312,7 +312,7 @@ function AddApi({
                       {" ("}
                       <a
                         className={styles.guide}
-                        href={`https://www.rocketwizard.io/${
+                        href={`htpps://www.rocketwizard.io/${
                           isMobile
                             ? `${
                                 exchange.value === "okex"

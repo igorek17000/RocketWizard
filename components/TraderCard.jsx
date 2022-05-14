@@ -25,7 +25,7 @@ function TraderCard({ trader, isTrader }) {
 
     const n = subscribers + trader.baseSubscribers;
 
-    if (trader.comingSoon) return 0;
+    if (trader.comingSoon) return `0 subscribers`;
 
     return `${n} subscriber${n !== 1 ? "s" : ""}`;
   };
@@ -45,9 +45,11 @@ function TraderCard({ trader, isTrader }) {
   };
 
   const formatRiskText = (val) => {
-    if (val < 15) {
+    if (trader.full) return "";
+
+    if (val <= 5) {
       return "Very low";
-    } else if (val < 30) {
+    } else if (val <= 15) {
       return "Low";
     } else {
       return "Medium";
@@ -63,7 +65,9 @@ function TraderCard({ trader, isTrader }) {
       className={styles.traderCard}
       style={{
         opacity:
-          (trader.comingSoon || trader.unavailable) && !isTrader ? 0.5 : 1,
+          (trader.comingSoon || trader.unavailable || trader.full) && !isTrader
+            ? 0.5
+            : 1,
       }}
     >
       {/* Header Section */}
@@ -122,7 +126,9 @@ function TraderCard({ trader, isTrader }) {
                   />
                 </svg>
                 <h4>
-                  {trader.monthlyRoi}% - {trader.monthlyRoi}%
+                  {trader.full
+                    ? "--%"
+                    : `${trader.monthlyRoi}% - ${trader.monthlyRoiMax}%`}
                 </h4>
               </div>
             </div>
@@ -145,15 +151,14 @@ function TraderCard({ trader, isTrader }) {
                   />
                 </svg>
 
-                <h4>
-                  {trader.yearlyRoi}% - {trader.yearlyRoi}%
-                </h4>
+                <h4>{trader.full ? "---%" : `${trader.yearlyRoi}%`}</h4>
               </div>
             </div>
           </div>
           <Tooltip
             title="Updated Weekly  -  Based on the last 3 months ROI and on market conditions."
             opacity={0.5}
+            style={{ marginTop: "-4.5rem" }}
           >
             <InfoIcon className={styles.infoIcon} />
           </Tooltip>
@@ -164,15 +169,14 @@ function TraderCard({ trader, isTrader }) {
           <GaugeChart
             id="gauge-chart2"
             nrOfLevels={20}
-            percent={0.2}
+            percent={trader.full ? 0 : trader.risk / 100}
             textColor={"black"}
-            formatTextValue={formatRiskText}
             style={{
               width: "60%",
             }}
             hideText={true}
           />
-          <h2>{formatRiskText(20)}</h2>
+          <h2>{formatRiskText(trader.risk)}</h2>
           {/*
 
           <ProgressBar

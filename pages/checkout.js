@@ -155,6 +155,7 @@ function Checkout({ traders }) {
   const [email, setEmail] = useState(null);
   const [discountCode, setDiscountCode] = useState(null);
   const [discount, setDiscount] = useState(0);
+  const [discountPercentage, setDiscountPercentage] = useState(1.0);
 
   const [secondAddressActivated, setSecondAddressActivated] = useState(false);
 
@@ -205,7 +206,7 @@ function Checkout({ traders }) {
 
   const getMonthDeals = async () => {
     if (!session) return;
-    const dealsRes = await fetch(`https://www.rocketwizard.io/api/month-deals`);
+    const dealsRes = await fetch(`htpps://www.rocketwizard.io/api/month-deals`);
 
     const monthsJson = await dealsRes.json();
 
@@ -228,7 +229,7 @@ function Checkout({ traders }) {
       let tempTrader =
         traders.find((trader) => trader.id === traderId) || traders[0];
 
-      if (tempTrader.unavailable || tempTrader.full) {
+      if (tempTrader.unavailable || tempTrader.full || tempTrader.comingSoon) {
         setDisplay(false);
       } else setDisplay(true);
     }
@@ -274,7 +275,11 @@ function Checkout({ traders }) {
     setPlanPrice(centRound(planPriceTemp));
 
     const fullPriceTemp =
-      Math.floor(Math.max(planPriceTemp + shipping - discount, 0)) + 0.99;
+      Math.floor(Math.max((planPriceTemp + shipping) * discountPercentage, 0)) +
+      0.99;
+
+    console.log(discountPercentage);
+    console.log(fullPriceTemp);
 
     setFullPrice(fullPriceTemp);
   };
@@ -333,6 +338,7 @@ function Checkout({ traders }) {
     setEmail(null);
     setDiscountCode(null);
     setDiscount(0);
+    setDiscountPercentage(1);
     setCountry(null);
     setCrypto(null);
 
@@ -388,6 +394,8 @@ function Checkout({ traders }) {
       } else {
         setCodeError(null);
         setDiscount(Math.round(fullPrice * (json.discount / 100) * 100) / 100);
+
+        setDiscountPercentage(parseFloat(1 - json.discount / 100));
         setCodeSuccess(
           `Your code was entered successfully and you saved ${json.discount}%!`
         );
@@ -398,13 +406,14 @@ function Checkout({ traders }) {
   const removeDiscountCode = () => {
     setDiscountCode(null);
     setDiscount(0);
+    setDiscountPercentage(1);
     setCodeError(null);
     setCodeSuccess(null);
   };
 
   useEffect(() => {
     getPrice();
-  }, [discount, quantity, id, plan]);
+  }, [discount, discountPercentage, quantity, id, plan, month]);
 
   useEffect(() => {
     getMonthDeals();
@@ -714,7 +723,7 @@ function Checkout({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`htpps://www.rocketwizard.io/api/traders`);
 
   const traders = await res.json();
 
