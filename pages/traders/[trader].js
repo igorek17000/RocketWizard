@@ -7,6 +7,8 @@ import { useSession } from "next-auth/react";
 
 import { useRouter } from "next/router";
 
+import GaugeChart from "react-gauge-chart";
+
 function Trader({ traders }) {
   const router = useRouter();
 
@@ -54,6 +56,18 @@ function Trader({ traders }) {
 
   const checkValues = () => {
     return desc;
+  };
+
+  const formatRiskText = (val) => {
+    if (trader.full) return "";
+
+    if (val <= 5) {
+      return "Very low";
+    } else if (val <= 15) {
+      return "Low";
+    } else {
+      return "Medium";
+    }
   };
 
   const submit = async () => {
@@ -110,27 +124,21 @@ function Trader({ traders }) {
           </div>
           <div className={styles.details}>
             <div className={styles.box}>
-              <h3>Winrate</h3>
-              <div className={styles.winrate}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="10.803"
-                  height="21.978"
-                  viewBox="0 0 10.803 21.978"
-                >
-                  <path
-                    id="Icon_awesome-long-arrow-alt-up"
-                    data-name="Icon awesome-long-arrow-alt-up"
-                    d="M4.7,8.827V23.639a.589.589,0,0,0,.589.589H8.033a.589.589,0,0,0,.589-.589V8.827h2.26a1.177,1.177,0,0,0,.833-2.01L7.492,2.595a1.177,1.177,0,0,0-1.665,0L1.605,6.817a1.177,1.177,0,0,0,.833,2.01Z"
-                    transform="translate(-1.258 -2.25)"
-                    fill="#731bde"
-                  />
-                </svg>
-                <h4>{trader.winrate}%</h4>
-              </div>
+              <h3>Risk</h3>
+              <GaugeChart
+                id="gauge-chart2"
+                nrOfLevels={20}
+                percent={trader.full ? 0 : trader.risk / 100}
+                textColor={"black"}
+                style={{
+                  width: "60%",
+                }}
+                hideText={true}
+              />
+              <h2>{formatRiskText(trader.risk)}</h2>
             </div>
             <div className={styles.box}>
-              <h3>Last Month ROI</h3>
+              <h3>Projected Monthly ROI</h3>
               <div className={styles.monthlyRoi}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -146,11 +154,15 @@ function Trader({ traders }) {
                     fill="#1bde8e"
                   />
                 </svg>
-                <h4>{trader.monthlyRoi}%</h4>
+                <h4>
+                  {trader.full
+                    ? "--%"
+                    : `${trader.monthlyRoi}% - ${trader.monthlyRoiMax}%`}
+                </h4>
               </div>
             </div>
             <div className={styles.box}>
-              <h3>12 Months ROI</h3>
+              <h3>Projected 12 Months ROI</h3>
               <div className={styles.yearlyRoi}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +179,7 @@ function Trader({ traders }) {
                   />
                 </svg>
 
-                <h4>{trader.yearlyRoi}%</h4>
+                <h4>{trader.full ? "---%" : `${trader.yearlyRoi}%`}</h4>
               </div>
             </div>
           </div>

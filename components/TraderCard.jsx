@@ -156,7 +156,12 @@ function TraderCard({ trader, isTrader }) {
             </div>
           </div>
           <Tooltip
-            title="Updated Weekly  -  Based on the last 3 months ROI and on market conditions."
+            title={
+              <h2 style={{ fontWeight: "500", lineHeight: "18px" }}>
+                Updated Weekly <br /> <br />
+                Based on the last 3 months ROI and on market conditions.
+              </h2>
+            }
             opacity={0.5}
             style={{ marginTop: "-4.5rem" }}
           >
