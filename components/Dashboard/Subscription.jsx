@@ -68,8 +68,6 @@ function Subscription({
       (trader) => trader.id == subscription.traderId
     );
 
-    console.log(trader);
-
     setRenewable(trader.renewable);
   };
 

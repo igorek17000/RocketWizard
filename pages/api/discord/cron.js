@@ -10,8 +10,6 @@ export default async function handler(req, res) {
 
   const members = await discord.getGuildMembers();
 
-  //console.log(members);
-
   const demoJson = [
     {
       discord_id: "",

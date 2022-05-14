@@ -35,17 +35,12 @@ export default function Home({ articleCount }) {
 
     const likeDataJson = await likeRes.json();
     const aeJson = await aeRes.json();
-
-    setLikeData(likeDataJson);
-    console.log(aeJson);
   };
 
   const test = async () => {
     const ae = await fetch(`https://www.rocketwizard.io/api/discord/cron`);
 
     const aeJson = await ae.json();
-
-    console.log(aeJson);
   };
 
   const { ref, inView } = useInView();

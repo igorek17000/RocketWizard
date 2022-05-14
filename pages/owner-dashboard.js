@@ -170,23 +170,17 @@ function OwnerDashboard() {
   const updateDeductions = async (trader, e) => {
     let val = parseFloat(e.target.value);
 
-    console.log(val, trader);
-
     let tempDeductions = traderDeductions;
 
     tempDeductions[trader] = val;
 
     setTraderDeductions(tempDeductions);
-
-    console.log(traderDeductions);
   };
 
   const getPayouts = async () => {
     const res = await fetch("/api/payouts");
 
     const json = await res.json();
-
-    console.log(json);
 
     setPayouts(json);
   };

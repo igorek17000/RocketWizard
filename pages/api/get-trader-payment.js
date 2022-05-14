@@ -112,8 +112,6 @@ export default async function handler(req, res) {
       allSum++;
     }
 
-    console.log(payments);
-
     all = Math.round(all * 100) / 100;
 
     return res.json({ all });

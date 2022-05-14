@@ -157,8 +157,6 @@ export default async function handler(req, res) {
       }
     }
 
-    console.log(payments);
-
     all = Math.round(all * 10) / 10;
     month = Math.round(month * 10) / 10;
 

@@ -44,7 +44,7 @@ function TraderDashboard({ traderID }) {
 
   const getData = async () => {
     const res = await fetch(
-      `htpps://www.rocketwizard.io/api/get-trader?id=${traderID}`
+      `https://www.rocketwizard.io/api/get-trader?id=${traderID}`
     );
 
     const earningsRes = await fetch("/api/get-trader-payment", {
@@ -62,8 +62,6 @@ function TraderDashboard({ traderID }) {
     const subscribers = trader.subscribers;
 
     const earnings = await earningsRes.json();
-
-    console.log("Earnings: ", earnings);
 
     setSubCount(subscribers ? subscribers.length : 0);
 
@@ -112,9 +110,6 @@ function TraderDashboard({ traderID }) {
     sum = Math.round(earnings.all * allEarnMulti * 100) / 100;
     paidSum = Math.round(trader.paidAmount * 100) / 100;
     unpaidSum = Math.round((sum - paidSum) * 100) / 100;
-
-    console.log(sum);
-    console.log(paidSum);
 
     setUnpaidSubscribers(unpaidSubs);
     setPaidSubscribers(paidSubs);

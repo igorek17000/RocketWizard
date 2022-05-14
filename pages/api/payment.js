@@ -40,8 +40,6 @@ export default async function handler(req, res) {
     hmac.update(JSON.stringify(req.body, Object.keys(req.body).sort()));
     const signature = hmac.digest("hex");
 
-    console.log(signature);
-
     let valid = payment.payment_status === "confirmed";
 
     const price = payment.price_amount;

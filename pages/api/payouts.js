@@ -60,8 +60,6 @@ const getPayout = async (trader) => {
 
   const deduction = (trader.deduction || 0) / 100;
 
-  console.log(unpaidSum, deduction);
-
   unpaidSum = Math.round(unpaidSum * (1 - deduction) * 100) / 100;
 
   return unpaidSum;

@@ -86,8 +86,6 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { name, password, deduction } = req.body;
 
-    console.log(deduction);
-
     const sender = await db.collection("users").findOne({ email });
 
     if (!sender.isOwner) {

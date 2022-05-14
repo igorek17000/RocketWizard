@@ -60,8 +60,6 @@ function ActivatedApi({ sub, apiKeys, changed }) {
         })
     : [];
 
-  console.log("options: ", apiOptions);
-
   const { data: session, status } = useSession();
 
   const [apiValue, setApiValue] = useState(
@@ -176,8 +174,6 @@ function Settings() {
     const res = await fetch(`https://www.rocketwizard.io/api/subscribe`);
 
     const subs = await res.json();
-
-    console.log("subs: ", subs);
 
     setSubscriptions(subs ? subs : []);
   };

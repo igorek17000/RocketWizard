@@ -45,8 +45,6 @@ export default async function handler(req, res) {
         sub.paused = traderSub.paused || false;
 
         if (!traderSub.apiKey) {
-          console.log("DOESNT HAVE API KEY");
-
           let api = {
             api: null,
             apiPassword: null,
@@ -65,16 +63,10 @@ export default async function handler(req, res) {
           );
           const apiKey = apiBytes.toString(CryptoJS.enc.Utf8);
 
-          console.log("TRADER SUB API KEY: ", apiKey);
-
           let api = await user.apiKeys.find((x) => {
             var bytes = CryptoJS.AES.decrypt(x.api, process.env.cryptKey);
 
             const key = bytes.toString(CryptoJS.enc.Utf8);
-
-            console.log("USER API KEY: ", key);
-
-            console.log("SAME: ", key === apiKey);
 
             return key === apiKey;
           });
@@ -86,8 +78,6 @@ export default async function handler(req, res) {
         }
       })
     );
-
-    console.log("HIS SUBS: ", subscriptions);
 
     return res.json(subscriptions || []);
   } else {

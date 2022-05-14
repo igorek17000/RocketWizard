@@ -278,9 +278,6 @@ function Checkout({ traders }) {
       Math.floor(Math.max((planPriceTemp + shipping) * discountPercentage, 0)) +
       0.99;
 
-    console.log(discountPercentage);
-    console.log(fullPriceTemp);
-
     setFullPrice(fullPriceTemp);
   };
 
