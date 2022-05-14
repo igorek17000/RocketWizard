@@ -66,6 +66,8 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { traderId } = req.body;
 
+    const trader = await db.collection("traders").findOne({ id: traderId });
+
     const paymentTemp = await npApi.getListPayments();
 
     const limit = paymentTemp.total;
@@ -114,7 +116,11 @@ export default async function handler(req, res) {
 
     all = Math.round(all * 100) / 100;
 
-    return res.json({ all });
+    return res.json({
+      all,
+      name: trader.name,
+      deduction: trader.deduction || 0,
+    });
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
   }

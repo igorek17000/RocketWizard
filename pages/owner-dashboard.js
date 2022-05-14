@@ -177,12 +177,72 @@ function OwnerDashboard() {
     setTraderDeductions(tempDeductions);
   };
 
+  const calcEarnMultiplier = (subs, traderId) => {
+    if (subs < 150) return 0.5;
+
+    return 0.55;
+  };
+
+  const getTraderPayout = async (traderID, all) => {
+    const res = await fetch(
+      `https://www.rocketwizard.io/api/get-trader?id=${traderID}`
+    );
+
+    const trader = await res.json();
+
+    const subscribers = trader.subscribers;
+
+    let sum = 0;
+    let paidSum = 0;
+    let unpaidSum = 0;
+
+    let allEarnMulti = calcEarnMultiplier(subscribers.length, trader.id);
+
+    sum = Math.round(all * allEarnMulti * 100) / 100;
+    paidSum = Math.round(trader.paidAmount * 100) / 100;
+    unpaidSum = Math.round((sum - paidSum) * 100) / 100;
+
+    const deduction = (trader.deduction || 0) / 100;
+
+    unpaidSum = Math.round(unpaidSum * (1 - deduction) * 100) / 100;
+
+    return unpaidSum;
+  };
+
   const getPayouts = async () => {
-    const res = await fetch("/api/payouts");
+    const tradersRes = await fetch(
+      "https://www.rocketwizard.io/api/get-trader-ids"
+    );
 
-    const json = await res.json();
+    const traderIDs = await tradersRes.json();
 
-    setPayouts(json);
+    let data = [];
+
+    for await (const traderID of traderIDs) {
+      const earningsRes = await fetch("/api/get-trader-payment", {
+        method: "POST",
+        body: JSON.stringify({
+          traderId: traderID,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const json = await earningsRes.json();
+
+      const payout = await getTraderPayout(traderID, json.all);
+
+      data.push({
+        trader: json.name,
+        payout,
+        deduction: json.deduction,
+      });
+
+      console.log(data);
+    }
+
+    setPayouts(data);
   };
 
   const payoutTrader = async (name) => {
