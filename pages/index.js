@@ -29,20 +29,10 @@ export default function Home({ articleCount }) {
   const getLikeData = async () => {
     const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
 
-    await fetch(`https://www.rocketwizard.io/api/discord/cron`);
-
-    const aeRes = await fetch(`https://www.rocketwizard.io/api/get-sub-ends`);
-
     const likeDataJson = await likeRes.json();
-    const aeJson = await aeRes.json();
+
+    setLikeData(likeDataJson);
   };
-
-  const test = async () => {
-    const ae = await fetch(`https://www.rocketwizard.io/api/discord/cron`);
-
-    const aeJson = await ae.json();
-  };
-
   const { ref, inView } = useInView();
   const animation = useAnimation();
 
