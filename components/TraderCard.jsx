@@ -108,7 +108,7 @@ function TraderCard({ trader, isTrader }) {
         <div className={styles.roiFlex}>
           <div className={styles.columnRoi}>
             <div className={styles.roi}>
-              <h3>Projected Monthly ROI</h3>
+              <h3>Monthly ROI</h3>
 
               <div className={styles.monthlyRoi}>
                 <svg
@@ -133,7 +133,7 @@ function TraderCard({ trader, isTrader }) {
               </div>
             </div>
             <div className={styles.roi}>
-              <h3>Projected 12 Months ROI</h3>
+              <h3>12 Months ROI</h3>
 
               <div className={styles.yearlyRoi}>
                 <svg

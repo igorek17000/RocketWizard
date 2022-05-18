@@ -138,7 +138,7 @@ function Trader({ traders }) {
               <h2>{formatRiskText(trader.risk)}</h2>
             </div>
             <div className={styles.box}>
-              <h3>Projected Monthly ROI</h3>
+              <h3>Monthly ROI</h3>
               <div className={styles.monthlyRoi}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +162,7 @@ function Trader({ traders }) {
               </div>
             </div>
             <div className={styles.box}>
-              <h3>Projected 12 Months ROI</h3>
+              <h3>12 Months ROI</h3>
               <div className={styles.yearlyRoi}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

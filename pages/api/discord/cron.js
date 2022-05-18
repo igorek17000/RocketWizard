@@ -47,6 +47,8 @@ export default async function handler(req, res) {
       if ((!tempUser || !isSubbed) && !user.bot) {
         nonauthCount++;
         // await discord.kickMember(user.id);
+
+        console.log("Kicking " + user.name + "....");
       }
     }
   }

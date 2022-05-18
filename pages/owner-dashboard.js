@@ -214,29 +214,23 @@ function OwnerDashboard() {
       "https://www.rocketwizard.io/api/get-trader-ids"
     );
 
-    const traderIDs = await tradersRes.json();
-
     let data = [];
 
-    for await (const traderID of traderIDs) {
-      const earningsRes = await fetch("/api/get-trader-payment", {
-        method: "POST",
-        body: JSON.stringify({
-          traderId: traderID,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    const earningsRes = await fetch(
+      "https://www.rocketwizard.io/api/get-all-traders-payments"
+    );
 
-      const json = await earningsRes.json();
+    const earningsJson = await earningsRes.json();
 
-      const payout = await getTraderPayout(traderID, json.all);
+    console.log(earningsJson);
+
+    for await (const trader of earningsJson) {
+      const payout = await getTraderPayout(trader.id, trader.all);
 
       data.push({
-        trader: json.name,
+        trader: trader.name,
         payout,
-        deduction: json.deduction,
+        deduction: trader.deduction,
       });
 
       console.log(data);
