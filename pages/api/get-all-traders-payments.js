@@ -66,17 +66,21 @@ export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
   if (req.method === "GET") {
-    const paymentTemp = await npApi.getListPayments();
+    const paymentTemp = await npApi.getListPayments({ limit: 500, page: 0 });
+
+    const start = new Date();
 
     const limit = paymentTemp.total;
 
-    let paymentsAll = [];
+    let paymentsAll = paymentTemp.data;
 
-    for (let i = 0; i < limit / 100; i++) {
-      let pagePayments = await npApi.getListPayments({ limit: 100, page: i });
+    for (let i = 1; i < limit / 500; i++) {
+      let pagePayments = await npApi.getListPayments({ limit: 500, page: i });
 
       paymentsAll = [...paymentsAll, ...pagePayments.data];
     }
+
+    const gotPayments = new Date();
 
     let payments = await paymentsAll.filter(
       (payment) =>
@@ -127,7 +131,15 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log(data);
+    const end = new Date();
+
+    const paymentGettingSpeed = (gotPayments - start) / 1000;
+    const filteringSpeed = (end - gotPayments) / 1000;
+    const fullSpeed = (end - start) / 1000;
+
+    console.log(
+      `Getting payments: ${paymentGettingSpeed}s, Filtering: ${filteringSpeed}s, Total: ${fullSpeed}s`
+    );
 
     return res.json(data);
   } else {

@@ -12,7 +12,7 @@ function FaqGuides() {
 
   const [guides] = useState([
     {
-      name: "okex",
+      name: "okx",
       mobileLink: "OKX_GUIDE",
       pcLink: "OKX_GUIDE",
       comingSoon: false,

@@ -170,6 +170,9 @@ function AddApi({
     } else if (name.includes(" ")) {
       setError("Name cannot contain spaces.");
       return false;
+    } else if (name.includes("&")) {
+      setError("Name cannot contain & character.");
+      return false;
     }
 
     const apiKey = {

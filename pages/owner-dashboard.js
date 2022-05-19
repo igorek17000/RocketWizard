@@ -222,8 +222,6 @@ function OwnerDashboard() {
 
     const earningsJson = await earningsRes.json();
 
-    console.log(earningsJson);
-
     for await (const trader of earningsJson) {
       const payout = await getTraderPayout(trader.id, trader.all);
 
@@ -232,8 +230,6 @@ function OwnerDashboard() {
         payout,
         deduction: trader.deduction,
       });
-
-      console.log(data);
     }
 
     setPayouts(data);
