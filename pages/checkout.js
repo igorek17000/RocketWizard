@@ -154,7 +154,6 @@ function Checkout({ traders }) {
   const [zip, setZip] = useState(null);
   const [email, setEmail] = useState(null);
   const [discountCode, setDiscountCode] = useState(null);
-  const [discount, setDiscount] = useState(0);
   const [discountPercentage, setDiscountPercentage] = useState(1.0);
 
   const [secondAddressActivated, setSecondAddressActivated] = useState(false);
@@ -334,7 +333,6 @@ function Checkout({ traders }) {
     setZip(null);
     setEmail(null);
     setDiscountCode(null);
-    setDiscount(0);
     setDiscountPercentage(1);
     setCountry(null);
     setCrypto(null);
@@ -390,7 +388,6 @@ function Checkout({ traders }) {
         throw new Error(json.msg || "Something went wrong");
       } else {
         setCodeError(null);
-        setDiscount(Math.round(fullPrice * (json.discount / 100) * 100) / 100);
 
         setDiscountPercentage(parseFloat(1 - json.discount / 100));
         setCodeSuccess(
@@ -402,7 +399,6 @@ function Checkout({ traders }) {
 
   const removeDiscountCode = () => {
     setDiscountCode(null);
-    setDiscount(0);
     setDiscountPercentage(1);
     setCodeError(null);
     setCodeSuccess(null);
@@ -410,7 +406,7 @@ function Checkout({ traders }) {
 
   useEffect(() => {
     getPrice();
-  }, [discount, discountPercentage, quantity, id, plan, month]);
+  }, [discountPercentage, quantity, id, plan, month]);
 
   useEffect(() => {
     getMonthDeals();
@@ -563,9 +559,9 @@ function Checkout({ traders }) {
                       <input
                         placeholder="CODE"
                         ref={codeRef}
-                        readOnly={discount > 0}
+                        readOnly={discountPercentage < 1}
                       />
-                      {discount > 0 ? (
+                      {discountPercentage < 1 ? (
                         <button
                           onClick={removeDiscountCode}
                           className={styles.remove}
@@ -622,10 +618,15 @@ function Checkout({ traders }) {
                       <h4>SHIPPING</h4>
                       <p>{shipping > 0 ? "$" + shipping : "FREE SHIPPING"}</p>
                     </div>
-                    {discount > 0 && (
+                    {discountPercentage < 1 && (
                       <div className={styles.item}>
                         <h4>DISCOUNT CODE ({discountCode})</h4>
-                        <p>-${discount}</p>
+                        <p>
+                          -$
+                          {Math.round(
+                            planPrice * (1 - discountPercentage) * 100
+                          ) / 100}
+                        </p>
                       </div>
                     )}
 
