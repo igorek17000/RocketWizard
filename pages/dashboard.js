@@ -96,11 +96,11 @@ function Dashboard({ traders, disclaimer }) {
     setApi(value);
 
     const res = await fetch(
-      `https://www.rocketwizard.io/api/balance?email=${session.user.email}&apiName=${value.value}`
+      `https://www.rocketwizard.io/api/balance?apiName=${value.value}`
     );
 
     const takenRes = await fetch(
-      `https://www.rocketwizard.io/api/is-taken?email=${session.user.email}&apiName=${value.value}`
+      `https://www.rocketwizard.io/api/is-taken?apiName=${value.value}`
     );
 
     const balancejson = await res.json();

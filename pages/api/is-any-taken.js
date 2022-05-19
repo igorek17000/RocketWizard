@@ -30,11 +30,9 @@ export default async function handler(req, res) {
 
     let taken = false;
 
-    if (user.apiKeys) {
-      for await (const api of user.apiKeys) {
-        if (api.taken) {
-          taken = true;
-        }
+    if (user.subscriptions) {
+      if (user.subscriptions.length > 0) {
+        taken = true;
       }
     }
 
