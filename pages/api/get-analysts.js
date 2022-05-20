@@ -47,6 +47,7 @@ export default async function handler(req, res) {
       riddy: "AR",
       elias: "vRyzz",
       maximus: "MCF TEAM",
+      eman: "Eman",
     };
 
     for await (const trader of traders) {

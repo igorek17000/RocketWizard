@@ -57,7 +57,7 @@ function FaqGuides() {
               className={`${styles.article} ${
                 guide.comingSoon ? styles.comingSoon : undefined
               }`}
-              href={`https://www.rocketwizard.io/${
+              href={`${process.env.DEV_URL}${
                 isMobile ? guide.mobileLink : guide.pcLink
               }.pdf`}
               target="_blank"

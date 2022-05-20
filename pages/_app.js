@@ -29,9 +29,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [discordAuth, setDiscordAuth] = React.useState(false);
 
   const checkApiTaken = async () => {
-    const takenRes = await fetch(
-      `https://www.rocketwizard.io/api/is-any-taken`
-    );
+    const takenRes = await fetch(`${process.env.DEV_URL}api/is-any-taken`);
 
     const takenjson = await takenRes.json();
 
@@ -42,7 +40,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   const checkDiscordId = async () => {
     const discordAuthRes = await fetch(
-      `https://www.rocketwizard.io/api/discord-auth-done`
+      `${process.env.DEV_URL}api/discord-auth-done`
     );
 
     const discjson = await discordAuthRes.json();

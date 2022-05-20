@@ -58,7 +58,7 @@ export async function getServerSideProps({ query }) {
   const { id, email } = query;
 
   const res = await fetch(
-    `https://www.rocketwizard.io/api/auth/activate-password?e=${email}&c=${id}`
+    `${process.env.DEV_URL}api/auth/activate-password?e=${email}&c=${id}`
   );
 
   return { props: { success: res.status === 200, email, id } };

@@ -205,7 +205,7 @@ function Checkout({ traders }) {
 
   const getMonthDeals = async () => {
     if (!session) return;
-    const dealsRes = await fetch(`https://www.rocketwizard.io/api/month-deals`);
+    const dealsRes = await fetch(`${process.env.DEV_URL}api/month-deals`);
 
     const monthsJson = await dealsRes.json();
 
@@ -721,7 +721,7 @@ function Checkout({ traders }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`${process.env.DEV_URL}api/traders`);
 
   const traders = await res.json();
 

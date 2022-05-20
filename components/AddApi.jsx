@@ -315,7 +315,7 @@ function AddApi({
                       {" ("}
                       <a
                         className={styles.guide}
-                        href={`https://www.rocketwizard.io/${
+                        href={`${process.env.DEV_URL}${
                           isMobile
                             ? `${
                                 exchange.value === "okex"

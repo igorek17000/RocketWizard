@@ -103,7 +103,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
 
   const getExchange = async () => {
     const res = await fetch(
-      `https://www.rocketwizard.io/api/get-exchange?traderId=${traderId}`
+      `${process.env.DEV_URL}api/get-exchange?traderId=${traderId}`
     );
 
     const json = await res.json();
@@ -120,7 +120,7 @@ function ChooseApi({ open, handleClose, traderId, sendApiName, tier }) {
   const getAPIs = async () => {
     const { exchangeOne, exchangeTwo } = await getExchange();
 
-    const res = await fetch(`https://www.rocketwizard.io/api/apiKeys`);
+    const res = await fetch(`${process.env.DEV_URL}api/apiKeys`);
 
     const keys = await res.json();
 

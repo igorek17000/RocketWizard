@@ -21,7 +21,7 @@ function Trader({ traders }) {
   const userIsTrader = async () => {
     if (!session) return;
 
-    const isTraderRes = await fetch(`https://www.rocketwizard.io/api/isTrader`);
+    const isTraderRes = await fetch(`${process.env.DEV_URL}api/isTrader`);
 
     const traderIDjson = await isTraderRes.json();
 
@@ -203,7 +203,7 @@ function Trader({ traders }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const res = await fetch(`https://www.rocketwizard.io/api/traders`);
+  const res = await fetch(`${process.env.DEV_URL}api/traders`);
 
   const traders = await res.json();
 

@@ -27,9 +27,13 @@ export default function Home({ articleCount }) {
   const { data: session, status } = useSession();
 
   const getLikeData = async () => {
-    const likeRes = await fetch(`https://www.rocketwizard.io/api/faq-likes`);
+    console.log(process.env.DEV_URL); // tu dobije undefined
+
+    const likeRes = await fetch(`${process.env.DEV_URL}api/faq-likes`);
 
     const likeDataJson = await likeRes.json();
+
+    console.log(likeDataJson);
 
     setLikeData(likeDataJson);
   };
@@ -206,7 +210,7 @@ export default function Home({ articleCount }) {
 }
 
 export async function getServerSideProps({ req }) {
-  const articlesRes = await fetch("https://www.rocketwizard.io/faqData.json");
+  const articlesRes = await fetch(`${process.env.DEV_URL}faqData.json`);
 
   const articleData = await articlesRes.json();
 

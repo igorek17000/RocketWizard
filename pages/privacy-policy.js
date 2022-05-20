@@ -281,7 +281,7 @@ function privacyPolicy() {
         <h2>Transfer of Your Personal Data</h2>
         <p>
           Your information, including Personal Data, is processed at the
-          {"Company's"} operating offices and in any other places where the
+          {" Company's"} operating offices and in any other places where the
           parties involved in the processing are located. It means that this
           information may be transferred to — and maintained on — computers
           located outside of Your state, province, country or other governmental

@@ -87,7 +87,7 @@ function Subscription({
 
     const json = await res.json();
 
-    percentageRef.current.value = json.percentage;
+    if (percentageRef) percentageRef.current.value = json.percentage;
   };
 
   const updatePercentage = async () => {
