@@ -121,6 +121,13 @@ export default async function handler(req, res) {
         return paid;
       }
 
+      if (
+        payment.order_id.split(" ")[3] === "brkic123antonio@gmail.com" ||
+        payment.order_id.split(" ")[3] === "marin.jursic@gmail.com"
+      ) {
+        return false;
+      }
+
       return true;
     });
 
