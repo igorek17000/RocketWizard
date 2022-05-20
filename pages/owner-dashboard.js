@@ -204,8 +204,6 @@ function OwnerDashboard() {
   };
 
   const getPayouts = async () => {
-    const tradersRes = await fetch(`${process.env.DEV_URL}api/get-trader-ids`);
-
     let data = [];
 
     const earningsRes = await fetch(
@@ -213,6 +211,8 @@ function OwnerDashboard() {
     );
 
     const earningsJson = await earningsRes.json();
+
+    // console.log(earningsJson);
 
     for await (const trader of earningsJson) {
       const payout = await getTraderPayout(trader.id, trader.all);
