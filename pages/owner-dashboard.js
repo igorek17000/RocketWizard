@@ -35,10 +35,21 @@ function OwnerDashboard() {
 
   const [traderDeductions, setTraderDeductions] = useState({});
 
+  const [updating, setUpdating] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(null);
+
   const beautifyMoney = (x) => {
     let rounded = Math.round(x * 100) / 100;
 
     return rounded.toLocaleString("en-US");
+  };
+
+  const beautifyDate = (dateTemp) => {
+    if (!dateTemp) return "";
+
+    let date = new Date(dateTemp);
+
+    return date.toLocaleString();
   };
 
   const getDiff = (dateParam) => {
@@ -59,13 +70,11 @@ function OwnerDashboard() {
   };
 
   const getData = async () => {
-    const earningsRes = await fetch(`${process.env.DEV_URL}api/get-earnings`);
     const tradersRes = await fetch(`${process.env.DEV_URL}api/get-trader-ids`);
     const handleRes = await fetch(`${process.env.DEV_URL}api/get-handled`);
 
     const traderIDs = await tradersRes.json();
     const handledAmount = await handleRes.json();
-    const earnings = await earningsRes.json();
 
     setHandled(beautifyMoney(handledAmount.sum));
 
@@ -108,7 +117,6 @@ function OwnerDashboard() {
       }
     }
 
-    setAllEarnings(beautifyMoney(earnings.all));
     setData(tempData);
   };
 
@@ -203,6 +211,20 @@ function OwnerDashboard() {
     return unpaidSum;
   };
 
+  const updateData = async () => {
+    console.log("UPDATING");
+    setUpdating(true);
+
+    const res = await fetch(
+      `${process.env.DEV_URL}api/update-all-traders-payments`
+    );
+
+    if (res.status === 200) {
+      await getPayouts();
+      setUpdating(false);
+    }
+  };
+
   const getPayouts = async () => {
     let data = [];
 
@@ -212,9 +234,17 @@ function OwnerDashboard() {
 
     const earningsJson = await earningsRes.json();
 
-    // console.log(earningsJson);
+    console.log(earningsJson);
 
-    for await (const trader of earningsJson) {
+    let date = beautifyDate(earningsJson.lastUpdate);
+
+    setLastUpdate(date);
+
+    let sum = 0;
+
+    for await (const trader of earningsJson.data) {
+      sum += trader.all;
+
       const payout = await getTraderPayout(trader.id, trader.all);
 
       data.push({
@@ -224,6 +254,7 @@ function OwnerDashboard() {
       });
     }
 
+    setAllEarnings(beautifyMoney(sum));
     setPayouts(data);
   };
 
@@ -364,6 +395,12 @@ function OwnerDashboard() {
             <h1>{getGreeting()}</h1>
           </div>
           <div className={styles.body}>
+            <div className={styles.update}>
+              <button onClick={updateData}>Update data</button>
+              <p>
+                {updating ? "Updating data..." : `Last updated ${lastUpdate}`}
+              </p>
+            </div>{" "}
             <div className={styles.pass}>
               <h3>Owner Password</h3>
               <input
@@ -400,7 +437,6 @@ function OwnerDashboard() {
             {discountSuccess && (
               <Alert text={discountSuccess} bgColor="#9dffaab9" />
             )}
-
             <div className={styles.payout}>
               <h3>Payout Traders</h3>
               <div className={styles.traders}>
@@ -418,12 +454,10 @@ function OwnerDashboard() {
                 ))}
               </div>
             </div>
-
             {payoutError && <Alert text={payoutError} error={true} />}
             {payoutSuccess && (
               <Alert text={payoutSuccess} bgColor="#9dffaab9" />
             )}
-
             <div className={styles.payout}>
               <h3>Trader Deductions</h3>
               <div className={styles.traders}>
@@ -445,12 +479,10 @@ function OwnerDashboard() {
                 ))}
               </div>
             </div>
-
             {deductError && <Alert text={deductError} error={true} />}
             {deductSuccess && (
               <Alert text={deductSuccess} bgColor="#9dffaab9" />
             )}
-
             <div className={styles.data}>
               <h3>Data</h3>
               <div className={styles.cards}>
