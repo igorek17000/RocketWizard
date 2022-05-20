@@ -293,12 +293,14 @@ function Settings() {
                 </p>
                 <button onClick={() => setOpenModal(true)}>Add API</button>
               </div>
+              {/**
               <Alert
                 error={true}
                 text={
                   "DISCLAIMER: All unsubscribed API's have been deleted and all API names have been changed in the new security update. Don't worry, you will be able to change the name of your API soon."
                 }
               />
+              */}
             </section>
             <section className={styles.apiList}>
               <div className={styles.titles}>
