@@ -54,7 +54,7 @@ function Activate({ success }) {
   );
 }
 
-export async function getStaticProps({ query }) {
+export async function getServerSideProps({ query }) {
   const { id, email } = query;
 
   const res = await fetch(
