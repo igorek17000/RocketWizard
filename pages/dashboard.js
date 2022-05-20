@@ -374,7 +374,7 @@ function Dashboard({ traders, disclaimer }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getStaticProps({ req }) {
   const session = await getSession({ req });
 
   const resTraders = await fetch(`${process.env.DEV_URL}api/traders`);

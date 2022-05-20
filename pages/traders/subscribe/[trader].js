@@ -44,6 +44,7 @@ function Subscribe({ traders }) {
   );
 }
 
+// getStatic not working without getStaticPaths
 export async function getServerSideProps() {
   const res = await fetch(`${process.env.DEV_URL}api/traders`);
 

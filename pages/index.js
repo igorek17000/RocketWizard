@@ -209,7 +209,7 @@ export default function Home({ articleCount }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getStaticProps({ req }) {
   const articlesRes = await fetch(`${process.env.DEV_URL}faqData.json`);
 
   const articleData = await articlesRes.json();

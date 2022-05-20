@@ -35,9 +35,7 @@ function TraderCard({ trader, isTrader }) {
   const isSubbed = async () => {
     if (!session) return;
 
-    const res = await fetch(
-      `/api/isSubbed?id=${trader.id}&e=${session.user.email}`
-    );
+    const res = await fetch(`/api/isSubbed?id=${trader.id}`);
 
     const data = await res.json();
 

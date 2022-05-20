@@ -133,7 +133,7 @@ function CompleteRegistration({ hasPassword }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getStaticProps({ req }) {
   const session = await getSession({ req });
   const { db } = await connectToDatabase();
 

@@ -4,6 +4,8 @@ export default async function handler(req, res) {
   const { db } = await connectToDatabase();
 
   if (req.method === "GET") {
+    const start = new Date();
+
     let data = await db
       .collection("traders")
       .find()
@@ -46,6 +48,12 @@ export default async function handler(req, res) {
 
       return newTrader;
     });
+
+    const end = new Date();
+
+    const fullSpeed = (end - start) / 1000;
+
+    console.log(`Getting traders: ${fullSpeed}s`);
 
     return res.json(data);
   } else {

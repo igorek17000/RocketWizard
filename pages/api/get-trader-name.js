@@ -5,8 +5,6 @@ import { getSession } from "next-auth/react";
 export default async function handler(req, res) {
   const session = await getSession({ req });
 
-  const { db } = await connectToDatabase();
-
   let email;
 
   if (session) {
@@ -24,21 +22,15 @@ export default async function handler(req, res) {
     // Not Signed in
     return res.status(401).json([]);
   }
-  if (req.method === "GET") {
-    const { id } = req.query;
-    const user = await db.collection("users").findOne({ email });
 
-    let subbed = false;
+  const { db } = await connectToDatabase();
 
-    if (user.subscriptions) {
-      for await (const sub of user.subscriptions) {
-        if (sub.traderId === id) {
-          subbed = true;
-        }
-      }
-    }
+  if (req.method === "POST") {
+    const { id } = req.body;
 
-    return res.json({ subbed });
+    const trader = await db.collection("traders").findOne({ id });
+
+    return res.status(200).json({ name: trader.name });
   } else {
     return res.status(400).json({ message: "Unsupported request method" });
   }

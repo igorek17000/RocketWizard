@@ -5,7 +5,6 @@ import styles from "../../styles/Traders.module.scss";
 import TraderCard from "../../components/TraderCard";
 
 import { useSession } from "next-auth/react";
-import Alert from "../../components/Alert";
 import { motion } from "framer-motion";
 
 function Traders({ traders }) {
@@ -15,8 +14,6 @@ function Traders({ traders }) {
 
   const userIsTrader = async () => {
     if (!session) return;
-
-    console.log(process.env.DEV_URL);
 
     const isTraderRes = await fetch(`${process.env.DEV_URL}api/isTrader`);
 
@@ -60,7 +57,7 @@ function Traders({ traders }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getStaticProps({ req }) {
   const res = await fetch(`${process.env.DEV_URL}api/traders`);
 
   const traders = await res.json();

@@ -720,7 +720,7 @@ function Checkout({ traders }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const res = await fetch(`${process.env.DEV_URL}api/traders`);
 
   const traders = await res.json();

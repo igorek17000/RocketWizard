@@ -50,6 +50,8 @@ const customStyles = {
 };
 
 function ActivatedApi({ sub, apiKeys, changed }) {
+  const [traderName, setTraderName] = useState("...");
+
   const apiOptions = apiKeys
     ? apiKeys
         .filter(
@@ -102,6 +104,37 @@ function ActivatedApi({ sub, apiKeys, changed }) {
     }
   };
 
+  const getTraderName = async () => {
+    try {
+      const response = await fetch("/api/get-trader-name", {
+        method: "POST",
+        body: JSON.stringify({
+          id: sub.traderId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.message);
+        throw new Error(json.message || "Something went wrong");
+      }
+
+      console.log(json);
+
+      setTraderName(json.name);
+    } catch (error) {
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getTraderName();
+  }, []);
+
   return (
     <div
       className={styles.api}
@@ -115,7 +148,7 @@ function ActivatedApi({ sub, apiKeys, changed }) {
       }
     >
       <div className={styles.values}>
-        <h4>{sub.traderId}</h4>
+        <h4>{traderName}</h4>
       </div>
       {sub.secondExchange ? (
         <img

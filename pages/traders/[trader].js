@@ -135,6 +135,7 @@ function Trader({ traders }) {
                 }}
                 hideText={true}
               />
+
               <h2>{formatRiskText(trader.risk)}</h2>
             </div>
             <div className={styles.box}>
