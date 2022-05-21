@@ -102,7 +102,7 @@ function SubscribePlan({ id, trader }) {
           <span>Access to</span> {trader.name} Services
         </p>
         <p>
-          <span>Access to</span> Client's only discord
+          <span>Access to</span> {"Client's"} only discord
         </p>
         <p>
           <span>For wallets</span> up to {plan.walletTo.toLocaleString("en-US")}
