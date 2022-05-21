@@ -234,7 +234,7 @@ function OwnerDashboard() {
 
     const earningsJson = await earningsRes.json();
 
-    console.log(earningsJson);
+    console.log("Earnings: ", earningsJson);
 
     let date = beautifyDate(earningsJson.lastUpdate);
 

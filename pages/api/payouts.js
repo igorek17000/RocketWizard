@@ -4,65 +4,10 @@ import { getSession } from "next-auth/react";
 
 const priceMultipliers = [1, 1.6, 1.75];
 
-const getPrice = (basePrice, id) => {
-  let price = basePrice;
-
-  if (id !== 0) {
-    price = priceMultipliers[id] * (basePrice * priceMultipliers[id - 1]);
-  }
-
-  return price;
-};
-
-const calcEarnMultiplier = (subs, traderId) => {
+const calcEarnMultiplier = (subs) => {
   if (subs < 150) return 0.5;
 
   return 0.55;
-};
-
-const getPayout = async (trader) => {
-  const subscribers = trader.subscribers;
-
-  const earningsRes = await fetch(
-    `${process.env.DEV_URL}api/get-trader-payment`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        traderId: trader.id,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  const earnings = await earningsRes.json();
-
-  let sum = 0;
-  let paidSum = 0;
-  let unpaidSum = 0;
-
-  for (const [i, tier] of trader.allTimeSubs.entries()) {
-    if (i > trader.paidFor - 1) {
-      unpaidSum += getPrice(trader.basePrice, tier);
-    } else {
-      paidSum += getPrice(trader.basePrice, tier);
-    }
-
-    sum += getPrice(trader.basePrice, tier);
-  }
-
-  let allEarnMulti = calcEarnMultiplier(subscribers.length, trader.id);
-
-  sum = Math.round(earnings.all * allEarnMulti * 100) / 100;
-  paidSum = Math.round(trader.paidAmount * 100) / 100;
-  unpaidSum = Math.round((sum - paidSum) * 100) / 100;
-
-  const deduction = (trader.deduction || 0) / 100;
-
-  unpaidSum = Math.round(unpaidSum * (1 - deduction) * 100) / 100;
-
-  return unpaidSum;
 };
 
 export default async function handler(req, res) {
@@ -128,22 +73,9 @@ export default async function handler(req, res) {
 
     const subs = trader.subscribers.length;
 
-    const earningsRes = await fetch(
-      `${process.env.DEV_URL}api/get-trader-payment`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          traderId: trader.id,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    let allEarnMulti = calcEarnMultiplier(subs);
 
-    const earnings = await earningsRes.json();
-
-    const sum = earnings.all;
+    let sum = Math.round(trader.allEarned * allEarnMulti * 100) / 100;
 
     await db
       .collection("traders")
